@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="ssj的博客">
 <meta property="og:description" content="ssj是一只小菜比，ta应公司要求要写吹头发android逆向屁屁踢，所以ta需要起码做点题。  XCTF 1th apk逆向这是一道签到题，可以动态调试，可以还原算法，可以打印log。ssj选择了还原算法，因为就是一个md5。 flag{bc72f242a6af3857}; 1234567891011121314151617181920public static void main(Strin">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-05-29T13:32:13.521Z">
+<meta property="og:updated_time" content="2019-05-31T09:14:19.081Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="小菜比ssj吹头发记">
 <meta name="twitter:description" content="ssj是一只小菜比，ta应公司要求要写吹头发android逆向屁屁踢，所以ta需要起码做点题。  XCTF 1th apk逆向这是一道签到题，可以动态调试，可以还原算法，可以打印log。ssj选择了还原算法，因为就是一个md5。 flag{bc72f242a6af3857}; 1234567891011121314151617181920public static void main(Strin">
@@ -278,7 +278,7 @@
 <h2 id="XCTF-1th-apk逆向"><a href="#XCTF-1th-apk逆向" class="headerlink" title="XCTF 1th apk逆向"></a>XCTF 1th apk逆向</h2><p>这是一道签到题，可以动态调试，可以还原算法，可以打印log。ssj选择了还原算法，因为就是一个md5。</p>
 <p><strong>flag{bc72f242a6af3857};</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> NoSuchAlgorithmException </span>&#123;</span><br><span class="line">    String userName = <span class="string">"Tenshine"</span>;</span><br><span class="line">    MessageDigest digest =MessageDigest.getInstance(<span class="string">"MD5"</span>);</span><br><span class="line">    digest.update(userName.getBytes());</span><br><span class="line">    String hexstr = toHexString(digest.digest(), <span class="string">""</span>);</span><br><span class="line">    StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; hexstr.length(); i += <span class="number">2</span>) &#123;</span><br><span class="line">        sb.append(hexstr.charAt(i));</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(sb.toString());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">toHexString</span><span class="params">(<span class="keyword">byte</span>[] bytes, String separator)</span> </span>&#123;</span><br><span class="line">    StringBuilder hexString = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">byte</span> b : bytes) &#123;</span><br><span class="line">        String hex = Integer.toHexString(b &amp; <span class="number">255</span>);</span><br><span class="line">        hexString.append(hex).append(separator);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> hexString.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="XCTF-easy-dex"><a href="#XCTF-easy-dex" class="headerlink" title="XCTF easy-dex"></a>XCTF easy-dex</h2><p>本题flag: qwb{TH3y_Io&lt;e_EACh_OTh3r_FOrEUER}</p>
+<h2 id="XCTF-easy-dex"><a href="#XCTF-easy-dex" class="headerlink" title="XCTF easy-dex"></a>XCTF easy-dex</h2><p>本题flag: <strong>qwb{TH3y_Io&lt;e_EACh_OTh3r_FOrEUER}</strong></p>
 <p>这题dex是动态加载的，算是0代壳吧，加载条件是10秒里晃手机100次。IDA反编译so，看到它是先加载dex，然后优化了dex，把原dex删了，我们要做的是得到原dex，然后分析加密算法。</p>
 <ol>
 <li><p>hook掉remove函数，阻止文件被删除。</p>
@@ -354,7 +354,7 @@
         <p><span>本文标题:</span><a href="/2019/05/29/CTF-android/">小菜比ssj吹头发记</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 ssj 的个人博客">ssj</a></p>
         <p><span>发布时间:</span>2019年05月29日 - 19时42分</p>
-        <p><span>最后更新:</span>2019年05月29日 - 21时32分</p>
+        <p><span>最后更新:</span>2019年05月31日 - 17时14分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/05/29/CTF-android/" title="小菜比ssj吹头发记">https://github.com/Cracke-S-J/2019/05/29/CTF-android/</a>
             <span class="copy-path" data-clipboard-text="原文: https://github.com/Cracke-S-J/2019/05/29/CTF-android/　　作者: ssj" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
