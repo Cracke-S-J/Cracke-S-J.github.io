@@ -140,7 +140,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/CTF/" style="font-size: 10px;">CTF</a> <a href="/tags/Ethereum/" style="font-size: 20px;">Ethereum</a> <a href="/tags/android/" style="font-size: 20px;">android</a> <a href="/tags/resume/" style="font-size: 10px;">resume</a> <a href="/tags/京剧/" style="font-size: 20px;">京剧</a> <a href="/tags/定场诗/" style="font-size: 10px;">定场诗</a> <a href="/tags/脱壳/" style="font-size: 10px;">脱壳</a>
+                        <a href="/tags/Android/" style="font-size: 15px;">Android</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/CTF/" style="font-size: 10px;">CTF</a> <a href="/tags/Ethereum/" style="font-size: 20px;">Ethereum</a> <a href="/tags/android/" style="font-size: 20px;">android</a> <a href="/tags/resume/" style="font-size: 10px;">resume</a> <a href="/tags/京剧/" style="font-size: 20px;">京剧</a> <a href="/tags/定场诗/" style="font-size: 10px;">定场诗</a> <a href="/tags/脱壳/" style="font-size: 10px;">脱壳</a>
                     </div>
                 </section>
                 
@@ -213,6 +213,72 @@
     </div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-android-inject-code" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/06/27/android-inject-code/" class="article-date">
+      <time datetime="2019-06-27T10:20:08.000Z" itemprop="datePublished">2019-06-27</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/27/android-inject-code/">android静态注入常用代码</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="Toast"><a href="#Toast" class="headerlink" title="Toast:"></a>Toast:</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span>-string v0, <span class="string">"toast"</span></span><br><span class="line"><span class="keyword">const</span>/<span class="number">4</span> v1, <span class="number">0x1</span></span><br><span class="line">invoke-<span class="keyword">static</span> &#123;p0, v0, v1&#125;, Landroid/widget/Toast;-&gt;makeText(Landroid/content/Context;Ljava/lang/CharSequence;I)Landroid/widget/Toast;</span><br><span class="line">move-result-object v0</span><br><span class="line">invoke-virtual &#123;v0&#125;, Landroid/widget/Toast;-&gt;show()V</span><br></pre></td></tr></table></figure>
+<h2 id="AlertDialog"><a href="#AlertDialog" class="headerlink" title="AlertDialog:"></a>AlertDialog:</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span>-instance v0, Landroid/app/AlertDialog$Builder;</span><br><span class="line">invoke-direct &#123;v0, p0&#125;, Landroid/app/AlertDialog$Builder;-&gt;&lt;init&gt;(Landroid/content/Context;)V</span><br><span class="line"><span class="keyword">const</span>-string v1, <span class="string">"title"</span></span><br><span class="line">invoke-virtual &#123;v0, v1&#125;, Landroid/app/AlertDialog$Builder;-&gt;setTitle(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;</span><br><span class="line">move-result-object v0</span><br><span class="line"><span class="keyword">const</span>-string v1, <span class="string">"message"</span></span><br><span class="line">invoke-virtual &#123;v0, v1&#125;, Landroid/app/AlertDialog$Builder;-&gt;setMessage(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;</span><br><span class="line">move-result-object v0</span><br><span class="line"><span class="keyword">const</span>-string v1, <span class="string">"button"</span></span><br><span class="line"><span class="keyword">new</span>-instance v2, Lcom/carking/cn/activity/MainActivity$<span class="number">111</span>;</span><br><span class="line">invoke-direct &#123;v2, p0&#125;, Lcom/carking/cn/activity/MainActivity$<span class="number">111</span>;-&gt;&lt;init&gt;(Lcom/carking/cn/activity/MainActivity;)V</span><br><span class="line">invoke-virtual &#123;v0, v1, v2&#125;, Landroid/app/AlertDialog$Builder;-&gt;setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;</span><br><span class="line">move-result-object v0</span><br><span class="line"><span class="keyword">const</span>-string v1, <span class="string">"button"</span></span><br><span class="line"><span class="keyword">const</span>/<span class="number">4</span> v2, <span class="number">0x0</span></span><br><span class="line">invoke-virtual &#123;v0, v1, v2&#125;, Landroid/app/AlertDialog$Builder;-&gt;setNegativeButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;</span><br><span class="line">move-result-object v0</span><br><span class="line">invoke-virtual &#123;v0&#125;, Landroid/app/AlertDialog$Builder;-&gt;show()Landroid/app/AlertDialog;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">.class Lcom/carking/cn/activity/Another$<span class="number">111</span>;</span><br><span class="line">.<span class="keyword">super</span> Ljava/lang/Object;</span><br><span class="line">.source <span class="string">"Another.java"</span></span><br><span class="line"> </span><br><span class="line"># interfaces</span><br><span class="line">.implements Landroid/content/DialogInterface$OnClickListener;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"># annotations</span><br><span class="line">.annotation system Ldalvik/annotation/EnclosingMethod;</span><br><span class="line">    value = Lcom/carking/cn/activity/Another;-&gt;onCreate(Landroid/os/Bundle;)V</span><br><span class="line">.end annotation</span><br><span class="line"> </span><br><span class="line">.annotation system Ldalvik/annotation/InnerClass;</span><br><span class="line">    accessFlags = <span class="number">0x0</span></span><br><span class="line">    name = <span class="keyword">null</span></span><br><span class="line">.end annotation</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"># instance fields</span><br><span class="line">.field <span class="keyword">final</span> synthetic <span class="keyword">this</span>$<span class="number">0</span>:Lcom/carking/cn/activity/Another;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"># direct methods</span><br><span class="line">.method constructor &lt;init&gt;(Lcom/carking/cn/activity/Another;)V</span><br><span class="line">    .locals <span class="number">0</span></span><br><span class="line"> </span><br><span class="line">    .prologue</span><br><span class="line">    .line <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    iput-object p1, p0, Lcom/carking/cn/activity/Another$<span class="number">111</span>;-&gt;<span class="keyword">this</span>$<span class="number">0</span>:Lcom/carking/cn/activity/Another;</span><br><span class="line"> </span><br><span class="line">    .line <span class="number">29</span></span><br><span class="line">    invoke-direct &#123;p0&#125;, Ljava/lang/Object;-&gt;&lt;init&gt;()V</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span>-<span class="keyword">void</span></span><br><span class="line">.end method</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"># virtual methods</span><br><span class="line">.<span class="function">method <span class="keyword">public</span> <span class="title">onClick</span><span class="params">(Landroid/content/DialogInterface;I)</span>V</span></span><br><span class="line"><span class="function">    .locals 3</span></span><br><span class="line"><span class="function">    .param p1, "dialog"    # Landroid/content/DialogInterface</span>;</span><br><span class="line">    .param p2, "which"    # I</span><br><span class="line"> </span><br><span class="line">    .prologue</span><br><span class="line">    .line <span class="number">34</span></span><br><span class="line">    <span class="keyword">const</span>-string v2, <span class="string">"https://www.google.com/"</span></span><br><span class="line"> </span><br><span class="line">    invoke-<span class="keyword">static</span> &#123;v2&#125;, Landroid/net/Uri;-&gt;parse(Ljava/lang/String;)Landroid/net/Uri;</span><br><span class="line"> </span><br><span class="line">    move-result-object v1</span><br><span class="line"> </span><br><span class="line">    .line <span class="number">35</span></span><br><span class="line">    .local v1, <span class="string">"uri"</span>:Landroid/net/Uri;</span><br><span class="line">    <span class="keyword">new</span>-instance v0, Landroid/content/Intent;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">const</span>-string v2, <span class="string">"android.intent.action.VIEW"</span></span><br><span class="line"> </span><br><span class="line">    invoke-direct &#123;v0, v2, v1&#125;, Landroid/content/Intent;-&gt;&lt;init&gt;(Ljava/lang/String;Landroid/net/Uri;)V</span><br><span class="line"> </span><br><span class="line">    .line <span class="number">36</span></span><br><span class="line">    .local v0, <span class="string">"it"</span>:Landroid/content/Intent;</span><br><span class="line">    iget-object v2, p0, Lcom/carking/cn/activity/Another$<span class="number">111</span>;-&gt;<span class="keyword">this</span>$<span class="number">0</span>:Lcom/carking/cn/activity/Another;</span><br><span class="line"> </span><br><span class="line">    invoke-virtual &#123;v2, v0&#125;, Lcom/carking/cn/activity/Another;-&gt;startActivity(Landroid/content/Intent;)V</span><br><span class="line"> </span><br><span class="line">    .line <span class="number">39</span></span><br><span class="line">    <span class="keyword">return</span>-<span class="keyword">void</span></span><br><span class="line">.end method</span><br></pre></td></tr></table></figure>
+<p>Intent</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span>-instance v0, Landroid/content/Intent;</span><br><span class="line">invoke-direct &#123;v0&#125;, Landroid/content/Intent;-&gt;&lt;init&gt;()V</span><br><span class="line"><span class="keyword">const</span>-<span class="class"><span class="keyword">class</span> <span class="title">v1</span>, <span class="title">Lcom</span>/<span class="title">carking</span>/<span class="title">cn</span>/<span class="title">activity</span>/<span class="title">Another</span></span>;</span><br><span class="line">invoke-virtual &#123;v0, p0, v1&#125;, Landroid/content/Intent;-&gt;setClass(Landroid/content/Context;Ljava/lang/Class;)Landroid/content/Intent;</span><br><span class="line">invoke-virtual &#123;p0, v0&#125;, Lcom/carking/cn/activity/MainActivity;-&gt;startActivity(Landroid/content/Intent;)V</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/programming/">编程</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-kill-chenshimei" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -1267,71 +1333,6 @@
 <li>加些反调试、检测Xposed的内容</li>
 <li>后续可能还会升级成类抽取的…</li>
 </ul>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/programming/">编程</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-iSmart-break-sign" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/05/10/iSmart-break-sign/" class="article-date">
-      <time datetime="2019-05-10T11:33:40.000Z" itemprop="datePublished">2019-05-10</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/10/iSmart-break-sign/">iSmart逆向分析之绕过签名验证</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>这个iSmart我本想搞一搞它，但是被乱七八糟的事一拖再拖，一直拖到我iSmart<strong>读完了</strong>，没有搞下去的动力了，所以只绕了个签名验证。这个app是个新手练手的好样本，日后有机会或者会继续分析。</p>
-<p>扔一个链接。</p>
-<p><a href="https://bbs.pediy.com/thread-251339.htm" target="_blank" rel="noopener">https://bbs.pediy.com/thread-251339.htm</a></p>
 
       
       
