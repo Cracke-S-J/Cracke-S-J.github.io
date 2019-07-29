@@ -5,18 +5,18 @@
   
   <title>《深度探索Cpp对象模型》学习笔记 | ssj的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="首先声明，看这本书，完全是闲的。下面让我们来看看充满潜规则的玄学Cpp整天都在搞什么。 第一章 关于对象class封装之后的布局成本class并没有增加成本，data members直接内含在每一个class object之中，就像C的struct一样。而member functions虽然被包含在class的声明之内，但是不出现在Object之中。每一个non-inline function只会">
+  <meta name="description" content="参考自这个大佬, 拜读后手抄了一遍。  第一章 关于对象class封装之后的布局成本class并没有增加成本，data members直接内含在每一个class object之中，就像C的struct一样。而member functions虽然被包含在class的声明之内，但是不出现在Object之中。每一个non-inline function只会产生一个函数实体。至于inline functi">
 <meta name="keywords" content="C++">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《深度探索Cpp对象模型》学习笔记">
 <meta property="og:url" content="https://github.com/Cracke-S-J/2019/06/18/cpp-object/index.html">
 <meta property="og:site_name" content="ssj的博客">
-<meta property="og:description" content="首先声明，看这本书，完全是闲的。下面让我们来看看充满潜规则的玄学Cpp整天都在搞什么。 第一章 关于对象class封装之后的布局成本class并没有增加成本，data members直接内含在每一个class object之中，就像C的struct一样。而member functions虽然被包含在class的声明之内，但是不出现在Object之中。每一个non-inline function只会">
+<meta property="og:description" content="参考自这个大佬, 拜读后手抄了一遍。  第一章 关于对象class封装之后的布局成本class并没有增加成本，data members直接内含在每一个class object之中，就像C的struct一样。而member functions虽然被包含在class的声明之内，但是不出现在Object之中。每一个non-inline function只会产生一个函数实体。至于inline functi">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-06-18T06:50:32.493Z">
+<meta property="og:updated_time" content="2019-07-01T09:49:03.775Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《深度探索Cpp对象模型》学习笔记">
-<meta name="twitter:description" content="首先声明，看这本书，完全是闲的。下面让我们来看看充满潜规则的玄学Cpp整天都在搞什么。 第一章 关于对象class封装之后的布局成本class并没有增加成本，data members直接内含在每一个class object之中，就像C的struct一样。而member functions虽然被包含在class的声明之内，但是不出现在Object之中。每一个non-inline function只会">
+<meta name="twitter:description" content="参考自这个大佬, 拜读后手抄了一遍。  第一章 关于对象class封装之后的布局成本class并没有增加成本，data members直接内含在每一个class object之中，就像C的struct一样。而member functions虽然被包含在class的声明之内，但是不出现在Object之中。每一个non-inline function只会产生一个函数实体。至于inline functi">
   
     <link rel="alternative" href="/atom.xml" title="ssj的博客" type="application/atom+xml">
   
@@ -142,7 +142,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/Android/" style="font-size: 15px;">Android</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/CTF/" style="font-size: 10px;">CTF</a> <a href="/tags/Ethereum/" style="font-size: 20px;">Ethereum</a> <a href="/tags/android/" style="font-size: 20px;">android</a> <a href="/tags/resume/" style="font-size: 10px;">resume</a> <a href="/tags/京剧/" style="font-size: 20px;">京剧</a> <a href="/tags/定场诗/" style="font-size: 10px;">定场诗</a> <a href="/tags/脱壳/" style="font-size: 10px;">脱壳</a>
+                        <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/CTF/" style="font-size: 10px;">CTF</a> <a href="/tags/Ethereum/" style="font-size: 15px;">Ethereum</a> <a href="/tags/android/" style="font-size: 15px;">android</a> <a href="/tags/resume/" style="font-size: 10px;">resume</a> <a href="/tags/京剧/" style="font-size: 20px;">京剧</a> <a href="/tags/定场诗/" style="font-size: 10px;">定场诗</a> <a href="/tags/脱壳/" style="font-size: 10px;">脱壳</a>
                     </div>
                 </section>
                 
@@ -256,151 +256,116 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>首先声明，看这本书，完全是闲的。下面让我们来看看充满潜规则的玄学Cpp整天都在搞什么。</p>
+        <p>参考自<a href="https://www.cnblogs.com/qiaozhoulin/p/5227690.html" target="_blank" rel="noopener">这个大佬</a>, 拜读后手抄了一遍。</p>
+<hr>
 <h2 id="第一章-关于对象"><a href="#第一章-关于对象" class="headerlink" title="第一章 关于对象"></a>第一章 关于对象</h2><h3 id="class封装之后的布局成本"><a href="#class封装之后的布局成本" class="headerlink" title="class封装之后的布局成本"></a>class封装之后的布局成本</h3><p>class并没有增加成本，data members直接内含在每一个class object之中，就像C的struct一样。而member functions虽然被包含在class的声明之内，但是不出现在Object之中。每一个non-inline function只会产生一个函数实体。至于inline function则会在每一个调用使用的地方产生一个函数实体。</p>
-<p>class在布局以及存取时间上主要的额外负担是由virtual引起，包括：</p>
+<p>class在布局以及存取时间上主要的额外负担是由<strong>virtual</strong>引起，包括：</p>
 <ul>
-<li><p>virtual function机制，用以支持一个有效率的<strong>执行期绑定（runtime binding)</strong>。</p>
-</li>
-<li><p>virtual base class用以实现<strong>多次出现在继承体系中的 base class ,有一个单一的被共享的实体</strong>。</p>
-</li>
-<li><p>还有一些多继承下的额外负担，发生在<strong>一个derived class和其第二或后继之base class的转换</strong>之间。</p>
-</li>
+<li>virtual function机制，用以支持一个有效率的<strong>执行期绑定（runtime binding)</strong>。</li>
+<li>virtual base class用以实现<strong>多次出现在继承体系中的 base class ,有一个单一的被共享的实体</strong>。</li>
+<li>还有一些多继承下的额外负担，发生在<strong>一个derived class和其第二或后继之base class的转换</strong>之间。</li>
 </ul>
 <h3 id="C-对象模型"><a href="#C-对象模型" class="headerlink" title="C++ 对象模型"></a>C++ 对象模型</h3><p>在C++对象模型中，nonstatic data members被放置在每一个class object之内，static data members则被存放在所以class object之外。static和nonstaitc function也被放在所有class object之外。virtual functions 则以两个步骤支持之：</p>
 <ol>
-<li><p>每一个class产生出一堆指向virtual functions的指针，放在表格之中，这个表格被称为virtual table(vtbl)。</p>
-</li>
-<li><p>每一个class object被添加一个指针，指向相关的virtual table。通常这个指针被称为vptr，vptr的设定和重置都由每一个class的constructor、destructor和copy assignment运算符自动完成。</p>
-</li>
+<li>每一个class产生出一堆指向virtual functions的指针，放在表格之中，这个表格被称为virtual table(vtbl)。</li>
+<li>每一个class object被添加一个指针，指向相关的virtual table。通常这个指针被称为vptr，vptr的设定和重置都由每一个class的constructor、destructor和copy assignment运算符自动完成。</li>
 </ol>
 <p>C++ 以下列方法支持多态：</p>
 <ol>
-<li><p>经由一组隐含的转化操作。例如把一个derived class指针转换为一个指向其public base type的指针。</p>
-</li>
-<li><p>经由virtual function机制。</p>
-</li>
-<li><p>经由dynamic_cast和typied运算符。</p>
-</li>
+<li>经由一组隐含的转化操作。例如把一个derived class指针转换为一个指向其public base type的指针。</li>
+<li>经由virtual function机制。</li>
+<li>经由dynamic_cast和typied运算符。</li>
 </ol>
 <p>class object需要多少内存：</p>
 <ol>
-<li><p>其nonstatic data members的总和大小。</p>
-</li>
-<li><p>加上任何由于alignment和padding（内存对齐）需要的空间。</p>
-</li>
-<li><p>加上为了支持virtual而由内部产生的任何额外负担。</p>
-</li>
+<li>其nonstatic data members的总和大小。</li>
+<li>加上任何由于alignment和padding（内存对齐）需要的空间。</li>
+<li>加上为了支持virtual而由内部产生的任何额外负担。</li>
 </ol>
 <p>指针类型：告诉编译器如何解释某个特定地址中的内存内容及其大小（例如：一个string是传统的8byte（包括一个4byte的字符指针和一个用来表示字符串长度的整数）。转型（cast)其实是一个编译指令，大部分不会改变一个指针所含有的真正地址，它只影响<strong>被指出值内存的大小和其内容</strong>的解释方式。</p>
 <hr>
-<h2 id="第二章-构造函数语意学"><a href="#第二章-构造函数语意学" class="headerlink" title="第二章 构造函数语意学"></a>第二章 构造函数语意学</h2><h3 id="2-1-Default-Constructor"><a href="#2-1-Default-Constructor" class="headerlink" title="2.1 Default Constructor"></a>2.1 Default Constructor</h3><p>当编译器需要的时候，default constructor会被合成出来，只执行编译器所需要的任务（将members适当初始化）。</p>
+<h2 id="第二章-构造函数语意学"><a href="#第二章-构造函数语意学" class="headerlink" title="第二章 构造函数语意学"></a>第二章 构造函数语意学</h2><h3 id="Default-Constructor"><a href="#Default-Constructor" class="headerlink" title="Default Constructor"></a>Default Constructor</h3><p>当编译器需要的时候，default constructor会被合成出来，只执行编译器所需要的任务（将members适当初始化）。</p>
 <h4 id="带有Default-Constructor的Member-Class-Object。"><a href="#带有Default-Constructor的Member-Class-Object。" class="headerlink" title="带有Default Constructor的Member Class Object。"></a>带有Default Constructor的Member Class Object。</h4><p>编译器的出来是：如果一个class A内含一个或者一个以上member class objects ，那么class A的每一个 constructor必须调用每一个member classes的default constructor。编译器会扩张已存在的constructors,在其中安插一些代码，使得user code在被执行之前，先调用（调用顺序与member objects在class的声明次序一致）必要的default constructors。</p>
-<h4 id="带有-Default-Constructor的Base-class"><a href="#带有-Default-Constructor的Base-class" class="headerlink" title="带有 Default Constructor的Base class"></a>带有 Default Constructor的Base class</h4><p>编译器会在Member Class Object的default constructor被插入调用之前，调用（调用次序根据他们的声明次序）所有base class constructor的default constructor 。</p>
+<h4 id="带有Default-Constructor的Base-class"><a href="#带有Default-Constructor的Base-class" class="headerlink" title="带有Default Constructor的Base class"></a>带有Default Constructor的Base class</h4><p>编译器会在Member Class Object的default constructor被插入调用之前，调用（调用次序根据他们的声明次序）所有base class constructor的default constructor。</p>
 <h4 id="带有一个-Virtual-Function的class"><a href="#带有一个-Virtual-Function的class" class="headerlink" title="带有一个 Virtual Function的class"></a>带有一个 Virtual Function的class</h4><p>下面两种情况同样需要合成default constructor：</p>
 <ol>
-<li><p>class 声明（或继承）一个virtual function。</p>
-</li>
-<li><p>class派生自一个继承串链，其中一个或者更多的virtual base class。</p>
-</li>
+<li>class 声明（或继承）一个virtual function。</li>
+<li>class派生自一个继承串链，其中一个或者更多的virtual base class。</li>
 </ol>
 <p>扩展（constructor）操作会在编译期间发生：</p>
 <ol>
-<li><p>一个virtual function table会被编译器产生出来，内放class的virtual functions的地址。</p>
-</li>
-<li><p>在每一个class object中，一个额外的pointer member（vptr)会被编译器合成出来，内含相关的class vtbl的地址。</p>
-</li>
+<li>一个virtual function table会被编译器产生出来，内放class的virtual functions的地址。</li>
+<li>在每一个class object中，一个额外的pointer member（vptr)会被编译器合成出来，内含相关的class vtbl的地址。</li>
 </ol>
-<h4 id="带有一个-Virtual-Base-Class的class"><a href="#带有一个-Virtual-Base-Class的class" class="headerlink" title="带有一个 Virtual Base Class的class"></a>带有一个 Virtual Base Class的class</h4><p>Virtual base class的实现法在不同编译器之间有很大差异，然而，每一个实现的共同点在于必须使virtual base class在其每一个derived class object中的位置，能够在执行期准备妥当。对于class所定义的每一个constructor编译器都会安插那些<strong>允许每一个virtual base class 的执行期存取操作</strong>的码。</p>
+<h4 id="带有一个Virtual-Base-Class的class"><a href="#带有一个Virtual-Base-Class的class" class="headerlink" title="带有一个Virtual Base Class的class"></a>带有一个Virtual Base Class的class</h4><p>Virtual base class的实现法在不同编译器之间有很大差异，然而，每一个实现的共同点在于必须使virtual base class在其每一个derived class object中的位置，能够在执行期准备妥当。对于class所定义的每一个constructor编译器都会安插那些<strong>允许每一个virtual base class 的执行期存取操作</strong>的码。</p>
 <h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>以上四种情况，会导致<strong>编译器必须为未声明constructor的class合成一个default constructor</strong>，这只是编译器（而非程序）的需要。它之所以能够完成任务，是借着<strong>调用member object或base class的default constructor</strong>或是<strong>为每一个object初始化其virtual function机制或virtual base class机制</strong>完成。至于没有存在这四种情况而又没有生命constructor的class实际上是不会被合成出来的。</p>
-<p>在合成的default constructor中，只有base class subobjects(子对象）和member class objects会被初始化。所有其他的nonstatic data member ，如整数，整数指针，整数数组等是不会被初始化的，这些初始化操作对程序是必须的，但对编译器则并非需要的。</p>
+<p>在合成的default constructor中，只有base class subobjects(子对象）和member class objects会被初始化。所有其他的nonstatic data member，如整数，整数指针，整数数组等是不会被初始化的，这些初始化操作对程序是必须的，但对编译器则并非需要的。</p>
 <p>C++新手会有两个误解：</p>
 <ol>
-<li><p>任何class如果没有定义default constructor，就会被合成出来一个。</p>
-</li>
-<li><p>编译器合成出来的default constructor会明确设定class内每一个data member的默认值。</p>
-</li>
+<li>任何class如果没有定义default constructor，就会被合成出来一个。</li>
+<li>编译器合成出来的default constructor会明确设定class内每一个data member的默认值。</li>
 </ol>
-<h3 id="2-2-Copy-Constructor"><a href="#2-2-Copy-Constructor" class="headerlink" title="2.2 Copy Constructor"></a>2.2 Copy Constructor</h3><p>有三种情况，会以一个object的内容作为另一class object的初值。</p>
+<h3 id="Copy-Constructor"><a href="#Copy-Constructor" class="headerlink" title="Copy Constructor"></a>Copy Constructor</h3><p>有三种情况，会以一个object的内容作为另一class object的初值。</p>
 <ol>
-<li><p>最明显的当然是对一个object做明确的初始化操作。</p>
-</li>
-<li><p>当object被当做参数交给某个函数。</p>
-</li>
-<li><p>当函数返回一个class object。</p>
-</li>
+<li>最明显的当然是对一个object做明确的初始化操作。</li>
+<li>当object被当做参数交给某个函数。</li>
+<li>当函数返回一个class object。</li>
 </ol>
 <p>这三种情况需要有copy constructor。</p>
 <h4 id="Default-Memberwise-Initialization"><a href="#Default-Memberwise-Initialization" class="headerlink" title="Default Memberwise Initialization"></a>Default Memberwise Initialization</h4><p>如果class没有提供一个explicit copy constructor时，当class object以相同的另一个object作为初值时，其内部是以所谓的default memberwise initialization方式完成的。也就是把每一个内建的或派生的 data member（例如一个数组或指针）的值，从某个object拷贝一份到另一个object上，但不拷贝其具体内容。例如只拷贝指针地址，不拷贝一份新的指针指向的对象，这也就是浅拷贝，不过它并不会拷贝其中member class object，而是以递归的方式实行memberwise initialization。</p>
 <p>就是Bitwise Copy Semantics和default copy constructor。如果class展现了Bitwise Copy Semantics，则使用bitwise copy（bitwise copy semantics编译器生成的伪代码是memcpy函数），否则编译器会生成default copy constructor。</p>
 <p>那什么情况下class不展现Bitwise Copy Semantics呢？有四种情况：</p>
 <ol>
-<li><p>当class内含有一个member class object，而这个member class内有一个默认的copy构造函数，（不论是class设计者明确声明，或者被编译器合成）。</p>
-</li>
-<li><p>当class继承自一个base class，而base class有copy构造函数（不论是class设计者明确声明，或者被编译器合成）。</p>
-</li>
-<li><p>当一个类声明了一个或多个virtual函数。</p>
-</li>
-<li><p>当class派生自一个继承串链，其中一个或者多个virtual base class。</p>
-</li>
+<li>当class内含有一个member class object，而这个member class内有一个默认的copy构造函数，（不论是class设计者明确声明，或者被编译器合成）。</li>
+<li>当class继承自一个base class，而base class有copy构造函数（不论是class设计者明确声明，或者被编译器合成）。</li>
+<li>当一个类声明了一个或多个virtual函数。</li>
+<li>当class派生自一个继承串链，其中一个或者多个virtual base class。</li>
 </ol>
 <p>在前2种情况下，编译器必须将member或者base class的copy constructor的调用操作安插到被合成的copy constructor中。</p>
 <p>第3种情况下，因为class 包含virtual function，编译时需要做扩张操作：</p>
 <ol>
-<li><p>增加virtual function table，内含有一个有作用的virtual function的地址；</p>
-</li>
-<li><p>创建一个指向virtual function table的指针，安插在class object内。</p>
-</li>
+<li>增加virtual function table，内含有一个有作用的virtual function的地址；</li>
+<li>创建一个指向virtual function table的指针，安插在class object内。</li>
 </ol>
 <p>所以，编译器对于每一个新产生的class object的vptr都必须被正确地赋值，否则将跑去执行其他对象的function了，其后果是很严重的。因此，编译器导入一个vptr到class之中时，该class就不在展现bitwise semantics，必须合成copy Constructor并将vptr适当地初始化。</p>
 <p>virtual base class的存在需要特别处理。一个class object如果以另一个virtual base class subobject那么也会使bitwise copy semantics失效。</p>
 <p>每一个编译器对于虚拟继承的支持承诺，都是表示必须让derived class object中的virtual base class subobject位置在执行期就准备妥当，维护位置的完整性是编译器的责任。Bitwise copy semantics 可能会破坏这个位置，所以编译器必须自己合成出copy constructor。</p>
 <p>这也就是说，拷贝构造函数和默认构造器一样，需要的时候会进行构建，而并非程序员不写编译器就帮着构建。</p>
-<h3 id="2-4-初始化列表"><a href="#2-4-初始化列表" class="headerlink" title="2.4 初始化列表"></a>2.4 初始化列表</h3><p>下面四种情况必须使用初始化列表来初始化class的成员：</p>
+<h3 id="初始化列表"><a href="#初始化列表" class="headerlink" title="初始化列表"></a>初始化列表</h3><p>下面四种情况必须使用初始化列表来初始化class的成员：</p>
 <ol>
-<li><p>当初始化一个reference member时；</p>
-</li>
-<li><p>当初始化一个const member时；</p>
-</li>
-<li><p>当调用一个base class的constructor ，而它拥有一组参数（其实就是自定义的构造函数）时；</p>
-</li>
-<li><p>当调用一个member class的constructor，而它拥有一组参数时。</p>
-</li>
+<li>当初始化一个reference member时；</li>
+<li>当初始化一个const member时；</li>
+<li>当调用一个base class的constructor ，而它拥有一组参数（其实就是自定义的构造函数）时；</li>
+<li>当调用一个member class的constructor，而它拥有一组参数时。</li>
 </ol>
 <p>不过，初始化的顺序是class members声明次序决定的，不是由初始化列表决定的。</p>
-<h2 id="第三章-Data-语意学"><a href="#第三章-Data-语意学" class="headerlink" title="第三章 Data 语意学"></a>第三章 Data 语意学</h2><h3 id="3-2-Data-Member的布局"><a href="#3-2-Data-Member的布局" class="headerlink" title="3.2 Data Member的布局"></a>3.2 Data Member的布局</h3><p>nonstatic data members在class object中的排列顺序将和其声明的顺序一样的。但C++ standard允许编译器将多个access sections之中的data members自由排列，不必在乎他们的出现在class中的声明顺序。</p>
-<h3 id="3-3-Data-Member的存取"><a href="#3-3-Data-Member的存取" class="headerlink" title="3.3 Data Member的存取"></a>3.3 Data Member的存取</h3><p>每一个member的存取许可（private public protected），以及与class的关联，并不会导致任何空间上或执行时间上的额外负担——不论是在个别的class objects 或是在static data member本身。</p>
+<h2 id="第三章-Data-语意学"><a href="#第三章-Data-语意学" class="headerlink" title="第三章 Data 语意学"></a>第三章 Data 语意学</h2><h3 id="Data-Member的布局"><a href="#Data-Member的布局" class="headerlink" title="Data Member的布局"></a>Data Member的布局</h3><p>nonstatic data members在class object中的排列顺序将和其声明的顺序一样的。但C++ standard允许编译器将多个access sections之中的data members自由排列，不必在乎他们的出现在class中的声明顺序。</p>
+<h3 id="Data-Member的存取"><a href="#Data-Member的存取" class="headerlink" title="Data Member的存取"></a>Data Member的存取</h3><p>每一个member的存取许可（private public protected），以及与class的关联，并不会导致任何空间上或执行时间上的额外负担——不论是在个别的class objects 或是在static data member本身。</p>
 <p>static data members被视为global变量，只有一个实体，存放在程序的data segment之中，每次取static member就会被内部转化为对该唯一的extern实体的直接参考操作。若取一个static data member的地址，会得到一个数据类型的指针，而不是只想起class member的指针。</p>
 <p>nonstatic data members欲对一个nonstatic data member进行存取操作，编译器需要吧class object的起始地址加上data member的偏移量（在编译事情就可以获知）。</p>
-<h3 id="3-4-继承与Data-Member"><a href="#3-4-继承与Data-Member" class="headerlink" title="3.4 继承与Data Member"></a>3.4 继承与Data Member</h3><h4 id="只要继承不要多态"><a href="#只要继承不要多态" class="headerlink" title="只要继承不要多态"></a>只要继承不要多态</h4><p>这种情况并不会增加空间或存储时间上的额外负担。这种情况base class和derived class的objects都是从相同的地址开始，其差异只在于derived object比较大，用以容纳自建的nonstatic data members，把一个derived class object指定给base class的指针或引用，并不需要编译器去调停或修改地址，它很滋润的可以发生，而且提供了最佳执行效率。</p>
+<h3 id="继承与Data-Member"><a href="#继承与Data-Member" class="headerlink" title="继承与Data Member"></a>继承与Data Member</h3><h4 id="只要继承不要多态"><a href="#只要继承不要多态" class="headerlink" title="只要继承不要多态"></a>只要继承不要多态</h4><p>这种情况并不会增加空间或存储时间上的额外负担。这种情况base class和derived class的objects都是从相同的地址开始，其差异只在于derived object比较大，用以容纳自建的nonstatic data members，把一个derived class object指定给base class的指针或引用，并不需要编译器去调停或修改地址，它很滋润的可以发生，而且提供了最佳执行效率。</p>
 <h4 id="加上多态"><a href="#加上多态" class="headerlink" title="加上多态"></a>加上多态</h4><p>这种情况会带来空间和存取时间的额外负担：</p>
 <ol>
-<li><p>导入一个和virtual table，用来存储它所声明的每一个virtual functions的地址。</p>
-</li>
-<li><p>在每一个class object中导入一个vptr,提供执行期的链接，使每一个object能够找到相应的virtual table。</p>
-</li>
-<li><p>加强constructor，使它能够为vptr设定初始值，让它指向class 所对应的virtual table 。</p>
-</li>
-<li><p>加强destructor，使它能够消抹指向class 相关virtual table的vptr。</p>
-</li>
+<li>导入一个和virtual table，用来存储它所声明的每一个virtual functions的地址。</li>
+<li>在每一个class object中导入一个vptr,提供执行期的链接，使每一个object能够找到相应的virtual table。</li>
+<li>加强constructor，使它能够为vptr设定初始值，让它指向class 所对应的virtual table 。</li>
+<li>加强destructor，使它能够消抹指向class 相关virtual table的vptr。</li>
 </ol>
 <h4 id="多重继承"><a href="#多重继承" class="headerlink" title="多重继承"></a>多重继承</h4><p>对于一个多重派生对象，将其地址指定给“最左端（第一个）base class的指针”，情况和单一继承时相同，因为二者都指向了相同的起始地址，至于第二个或后面的base class 的地址指定操作，则需要将地址修改过：加上（或减去，如果是downcast）介于中间的base class subobject(s)的大小。</p>
 <p>如果要存取第二个（或后面）的base class 中的一个data member ，不需要付出额外的成本，因为members的位置在编译时就固定了，因此存取member只是一个简单的offset的运算。</p>
 <h4 id="虚拟继承"><a href="#虚拟继承" class="headerlink" title="虚拟继承"></a>虚拟继承</h4><p>class如果含有一个或多个virtual base class subobjects将被分割为两部分：一个不变局部和一个共享局部。不变局部中的数据，总是能有固定的offset，这部分可以被直接存取，至于共享部分，所表现的就是virtual base class subobject ，这个部分数据，其位置因为每次派生操作而有变化，所以只能间接存取。</p>
 <p>如果没有virtual functions的情况下，它们和C struct完全一样。</p>
-<h2 id="第四章-Function-语意学"><a href="#第四章-Function-语意学" class="headerlink" title="第四章 Function 语意学"></a>第四章 Function 语意学</h2><h3 id="4-1-Member的各种调用方式"><a href="#4-1-Member的各种调用方式" class="headerlink" title="4.1 Member的各种调用方式"></a>4.1 Member的各种调用方式</h3><p>Nonstatic Member Functions</p>
+<h2 id="第四章-Function-语意学"><a href="#第四章-Function-语意学" class="headerlink" title="第四章 Function 语意学"></a>第四章 Function 语意学</h2><h3 id="Member的各种调用方式"><a href="#Member的各种调用方式" class="headerlink" title="Member的各种调用方式"></a>Member的各种调用方式</h3><p>Nonstatic Member Functions</p>
 <p>实际上编译器是将member function被内化为nonmember的形式，经过下面转化步骤：</p>
-<p>1.给函数添加额外参数，this。</p>
-<p>2.将对每一个nonstaitc data member的存取操作改为this指针来存取。</p>
-<p>3.将member function重写成一个外部函数。对函数名精选mangling处理，使之成为独一无二的语汇。</p>
+<p>1.给函数添加额外参数，this。<br>2.将对每一个nonstaitc data member的存取操作改为this指针来存取。<br>3.将member function重写成一个外部函数。对函数名精选mangling处理，使之成为独一无二的语汇。</p>
 <h4 id="Virtual-Member-Functions"><a href="#Virtual-Member-Functions" class="headerlink" title="Virtual Member Functions"></a>Virtual Member Functions</h4><p>将</p>
 <p><code>ptr-&gt;f();   //f()为virtual member function</code></p>
 <p>内部转化为</p>
 <p><code>（*ptr-&gt;vptr[1](ptr);</code></p>
 <p>其中：</p>
 <p>vptr表示编译器产生的指针，指向virtual table。它被安插在每一个声明有（或继承自）一个或多个virtual functions 的class object中。</p>
-<p>1是virtual table slot的索引值，关联到normalize()函数。</p>
-<p>第二个ptr表示this指针。</p>
+<p>一是virtual table slot的索引值，关联到normalize()函数。</p>
+<p>二是ptr表示this指针。</p>
 <h4 id="Static-Member-Functions"><a href="#Static-Member-Functions" class="headerlink" title="Static Member Functions"></a>Static Member Functions</h4><p>不能被声明为const volatile或virtual。</p>
 <p>一个static member function会提出于class声明之外，并给予一个经过mangling的适当名称。如果取一个static member function 的地址，获得的是其在内存的位置也就是地址，而不是一个指向class member function的指针，如下：</p>
 <p><code>&amp;Point::count();</code></p>
@@ -408,24 +373,18 @@
 <p><code>unsigned int(*)();</code></p>
 <p>而不是：</p>
 <p><code>unsigned int(Point::*)();</code></p>
-<h3 id="4-2-Virtual-Member-Funcitons"><a href="#4-2-Virtual-Member-Funcitons" class="headerlink" title="4.2 Virtual Member Funcitons"></a>4.2 Virtual Member Funcitons</h3><p>C++中，多态表示以一个public base class 的指针（或reference)，寻址出一个derived class object。</p>
+<h3 id="Virtual-Member-Funcitons"><a href="#Virtual-Member-Funcitons" class="headerlink" title="Virtual Member Funcitons"></a>Virtual Member Funcitons</h3><p>C++中，多态表示以一个public base class 的指针（或reference)，寻址出一个derived class object。</p>
 <p>每一个class 只会有一个virtual table，每一个table含有对应的class object中所有active virtual functions 函数实体地址。这些active virtual function包括：</p>
 <ol>
-<li><p>这个class 所定义的函数实体（改写（overriding)一个可能存在的base class virtual function函数实体。</p>
-</li>
-<li><p>继承自base class 的函数实体（不被derived class改写）</p>
-</li>
-<li><p>一个pure_virtual_called()。</p>
-</li>
+<li>这个class 所定义的函数实体（改写（overriding)一个可能存在的base class virtual function函数实体。</li>
+<li>继承自base class 的函数实体（不被derived class改写）</li>
+<li>一个pure_virtual_called()。</li>
 </ol>
 <p>一个类继承函数virtual table的三种可能性：</p>
 <ol>
-<li><p>继承base class 所声明的virtual functions的函数实体。正确地说，是该函数实体的地址会被拷贝到derived class的virtual table相对应的slot之中。</p>
-</li>
-<li><p>使用自己的函数实体。这表示它自己的函数实体地址必须放在对应的slot之中。</p>
-</li>
-<li><p>可以加入一个新的virtual function。这时候virtual table 的尺寸会增大一个slot放进这个函数实体地址。</p>
-</li>
+<li>继承base class 所声明的virtual functions的函数实体。正确地说，是该函数实体的地址会被拷贝到derived class的virtual table相对应的slot之中。</li>
+<li>使用自己的函数实体。这表示它自己的函数实体地址必须放在对应的slot之中。</li>
+<li>可以加入一个新的virtual function。这时候virtual table 的尺寸会增大一个slot放进这个函数实体地址。</li>
 </ol>
 <p>编译时期设定virtual function的调用：</p>
 <p>一般而言，我并不知道ptr 所指对象的真正类型。然而可以经由ptr 可以存取到该对象的virtual table。</p>
@@ -437,12 +396,12 @@
 <p>多重继承下的 Virtual Functions</p>
 <p>在多重继承中支持virtual functions，其复杂度围绕在第二个及其后面的base class 上，以及“必须在执行期调整this 指针”这一点。一般规则是，经由指向“第二或后继base class 的指针”来调用derived class virtual function。调用操作连带的“必要的this指针调整”操作，必须在执行期完成。</p>
 <p>虚拟继承下的 Virtual Functions</p>
-<h3 id="4-3-函数的效能"><a href="#4-3-函数的效能" class="headerlink" title="4.3 函数的效能"></a>4.3 函数的效能</h3><p>nonmemeber、static member或nonstatic member函数都被转换为完全相同形式，所以三者效率完全相同。</p>
-<h3 id="4-4-指向Member-Function的指针"><a href="#4-4-指向Member-Function的指针" class="headerlink" title="4.4 指向Member Function的指针"></a>4.4 指向Member Function的指针</h3><p>取一个nonstatic data member的地址，得到的结果是该member在class 布局中的bytes位置，所以它需要绑定于某个class object的地址上，才能够被存取。</p>
+<h3 id="函数的效能"><a href="#函数的效能" class="headerlink" title="函数的效能"></a>函数的效能</h3><p>nonmemeber、static member或nonstatic member函数都被转换为完全相同形式，所以三者效率完全相同。</p>
+<h3 id="指向Member-Function的指针"><a href="#指向Member-Function的指针" class="headerlink" title="指向Member Function的指针"></a>指向Member Function的指针</h3><p>取一个nonstatic data member的地址，得到的结果是该member在class 布局中的bytes位置，所以它需要绑定于某个class object的地址上，才能够被存取。</p>
 <p>取一个nonstatic member function的地址，如果该函数是nonvirtual，则得到的是内存的真正地址，然后这个值也是不完全的，也需要绑定于某个class object的地址上，才能够调用函数。</p>
 <p>支持指向Virtual Member Function之指针</p>
 <p>对于一个virtual function，其地址在编译时期是未知的，所能知道的仅是virtual function在其相关之virtual table的索引值，也就是说，对于一个virtual member function 取其地址，所能获得的只是一个索引值。</p>
-<h3 id="4-5-Inline-Funcitons"><a href="#4-5-Inline-Funcitons" class="headerlink" title="4.5 Inline Funcitons"></a>4.5 Inline Funcitons</h3><ul>
+<h3 id="Inline-Funcitons"><a href="#Inline-Funcitons" class="headerlink" title="Inline Funcitons"></a>Inline Funcitons</h3><ul>
 <li><p>形参:传入参数，直接替换 传入常量，连替换都省了，直接变成常量 传入函数运行结果，则需要导入临时变量</p>
 </li>
 <li><p>局部变量:局部变量会被mangling，以便inline函数被替换后名字唯一 也就是说一次性调用N次，就会出现N个临时变量……程序的体积会暴增</p>
@@ -450,19 +409,10 @@
 </ul>
 <h2 id="第五章-构造、解构、拷贝-语意学"><a href="#第五章-构造、解构、拷贝-语意学" class="headerlink" title="第五章 构造、解构、拷贝 语意学"></a>第五章 构造、解构、拷贝 语意学</h2><h4 id="继承体系下的对象构造"><a href="#继承体系下的对象构造" class="headerlink" title="继承体系下的对象构造"></a>继承体系下的对象构造</h4><p>constructor的调用伴随了哪些步骤：</p>
 <ol>
-<li><p>初始化列表（member initialization list)的data members初始化操作会被放进constructor的函数本身，并以membs的声明顺序为顺序。</p>
-</li>
-<li><p>如果有一个member并没有在初始化列表中，但它在一个default constructor，那么该default constructor 必须被调用（手动）。</p>
-</li>
-<li><p>在那之前，如果class object有virtual table pointer(s)，它（们）必须被设定初始值，指定适当的virtual table(s)。</p>
-</li>
-<li><p>在那之前，所有上一层的base class constructors 必须被调用，以base class 的声明顺序为顺序（与初始化列表的顺序没有关联）。</p>
-</li>
-</ol>
-<p>如果base class 被列于初始化列表中，那么任何明确指定参数都应该传递过去。</p>
-<p>如果base class 没有列于初始化列表，那么调用default constructor。</p>
-<p>如果base class 是多重继承下的第二或后面的base class ，那么this指针必须有所调整。</p>
-<ol start="5">
+<li>初始化列表（member initialization list)的data members初始化操作会被放进constructor的函数本身，并以membs的声明顺序为顺序。</li>
+<li>如果有一个member并没有在初始化列表中，但它在一个default constructor，那么该default constructor 必须被调用（手动）。</li>
+<li>在那之前，如果class object有virtual table pointer(s)，它（们）必须被设定初始值，指定适当的virtual table(s)。</li>
+<li>在那之前，所有上一层的base class constructors 必须被调用，以base class 的声明顺序为顺序（与初始化列表的顺序没有关联）。如果base class 被列于初始化列表中，那么任何明确指定参数都应该传递过去。如果base class 没有列于初始化列表，那么调用default constructor。如果base class 是多重继承下的第二或后面的base class ，那么this指针必须有所调整。</li>
 <li>在那之前，所有 virtual base class constructors 必须被调用，从左到右，从最深到最浅。</li>
 </ol>
 <p>如果class 被列于初始化列表中，那么如果有任何明确指定的参数，都应该传递过去，若没有列于初始化列表中，则调用default constructor。</p>
@@ -470,65 +420,49 @@
 <p>如果class object 是最底层的class，某constructors可能被调用；某些用以支持这个行为的机制必须被放进来。</p>
 <h4 id="对象复制语意学"><a href="#对象复制语意学" class="headerlink" title="对象复制语意学"></a>对象复制语意学</h4><p>当设计一个class，并以一个class object 指定另一个class object时，有三种选择：</p>
 <ol>
-<li><p>什么都不做，实施默认行为。</p>
+<li>什么都不做，实施默认行为。</li>
+<li>提供一个explicit copy assignment operator。</li>
+<li><p>明确拒绝一个class object指定给另一个class object。一个class对于默认的copy assignment operator，在以下情况下不会表现出 bitwise copy语意：</p>
 </li>
-<li><p>提供一个explicit copy assignment operator。</p>
-</li>
-<li><p>明确拒绝一个class object指定给另一个class object。</p>
-</li>
-</ol>
-<p>一个class对于默认的copy assignment operator，在以下情况下不会表现出 bitwise copy语意：</p>
-<ol>
 <li><p>当一个class的base class 有一个copy assignment operator时，</p>
 </li>
-<li><p>当一个class 的member object，而其class 有一个copy assignment operator时，</p>
-</li>
-<li><p>当一个class 声明了任何virtual functions时，</p>
-</li>
-<li><p>当class继承一个virtual base class 时。</p>
-</li>
+<li>当一个class 的member object，而其class 有一个copy assignment operator时，</li>
+<li>当一个class 声明了任何virtual functions时，</li>
+<li>当class继承一个virtual base class 时。</li>
 </ol>
 <h4 id="vptr语意学"><a href="#vptr语意学" class="headerlink" title="vptr语意学"></a>vptr语意学</h4><p>vptr在constructor何时被初始化？在base class constructors调用操作之后，但是在程序员供应的码或是初始化列表中所列的members初始化操作之前。</p>
 <h4 id="解构语意学"><a href="#解构语意学" class="headerlink" title="解构语意学"></a>解构语意学</h4><p>destructor被扩展的方式：</p>
 <ol>
-<li><p>destructor的函数本身首先被执行。</p>
-</li>
-<li><p>如果class拥有member class objects，而后拥有destructor，那么它们会以声明顺序的相反顺序被调用。</p>
-</li>
-<li><p>如果object内带一个vptr，则现在被重新设定，指向适当的base class virtual table。</p>
-</li>
-<li><p>如果有任何直接的（上一层）nonvirtual base classes 拥有destructor ，它们会以声明顺序相反顺序调用。</p>
-</li>
-<li><p>如果有任何virtual base classes 拥有destructor，而当前讨论的这个class 是最尾端的class，那么它们会以其原来顺序相反顺序被调用。</p>
-</li>
+<li>destructor的函数本身首先被执行。</li>
+<li>如果class拥有member class objects，而后拥有destructor，那么它们会以声明顺序的相反顺序被调用。</li>
+<li>如果object内带一个vptr，则现在被重新设定，指向适当的base class virtual table。</li>
+<li>如果有任何直接的（上一层）nonvirtual base classes 拥有destructor ，它们会以声明顺序相反顺序调用。</li>
+<li>如果有任何virtual base classes 拥有destructor，而当前讨论的这个class 是最尾端的class，那么它们会以其原来顺序相反顺序被调用。</li>
 </ol>
 <h2 id="第六章-执行期语意学"><a href="#第六章-执行期语意学" class="headerlink" title="第六章 执行期语意学"></a>第六章 执行期语意学</h2><h2 id="第七章-……"><a href="#第七章-……" class="headerlink" title="第七章 ……"></a>第七章 ……</h2><h2 id="补充：类型向上转型和多态的混淆"><a href="#补充：类型向上转型和多态的混淆" class="headerlink" title="补充：类型向上转型和多态的混淆"></a>补充：类型向上转型和多态的混淆</h2><p>构造这样的一个继承体系：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span> &#123;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>: <span class="keyword">virtual</span> ~Base() &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123; <span class="built_in">cout</span> &lt;&lt; <span class="string">"Base"</span> &lt;&lt; <span class="built_in">endl</span>; &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Derived</span> :</span> <span class="keyword">public</span> Base &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>: <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123; <span class="built_in">cout</span> &lt;&lt; <span class="string">"Derived"</span> &lt;&lt; <span class="built_in">endl</span>; &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>: <span class="keyword">virtual</span> ~Base() &#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123; <span class="built_in">cout</span> &lt;&lt; <span class="string">"Base"</span> &lt;&lt; <span class="built_in">endl</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Derived</span> :</span> <span class="keyword">public</span> Base &#123;</span><br><span class="line"><span class="keyword">public</span>: <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123; <span class="built_in">cout</span> &lt;&lt; <span class="string">"Derived"</span> &lt;&lt; <span class="built_in">endl</span>; &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>子类Derived类重写了基类Base中的show方法。 编写下面的测试代码：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Base b; Derived d;</span><br><span class="line"></span><br><span class="line">b.show(); d.show();</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Base b; Derived d;</span><br><span class="line">b.show(); d.show();</span><br></pre></td></tr></table></figure>
 <p>结果是：</p>
-<p>Base</p>
-<p>Derived</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Base</span><br><span class="line">Derived</span><br></pre></td></tr></table></figure>
 <p>Base的对象调用了Base的方法，而Derived的对象调用了Derived的方法。因为直接用对象来调用成员函数时不会开启多态机制，故编译器直接根据b和d各自的类型就可以确定调用哪个show函数了，也就是在这两句调用中，编译器为它们每一个都确定了一个唯一的入口地址。这实际上类似于一个重载多态，虽然这两个show函数拥有不同的作用域。 那这样呢： Base b; Derived d; b.show(); b = d; b.show(); 现在，一个Base的对象被赋值为子类Derived的对象。</p>
 <p>那这样呢：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Base b; Derived d;</span><br><span class="line"></span><br><span class="line">b.show(); b = d; b.show();</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Base b; Derived d;</span><br><span class="line">b.show(); b = d; b.show();</span><br></pre></td></tr></table></figure>
 <p>现在，一个Base的对象被赋值为子类Derived的对象。</p>
 <p>结果是：</p>
-<p>Base</p>
-<p>Base</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Base</span><br><span class="line">Base</span><br></pre></td></tr></table></figure>
 <p>对于熟悉Java的人而言，这不可理解。但实际上，C++不是Java，它更像C。“b = d”的意思，并不是Java中的“让一个指向Base类的引用指向它的子类对象”，而是“把Base类的子类对象中的Base子对象分割出来，赋值给b”。所以，只要b的类型始终是Base，那么b.show()调用的永远都是Base类中的show函数；换句话说，编译器总是把Base中的那个show函数的入口地址作为b.show()的入口地址。这根本就没用上多态。</p>
 <p>单继承下的重写多态</p>
 <p>那我们再这样：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Base b; Derived d;</span><br><span class="line"></span><br><span class="line">Base *p = &amp;b;</span><br><span class="line"></span><br><span class="line">p-&gt;show();</span><br><span class="line"></span><br><span class="line">p = &amp;d;</span><br><span class="line"></span><br><span class="line">p-&gt;show();</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Base b; Derived d;</span><br><span class="line">Base *p = &amp;b;</span><br><span class="line">p-&gt;show();</span><br><span class="line">p = &amp;d;</span><br><span class="line">p-&gt;show();</span><br></pre></td></tr></table></figure>
 <p>这时，结果就对了：</p>
-<p>Base</p>
-<p>Derived</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Base</span><br><span class="line">Derived</span><br></pre></td></tr></table></figure>
 <p>p是一个指向基类对象的指针，第一次它指向一个Base对象，p-&gt;show()调用了Base类的show函数；而第二次它指向了一个Derived对象，p-&gt;show()调用了Derived类的show函数。</p>
 <p>总结：也就是说，只有是指针或者引用才是真正的多态，将子对象赋给父类对象其实类型向上转型.</p>
-<h2 id="补补充"><a href="#补补充" class="headerlink" title="补补充"></a>补补充</h2><h3 id="1-const和指针的修饰问题"><a href="#1-const和指针的修饰问题" class="headerlink" title="1.  const和指针的修饰问题"></a>1.  const和指针的修饰问题</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> * a;   <span class="comment">//一个指针a指向const char</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> <span class="keyword">const</span> *a;      <span class="comment">//这两个是a指向的内容是常量，不能改变</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> * <span class="keyword">const</span> a;     <span class="comment">//首先a 是指针然后还是const</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> (<span class="keyword">char</span>*) a;     <span class="comment">//这两个是a指针本身是常量，指针本身不能改变</span></span><br></pre></td></tr></table></figure>
+<h2 id="补补充"><a href="#补补充" class="headerlink" title="补补充"></a>补补充</h2><h3 id="1-const和指针的修饰问题"><a href="#1-const和指针的修饰问题" class="headerlink" title="1.  const和指针的修饰问题"></a>1.  const和指针的修饰问题</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> * a;   <span class="comment">//一个指针a指向const char</span></span><br><span class="line"><span class="keyword">char</span> <span class="keyword">const</span> *a;      <span class="comment">//这两个是a指向的内容是常量，不能改变</span></span><br><span class="line"><span class="keyword">char</span> * <span class="keyword">const</span> a;     <span class="comment">//首先a 是指针然后还是const</span></span><br><span class="line"><span class="keyword">const</span> (<span class="keyword">char</span>*) a;     <span class="comment">//这两个是a指针本身是常量，指针本身不能改变</span></span><br></pre></td></tr></table></figure>
 <p>其实，可以看出如果const修饰的char(也就是类型本身或者是 <em>variable对指针的解引用）就是指针指向的内容是常量，反之就是修饰指针本身的。那我们可以总结一个识别方法就是：看const 两边（当然有的只有一边）的类型是类型（指针指向的内容）就是类型变量本身是常量（如const char </em> a和char const <em>a 的const两边是char，</em>a）。</p>
 <p>当然两者都是常量就是：const char <em> const a;第一个const是类型常量，第二个才是指针常量。同样给出 const char &amp;a ;const char </em>a;在传递参数时使用。</p>
-<h3 id="2-数组和指针的组合问题"><a href="#2-数组和指针的组合问题" class="headerlink" title="2. 数组和指针的组合问题"></a>2. 数组和指针的组合问题</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">char</span> * a[M];  </span><br><span class="line"></span><br><span class="line"><span class="comment">//这是指针数组，就是每一个元素是指针的数组，每个元素都要初始化。a[M]一看就是数组，这个数组每一个元素是char *，所以可以将char *扩展为一维数组然后a[M]就是二维数组了。其实就是M个指针。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> (*a)[N];  </span><br><span class="line"></span><br><span class="line"><span class="comment">//这是一个指针，这个指针指向N个char元素，即指向数组的指针，其实就是一个指针。把（*a)看着一个变量，这个变量是指向N个元素的指针，所以只是一个一维数组。把char (*a)[N]看成是char b[N]就可以了。</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-数组和指针的组合问题"><a href="#2-数组和指针的组合问题" class="headerlink" title="2. 数组和指针的组合问题"></a>2. 数组和指针的组合问题</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> * a[M];  </span><br><span class="line"></span><br><span class="line"><span class="comment">//这是指针数组，就是每一个元素是指针的数组，每个元素都要初始化。a[M]一看就是数组，这个数组每一个元素是char *，所以可以将char *扩展为一维数组然后a[M]就是二维数组了。其实就是M个指针。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> (*a)[N];  </span><br><span class="line"></span><br><span class="line"><span class="comment">//这是一个指针，这个指针指向N个char元素，即指向数组的指针，其实就是一个指针。把（*a)看着一个变量，这个变量是指向N个元素的指针，所以只是一个一维数组。把char (*a)[N]看成是char b[N]就可以了。</span></span><br></pre></td></tr></table></figure>
 <h3 id="3-C-变量的初始化"><a href="#3-C-变量的初始化" class="headerlink" title="3. C++变量的初始化"></a>3. C++变量的初始化</h3><p>对于内置类型局部变量不进行初始化，但是分配地址，全局变量会进行默认初始化。对于类类型局部变量（没有显式初始化）会进行默认初始化（有默认构造函数，否则报错），但其内部的内置数据成员不会进行初始化（如果在默认构造函数没有进行初始化）。数组也是同样。</p>
 
       
@@ -588,7 +522,7 @@
         <p><span>本文标题:</span><a href="/2019/06/18/cpp-object/">《深度探索Cpp对象模型》学习笔记</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 ssj 的个人博客">ssj</a></p>
         <p><span>发布时间:</span>2019年06月18日 - 13时30分</p>
-        <p><span>最后更新:</span>2019年06月18日 - 14时50分</p>
+        <p><span>最后更新:</span>2019年07月01日 - 17时49分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/06/18/cpp-object/" title="《深度探索Cpp对象模型》学习笔记">https://github.com/Cracke-S-J/2019/06/18/cpp-object/</a>
             <span class="copy-path" data-clipboard-text="原文: https://github.com/Cracke-S-J/2019/06/18/cpp-object/　　作者: ssj" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -626,7 +560,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第一章-关于对象"><span class="toc-number">1.</span> <span class="toc-text">第一章 关于对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#class封装之后的布局成本"><span class="toc-number">1.1.</span> <span class="toc-text">class封装之后的布局成本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C-对象模型"><span class="toc-number">1.2.</span> <span class="toc-text">C++ 对象模型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第二章-构造函数语意学"><span class="toc-number">2.</span> <span class="toc-text">第二章 构造函数语意学</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-Default-Constructor"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 Default Constructor</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#带有Default-Constructor的Member-Class-Object。"><span class="toc-number">2.1.1.</span> <span class="toc-text">带有Default Constructor的Member Class Object。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#带有-Default-Constructor的Base-class"><span class="toc-number">2.1.2.</span> <span class="toc-text">带有 Default Constructor的Base class</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#带有一个-Virtual-Function的class"><span class="toc-number">2.1.3.</span> <span class="toc-text">带有一个 Virtual Function的class</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#带有一个-Virtual-Base-Class的class"><span class="toc-number">2.1.4.</span> <span class="toc-text">带有一个 Virtual Base Class的class</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#总结"><span class="toc-number">2.1.5.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-Copy-Constructor"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 Copy Constructor</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Default-Memberwise-Initialization"><span class="toc-number">2.2.1.</span> <span class="toc-text">Default Memberwise Initialization</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-初始化列表"><span class="toc-number">2.3.</span> <span class="toc-text">2.4 初始化列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第三章-Data-语意学"><span class="toc-number">3.</span> <span class="toc-text">第三章 Data 语意学</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-Data-Member的布局"><span class="toc-number">3.1.</span> <span class="toc-text">3.2 Data Member的布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-Data-Member的存取"><span class="toc-number">3.2.</span> <span class="toc-text">3.3 Data Member的存取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-继承与Data-Member"><span class="toc-number">3.3.</span> <span class="toc-text">3.4 继承与Data Member</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#只要继承不要多态"><span class="toc-number">3.3.1.</span> <span class="toc-text">只要继承不要多态</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#加上多态"><span class="toc-number">3.3.2.</span> <span class="toc-text">加上多态</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#多重继承"><span class="toc-number">3.3.3.</span> <span class="toc-text">多重继承</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#虚拟继承"><span class="toc-number">3.3.4.</span> <span class="toc-text">虚拟继承</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第四章-Function-语意学"><span class="toc-number">4.</span> <span class="toc-text">第四章 Function 语意学</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-Member的各种调用方式"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 Member的各种调用方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Virtual-Member-Functions"><span class="toc-number">4.1.1.</span> <span class="toc-text">Virtual Member Functions</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Static-Member-Functions"><span class="toc-number">4.1.2.</span> <span class="toc-text">Static Member Functions</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-Virtual-Member-Funcitons"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 Virtual Member Funcitons</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-函数的效能"><span class="toc-number">4.3.</span> <span class="toc-text">4.3 函数的效能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-指向Member-Function的指针"><span class="toc-number">4.4.</span> <span class="toc-text">4.4 指向Member Function的指针</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-Inline-Funcitons"><span class="toc-number">4.5.</span> <span class="toc-text">4.5 Inline Funcitons</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第五章-构造、解构、拷贝-语意学"><span class="toc-number">5.</span> <span class="toc-text">第五章 构造、解构、拷贝 语意学</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#继承体系下的对象构造"><span class="toc-number">5.0.1.</span> <span class="toc-text">继承体系下的对象构造</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#对象复制语意学"><span class="toc-number">5.0.2.</span> <span class="toc-text">对象复制语意学</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#vptr语意学"><span class="toc-number">5.0.3.</span> <span class="toc-text">vptr语意学</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解构语意学"><span class="toc-number">5.0.4.</span> <span class="toc-text">解构语意学</span></a></li></ol></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#第六章-执行期语意学"><span class="toc-number">6.</span> <span class="toc-text">第六章 执行期语意学</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第七章-……"><span class="toc-number">7.</span> <span class="toc-text">第七章 ……</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#补充：类型向上转型和多态的混淆"><span class="toc-number">8.</span> <span class="toc-text">补充：类型向上转型和多态的混淆</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#补补充"><span class="toc-number">9.</span> <span class="toc-text">补补充</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-const和指针的修饰问题"><span class="toc-number">9.1.</span> <span class="toc-text">1.  const和指针的修饰问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-数组和指针的组合问题"><span class="toc-number">9.2.</span> <span class="toc-text">2. 数组和指针的组合问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-C-变量的初始化"><span class="toc-number">9.3.</span> <span class="toc-text">3. C++变量的初始化</span></a></li></ol></li>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第一章-关于对象"><span class="toc-number">1.</span> <span class="toc-text">第一章 关于对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#class封装之后的布局成本"><span class="toc-number">1.1.</span> <span class="toc-text">class封装之后的布局成本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C-对象模型"><span class="toc-number">1.2.</span> <span class="toc-text">C++ 对象模型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第二章-构造函数语意学"><span class="toc-number">2.</span> <span class="toc-text">第二章 构造函数语意学</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Default-Constructor"><span class="toc-number">2.1.</span> <span class="toc-text">Default Constructor</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#带有Default-Constructor的Member-Class-Object。"><span class="toc-number">2.1.1.</span> <span class="toc-text">带有Default Constructor的Member Class Object。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#带有Default-Constructor的Base-class"><span class="toc-number">2.1.2.</span> <span class="toc-text">带有Default Constructor的Base class</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#带有一个-Virtual-Function的class"><span class="toc-number">2.1.3.</span> <span class="toc-text">带有一个 Virtual Function的class</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#带有一个Virtual-Base-Class的class"><span class="toc-number">2.1.4.</span> <span class="toc-text">带有一个Virtual Base Class的class</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#总结"><span class="toc-number">2.1.5.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Copy-Constructor"><span class="toc-number">2.2.</span> <span class="toc-text">Copy Constructor</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Default-Memberwise-Initialization"><span class="toc-number">2.2.1.</span> <span class="toc-text">Default Memberwise Initialization</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化列表"><span class="toc-number">2.3.</span> <span class="toc-text">初始化列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第三章-Data-语意学"><span class="toc-number">3.</span> <span class="toc-text">第三章 Data 语意学</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Data-Member的布局"><span class="toc-number">3.1.</span> <span class="toc-text">Data Member的布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Data-Member的存取"><span class="toc-number">3.2.</span> <span class="toc-text">Data Member的存取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#继承与Data-Member"><span class="toc-number">3.3.</span> <span class="toc-text">继承与Data Member</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#只要继承不要多态"><span class="toc-number">3.3.1.</span> <span class="toc-text">只要继承不要多态</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#加上多态"><span class="toc-number">3.3.2.</span> <span class="toc-text">加上多态</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#多重继承"><span class="toc-number">3.3.3.</span> <span class="toc-text">多重继承</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#虚拟继承"><span class="toc-number">3.3.4.</span> <span class="toc-text">虚拟继承</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第四章-Function-语意学"><span class="toc-number">4.</span> <span class="toc-text">第四章 Function 语意学</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Member的各种调用方式"><span class="toc-number">4.1.</span> <span class="toc-text">Member的各种调用方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Virtual-Member-Functions"><span class="toc-number">4.1.1.</span> <span class="toc-text">Virtual Member Functions</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Static-Member-Functions"><span class="toc-number">4.1.2.</span> <span class="toc-text">Static Member Functions</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Virtual-Member-Funcitons"><span class="toc-number">4.2.</span> <span class="toc-text">Virtual Member Funcitons</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数的效能"><span class="toc-number">4.3.</span> <span class="toc-text">函数的效能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#指向Member-Function的指针"><span class="toc-number">4.4.</span> <span class="toc-text">指向Member Function的指针</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Inline-Funcitons"><span class="toc-number">4.5.</span> <span class="toc-text">Inline Funcitons</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第五章-构造、解构、拷贝-语意学"><span class="toc-number">5.</span> <span class="toc-text">第五章 构造、解构、拷贝 语意学</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#继承体系下的对象构造"><span class="toc-number">5.0.1.</span> <span class="toc-text">继承体系下的对象构造</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#对象复制语意学"><span class="toc-number">5.0.2.</span> <span class="toc-text">对象复制语意学</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#vptr语意学"><span class="toc-number">5.0.3.</span> <span class="toc-text">vptr语意学</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解构语意学"><span class="toc-number">5.0.4.</span> <span class="toc-text">解构语意学</span></a></li></ol></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#第六章-执行期语意学"><span class="toc-number">6.</span> <span class="toc-text">第六章 执行期语意学</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第七章-……"><span class="toc-number">7.</span> <span class="toc-text">第七章 ……</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#补充：类型向上转型和多态的混淆"><span class="toc-number">8.</span> <span class="toc-text">补充：类型向上转型和多态的混淆</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#补补充"><span class="toc-number">9.</span> <span class="toc-text">补补充</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-const和指针的修饰问题"><span class="toc-number">9.1.</span> <span class="toc-text">1.  const和指针的修饰问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-数组和指针的组合问题"><span class="toc-number">9.2.</span> <span class="toc-text">2. 数组和指针的组合问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-C-变量的初始化"><span class="toc-number">9.3.</span> <span class="toc-text">3. C++变量的初始化</span></a></li></ol></li>
 </div>
 <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
 
@@ -703,7 +637,7 @@
             </a>
         
     </div>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/06/27/android-inject-code/">android静态注入常用代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/24/kill-chenshimei/">铡美案</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/20/easy-android-unpack/">Android脱壳入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/18/cpp-object/">《深度探索Cpp对象模型》学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/06/yangsilang-visit-his-mother/">四郎探母(看url:yangsilang-visit-his-mother)</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/31/songshijie/">四进士(又名宋士杰)</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/29/resume/">简历</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/29/CTF-android/">小菜比ssj吹头发记</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/29/hello-world/">Hello World</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/17/ssj-android-shell-0th/">小菜比ssj写了一个壳子</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/10/iSmart-break-sign/">iSmart逆向分析之绕过签名验证</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/25/Ethereum-practice/">ethernaut-writeup</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/18/Ethereum-bug/">以太坊漏洞 TOP9</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/13/Ethereum-background/">以太坊背景知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/08/start-poem/">定场诗</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/07/25/zhulianzhai/">珠帘寨</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/21/pwn1/">pwn 入门——溢出</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/08/ndk/">Android Studio NDK 开发环境搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/27/vest-car-king/">给车王二手车套马甲</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/27/android-inject-code/">Android静态注入常用代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/24/kill-chenshimei/">铡美案</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/20/easy-android-unpack/">Android脱壳入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/18/cpp-object/">《深度探索Cpp对象模型》学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/06/yangsilang-visit-his-mother/">四郎探母(看url:yangsilang-visit-his-mother)</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/31/songshijie/">四进士(又名宋士杰)</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/29/resume/">简历</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/29/CTF-android/">小菜比ssj吹头发记</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/17/ssj-android-shell-0th/">小菜比ssj写了一个壳子</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/10/iSmart-break-sign/">iSmart逆向分析之绕过签名验证</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/25/Ethereum-practice/">ethernaut-writeup</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/18/Ethereum-bug/">以太坊漏洞 TOP9</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/13/Ethereum-background/">以太坊背景知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/08/start-poem/">定场诗</a></li></ul>
     <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
     <script>
         $(".post-list").addClass("toc-article");

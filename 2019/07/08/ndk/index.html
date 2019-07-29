@@ -3,19 +3,20 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>Hello World | ssj的博客</title>
+  <title>Android Studio NDK 开发环境搭建 | ssj的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+  <meta name="description" content="配好NDK路径。 在java层声明native方法，使用javah -d [路径] [类]，生成头文件。 在cpp里写代码。 写Android.mk和Application.mk Android.mk 1234567LOCAL_PATH := $(call my-dir)include $(CLEAR_VARS)LOCAL_MODULE := checkFlagLOCAL_SRC_FILES :">
+<meta name="keywords" content="Android">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="https://github.com/Cracke-S-J/2019/05/29/hello-world/index.html">
+<meta property="og:title" content="Android Studio NDK 开发环境搭建">
+<meta property="og:url" content="https://github.com/Cracke-S-J/2019/07/08/ndk/index.html">
 <meta property="og:site_name" content="ssj的博客">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="配好NDK路径。 在java层声明native方法，使用javah -d [路径] [类]，生成头文件。 在cpp里写代码。 写Android.mk和Application.mk Android.mk 1234567LOCAL_PATH := $(call my-dir)include $(CLEAR_VARS)LOCAL_MODULE := checkFlagLOCAL_SRC_FILES :">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-05-29T11:44:00.813Z">
+<meta property="og:updated_time" content="2019-07-08T09:59:07.127Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="Android Studio NDK 开发环境搭建">
+<meta name="twitter:description" content="配好NDK路径。 在java层声明native方法，使用javah -d [路径] [类]，生成头文件。 在cpp里写代码。 写Android.mk和Application.mk Android.mk 1234567LOCAL_PATH := $(call my-dir)include $(CLEAR_VARS)LOCAL_MODULE := checkFlagLOCAL_SRC_FILES :">
   
     <link rel="alternative" href="/atom.xml" title="ssj的博客" type="application/atom+xml">
   
@@ -141,7 +142,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/Android/" style="font-size: 15px;">Android</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/CTF/" style="font-size: 10px;">CTF</a> <a href="/tags/Ethereum/" style="font-size: 20px;">Ethereum</a> <a href="/tags/android/" style="font-size: 20px;">android</a> <a href="/tags/resume/" style="font-size: 10px;">resume</a> <a href="/tags/京剧/" style="font-size: 20px;">京剧</a> <a href="/tags/定场诗/" style="font-size: 10px;">定场诗</a> <a href="/tags/脱壳/" style="font-size: 10px;">脱壳</a>
+                        <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/CTF/" style="font-size: 10px;">CTF</a> <a href="/tags/Ethereum/" style="font-size: 15px;">Ethereum</a> <a href="/tags/android/" style="font-size: 15px;">android</a> <a href="/tags/resume/" style="font-size: 10px;">resume</a> <a href="/tags/京剧/" style="font-size: 20px;">京剧</a> <a href="/tags/定场诗/" style="font-size: 10px;">定场诗</a> <a href="/tags/脱壳/" style="font-size: 10px;">脱壳</a>
                     </div>
                 </section>
                 
@@ -213,11 +214,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-ndk" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/05/29/hello-world/" class="article-date">
-      <time datetime="2019-05-29T09:33:10.925Z" itemprop="datePublished">2019-05-29</time>
+      <a href="/2019/07/08/ndk/" class="article-date">
+      <time datetime="2019-07-08T09:17:51.000Z" itemprop="datePublished">2019-07-08</time>
 </a>
     </div>
   
@@ -230,7 +231,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      Android Studio NDK 开发环境搭建
     </h1>
   
 
@@ -238,8 +239,16 @@
       
       <div class="article-info article-info-post">
         
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/programming/">编程</a>
+    </div>
+
 
         
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+    </div>
+
         <div class="clearfix"></div>
       </div>
       
@@ -247,15 +256,22 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <ol>
+<li>配好NDK路径。</li>
+<li>在java层声明native方法，使用javah -d [路径] [类]，生成头文件。</li>
+<li>在cpp里写代码。</li>
+<li><p>写Android.mk和Application.mk</p>
+<p>Android.mk</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">LOCAL_PATH := $(call my-dir)</span><br><span class="line">include $(CLEAR_VARS)</span><br><span class="line"></span><br><span class="line">LOCAL_MODULE := checkFlag</span><br><span class="line">LOCAL_SRC_FILES := checkFlag.c</span><br><span class="line"></span><br><span class="line">include $(BUILD_SHARED_LIBRARY)</span><br></pre></td></tr></table></figure>
+<p>Application.mk(其实这句话也没什么卵用)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">APP_ABI := all</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>右击app -&gt; Link C++ Project with Gradle -&gt; 选ndk-build -&gt; 选刚才写的Android.mk</p>
+</li>
+<li>配置build.gradle，在defaultConfig里面加：<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">externalNativeBuild &#123;</span><br><span class="line">         ndkBuild &#123;</span><br><span class="line">             arguments <span class="string">"NDK_APPLICATION_MK:=src/main/jni/Application.mk"</span></span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>在Android Studio 3.x上，这样基本就成了。</p>
 
       
       
@@ -311,13 +327,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2019/05/29/hello-world/">Hello World</a></p>
+        <p><span>本文标题:</span><a href="/2019/07/08/ndk/">Android Studio NDK 开发环境搭建</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 ssj 的个人博客">ssj</a></p>
-        <p><span>发布时间:</span>2019年05月29日 - 17时33分</p>
-        <p><span>最后更新:</span>2019年05月29日 - 19时44分</p>
+        <p><span>发布时间:</span>2019年07月08日 - 17时17分</p>
+        <p><span>最后更新:</span>2019年07月08日 - 17时59分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2019/05/29/hello-world/" title="Hello World">https://github.com/Cracke-S-J/2019/05/29/hello-world/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://github.com/Cracke-S-J/2019/05/29/hello-world/　　作者: ssj" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/07/08/ndk/" title="Android Studio NDK 开发环境搭建">https://github.com/Cracke-S-J/2019/07/08/ndk/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://github.com/Cracke-S-J/2019/07/08/ndk/　　作者: ssj" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -330,18 +346,18 @@
 
 <nav id="article-nav">
   
-    <a href="/2019/05/29/CTF-android/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/07/21/pwn1/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          小菜比ssj吹头发记
+          pwn 入门——溢出
         
       </div>
     </a>
   
   
-    <a href="/2019/05/17/ssj-android-shell-0th/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">小菜比ssj写了一个壳子</div>
+    <a href="/2019/06/27/vest-car-king/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">给车王二手车套马甲</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -352,7 +368,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-number">1.</span> <span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-number">1.1.</span> <span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-number">1.2.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-number">1.3.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-number">1.4.</span> <span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+    
 </div>
 <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
 
@@ -418,18 +434,18 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2019/05/29/CTF-android/" title="上一篇: 小菜比ssj吹头发记">
+            <a href="/2019/07/21/pwn1/" title="上一篇: pwn 入门——溢出">
                 <i class="fa fa-angle-left"></i>
             </a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2019/05/17/ssj-android-shell-0th/" title="下一篇: 小菜比ssj写了一个壳子">
+            <a href="/2019/06/27/vest-car-king/" title="下一篇: 给车王二手车套马甲">
                 <i class="fa fa-angle-right"></i>
             </a>
         
     </div>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/06/27/android-inject-code/">android静态注入常用代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/24/kill-chenshimei/">铡美案</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/20/easy-android-unpack/">Android脱壳入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/18/cpp-object/">《深度探索Cpp对象模型》学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/06/yangsilang-visit-his-mother/">四郎探母(看url:yangsilang-visit-his-mother)</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/31/songshijie/">四进士(又名宋士杰)</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/29/resume/">简历</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/29/CTF-android/">小菜比ssj吹头发记</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/29/hello-world/">Hello World</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/17/ssj-android-shell-0th/">小菜比ssj写了一个壳子</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/10/iSmart-break-sign/">iSmart逆向分析之绕过签名验证</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/25/Ethereum-practice/">ethernaut-writeup</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/18/Ethereum-bug/">以太坊漏洞 TOP9</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/13/Ethereum-background/">以太坊背景知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/08/start-poem/">定场诗</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/07/25/zhulianzhai/">珠帘寨</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/21/pwn1/">pwn 入门——溢出</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/08/ndk/">Android Studio NDK 开发环境搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/27/vest-car-king/">给车王二手车套马甲</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/27/android-inject-code/">Android静态注入常用代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/24/kill-chenshimei/">铡美案</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/20/easy-android-unpack/">Android脱壳入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/18/cpp-object/">《深度探索Cpp对象模型》学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/06/yangsilang-visit-his-mother/">四郎探母(看url:yangsilang-visit-his-mother)</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/31/songshijie/">四进士(又名宋士杰)</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/29/resume/">简历</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/29/CTF-android/">小菜比ssj吹头发记</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/17/ssj-android-shell-0th/">小菜比ssj写了一个壳子</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/10/iSmart-break-sign/">iSmart逆向分析之绕过签名验证</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/25/Ethereum-practice/">ethernaut-writeup</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/18/Ethereum-bug/">以太坊漏洞 TOP9</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/13/Ethereum-background/">以太坊背景知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/08/start-poem/">定场诗</a></li></ul>
     <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
     <script>
         $(".post-list").addClass("toc-article");

