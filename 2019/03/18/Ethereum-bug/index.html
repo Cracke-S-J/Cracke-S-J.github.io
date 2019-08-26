@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>以太坊漏洞 TOP9 | ssj的博客</title>
@@ -224,7 +224,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy">
+      <input type="hidden" class="isFancy" />
     
     
       <header class="article-header">
@@ -462,20 +462,20 @@
               <p>纯属好玩</p>
             </div>
             <div class="shang_payimg">
-              <img src="/img/alipayimg.jpg" alt="扫码支持" title="扫一扫">
+              <img src="/img/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
             </div>
               <div class="pay_explain">扫码打赏，你说多少就多少</div>
             <div class="shang_payselect">
               
                 <div class="pay_item checked" data-id="alipay">
                   <span class="radiobox"></span>
-                  <span class="pay_logo"><img src="/img/alipay.png" alt="支付宝"></span>
+                  <span class="pay_logo"><img src="/img/alipay.png" alt="支付宝" /></span>
                 </div>
               
               
                 <div class="pay_item" data-id="wechat">
                   <span class="radiobox"></span>
-                  <span class="pay_logo"><img src="/img/weixin.png" alt="微信"></span>
+                  <span class="pay_logo"><img src="/img/weixin.png" alt="微信" /></span>
                 </div>
               
             </div>
@@ -516,7 +516,7 @@
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
-            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
         </p>
     </div>
 
@@ -548,7 +548,7 @@
     <strong class="toc-title">文章目录</strong>
     <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#top-1-Reentrancy"><span class="toc-number">1.</span> <span class="toc-text">top 1 Reentrancy</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#info"><span class="toc-number">1.1.</span> <span class="toc-text">info</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原理"><span class="toc-number">1.2.</span> <span class="toc-text">原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#background"><span class="toc-number">1.2.1.</span> <span class="toc-text">background</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#fallback"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">fallback</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#转币"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">转币</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重置资产放在转币操作后"><span class="toc-number">1.2.2.</span> <span class="toc-text">重置资产放在转币操作后</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#attack-steps"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">attack steps:</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用"><span class="toc-number">1.3.</span> <span class="toc-text">利用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#漏洞合约"><span class="toc-number">1.3.1.</span> <span class="toc-text">漏洞合约</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#攻击合约"><span class="toc-number">1.3.2.</span> <span class="toc-text">攻击合约</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#避坑方法"><span class="toc-number">1.4.</span> <span class="toc-text">避坑方法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#top-2-Access-Control"><span class="toc-number">2.</span> <span class="toc-text">top 2 Access Control</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Info"><span class="toc-number">2.1.</span> <span class="toc-text">Info</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#background-1"><span class="toc-number">2.2.</span> <span class="toc-text">background</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-函数访问域关键字"><span class="toc-number">2.2.1.</span> <span class="toc-text">0x01 函数访问域关键字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-tx-origin"><span class="toc-number">2.2.2.</span> <span class="toc-text">0x02 tx.origin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x03-delegatecall"><span class="toc-number">2.2.3.</span> <span class="toc-text">0x03 delegatecall</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实例-Parity"><span class="toc-number">2.3.</span> <span class="toc-text">实例 Parity</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#利用过程"><span class="toc-number">2.3.1.</span> <span class="toc-text">利用过程</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#top-3-Arithmetic-Issues"><span class="toc-number">3.</span> <span class="toc-text">top 3 Arithmetic Issues</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-info"><span class="toc-number">3.1.</span> <span class="toc-text">0x00 info</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-原理"><span class="toc-number">3.2.</span> <span class="toc-text">0x01 原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-场景"><span class="toc-number">3.3.</span> <span class="toc-text">0x02 场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03上溢漏洞"><span class="toc-number">3.4.</span> <span class="toc-text">0x03上溢漏洞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-下溢漏洞"><span class="toc-number">3.5.</span> <span class="toc-text">0x04 下溢漏洞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#避坑方法-1"><span class="toc-number">3.6.</span> <span class="toc-text">避坑方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Info-1"><span class="toc-number">3.7.</span> <span class="toc-text">Info</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原理-1"><span class="toc-number">3.8.</span> <span class="toc-text">原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#background-2"><span class="toc-number">3.8.1.</span> <span class="toc-text">background</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#举个例子"><span class="toc-number">3.8.2.</span> <span class="toc-text">举个例子</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#避坑技巧"><span class="toc-number">3.9.</span> <span class="toc-text">避坑技巧</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#top-5-Denial-of-Services"><span class="toc-number">4.</span> <span class="toc-text">top 5 Denial of Services</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Info-2"><span class="toc-number">4.1.</span> <span class="toc-text">Info</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#例子"><span class="toc-number">4.2.</span> <span class="toc-text">例子</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#GovernMental"><span class="toc-number">4.2.1.</span> <span class="toc-text">GovernMental</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#King-of-the-Ether"><span class="toc-number">4.2.2.</span> <span class="toc-text">King of the Ether</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#避坑技巧-1"><span class="toc-number">4.3.</span> <span class="toc-text">避坑技巧</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#top-6-Bad-Randomness"><span class="toc-number">5.</span> <span class="toc-text">top 6 Bad Randomness</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Info-3"><span class="toc-number">5.1.</span> <span class="toc-text">Info</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Demo"><span class="toc-number">5.2.</span> <span class="toc-text">Demo</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#第一种"><span class="toc-number">5.2.1.</span> <span class="toc-text">第一种</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二种"><span class="toc-number">5.2.2.</span> <span class="toc-text">第二种</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#案例一-SmartBillions"><span class="toc-number">5.3.</span> <span class="toc-text">案例一 SmartBillions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#案例二-theRun"><span class="toc-number">5.4.</span> <span class="toc-text">案例二 theRun</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#避坑技巧-2"><span class="toc-number">5.5.</span> <span class="toc-text">避坑技巧</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#top-7-Front-Running"><span class="toc-number">6.</span> <span class="toc-text">top 7 Front Running</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Info-4"><span class="toc-number">6.1.</span> <span class="toc-text">Info</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#例子-1"><span class="toc-number">6.2.</span> <span class="toc-text">例子</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#例子一，一个游戏"><span class="toc-number">6.2.1.</span> <span class="toc-text">例子一，一个游戏</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#例子二，一道CTF"><span class="toc-number">6.2.2.</span> <span class="toc-text">例子二，一道CTF</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#避坑技巧-3"><span class="toc-number">6.3.</span> <span class="toc-text">避坑技巧</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#top-8-Time-Manipulation"><span class="toc-number">7.</span> <span class="toc-text">top 8 Time Manipulation</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Info-5"><span class="toc-number">7.1.</span> <span class="toc-text">Info</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#例子-theRun"><span class="toc-number">7.2.</span> <span class="toc-text">例子 theRun</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#避坑技巧-4"><span class="toc-number">7.3.</span> <span class="toc-text">避坑技巧</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#top-9-Short-Addresses"><span class="toc-number">8.</span> <span class="toc-text">top 9 Short Addresses</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#info-1"><span class="toc-number">8.1.</span> <span class="toc-text">info</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原理-2"><span class="toc-number">8.2.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用-1"><span class="toc-number">8.3.</span> <span class="toc-text">利用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#避坑技巧-5"><span class="toc-number">8.4.</span> <span class="toc-text">避坑技巧</span></a></li></ol></li></ol>
 </div>
-<input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
 <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
 <script>
@@ -662,8 +662,8 @@
         
             <div class="visit">
                 
-                    <span id="busuanzi_container_site_pv" style="display:none">
-                        <span id="site-visit">到访数: 
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >到访数: 
                             <span id="busuanzi_value_site_uv"></span>
                         </span>
                     </span>
@@ -672,7 +672,7 @@
                     <span>, </span>
                 
                 
-                    <span id="busuanzi_container_page_pv" style="display:none">
+                    <span id="busuanzi_container_page_pv" style='display:none'>
                         <span id="page-visit">本页阅读量: 
                             <span id="busuanzi_value_page_pv"></span>
                         </span>
