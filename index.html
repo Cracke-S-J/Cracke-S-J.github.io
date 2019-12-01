@@ -140,7 +140,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/CTF/" style="font-size: 10px;">CTF</a> <a href="/tags/Ethereum/" style="font-size: 15px;">Ethereum</a> <a href="/tags/android/" style="font-size: 15px;">android</a> <a href="/tags/resume/" style="font-size: 10px;">resume</a> <a href="/tags/京剧/" style="font-size: 20px;">京剧</a> <a href="/tags/其它/" style="font-size: 10px;">其它</a> <a href="/tags/定场诗/" style="font-size: 10px;">定场诗</a> <a href="/tags/脱壳/" style="font-size: 10px;">脱壳</a>
+                        <a href="/tags/Android/" style="font-size: 15px;">Android</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/CTF/" style="font-size: 10px;">CTF</a> <a href="/tags/Ethereum/" style="font-size: 15px;">Ethereum</a> <a href="/tags/android/" style="font-size: 15px;">android</a> <a href="/tags/resume/" style="font-size: 10px;">resume</a> <a href="/tags/京剧/" style="font-size: 20px;">京剧</a> <a href="/tags/其它/" style="font-size: 10px;">其它</a> <a href="/tags/定场诗/" style="font-size: 10px;">定场诗</a> <a href="/tags/脱壳/" style="font-size: 10px;">脱壳</a>
                     </div>
                 </section>
                 
@@ -479,70 +479,6 @@
 
 
   
-    <article id="post-vest-car-king" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/06/27/vest-car-king/" class="article-date">
-      <time datetime="2019-06-27T12:26:41.000Z" itemprop="datePublished">2019-06-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/27/vest-car-king/">给车王二手车套马甲</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>加资源，要在R$*.smali、res/values/public.xml、res/value/ids.xml这三个里面加，编译不会出错，至于为什么闪退待研究。</p>
-<p>然后手加了几段代码Activity$1.smali不能用，就用*&amp;111也可，加新class不忘注册。</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/programming/">编程</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-android-inject-code" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -572,9 +508,12 @@
           
         <h2 id="Toast"><a href="#Toast" class="headerlink" title="Toast:"></a>Toast:</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span>-string v0, <span class="string">"toast"</span></span><br><span class="line"><span class="keyword">const</span>/<span class="number">4</span> v1, <span class="number">0x1</span></span><br><span class="line">invoke-<span class="keyword">static</span> &#123;p0, v0, v1&#125;, Landroid/widget/Toast;-&gt;makeText(Landroid/content/Context;Ljava/lang/CharSequence;I)Landroid/widget/Toast;</span><br><span class="line">move-result-object v0</span><br><span class="line">invoke-virtual &#123;v0&#125;, Landroid/widget/Toast;-&gt;show()V</span><br></pre></td></tr></table></figure>
 <h2 id="AlertDialog"><a href="#AlertDialog" class="headerlink" title="AlertDialog:"></a>AlertDialog:</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span>-instance v0, Landroid/app/AlertDialog$Builder;</span><br><span class="line">invoke-direct &#123;v0, p0&#125;, Landroid/app/AlertDialog$Builder;-&gt;&lt;init&gt;(Landroid/content/Context;)V</span><br><span class="line"><span class="keyword">const</span>-string v1, <span class="string">"title"</span></span><br><span class="line">invoke-virtual &#123;v0, v1&#125;, Landroid/app/AlertDialog$Builder;-&gt;setTitle(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;</span><br><span class="line">move-result-object v0</span><br><span class="line"><span class="keyword">const</span>-string v1, <span class="string">"message"</span></span><br><span class="line">invoke-virtual &#123;v0, v1&#125;, Landroid/app/AlertDialog$Builder;-&gt;setMessage(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;</span><br><span class="line">move-result-object v0</span><br><span class="line"><span class="keyword">const</span>-string v1, <span class="string">"button"</span></span><br><span class="line"><span class="keyword">new</span>-instance v2, Lcom/carking/cn/activity/MainActivity$<span class="number">111</span>;</span><br><span class="line">invoke-direct &#123;v2, p0&#125;, Lcom/carking/cn/activity/MainActivity$<span class="number">111</span>;-&gt;&lt;init&gt;(Lcom/carking/cn/activity/MainActivity;)V</span><br><span class="line">invoke-virtual &#123;v0, v1, v2&#125;, Landroid/app/AlertDialog$Builder;-&gt;setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;</span><br><span class="line">move-result-object v0</span><br><span class="line"><span class="keyword">const</span>-string v1, <span class="string">"button"</span></span><br><span class="line"><span class="keyword">const</span>/<span class="number">4</span> v2, <span class="number">0x0</span></span><br><span class="line">invoke-virtual &#123;v0, v1, v2&#125;, Landroid/app/AlertDialog$Builder;-&gt;setNegativeButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;</span><br><span class="line">move-result-object v0</span><br><span class="line">invoke-virtual &#123;v0&#125;, Landroid/app/AlertDialog$Builder;-&gt;show()Landroid/app/AlertDialog;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">.class Lcom/carking/cn/activity/Another$<span class="number">111</span>;</span><br><span class="line">.<span class="keyword">super</span> Ljava/lang/Object;</span><br><span class="line">.source <span class="string">"Another.java"</span></span><br><span class="line"> </span><br><span class="line"># interfaces</span><br><span class="line">.implements Landroid/content/DialogInterface$OnClickListener;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"># annotations</span><br><span class="line">.annotation system Ldalvik/annotation/EnclosingMethod;</span><br><span class="line">    value = Lcom/carking/cn/activity/Another;-&gt;onCreate(Landroid/os/Bundle;)V</span><br><span class="line">.end annotation</span><br><span class="line"> </span><br><span class="line">.annotation system Ldalvik/annotation/InnerClass;</span><br><span class="line">    accessFlags = <span class="number">0x0</span></span><br><span class="line">    name = <span class="keyword">null</span></span><br><span class="line">.end annotation</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"># instance fields</span><br><span class="line">.field <span class="keyword">final</span> synthetic <span class="keyword">this</span>$<span class="number">0</span>:Lcom/carking/cn/activity/Another;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"># direct methods</span><br><span class="line">.method constructor &lt;init&gt;(Lcom/carking/cn/activity/Another;)V</span><br><span class="line">    .locals <span class="number">0</span></span><br><span class="line"> </span><br><span class="line">    .prologue</span><br><span class="line">    .line <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    iput-object p1, p0, Lcom/carking/cn/activity/Another$<span class="number">111</span>;-&gt;<span class="keyword">this</span>$<span class="number">0</span>:Lcom/carking/cn/activity/Another;</span><br><span class="line"> </span><br><span class="line">    .line <span class="number">29</span></span><br><span class="line">    invoke-direct &#123;p0&#125;, Ljava/lang/Object;-&gt;&lt;init&gt;()V</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span>-<span class="keyword">void</span></span><br><span class="line">.end method</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"># virtual methods</span><br><span class="line">.<span class="function">method <span class="keyword">public</span> <span class="title">onClick</span><span class="params">(Landroid/content/DialogInterface;I)</span>V</span></span><br><span class="line"><span class="function">    .locals 3</span></span><br><span class="line"><span class="function">    .param p1, "dialog"    # Landroid/content/DialogInterface</span>;</span><br><span class="line">    .param p2, "which"    # I</span><br><span class="line"> </span><br><span class="line">    .prologue</span><br><span class="line">    .line <span class="number">34</span></span><br><span class="line">    <span class="keyword">const</span>-string v2, <span class="string">"https://www.google.com/"</span></span><br><span class="line"> </span><br><span class="line">    invoke-<span class="keyword">static</span> &#123;v2&#125;, Landroid/net/Uri;-&gt;parse(Ljava/lang/String;)Landroid/net/Uri;</span><br><span class="line"> </span><br><span class="line">    move-result-object v1</span><br><span class="line"> </span><br><span class="line">    .line <span class="number">35</span></span><br><span class="line">    .local v1, <span class="string">"uri"</span>:Landroid/net/Uri;</span><br><span class="line">    <span class="keyword">new</span>-instance v0, Landroid/content/Intent;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">const</span>-string v2, <span class="string">"android.intent.action.VIEW"</span></span><br><span class="line"> </span><br><span class="line">    invoke-direct &#123;v0, v2, v1&#125;, Landroid/content/Intent;-&gt;&lt;init&gt;(Ljava/lang/String;Landroid/net/Uri;)V</span><br><span class="line"> </span><br><span class="line">    .line <span class="number">36</span></span><br><span class="line">    .local v0, <span class="string">"it"</span>:Landroid/content/Intent;</span><br><span class="line">    iget-object v2, p0, Lcom/carking/cn/activity/Another$<span class="number">111</span>;-&gt;<span class="keyword">this</span>$<span class="number">0</span>:Lcom/carking/cn/activity/Another;</span><br><span class="line"> </span><br><span class="line">    invoke-virtual &#123;v2, v0&#125;, Lcom/carking/cn/activity/Another;-&gt;startActivity(Landroid/content/Intent;)V</span><br><span class="line"> </span><br><span class="line">    .line <span class="number">39</span></span><br><span class="line">    <span class="keyword">return</span>-<span class="keyword">void</span></span><br><span class="line">.end method</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">.class Lcom/carking/cn/activity/Another$<span class="number">111</span>;</span><br><span class="line">.<span class="keyword">super</span> Ljava/lang/Object;</span><br><span class="line">.source <span class="string">"Another.java"</span></span><br><span class="line"></span><br><span class="line"># interfaces</span><br><span class="line">.implements Landroid/content/DialogInterface$OnClickListener;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># annotations</span><br><span class="line">.annotation system Ldalvik/annotation/EnclosingMethod;</span><br><span class="line">    value = Lcom/carking/cn/activity/Another;-&gt;onCreate(Landroid/os/Bundle;)V</span><br><span class="line">.end annotation</span><br><span class="line"></span><br><span class="line">.annotation system Ldalvik/annotation/InnerClass;</span><br><span class="line">    accessFlags = <span class="number">0x0</span></span><br><span class="line">    name = <span class="keyword">null</span></span><br><span class="line">.end annotation</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># instance fields</span><br><span class="line">.field <span class="keyword">final</span> synthetic <span class="keyword">this</span>$<span class="number">0</span>:Lcom/carking/cn/activity/Another;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># direct methods</span><br><span class="line">.method constructor &lt;init&gt;(Lcom/carking/cn/activity/Another;)V</span><br><span class="line">    .locals <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    .prologue</span><br><span class="line">    .line <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    iput-object p1, p0, Lcom/carking/cn/activity/Another$<span class="number">111</span>;-&gt;<span class="keyword">this</span>$<span class="number">0</span>:Lcom/carking/cn/activity/Another;</span><br><span class="line"></span><br><span class="line">    .line <span class="number">29</span></span><br><span class="line">    invoke-direct &#123;p0&#125;, Ljava/lang/Object;-&gt;&lt;init&gt;()V</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span>-<span class="keyword">void</span></span><br><span class="line">.end method</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># virtual methods</span><br><span class="line">.<span class="function">method <span class="keyword">public</span> <span class="title">onClick</span><span class="params">(Landroid/content/DialogInterface;I)</span>V</span></span><br><span class="line"><span class="function">    .locals 3</span></span><br><span class="line"><span class="function">    .param p1, "dialog"    # Landroid/content/DialogInterface</span>;</span><br><span class="line">    .param p2, "which"    # I</span><br><span class="line"></span><br><span class="line">    .prologue</span><br><span class="line">    .line <span class="number">34</span></span><br><span class="line">    <span class="keyword">const</span>-string v2, <span class="string">"https://www.google.com/"</span></span><br><span class="line"></span><br><span class="line">    invoke-<span class="keyword">static</span> &#123;v2&#125;, Landroid/net/Uri;-&gt;parse(Ljava/lang/String;)Landroid/net/Uri;</span><br><span class="line"></span><br><span class="line">    move-result-object v1</span><br><span class="line"></span><br><span class="line">    .line <span class="number">35</span></span><br><span class="line">    .local v1, <span class="string">"uri"</span>:Landroid/net/Uri;</span><br><span class="line">    <span class="keyword">new</span>-instance v0, Landroid/content/Intent;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span>-string v2, <span class="string">"android.intent.action.VIEW"</span></span><br><span class="line"></span><br><span class="line">    invoke-direct &#123;v0, v2, v1&#125;, Landroid/content/Intent;-&gt;&lt;init&gt;(Ljava/lang/String;Landroid/net/Uri;)V</span><br><span class="line"></span><br><span class="line">    .line <span class="number">36</span></span><br><span class="line">    .local v0, <span class="string">"it"</span>:Landroid/content/Intent;</span><br><span class="line">    iget-object v2, p0, Lcom/carking/cn/activity/Another$<span class="number">111</span>;-&gt;<span class="keyword">this</span>$<span class="number">0</span>:Lcom/carking/cn/activity/Another;</span><br><span class="line"></span><br><span class="line">    invoke-virtual &#123;v2, v0&#125;, Lcom/carking/cn/activity/Another;-&gt;startActivity(Landroid/content/Intent;)V</span><br><span class="line"></span><br><span class="line">    .line <span class="number">39</span></span><br><span class="line">    <span class="keyword">return</span>-<span class="keyword">void</span></span><br><span class="line">.end method</span><br></pre></td></tr></table></figure>
 <p>Intent</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span>-instance v0, Landroid/content/Intent;</span><br><span class="line">invoke-direct &#123;v0&#125;, Landroid/content/Intent;-&gt;&lt;init&gt;()V</span><br><span class="line"><span class="keyword">const</span>-<span class="class"><span class="keyword">class</span> <span class="title">v1</span>, <span class="title">Lcom</span>/<span class="title">carking</span>/<span class="title">cn</span>/<span class="title">activity</span>/<span class="title">Another</span></span>;</span><br><span class="line">invoke-virtual &#123;v0, p0, v1&#125;, Landroid/content/Intent;-&gt;setClass(Landroid/content/Context;Ljava/lang/Class;)Landroid/content/Intent;</span><br><span class="line">invoke-virtual &#123;p0, v0&#125;, Lcom/carking/cn/activity/MainActivity;-&gt;startActivity(Landroid/content/Intent;)V</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span>-instance v0, Landroid/content/Intent;</span><br><span class="line"><span class="keyword">const</span>-<span class="class"><span class="keyword">class</span> <span class="title">v1</span>, <span class="title">Lcom</span>/<span class="title">ssj</span>/<span class="title">loopviewdemo</span>/<span class="title">LunbotuActivity</span></span>;</span><br><span class="line">invoke-direct &#123;v0, p0, v1&#125;, Landroid/content/Intent;-&gt;&lt;init&gt;(Landroid/content/Context;Ljava/lang/Class;)V</span><br><span class="line">.local v0, <span class="string">"intent"</span>:Landroid/content/Intent;</span><br><span class="line">invoke-virtual &#123;p0, v0&#125;, Lcom/ssj/loopviewdemo/MainActivity;-&gt;startActivity(Landroid/content/Intent;)V</span><br></pre></td></tr></table></figure>
+<p><code>adb logcat -v threadtime &gt; a.log</code><br>——— beginning of crash</p>
+
       
       
     </div>
@@ -1096,6 +1035,146 @@
 <p>赵光义做了皇帝之后，首先的第一件事就是安顿赵匡胤的妻子和儿子，但是这样登基的赵光义在很多的礼教上是说不过去的，在宋皇后知道赵光义做了皇帝的消息之后，于是宋皇后公然登上金銮宝殿，对着赵光义破口大骂，毕竟是赵光义害死了自己的亲哥哥，而且还公开抢夺自己侄子的皇位，这样的举动真的是无德无义之人，面对皇后的唾骂，赵光义在无奈之下便开始对他们进行封赏，封宋皇后为皇太后。</p>
 <p>不过，最让人为难的还是小太子赵德芳，最大的封赏就是把皇位还给赵德芳，但是赵德芳年纪太小，无法做皇帝，再说了赵光义也舍不得自己的皇位，于是赵光义便封了赵德芳为保国王、护国王、上殿不参王、下殿不辞王、殿前王、殿左王、殿右王、殿后王（听着这么像郭老编的，听书听个乐），八贤王，世袭罔替的八大贤王，并赐瓦面金锏，上打昏君，下打谗臣。</p>
 <p>所以为什么八王上金殿他那么横，因为江山是人家家里的。</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/opera/">听戏</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/京剧/">京剧</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-songshijie" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/05/31/songshijie/" class="article-date">
+      <time datetime="2019-05-31T10:15:02.000Z" itemprop="datePublished">2019-05-31</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/31/songshijie/">四进士(又名宋士杰)</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>周信芳先生、马连良先生均以《四进士》享名，麒派的宋士杰苍劲老辣，马派潇洒油滑。</p>
+<p>我本人完整听过麒麟童周信芳先生的电影，张学津先生、陈少云老师那一版，还有别的版本的一些片段。</p>
+<hr>
+<p>宋士杰是一个讼师。他们的职业是包打官司，即包揽词讼。凡有衙门处即有讼师。只要你给他钱，他可以把你的官司包下来，把你的对手搞得倾家荡产，一败涂地。生活里，他们也是很刁钻促狭的。 讼师住的地方。做小买卖的都不愿停留。邻居家的孩子都不敢和他们家的孩子打架。然而《四进士》却写了一个比较特别的好讼师。</p>
+<p>宋士杰的好处在于：一是办事傲上。二是好管闲事。办事傲上是因为他有才，好管闲事是因为他心善。</p>
+<p>写他的爱管闲事，从他怕管闲事写起。</p>
+<hr>
+<p>明朝嘉靖年间，新科进士毛朋、田伦、顾读（顾读一出场就是个白脸，一看就不是什么好东西）、刘题四人出京为官，当时严嵩专权，同仇敌忾。相约饮酒中，相互勉励，赴任后不违法渎职，以报海瑞举荐之功德。</p>
+<p>当时河南上蔡县姚廷春的妻子田氏图谋财产，毒死丈夫的弟弟姚廷美，又串通弟媳杨素贞之兄杨青，又把杨素贞转卖给布商杨春为妻。杨春听素贞哭诉，可怜她的遭遇，撕毁身契，代她告状。</p>
+<p>原来是四本连台本戏，现在前面的一般不演了，四进士简化成一台本后直接从柳林告状开始。</p>
+<p>杨春可怜杨素贞的遭遇，要代她去越衙告状，遇到八府巡按毛朋，毛朋是个好人，于是代写状纸。</p>
+<p>杨春杨素贞在路上被一群小混混算计，走散了，杨素贞遇到了宋士杰。</p>
+<p>宋士杰的出场是很平淡的。几记小锣，他就走出来了。四句诗罢，自报家门：</p>
+<blockquote>
+<p>老汉宋士杰。在前任道台衙门，当过一名刑房书吏。只因办事傲上。 才将我的刑房革退。在西门以外，开了一所小小店房。不过是避嫌而已……”</p>
+</blockquote>
+<p>避嫌。避什么嫌呢?避官场之嫌。 开店是一种姿态，表示引退闲居，从此不再往衙门里插手，免遭是非物议。 他显然也不甘寂寞。 偶尔给吃衙门饭的人一点指点。杯酒之间，三言两语。平常则是韬晦深藏，很少活动的了。以至顾读听说宋士杰这名字。吃惊道：”宋士杰!这老儿还未曾死么？”</p>
+<p>他卷进一场复杂的纠纷。完全是无心的，偶然的。</p>
+<p>宋士杰回家喊老婆出来出手从小混混手中救了杨素贞。</p>
+<blockquote>
+<p>救人一命少活十年呐。</p>
+</blockquote>
+<p>救下杨素贞，得知她是来越衙告状，宋士杰看了毛朋写的状纸：（我词记不准，也可能串版本什么的）</p>
+<blockquote>
+<p>牛吃房上草，风吹千斤石。一字入公门，不赖不成词。</p>
+</blockquote>
+<blockquote>
+<p>此人不得第便罢，得了第，少不了八台之位。</p>
+</blockquote>
+<p>宋士杰收杨素贞为干女儿，替杨素贞告状。在路上，遇到丁旦请宋伯伯喝酒，顺便请教一桩疑案，错过了顾读升堂，便携女击鼓鸣冤。头公堂：</p>
+<blockquote>
+<p>顾读 （白） 宋士杰，你还不曾死啊？<br>宋士杰 （白） 哈哈！阎王不要命，小鬼不来缠，我是怎样得死啊！<br>顾读 （白） 你为何包揽词讼？<br>宋士杰 （白） 怎见得小人包揽词讼？<br>顾读 （白） 杨素贞越衙告状，住在你的家中，分明你挑唆而来，岂不是包揽词讼？<br>宋士杰 （白） 小人有下情回禀。<br>顾读 （白） 讲！<br>宋士杰 （白） 嗻！小人宋士杰，在前任道台衙门当过一名刑房书吏。只因我办事傲上，才将我的刑房革掉。在西门以外，开了一所小小店房，不过是避闲而已。曾记得那年去往河南上蔡县办差，住在杨素贞她你的家中。杨素贞那时间才长这么大，拜在我的名下，以为义女。数载以来，书不来，信不去，杨素贞她父已死。她长大成人，许配姚廷梅为妻。她的亲夫被人害死，来到信阳州，越衙告状。常言道，是亲者不能不顾，不是亲者不能相顾。她是我的干女儿，我是她的干父，干女儿不住在干父家中，难道说，教她住在庵堂寺院！<br>顾读 （白） 嘿！你好一张利口！<br>宋士杰 （白） 句句实言。<br>顾读 （白） 杨素贞讨保！<br>宋士杰 （白） 小人愿保。<br>顾读 （白） 啊！你为何保她？<br>宋士杰 （白） 干父不保干女儿，他们哪一个敢保？<br>顾读 （白） 我原要你保。<br>宋士杰 （白） 我保保何妨！</p>
+</blockquote>
+<p>一件没影子的事，宋士杰说得有鼻子有眼，活灵活现，点水不漏，无懈可击。这段辩词，层次清楚，语调铿锵，掷地作金石声!。”这长这大”，真亏他想得出来。什么叫讼师?这就叫讼师：数白道黑，将无作有。</p>
+<p>田氏得知有人告她，让弟弟田伦给顾读写一封求情信，三百两白银压书信，田伦很犹豫但迫于母亲的压力还是写了。两个送信的公差住在宋士杰的店中，宋士杰见他们口角带字。</p>
+<blockquote>
+<p>公差甲 （白） 伙计，你看田、顾、刘三位大人，谁忠谁奸？<br>公差乙 （白） 伙计，管他谁忠谁奸，我们喝酒罢！这个年头，就是，酒酒酒，终日有，有钱的在天堂，无钱的下地狱。</p>
+</blockquote>
+<p>分析出了缘由，盗取书信，抄在衣襟上。所以田伦是把谱子也写上了吗…</p>
+<blockquote>
+<p>（西皮原板） 拜上了信阳州顾大人。<br>双塔寺前分别后，<br>倒有几载未相逢。<br>姚家庄有个杨氏女，<br>（西皮流水板） 她本是姚家不贤人。<br>药酒害死亲夫主，<br>反赖我姐丈姚廷椿。<br>三百两银子押书信，<br>还望年兄念弟情。<br>上风官司归故里，<br>登门叩谢顾年兄。</p>
+</blockquote>
+<p>二公堂，杨素贞被迫画押，宋士杰挨了四十个板子，宋士杰决定向毛朋告状，一状告倒三个官。</p>
+<blockquote>
+<p>顾读 （白） 这个……宋士杰，听你之言，莫非你受了贿了？<br>宋士杰 （白） 受贿？<br>顾读 （白） 受贿。<br>宋士杰 （白） 受贿。受贿不多……<br>顾读 （白） 多少？<br>宋士杰 （白） 三百两！<br>顾读 （白） 啊！<br>来，扯下去打！<br>宋士杰 （白） 且慢！你打我不得。<br>顾读 （白） 打了你，自然有你的过犯！<br>宋士杰 （白） 打我什么过犯？<br>顾读 （白） 我打你这个……<br>宋士杰 （白） 大人？<br>顾读 （白） 这……<br>宋士杰 （白） 大人？<br>顾读 （白） 哎，我打你一个欺官傲上！<br>宋士杰 （白） 嘿嘿！今天不挨你几个板子，你也不好意思退堂。来来来，打呀！<br>宋士杰 （白） 谢大人的责！<br>顾读 （白） 宋士杰，我打得你可公？<br>宋士杰 （白） 不公。<br>顾读 （白） 打得你可是？<br>宋士杰 （白） 不是。<br>顾读 （白） 不公也要公，不是也要是。从今以后，你要少来见我！<br>宋士杰 （白） 见见何妨？<br>顾读 （白） 再若见我，定要你的老命！<br>宋士杰 （白） 不定是谁要谁的命！<br>顾读 （白） 下去！<br>宋士杰 （白） 走。<br>顾读 （白） 轰了下去！<br>宋士杰 （白） 走哇！<br>（西皮散板） 公堂打我四十板，<br>一状要告他三个官！</p>
+</blockquote>
+<blockquote>
+<p>可恨信阳道，贪赃又放刁。打我四十板，哎！恶气何日消！</p>
+</blockquote>
+<p>宋士杰写好状纸要找毛朋告状，巧遇到杨春，便让杨春去把状纸递上了。此处有成心让杨春去挨板子，可以这个遭老头子也留有心眼。</p>
+<blockquote>
+<p>田伦密札求情，官吏过简；顾读贪赃卖法，匿案准情；刘题好酒贪杯，不理民词。</p>
+</blockquote>
+<p>兄弟四人见面，三公堂</p>
+<blockquote>
+<p>不要这样的虎威，这是按院的行埠，不是你道台衙门了。</p>
+</blockquote>
+<p>宋士杰说了缘由</p>
+<blockquote>
+<p>毛朋 （白） 二位年兄，宋士杰和衣襟，就是你二人的对证了！<br>顾读 （白） 年兄，你不应当与我那封书信！<br>田伦 （白） 你不该收我那三百两银子！<br>顾读 （白） 唉！<br>田伦 （白） 我也是母命难违；有道是：<br> （念） 父母恩情重……<br>毛朋 （念） 朝廷法度严！<br>顾读 （念） 不听恩师语……<br>毛朋 （念） 王法大如天！<br> （白） 二位年兄，你我进京赴试，得中进士，只因不拜严嵩为师，可恨奸贼专权，不放我等为官。多蒙海瑞老师，苦苦保奏，才放我等帘外为官。我们出京之时，在双塔寺盟下誓愿，不许贪赃卖法，官吏过简，若有此事，棺木一口，仰面还乡。小弟不才，实授八府巡按，查得上三府，官是清官，民是顺民。查得下五府，官是赃官，民是刁民。查来查去，这赃官二字却应在我们年兄弟的身上，叫小弟哪里去寻，哪里去访！<br>田伦、顾读 （白） 求大人谅情一二！<br>毛朋 （白） 说什么谅情一二！圣上恩赐上方宝剑，一同拜过，小弟得罪了。</p>
+</blockquote>
+<p>宋士杰再上</p>
+<blockquote>
+<p>宋士杰 （白） 与大人叩头。<br>毛朋 （白） 宋士杰，有道是“民不告官”，你一状告倒两员封疆大吏，一个百里县令，岂能无罪！<br>宋士杰 （白） 望大人格外施恩！<br>毛朋 （白） 念你年迈，发往边外充军，当堂上刑。下去！<br>宋士杰 （白） 谢大人。</p>
+</blockquote>
+<p>绝唱：</p>
+<p>（西皮散板）</p>
+<blockquote>
+<p>公堂之上上了刑，<br>好似鳌鱼把钩吞。<br>悲切切出了都察院，<br>只见杨春与素贞。<br>你家在河南上蔡县，<br>你住南京水西门。<br>我三人从来不相认，<br>宋士杰与你们是哪门子亲！<br>我为你挨了四十板，<br>我为你披枷带锁边外去充军。<br>可怜我年迈人离乡井，<br>杨春、杨素贞啊！<br>谁是我披麻带孝人！<br>干父不要两泪淋，<br>孩儿言来听分明：<br>倘若干父下世早，<br>儿是披麻带孝人。<br>唉，妄想啊妄想！</p>
+</blockquote>
+<p>发现毛朋是代写状纸的人后，宋士杰又上堂耍了一顿嘴皮子，最后完美结局。</p>
+<blockquote>
+<p>（西皮散板） 你认得清来见得明，<br>我充军的事儿就去不成哪！<br>二次进了都察院，<br>尊声青天老大人：<br>百姓告官是有罪，<br>无有状子告不成！<br>毛朋 （西皮散板） 本院奉命出帝京，<br>明查暗访为黎民。<br>为不平我把状子写，<br>王法条条不徇情。<br>宋士杰 （西皮散板） 大人奉命出帝京，<br>明查暗访为黎民。<br>有日大人回朝转，<br>你在凌烟阁上标美名，你是个大忠臣。<br>毛朋 （西皮散板） 柳林写状为百姓，<br>宋士杰 （西皮散板） 宋士杰打的是抱不平。<br>毛朋 （西皮散板） 黎民告官当问斩，<br>宋士杰 （白） 大人！<br>（西皮散板） 你在那柳林写状，犯法你是头一名！<br>毛朋 （白） 哎呀！<br>（西皮散板） 宋士杰说话真凶狠，<br>问得本院似哑人！<br>下得位来忙松捆，<br>你是我说不倒的老先生！</p>
+</blockquote>
+<p>有的版本没有下面这一段，不知道有没有后，但最后杨春都是他的义子了。</p>
+<blockquote>
+<p>（白） 宋士杰，你可有后？<br>宋士杰 （白） 小人乏嗣无后！<br>毛朋 （白） 也罢！将杨春拜在你的名下以为义子，如何？<br>宋士杰 （白） 不敢。<br>毛朋 （白） 杨春，拜见你干父。<br>杨春 （白） 拜见干父。<br>宋士杰 （白） 少礼！<br>毛朋 （白） 同到姚廷梅坟前一祭，以明善恶。<br>宋士杰 （白） 大人天恩！</p>
+</blockquote>
 
       
       
