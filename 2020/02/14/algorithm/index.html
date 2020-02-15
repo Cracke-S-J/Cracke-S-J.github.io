@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="ssj的博客">
 <meta property="og:description" content="跟 dyf 聊天，扯起了算法，从高三 oi 退役以来，就大一冬天看过一阵算法，去梆梆之后就基本再也没看过了，于是就上 leetcode 刷了几道，难度相比竞赛来说还是弱的很，但是挺有意思的。 爬楼梯问题就是一个线性 dp，dp[i] = min(dp[i-1]+val[i-1], dp[i-2]+val[i-2])，当前状态是由走一步或者走两步来的。 找第一个不重复的字母水题，不表。 出现前 k">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-02-14T11:49:12.572Z">
+<meta property="og:updated_time" content="2020-02-15T15:10:15.426Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="每天几道 算法">
 <meta name="twitter:description" content="跟 dyf 聊天，扯起了算法，从高三 oi 退役以来，就大一冬天看过一阵算法，去梆梆之后就基本再也没看过了，于是就上 leetcode 刷了几道，难度相比竞赛来说还是弱的很，但是挺有意思的。 爬楼梯问题就是一个线性 dp，dp[i] = min(dp[i-1]+val[i-1], dp[i-2]+val[i-2])，当前状态是由走一步或者走两步来的。 找第一个不重复的字母水题，不表。 出现前 k">
@@ -264,6 +264,8 @@
 <h2 id="毒死猪"><a href="#毒死猪" class="headerlink" title="毒死猪"></a>毒死猪</h2><p>这个挺有意思，可以算机智题或建模。假设有 n 只水桶，猪饮水中毒后会在 m 分钟内死亡，你需要多少猪（x）就能在 p 分钟内找出 “有毒” 水桶？这 n 只水桶里有且仅有一只有毒的桶。x = (p/m+1)根号(n)。</p>
 <h2 id="铺地板"><a href="#铺地板" class="headerlink" title="铺地板"></a>铺地板</h2><p>你是一位施工队的工长，根据设计师的要求准备为一套设计风格独特的房子进行室内装修。房子的客厅大小为 n x m，为保持极简的风格，需要使用尽可能少的 正方形 瓷砖来铺盖地面。假设正方形瓷砖的规格不限，边长都是整数。(1 &lt;= n &lt;= 13, 1 &lt;= m &lt;= 13)</p>
 <p>看起来像可恶的 dp，一共有三种情况，两个块横着拼或竖着拼，还有一种是四个块围起来，中间一个 1x1 的小块，O((m*n)^2) = 2,924,207，合适。</p>
+<h2 id="二叉搜索树"><a href="#二叉搜索树" class="headerlink" title="二叉搜索树"></a>二叉搜索树</h2><p>给定一个所有节点为非负值的二叉搜索树,求树中任意两节点的差的绝对值的最小值。</p>
+<p>知识点是二叉搜索树，它的中序遍历是从小到大排序的。</p>
 
       
       
@@ -322,7 +324,7 @@
         <p><span>本文标题:</span><a href="/2020/02/14/algorithm/">每天几道 算法</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 ssj 的个人博客">ssj</a></p>
         <p><span>发布时间:</span>2020年02月14日 - 01时07分</p>
-        <p><span>最后更新:</span>2020年02月14日 - 19时49分</p>
+        <p><span>最后更新:</span>2020年02月15日 - 23时10分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2020/02/14/algorithm/" title="每天几道 算法">https://github.com/Cracke-S-J/2020/02/14/algorithm/</a>
             <span class="copy-path" data-clipboard-text="原文: https://github.com/Cracke-S-J/2020/02/14/algorithm/　　作者: ssj" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -351,7 +353,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#爬楼梯问题"><span class="toc-number">1.</span> <span class="toc-text">爬楼梯问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#找第一个不重复的字母"><span class="toc-number">2.</span> <span class="toc-text">找第一个不重复的字母</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#出现前-k-多的字符串"><span class="toc-number">3.</span> <span class="toc-text">出现前 k 多的字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组组三角形"><span class="toc-number">4.</span> <span class="toc-text">数组组三角形</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#毒死猪"><span class="toc-number">5.</span> <span class="toc-text">毒死猪</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#铺地板"><span class="toc-number">6.</span> <span class="toc-text">铺地板</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#爬楼梯问题"><span class="toc-number">1.</span> <span class="toc-text">爬楼梯问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#找第一个不重复的字母"><span class="toc-number">2.</span> <span class="toc-text">找第一个不重复的字母</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#出现前-k-多的字符串"><span class="toc-number">3.</span> <span class="toc-text">出现前 k 多的字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组组三角形"><span class="toc-number">4.</span> <span class="toc-text">数组组三角形</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#毒死猪"><span class="toc-number">5.</span> <span class="toc-text">毒死猪</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#铺地板"><span class="toc-number">6.</span> <span class="toc-text">铺地板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二叉搜索树"><span class="toc-number">7.</span> <span class="toc-text">二叉搜索树</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
