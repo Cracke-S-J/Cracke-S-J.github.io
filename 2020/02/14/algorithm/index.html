@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="ssj的博客">
 <meta property="og:description" content="跟 dyf 聊天，扯起了算法，从高三 oi 退役以来，就大一冬天看过一阵算法，去梆梆之后就基本再也没看过了，于是就上 leetcode 刷了几道，难度相比竞赛来说还是弱的很，但是挺有意思的。 爬楼梯问题就是一个线性 dp，dp[i] = min(dp[i-1]+val[i-1], dp[i-2]+val[i-2])，当前状态是由走一步或者走两步来的。 找第一个不重复的字母水题，不表。 出现前 k">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-02-16T11:29:35.643Z">
+<meta property="og:updated_time" content="2020-02-17T08:45:20.866Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="每天几道 算法">
 <meta name="twitter:description" content="跟 dyf 聊天，扯起了算法，从高三 oi 退役以来，就大一冬天看过一阵算法，去梆梆之后就基本再也没看过了，于是就上 leetcode 刷了几道，难度相比竞赛来说还是弱的很，但是挺有意思的。 爬楼梯问题就是一个线性 dp，dp[i] = min(dp[i-1]+val[i-1], dp[i-2]+val[i-2])，当前状态是由走一步或者走两步来的。 找第一个不重复的字母水题，不表。 出现前 k">
@@ -277,6 +277,15 @@
 <h2 id="合并两个数组"><a href="#合并两个数组" class="headerlink" title="合并两个数组"></a>合并两个数组</h2><p>无聊的排序。</p>
 <h2 id="字符串查找"><a href="#字符串查找" class="headerlink" title="字符串查找"></a>字符串查找</h2><p>无聊的字符串处理题。</p>
 <h2 id="我的日程安排表"><a href="#我的日程安排表" class="headerlink" title="我的日程安排表"></a>我的日程安排表</h2><p>看起来这么像线段树呢，其实不用，遍历就行。前缀和差分也行。</p>
+<h2 id="不喜欢问题"><a href="#不喜欢问题" class="headerlink" title="不喜欢问题"></a>不喜欢问题</h2><p>有点像囚犯打架问题，着色。</p>
+<h2 id="奇怪的打印机"><a href="#奇怪的打印机" class="headerlink" title="奇怪的打印机"></a>奇怪的打印机</h2><p>有台奇怪的打印机有以下两个特殊要求：</p>
+<ol>
+<li>打印机每次只能打印同一个字符序列。</li>
+<li>每次可以在任意起始和结束位置打印新字符，并且会覆盖掉原来已有的字符。</li>
+</ol>
+<p>事出有幺，必为 dp，有一种合并石子的感 jio。可是合并石子我已经忘了。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> 枚举长度</span><br><span class="line">    <span class="keyword">for</span> 枚举边界</span><br><span class="line">        <span class="keyword">for</span> 枚举边界中的 k</span><br><span class="line">            f[l][r] = min(f[l][r], f[l][k - <span class="number">1</span>] + f[k + <span class="number">1</span>][r]);</span><br></pre></td></tr></table></figure>
+<h2 id="计算器"><a href="#计算器" class="headerlink" title="计算器"></a>计算器</h2><p>代码能力题，两个栈。现在再写，有一种 tm 语法树的感觉。</p>
 
       
       
@@ -335,7 +344,7 @@
         <p><span>本文标题:</span><a href="/2020/02/14/algorithm/">每天几道 算法</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 ssj 的个人博客">ssj</a></p>
         <p><span>发布时间:</span>2020年02月14日 - 01时07分</p>
-        <p><span>最后更新:</span>2020年02月16日 - 19时29分</p>
+        <p><span>最后更新:</span>2020年02月17日 - 16时45分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2020/02/14/algorithm/" title="每天几道 算法">https://github.com/Cracke-S-J/2020/02/14/algorithm/</a>
             <span class="copy-path" data-clipboard-text="原文: https://github.com/Cracke-S-J/2020/02/14/algorithm/　　作者: ssj" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -364,7 +373,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#爬楼梯问题"><span class="toc-number">1.</span> <span class="toc-text">爬楼梯问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#找第一个不重复的字母"><span class="toc-number">2.</span> <span class="toc-text">找第一个不重复的字母</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#出现前-k-多的字符串"><span class="toc-number">3.</span> <span class="toc-text">出现前 k 多的字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组组三角形"><span class="toc-number">4.</span> <span class="toc-text">数组组三角形</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#毒死猪"><span class="toc-number">5.</span> <span class="toc-text">毒死猪</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#铺地板"><span class="toc-number">6.</span> <span class="toc-text">铺地板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二叉搜索树"><span class="toc-number">7.</span> <span class="toc-text">二叉搜索树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#回文字典序"><span class="toc-number">8.</span> <span class="toc-text">回文字典序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#奇偶跳"><span class="toc-number">9.</span> <span class="toc-text">奇偶跳</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#合并两个数组"><span class="toc-number">10.</span> <span class="toc-text">合并两个数组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串查找"><span class="toc-number">11.</span> <span class="toc-text">字符串查找</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#我的日程安排表"><span class="toc-number">12.</span> <span class="toc-text">我的日程安排表</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#爬楼梯问题"><span class="toc-number">1.</span> <span class="toc-text">爬楼梯问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#找第一个不重复的字母"><span class="toc-number">2.</span> <span class="toc-text">找第一个不重复的字母</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#出现前-k-多的字符串"><span class="toc-number">3.</span> <span class="toc-text">出现前 k 多的字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组组三角形"><span class="toc-number">4.</span> <span class="toc-text">数组组三角形</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#毒死猪"><span class="toc-number">5.</span> <span class="toc-text">毒死猪</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#铺地板"><span class="toc-number">6.</span> <span class="toc-text">铺地板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二叉搜索树"><span class="toc-number">7.</span> <span class="toc-text">二叉搜索树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#回文字典序"><span class="toc-number">8.</span> <span class="toc-text">回文字典序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#奇偶跳"><span class="toc-number">9.</span> <span class="toc-text">奇偶跳</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#合并两个数组"><span class="toc-number">10.</span> <span class="toc-text">合并两个数组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串查找"><span class="toc-number">11.</span> <span class="toc-text">字符串查找</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#我的日程安排表"><span class="toc-number">12.</span> <span class="toc-text">我的日程安排表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#不喜欢问题"><span class="toc-number">13.</span> <span class="toc-text">不喜欢问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#奇怪的打印机"><span class="toc-number">14.</span> <span class="toc-text">奇怪的打印机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#计算器"><span class="toc-number">15.</span> <span class="toc-text">计算器</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
