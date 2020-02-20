@@ -286,6 +286,19 @@
 <p><code>f[i] = sum(1 to i - 1 -&gt; i)</code></p>
 <h2 id="滑砖拼图"><a href="#滑砖拼图" class="headerlink" title="滑砖拼图"></a>滑砖拼图</h2><p>是什么华容道游戏，bfs。</p>
 <h2 id="还是猪"><a href="#还是猪" class="headerlink" title="还是猪"></a>还是猪</h2><p>。</p>
+<h2 id="优美排列"><a href="#优美排列" class="headerlink" title="优美排列"></a>优美排列</h2><p>假设有从 1 到 N 的 N 个整数，如果从这 N 个数字中成功构造出一个数组，使得数组的第 i 位 (1 &lt;= i &lt;= N) 满足如下两个条件中的一个，我们就称这个数组为一个优美的排列。条件：</p>
+<ul>
+<li>第 i 位的数字能被 i 整除</li>
+<li>i 能被第 i 位上的数字整除</li>
+</ul>
+<p>现在给定一个整数 N，请问可以构造多少个优美的排列？（N &lt;= 15）</p>
+<p>暴力的气息哈哈哈哈。dfs。</p>
+<h2 id="连网线"><a href="#连网线" class="headerlink" title="连网线"></a>连网线</h2><p>并查集，只要大于 n - 1 条边，就是块数 - 1，否则不行。</p>
+<h2 id="数据流不相交区间"><a href="#数据流不相交区间" class="headerlink" title="数据流不相交区间"></a>数据流不相交区间</h2><p>给定一个非负整数的数据流输入 a1，a2，…，an，…，将到目前为止看到的数字总结为不相交的区间列表。</p>
+<p>例如，假设数据流中的整数为 1，3，7，2，6，…，每次的总结为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">1</span>]</span><br><span class="line">[<span class="number">1</span>, <span class="number">1</span>], [<span class="number">3</span>, <span class="number">3</span>]</span><br><span class="line">[<span class="number">1</span>, <span class="number">1</span>], [<span class="number">3</span>, <span class="number">3</span>], [<span class="number">7</span>, <span class="number">7</span>]</span><br><span class="line">[<span class="number">1</span>, <span class="number">3</span>], [<span class="number">7</span>, <span class="number">7</span>]</span><br><span class="line">[<span class="number">1</span>, <span class="number">3</span>], [<span class="number">6</span>, <span class="number">7</span>]</span><br></pre></td></tr></table></figure>
+<p>讲真一开始没看懂。后来，就插入就完了。</p>
+<p>最后 3 秒提交通过，稳…</p>
 
       
       
