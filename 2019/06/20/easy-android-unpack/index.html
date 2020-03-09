@@ -1,262 +1,288 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="utf-8">
-  
-  <title>Android脱壳入门 | ssj的博客</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>Android脱壳入门 | </title>
+    <meta name="author" content="ssj">
+    
+    <meta name="description" content="什么是hookhook是钩子的意思，怎么解释我在面试的时候也没答好，现在也不会描述，只能自行体会。android hook大致有下面三种，然后还有一个进程注入。
+
+Android GOT Hook
+Android Inline Hook
+Android Exception Hook
+Android ">
+    
+    
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="什么是hookhook是钩子的意思，怎么解释我在面试的时候也没答好，现在也不会描述，只能自行体会。android hook大致有下面三种，然后还有一个进程注入。  Android GOT Hook Android Inline Hook Android Exception Hook Android Ptrace Inject  frida的使用Android逆向之旅—Hook神器家族的Frida工">
-<meta name="keywords" content="Android,脱壳">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Android脱壳入门">
-<meta property="og:url" content="https://github.com/Cracke-S-J/2019/06/20/easy-android-unpack/index.html">
-<meta property="og:site_name" content="ssj的博客">
-<meta property="og:description" content="什么是hookhook是钩子的意思，怎么解释我在面试的时候也没答好，现在也不会描述，只能自行体会。android hook大致有下面三种，然后还有一个进程注入。  Android GOT Hook Android Inline Hook Android Exception Hook Android Ptrace Inject  frida的使用Android逆向之旅—Hook神器家族的Frida工">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-24T15:39:34.716Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android脱壳入门">
-<meta name="twitter:description" content="什么是hookhook是钩子的意思，怎么解释我在面试的时候也没答好，现在也不会描述，只能自行体会。android hook大致有下面三种，然后还有一个进程注入。  Android GOT Hook Android Inline Hook Android Exception Hook Android Ptrace Inject  frida的使用Android逆向之旅—Hook神器家族的Frida工">
-  
-    <link rel="alternative" href="/atom.xml" title="ssj的博客" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/img/favicon.png">
-  
-  
-      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
-  
-  <link rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  
-  
-      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  
-  <!-- 加载特效 -->
-    <script src="/js/pace.js"></script>
-    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
-  <script>
-      var yiliaConfig = {
-          rootUrl: '/',
-          fancybox: true,
-          animate: true,
-          isHome: false,
-          isPost: true,
-          isArchive: false,
-          isTag: false,
-          isCategory: false,
-          open_in_new: false
-      }
-  </script>
-</head></html>
+
+    <meta property="og:title" content="Android脱壳入门">
+    <meta property="og:site_name" content="ssj&#39;s blog">
+
+    
+    <meta property="og:image" content>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="ssj&#39;s blog" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/prettify-tomorrow-night-eighties.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+</html>
+
 <body>
-  <div id="container">
-    <div class="left-col">
-    <div class="overlay"></div>
-<div class="intrude-less">
-    <header id="header" class="inner">
-        <a href="/" class="profilepic">
-            
-            <img lazy-src="/img/head.png" class="js-avatar">
-            
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="indigo">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
         </a>
-
-        <hgroup>
-          <h1 class="header-author"><a href="/" title="Hi Mate">ssj</a></h1>
-        </hgroup>
-
+        <div class="">
+            <a href="/" class="brand-logo hide-on-med-and-down">ssj&#39;s blog</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/" >
+                            <i class="fa fa-home "></i>
+                            
+                            Home
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives" >
+                            <i class="fa fa-archive "></i>
+                            
+                            Archives
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                            <i class="fa fa-bookmark "></i>
+                            
+                            Categories
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-reading " href="/reading" >
+                            <i class="fa fa-book "></i>
+                            
+                            Reading
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about" >
+                            <i class="fa fa-user "></i>
+                            
+                            About
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search" >
+                            <i class="fa fa-search "></i>
+                            
+                            Search
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav indigo darken-1" id="main-menu">
         
-        
-        
-            <div id="switch-btn" class="switch-btn">
-                <div class="icon">
-                    <div class="icon-ctn">
-                        <div class="icon-wrap icon-house" data-idx="0">
-                            <div class="birdhouse"></div>
-                            <div class="birdhouse_holes"></div>
-                        </div>
-                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
-                            <div class="ribbon"></div>
-                        </div>
-                        
-                        <div class="icon-wrap icon-link hide" data-idx="2">
-                            <div class="loopback_l"></div>
-                            <div class="loopback_r"></div>
-                        </div>
-                        
-                        
-                        <div class="icon-wrap icon-me hide" data-idx="3">
-                            <div class="user"></div>
-                            <div class="shoulder"></div>
-                        </div>
-                        
-                    </div>
-                    
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="http://ww2.sinaimg.cn/small/74990035jw1f1rjkd681bj20rs0rsdhg.jpg" alt="User Avatar">
                 </div>
-                <div class="tips-box hide">
-                    <div class="tips-arrow"></div>
-                    <ul class="tips-inner">
-                        <li>菜单</li>
-                        <li>标签</li>
-                        
-                        <li>友情链接</li>
-                        
-                        
-                        <li>关于我</li>
-                        
-                    </ul>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">ssj</p>
+                        <p class="desc"></p>
+                    </div>
                 </div>
             </div>
+        </li>
         
 
-        <div id="switch-area" class="switch-area">
-            <div class="switch-wrap">
-                <section class="switch-part switch-part1">
-                    <nav class="header-menu">
-                        <ul>
-                        
-                            <li><a href="/">博客首页</a></li>
-                        
-                            <li><a href="/categories/programming/">编程相关</a></li>
-                        
-                            <li><a href="/categories/opera/">跟ssj一起听戏</a></li>
-                        
-                            <li><a href="/2019/05/29/resume/">本人简历</a></li>
-                        
-                        </ul>
-                    </nav>
-                    <nav class="header-nav">
-                        <ul class="social">
-                            
-                                <a class="fl mail" target="_blank" href="/1263914174@qq.com" title="mail">mail</a>
-                            
-                                <a class="fl github" target="_blank" href="https://github.com/Cracke-S-J" title="github">github</a>
-                            
-                                <a class="fl QQ" target="_blank" href="/1263914174" title="QQ">QQ</a>
-                            
-                        </ul>
-                    </nav>
-                </section>
-                
-                
-                <section class="switch-part switch-part2">
-                    <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/CTF/" style="font-size: 10px;">CTF</a> <a href="/tags/Ethereum/" style="font-size: 15px;">Ethereum</a> <a href="/tags/android/" style="font-size: 15px;">android</a> <a href="/tags/pwn/" style="font-size: 12.5px;">pwn</a> <a href="/tags/resume/" style="font-size: 10px;">resume</a> <a href="/tags/京剧/" style="font-size: 17.5px;">京剧</a> <a href="/tags/其它/" style="font-size: 10px;">其它</a> <a href="/tags/定场诗/" style="font-size: 10px;">定场诗</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/脱壳/" style="font-size: 10px;">脱壳</a> <a href="/tags/面试体验/" style="font-size: 10px;">面试体验</a> <a href="/tags/马甲包/" style="font-size: 12.5px;">马甲包</a>
-                    </div>
-                </section>
-                
-                
-                
-                <section class="switch-part switch-part3">
-                    <div id="js-friends">
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/" >
+                    <i class="fa fa-home "></i>
                     
-                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://luuman.github.io/">name</a>
+                    Home
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives" >
+                    <i class="fa fa-archive "></i>
                     
-                    </div>
-                </section>
-                
+                    Archives
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                    <i class="fa fa-bookmark "></i>
+                    
+                    Categories
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-reading " href="/reading" >
+                    <i class="fa fa-book "></i>
+                    
+                    Reading
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about" >
+                    <i class="fa fa-user "></i>
+                    
+                    About
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search" >
+                    <i class="fa fa-search "></i>
+                    
+                    Search
+                </a>
+            </li>
+        
+    </ul>
 
-                
-                
-                <section class="switch-part switch-part4">
-                
-                    <div id="js-aboutme">大学生，XCalibyte 实习中，业余票友，专业android逆向，资深猫奴。</div>
-                </section>
-                
-            </div>
-        </div>
-    </header>                
-</div>
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-      <div class="overlay">
-          <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">ssj</a></h1>
-      </div>
-    <div class="intrude-less">
-        <header id="header" class="inner">
-            <a href="/" class="profilepic">
-                
-                    <img lazy-src="/img/head.png" class="js-avatar">
-                
-            </a>
-            <hgroup>
-              <h1 class="header-author"><a href="/" title="Me">ssj</a></h1>
-            </hgroup>
+    <ul class="side-nav indigo darken-1" id="category-menu">
+    
+
             
-            <nav class="header-menu">
-                <ul>
-                
-                    <li><a href="/">博客首页</a></li>
-                
-                    <li><a href="/categories/programming/">编程相关</a></li>
-                
-                    <li><a href="/categories/opera/">跟ssj一起听戏</a></li>
-                
-                    <li><a href="/2019/05/29/resume/">本人简历</a></li>
-                
-                <div class="clearfix"></div>
-                </ul>
-            </nav>
-            <nav class="header-nav">
-                <div class="social">
-                    
-                        <a class="mail" target="_blank" href="/1263914174@qq.com" title="mail">mail</a>
-                    
-                        <a class="github" target="_blank" href="https://github.com/Cracke-S-J" title="github">github</a>
-                    
-                        <a class="QQ" target="_blank" href="/1263914174" title="QQ">QQ</a>
-                    
-                </div>
-            </nav>
-        </header>                
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/programming/">
+                    programming <span class="right">16</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/opera/">
+                    opera <span class="right">5</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/其它/">
+                    其它 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/resume/">
+                    resume <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-easy-android-unpack" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/06/20/easy-android-unpack/" class="article-date">
-      <time datetime="2019-06-20T06:36:05.000Z" itemprop="datePublished">2019-06-20</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Android脱壳入门
-    </h1>
-  
 
-      </header>
-      
-      <div class="article-info article-info-post">
-        
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/programming/">编程</a>
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">Search</label>
+        </div>
+
     </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper indigo">
+        <span class="breadcrumb">Current page(Categories)</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/programming/">编程</a>
 
 
         
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/脱壳/">脱壳</a></li></ul>
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>Android脱壳入门</h1>
+    
+
+
+            </div>
+            <time class="pink-link-context" datetime="2019-06-20T06:36:05.000Z"><a href="/2019/06/20/easy-android-unpack/">2019-06-20</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/Android/" class="chip pink lighten-1">Android</a>
+        
+            <a href="/tags/脱壳/" class="chip pink lighten-1">脱壳</a>
+        
     </div>
 
-        <div class="clearfix"></div>
-      </div>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h2 id="什么是hook"><a href="#什么是hook" class="headerlink" title="什么是hook"></a>什么是hook</h2><p>hook是钩子的意思，怎么解释我在面试的时候也没答好，现在也不会描述，只能自行体会。android hook大致有下面三种，然后还有一个进程注入。</p>
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#什么是hook"><span class="section table-of-contents-text">什么是hook</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#frida的使用"><span class="section table-of-contents-text">frida的使用</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Dex加载流程（基于Android5-1）"><span class="section table-of-contents-text">Dex加载流程（基于Android5.1）</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#DexClassloader"><span class="section table-of-contents-text">DexClassloader</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#BaseClassloader"><span class="section table-of-contents-text">BaseClassloader</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#DexPathList"><span class="section table-of-contents-text">DexPathList</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#DexFile"><span class="section table-of-contents-text">DexFile</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#dalvik-system-DexFile-cc"><span class="section table-of-contents-text">dalvik_system_DexFile.cc</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#class-linker-cc"><span class="section table-of-contents-text">class_linker.cc</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#跟踪dex加载流程"><span class="section table-of-contents-text">跟踪dex加载流程</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#脱一代壳"><span class="section table-of-contents-text">脱一代壳</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#脱二代壳"><span class="section table-of-contents-text">脱二代壳</span></a></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <h2 id="什么是hook"><a href="#什么是hook" class="headerlink" title="什么是hook"></a>什么是hook</h2><p>hook是钩子的意思，怎么解释我在面试的时候也没答好，现在也不会描述，只能自行体会。android hook大致有下面三种，然后还有一个进程注入。</p>
 <ol>
 <li><a href="https://www.cnblogs.com/mmmmar/p/8228391.html" target="_blank" rel="noopener">Android GOT Hook</a></li>
 <li><a href="https://www.cnblogs.com/mmmmar/p/8185549.html" target="_blank" rel="noopener">Android Inline Hook</a></li>
@@ -281,298 +307,338 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">dumpdexmemory = <span class="function"><span class="keyword">function</span>(<span class="params">addr</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> dex_len = Memory.readU32(addr.add(<span class="number">0x20</span>));</span><br><span class="line">    <span class="keyword">var</span> buf = Memory.readByteArray(addr, <span class="number">64</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(hexdump(buf, &#123;</span><br><span class="line">      offset: <span class="number">0</span>,</span><br><span class="line">      length: <span class="number">64</span>,</span><br><span class="line">      header: <span class="literal">true</span>,</span><br><span class="line">      ansi: <span class="literal">true</span></span><br><span class="line">    &#125;));</span><br><span class="line">    <span class="keyword">var</span> dumppath = <span class="string">"/sdcard/frida-unpack/"</span> + dex_len.toString(<span class="number">0x10</span>) + <span class="string">".dex"</span>;</span><br><span class="line">    <span class="built_in">console</span>.log(dumppath);</span><br><span class="line">    <span class="keyword">var</span> dumpdexfile = <span class="keyword">new</span> File(dumppath, <span class="string">"wb"</span>);</span><br><span class="line">    dumpdexfile.write(Memory.readByteArray(addr, dex_len));</span><br><span class="line">    dumpdexfile.close();</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"write file to "</span> + dumppath);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> openmemory = Module.findExportByName(<span class="string">"libart.so"</span>, <span class="string">"_ZN3art7DexFile10OpenMemoryEPKhjRKNSt3__112basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEEjPNS_6MemMapEPKNS_10OatDexFileEPS9_"</span>);</span><br><span class="line"><span class="keyword">if</span>(openmemory != <span class="literal">undefined</span>) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"openmemory at "</span> + openmemory);</span><br><span class="line">    Interceptor.attach(openmemory, &#123;</span><br><span class="line">        onEnter: <span class="function"><span class="keyword">function</span> (<span class="params">args</span>) </span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">"loaddex: "</span> + args[<span class="number">1</span>] + <span class="string">"  size: "</span> + args[<span class="number">2</span>]);</span><br><span class="line">            <span class="keyword">if</span>(Memory.readU32(args[<span class="number">1</span>]) == DEX_MAGIC) &#123;</span><br><span class="line">                dexrec.push(args[<span class="number">1</span>]);</span><br><span class="line">                dumpdexmemory(args[<span class="number">1</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        onLeave: <span class="function"><span class="keyword">function</span> (<span class="params">retval</span>) </span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">"dexfile: "</span> + retval);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="脱二代壳"><a href="#脱二代壳" class="headerlink" title="脱二代壳"></a>脱二代壳</h2><p>手动触发功能，然后调用dumpdex()得到dex。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> DEX_MAGIC = <span class="number">0x0A786564</span>;</span><br><span class="line"><span class="keyword">var</span> dexrec = [];</span><br><span class="line"></span><br><span class="line">dumpdexmemory = <span class="function"><span class="keyword">function</span>(<span class="params">addr</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> dex_len = Memory.readU32(addr.add(<span class="number">0x20</span>));</span><br><span class="line">    <span class="keyword">var</span> buf = Memory.readByteArray(addr, <span class="number">64</span>);</span><br><span class="line">    <span class="comment">// console.log(hexdump(buf, &#123;</span></span><br><span class="line">    <span class="comment">//   offset: 0,</span></span><br><span class="line">    <span class="comment">//   length: 64,</span></span><br><span class="line">    <span class="comment">//   header: true,</span></span><br><span class="line">    <span class="comment">//   ansi: true</span></span><br><span class="line">    <span class="comment">// &#125;));</span></span><br><span class="line">    <span class="keyword">var</span> dumppath = <span class="string">"/sdcard/frida-unpack/"</span> + dex_len.toString(<span class="number">0x10</span>) + <span class="string">".dex"</span>;</span><br><span class="line">    <span class="built_in">console</span>.log(dumppath);</span><br><span class="line">    <span class="keyword">var</span> dumpdexfile = <span class="keyword">new</span> File(dumppath, <span class="string">"wb"</span>);</span><br><span class="line">    dumpdexfile.write(Memory.readByteArray(addr, dex_len));</span><br><span class="line">    dumpdexfile.close();</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"write file to "</span> + dumppath);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> dexAddrs = <span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line"><span class="keyword">var</span> cnt = <span class="number">0</span>;</span><br><span class="line">dumpdex = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; cnt; ++i)&#123;</span><br><span class="line">        dumpdexmemory(dexAddrs[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> openmemory = Module.findExportByName(<span class="string">"libart.so"</span>, <span class="string">"_ZN3art7DexFile10OpenMemoryEPKhjRKNSt3__112basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEEjPNS_6MemMapEPKNS_10OatDexFileEPS9_"</span>);</span><br><span class="line"><span class="keyword">if</span>(openmemory != <span class="literal">undefined</span>) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"openmemory at "</span> + openmemory);</span><br><span class="line">    Interceptor.attach(openmemory, &#123;</span><br><span class="line">        onEnter: <span class="function"><span class="keyword">function</span> (<span class="params">args</span>) </span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.error(<span class="string">"loaddex: "</span> + args[<span class="number">1</span>] + <span class="string">", size: "</span> + args[<span class="number">2</span>]);</span><br><span class="line">            <span class="keyword">if</span>(Memory.readU32(args[<span class="number">1</span>]) == DEX_MAGIC) &#123;</span><br><span class="line">                dexAddrs[cnt++] = args[<span class="number">1</span>];</span><br><span class="line">                dexrec.push(args[<span class="number">1</span>]);</span><br><span class="line">                dumpdexmemory(args[<span class="number">1</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        onLeave: <span class="function"><span class="keyword">function</span> (<span class="params">retval</span>) </span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">"dexfile: "</span> + retval);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> DefineClass = Module.findExportByName(<span class="string">"libart.so"</span>, <span class="string">"_ZN3art11ClassLinker11DefineClassEPNS_6ThreadEPKcjNS_6HandleINS_6mirror11ClassLoaderEEERKNS_7DexFileERKNS9_8ClassDefE"</span>);</span><br><span class="line"><span class="keyword">if</span>(DefineClass != <span class="literal">undefined</span>) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"DefineClass at "</span> + DefineClass);</span><br><span class="line">    Interceptor.attach(DefineClass, &#123;</span><br><span class="line">        onEnter: <span class="function"><span class="keyword">function</span> (<span class="params">args</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> descriptor = Memory.readUtf8String(args[<span class="number">2</span>]);</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">"dexfile: "</span> + args[<span class="number">5</span>] + <span class="string">", classdef: "</span> + args[<span class="number">6</span>] + <span class="string">", descriptor: "</span> + descriptor);</span><br><span class="line">        &#125;,</span><br><span class="line">        onLeave: <span class="function"><span class="keyword">function</span> (<span class="params">retval</span>) </span>&#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-      
-        <div class="page-reward">
-          <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang">赏</a></p>
-          <div class="hide_box"></div>
-          <div class="shang_box">
-            <a class="shang_close" href="javascript:void(0)" onclick="dashangToggle()">×</a>
-            <div class="shang_tit">
-              <p>纯属好玩</p>
+                
+<p class="pink-link-context">
+    <a href="/2019/06/24/kill-chenshimei/" rel="next" title="铡美案">
+    Prev: 铡美案
+  </a>
+</p>
+
+
+
+<p class="pink-link-context">
+    <a href="/2019/06/18/cpp-object/" rel="next" title="《深度探索Cpp对象模型》学习笔记">
+    Next: 《深度探索Cpp对象模型》学习笔记
+  </a>
+</p>
+
+
             </div>
-            <div class="shang_payimg">
-              <img src="/img/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
-            </div>
-              <div class="pay_explain">扫码打赏，你说多少就多少</div>
-            <div class="shang_payselect">
-              
-                <div class="pay_item checked" data-id="alipay">
-                  <span class="radiobox"></span>
-                  <span class="pay_logo"><img src="/img/alipay.png" alt="支付宝" /></span>
-                </div>
-              
-              
-                <div class="pay_item" data-id="wechat">
-                  <span class="radiobox"></span>
-                  <span class="pay_logo"><img src="/img/weixin.png" alt="微信" /></span>
-                </div>
-              
-            </div>
-            <div class="shang_info">
-              <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
-            </div>
-          </div>
+			
         </div>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
-        <script type="text/javascript">
-          $(".pay_item").click(function(){
-            $(this).addClass('checked').siblings('.pay_item').removeClass('checked');
-            var dataid=$(this).attr('data-id');
-            $(".shang_payimg img").attr("src","/img/"+dataid+"img.jpg");
-            $("#shang_pay_txt").text(dataid=="alipay"?"支付宝":"微信");
-          });
-          function dashangToggle(){
-            
-            $(".hide_box").fadeToggle();
-            $(".shang_box").fadeToggle();
-          }
-        </script>
-      
     </div>
-    
-  </div>
-  
-    
-    <div class="copyright">
-        <p><span>本文标题:</span><a href="/2019/06/20/easy-android-unpack/">Android脱壳入门</a></p>
-        <p><span>文章作者:</span><a href="/" title="访问 ssj 的个人博客">ssj</a></p>
-        <p><span>发布时间:</span>2019年06月20日 - 14时36分</p>
-        <p><span>最后更新:</span>2019年07月24日 - 23时39分</p>
-        <p>
-            <span>原始链接:</span><a class="post-url" href="/2019/06/20/easy-android-unpack/" title="Android脱壳入门">https://github.com/Cracke-S-J/2019/06/20/easy-android-unpack/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://github.com/Cracke-S-J/2019/06/20/easy-android-unpack/　　作者: ssj" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
-            <script src="/js/clipboard.min.js"></script>
-            <script> var clipboard = new Clipboard('.copy-path'); </script>
-        </p>
-        <p>
-            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
-        </p>
-    </div>
-
-
-
-<nav id="article-nav">
-  
-    <a href="/2019/06/24/kill-chenshimei/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          铡美案
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2019/06/18/cpp-object/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">《深度探索Cpp对象模型》学习笔记</div>
-      <strong class="article-nav-caption">></strong>
-    </a>
-  
-</nav>
-
-  
 </article>
 
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是hook"><span class="toc-number">1.</span> <span class="toc-text">什么是hook</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#frida的使用"><span class="toc-number">2.</span> <span class="toc-text">frida的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dex加载流程（基于Android5-1）"><span class="toc-number">3.</span> <span class="toc-text">Dex加载流程（基于Android5.1）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DexClassloader"><span class="toc-number">3.1.</span> <span class="toc-text">DexClassloader</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BaseClassloader"><span class="toc-number">3.2.</span> <span class="toc-text">BaseClassloader</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DexPathList"><span class="toc-number">3.3.</span> <span class="toc-text">DexPathList</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DexFile"><span class="toc-number">3.4.</span> <span class="toc-text">DexFile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dalvik-system-DexFile-cc"><span class="toc-number">3.5.</span> <span class="toc-text">dalvik_system_DexFile.cc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#class-linker-cc"><span class="toc-number">3.6.</span> <span class="toc-text">class_linker.cc</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#跟踪dex加载流程"><span class="toc-number">4.</span> <span class="toc-text">跟踪dex加载流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#脱一代壳"><span class="toc-number">5.</span> <span class="toc-text">脱一代壳</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#脱二代壳"><span class="toc-number">6.</span> <span class="toc-text">脱二代壳</span></a></li></ol>
+
+
+
+
+
 </div>
-<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
-<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
-<script>
-    var valueHide = "隐藏目录";
-    var valueShow = "显示目录";
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large pink">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect green" title="Return to top"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse yellow darken-1"  data-activates="main-menu" title="Menu"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
 
-    if ($(".left-col").is(":hidden")) {
-        $("#tocButton").attr("value", valueShow);
-    }
-    $("#tocButton").click(function() {
-        if ($("#toc").is(":hidden")) {
-            $("#tocButton").attr("value", valueHide);
-            $("#toc").slideDown(320);
-        }
-        else {
-            $("#tocButton").attr("value", valueShow);
-            $("#toc").slideUp(350);
-        }
-    })
-    if ($(".toc").length < 1) {
-        $("#toc, #tocButton").hide();
-    }
-</script>
-
-
-
-
-
-<div class="bdsharebuttonbox">
-	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
-	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
-	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
-	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
-	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
-	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
-	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
-</div>
-<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
-
-
-
-
+    </main>
+    <footer class="page-footer indigo darken-1">
     
-        <div id="gitments"></div>
-<script src="/js/gitment.browser.js"></script>
-<script>
-    var gitment = new Gitment({
-      id: window.location.pathname,
-      owner: 'Cracke-S-J',
-      repo: 'Cracke-S-J.github.io',
-      oauth: {
-        client_id: '',
-        client_secret: '',
-      },
-    })
-    gitment.render('gitments')
-</script>
-    
-
-
-
-    <div class="scroll" id="post-nav-button">
-        
-            <a href="/2019/06/24/kill-chenshimei/" title="上一篇: 铡美案">
-                <i class="fa fa-angle-left"></i>
-            </a>
-        
-        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
-        
-            <a href="/2019/06/18/cpp-object/" title="下一篇: 《深度探索Cpp对象模型》学习笔记">
-                <i class="fa fa-angle-right"></i>
-            </a>
-        
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">Social</h5>
+                
+                    <a class="social-link" href="http://weibo.com/1956184117" target="_blank">
+                        <i class="fa fa-2x fa-weibo"></i>
+                    </a>
+                
+                    <a class="social-link" href="https://github.com/raytaylorlin" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                    <a class="social-link" href="/atom.xml" target="_blank">
+                        <i class="fa fa-2x fa-rss"></i>
+                    </a>
+                
+                
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <div class="site-visitors-container white-text">
+        <span>
+            <i class="fa fa-user"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+        </span>
+        <span>&nbsp;|&nbsp;</span>
+        <span>
+            <i class="fa fa-eye"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+        </span>
     </div>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/02/14/algorithm/">每天几道 算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/05/bytedanceinterview/">字跳面试实况转播</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/01/21/daily-pwn/">每天一道 PWN</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/12/01/majiabao/">逆向改包 Tips</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/11/23/people-still-here/">人没丢……</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/25/zhulianzhai/">珠帘寨</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/21/pwn1/">pwn 入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/08/ndk/">Android Studio NDK 开发环境搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/27/vest-car-king/">给车王二手车套马甲</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/27/android-inject-code/">Android静态注入常用代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/24/kill-chenshimei/">铡美案</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/20/easy-android-unpack/">Android脱壳入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/18/cpp-object/">《深度探索Cpp对象模型》学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/06/yangsilang-visit-his-mother/">四郎探母(看url:yangsilang-visit-his-mother)</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/31/songshijie/">四进士(又名宋士杰)</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/29/resume/">简历</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/29/CTF-android/">小菜比ssj吹头发记</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/17/ssj-android-shell-0th/">小菜比ssj写了一个壳子</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/10/iSmart-break-sign/">iSmart逆向分析之绕过签名验证</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/25/Ethereum-practice/">ethernaut-writeup</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/18/Ethereum-bug/">以太坊漏洞 TOP9</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/13/Ethereum-background/">以太坊背景知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/08/start-poem/">定场诗</a></li></ul>
-    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
-    <script>
-        $(".post-list").addClass("toc-article");
-        $(".post-list-item a").attr("target","_blank");
-        $("#post-nav-button > a:nth-child(2)").click(function() {
-            $(".fa-bars, .fa-times").toggle();
-            $(".post-list").toggle(300);
-            if ($(".toc").length > 0) {
-                $("#toc, #tocButton").toggle(200, function() {
-                    if ($(".switch-area").is(":visible")) {
-                        $("#tocButton").attr("value", valueHide);
-                        }
-                    })
-            }
-            else {
-            }
-        })
-    </script>
 
 
-
-    <script>
-        
-    </script>
-</div>
-      <footer id="footer">
-    <div class="outer">
-        <div id="footer-info">
-            <div class="footer-left">
-                &copy; 2020 ssj
             </div>
-            <div class="footer-right">
-                <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">Links</h5>
+                
+                    <a class="social-link" href="http://raytaylorlin.com/" target="_blank">raytaylorism主题作者的技术博客</a>
+                
+                    <a class="social-link" href="https://github.com/raytaylorlin" target="_blank">Github地址（测试友情链接）</a>
+                
             </div>
+            
         </div>
-        
-            <div class="visit">
-                
-                    <span id="busuanzi_container_site_pv" style='display:none'>
-                        <span id="site-visit" >到访数: 
-                            <span id="busuanzi_value_site_uv"></span>
-                        </span>
-                    </span>
-                
-                
-                    <span>, </span>
-                
-                
-                    <span id="busuanzi_container_page_pv" style='display:none'>
-                        <span id="page-visit">本页阅读量: 
-                            <span id="busuanzi_value_page_pv"></span>
-                        </span>
-                    </span>
-                
-            </div>
-        
+    </div>
+    
+
+    <div class="footer-copyright pink-link-context">
+        <div class="container">
+            © 2016 example.com, All rights reserved.
+            <p class="right" style="margin-top: 0;">Blog powered by <a href="https://hexo.io">Hexo</a> | Theme <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+        </div>
     </div>
 </footer>
 
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
     </div>
-    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
-<script src="/js/main.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            var backgroundnum = 13;
-            var backgroundimg = "url(/background/bg-" + backgroundnum +".jpg)";
-            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
-            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
-        })
-    </script>
-
-
-
-
-
-<div class="scroll" id="scroll">
-    <a href="#"><i class="fa fa-arrow-up"></i></a>
-    <a href="#comments"><i class="fa fa-comments-o"></i></a>
-    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
 </div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
 <script>
-    $(document).ready(function() {
-        if ($("#comments").length < 1) {
-            $("#scroll > a:nth-child(2)").hide();
-        };
-    })
-</script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
 
-<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
 
-  <script language="javascript">
-    $(function() {
-        $("a[title]").each(function() {
-            var a = $(this);
-            var title = a.attr('title');
-            if (title == undefined || title == "") return;
-            a.data('title', title).removeAttr('title').hover(
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
 
-            function() {
-                var offset = a.offset();
-                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
-                    top: offset.top - a.outerHeight() - 15,
-                    left: offset.left + a.outerWidth()/2 + 1
-                }).fadeIn(function() {
-                    var pop = $(this);
-                    setTimeout(function() {
-                        pop.remove();
-                    }, pop.text().length * 800);
-                });
-            }, function() {
-                $("#anchortitlecontainer").remove();
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
             });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('pink lighten-2');
+
+            
+            // 添加new标签
+            $('.menu-reading, .menu-about').append('<span class="new badge pink"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
         });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
     });
 </script>
 
 
-  </div>
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async
+  src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
 </body>
 </html>
