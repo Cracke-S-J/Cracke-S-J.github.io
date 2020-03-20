@@ -7,22 +7,13 @@
 
     
 
-    <title>逆向改包 Tips | </title>
+    <title>cve | </title>
     <meta name="author" content="ssj">
-    
-    <meta name="description" content="配置网络访问权限及其它权限
-注册Activity
-androidx 有问题可换成 android
-改资源 id
-改类名
-smali/androidx 要复制过去
-
-开发时遇到问题一是 android 9 以上的网络问题，二是爆栈触发 GC，延迟 30 多秒后起来，网上搜来的代码一定要看一下，直接用有">
     
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <meta property="og:title" content="逆向改包 Tips">
+    
     <meta property="og:site_name" content="ssj&#39;s blog">
 
     
@@ -232,96 +223,30 @@ smali/androidx 要复制过去
 
     <main>
         <div class="container main-container">
-    <nav class="page-nav hide-on-small-only">
+    
+
+<nav class="page-nav hide-on-small-only">
     <div class="nav-wrapper indigo">
-        <span class="breadcrumb">Current page(Categories)</span>
-        
-            
-    
-    
-    <a class="breadcrumb" href="/categories/programming/">编程</a>
-
-
+        <span class="breadcrumb">Current page(Tags)</span>
         
 
+        
+            <a class="breadcrumb" href="/tags/cve/">cve</a>
         
     </div>
 </nav>
 
-<article>
-    <div class="card">
-        <div class="card-content">
-            
-
-            <div class="article-title">
-                
-    
-        <h1>逆向改包 Tips</h1>
-    
 
 
-            </div>
-            <time class="pink-link-context" datetime="2019-12-01T03:47:25.000Z"><a href="/2019/12/01/majiabao/">2019-12-01</a></time>
-
-            <span id="busuanzi_container_page_pv" class="read-times-container">
-    <i class="fa fa-eye"></i>
-    <span id="busuanzi_value_page_pv"></span>
-</span>
-
-            
-    <div class="tags-row">
+    <div class="collection mt-0">
         
-            <a href="/tags/Android/" class="chip pink lighten-1">Android</a>
-        
-            <a href="/tags/马甲包/" class="chip pink lighten-1">马甲包</a>
+            <a href="/2020/03/20/cve-2017-2636/" class="collection-item grey-text text-darken-1">
+                <time datetime="2020-03-20T02:15:57.000Z">2020-03-20</time>
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                CVE-2017-2636 linux kernel dbf 分析
+            </a>
         
     </div>
-
-
-            <div class="toc pink-link-context hide-on-med-and-down">
-    
-</div>
-
-
-            <div class="entry pink-link-context">
-                <ol>
-<li>配置网络访问权限及其它权限</li>
-<li>注册Activity</li>
-<li>androidx 有问题可换成 android</li>
-<li>改资源 id</li>
-<li>改类名</li>
-<li>smali/androidx 要复制过去</li>
-</ol>
-<p>开发时遇到问题一是 android 9 以上的网络问题，二是爆栈触发 GC，延迟 30 多秒后起来，网上搜来的代码一定要看一下，直接用有 bug。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">network-security-config</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">base-config</span> <span class="attr">cleartextTrafficPermitted</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">trust-anchors</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">certificates</span> <span class="attr">src</span>=<span class="string">"system"</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">certificates</span> <span class="attr">src</span>=<span class="string">"user"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">trust-anchors</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">base-config</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">network-security-config</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag"><span class="attr">...</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:networkSecurityConfig</span>=<span class="string">"@xml/network_security_config"</span></span></span><br><span class="line"><span class="tag"><span class="attr">...</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##### ssj</span></span><br><span class="line">   <span class="built_in"> new-instance </span>v0, <span class="class">Landroid/content/Intent;</span></span><br><span class="line">   <span class="built_in"> const-class </span>v1, <span class="class">Lcom/ssj/loopviewdemo/LunbotuActivity;</span></span><br><span class="line">   <span class="built_in"> invoke-direct </span>&#123;v0, p0, v1&#125;, <span class="class">Landroid/content/Intent;</span>-&gt;&lt;init&gt;(<span class="class">Landroid/content/Context;</span><span class="class">Ljava/lang/Class;</span>)V</span><br><span class="line"><span class="keyword">    .line</span> 15</span><br><span class="line"><span class="keyword">    .local</span> v0, <span class="string">"intent"</span>:<span class="class">Landroid/content/Intent;</span></span><br><span class="line">   <span class="built_in"> invoke-virtual </span>&#123;p0, v0&#125;, <span class="class">Lcom/gxswine/new7/MainActivity;</span>-&gt;startActivity(<span class="class">Landroid/content/Intent;</span>)V</span><br></pre></td></tr></table></figure>
-
-                
-<p class="pink-link-context">
-    <a href="/2020/01/21/daily-pwn/" rel="next" title="每天一道 PWN">
-    Prev: 每天一道 PWN
-  </a>
-</p>
-
-
-
-<p class="pink-link-context">
-    <a href="/2019/11/23/people-still-here/" rel="next" title="人没丢……">
-    Next: 人没丢……
-  </a>
-</p>
-
-
-            </div>
-			
-        </div>
-    </div>
-</article>
-
-
-
-
 
 
 </div>
