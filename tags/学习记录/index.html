@@ -7,16 +7,13 @@
 
     
 
-    <title>Android Studio NDK 开发环境搭建 | </title>
+    <title>学习记录 | </title>
     <meta name="author" content="ssj">
-    
-    <meta name="description" content="配好NDK路径。
-在java层声明native方法，使用javah -d [路径] [类]，生成头文件。C:\Users\12639\Documents\GitHub\Android\kuaiban\app\src\main\java&amp;gt;javah -d ../jni ssj.kuaiban.M">
     
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <meta property="og:title" content="Android Studio NDK 开发环境搭建">
+    
     <meta property="og:site_name" content="ssj&#39;s blog">
 
     
@@ -226,98 +223,30 @@
 
     <main>
         <div class="container main-container">
-    <nav class="page-nav hide-on-small-only">
+    
+
+<nav class="page-nav hide-on-small-only">
     <div class="nav-wrapper indigo">
-        <span class="breadcrumb">Current page(Categories)</span>
-        
-            
-    
-    
-    <a class="breadcrumb" href="/categories/programming/">编程</a>
-
-
+        <span class="breadcrumb">Current page(Tags)</span>
         
 
+        
+            <a class="breadcrumb" href="/tags/学习记录/">学习记录</a>
         
     </div>
 </nav>
 
-<article>
-    <div class="card">
-        <div class="card-content">
-            
-
-            <div class="article-title">
-                
-    
-        <h1>Android Studio NDK 开发环境搭建</h1>
-    
 
 
-            </div>
-            <time class="pink-link-context" datetime="2019-07-08T09:17:51.000Z"><a href="/2019/07/08/ndk/">2019-07-08</a></time>
-
-            <span id="busuanzi_container_page_pv" class="read-times-container">
-    <i class="fa fa-eye"></i>
-    <span id="busuanzi_value_page_pv"></span>
-</span>
-
-            
-    <div class="tags-row">
+    <div class="collection mt-0">
         
-            <a href="/tags/Android/" class="chip pink lighten-1">Android</a>
+            <a href="/2220/03/18/流水账/" class="collection-item grey-text text-darken-1">
+                <time datetime="2220-03-18T15:38:53.000Z">2220-03-18</time>
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                ssj 每日流水账
+            </a>
         
     </div>
-
-
-            <div class="toc pink-link-context hide-on-med-and-down">
-    
-</div>
-
-
-            <div class="entry pink-link-context">
-                <ol>
-<li>配好NDK路径。</li>
-<li>在java层声明native方法，使用javah -d [路径] [类]，生成头文件。<br><code>C:\Users\12639\Documents\GitHub\Android\kuaiban\app\src\main\java&gt;javah -d ../jni ssj.kuaiban.MainActivity</code></li>
-<li>在cpp里写代码。</li>
-<li><p>写Android.mk和Application.mk</p>
-<p>Android.mk</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">LOCAL_PATH := $(call my-dir)</span><br><span class="line">include $(CLEAR_VARS)</span><br><span class="line"></span><br><span class="line">LOCAL_MODULE := checkFlag</span><br><span class="line">LOCAL_SRC_FILES := checkFlag.c</span><br><span class="line"></span><br><span class="line">include $(BUILD_SHARED_LIBRARY)</span><br></pre></td></tr></table></figure>
-<p>Application.mk(其实这句话也没什么卵用)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">APP_ABI := all</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>右击app -&gt; Link C++ Project with Gradle -&gt; 选ndk-build -&gt; 选刚才写的Android.mk</p>
-</li>
-<li>配置build.gradle，在defaultConfig里面加：<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">externalNativeBuild &#123;</span><br><span class="line">         ndkBuild &#123;</span><br><span class="line">             arguments <span class="string">"NDK_APPLICATION_MK:=src/main/jni/Application.mk"</span></span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>在Android Studio 3.x上，这样基本就成了。</p>
-
-                
-<p class="pink-link-context">
-    <a href="/2019/07/21/pwn1/" rel="next" title="pwn 入门">
-    Prev: pwn 入门
-  </a>
-</p>
-
-
-
-<p class="pink-link-context">
-    <a href="/2019/06/27/vest-car-king/" rel="next" title="给车王二手车套马甲">
-    Next: 给车王二手车套马甲
-  </a>
-</p>
-
-
-            </div>
-			
-        </div>
-    </div>
-</article>
-
-
-
-
 
 
 </div>
