@@ -191,34 +191,6 @@
   </entry>
   
   <entry>
-    <title>人没丢……</title>
-    <link href="https://github.com/Cracke-S-J/2019/11/23/people-still-here/"/>
-    <id>https://github.com/Cracke-S-J/2019/11/23/people-still-here/</id>
-    <published>2019-11-23T12:32:02.000Z</published>
-    <updated>2019-11-23T11:51:46.124Z</updated>
-    
-    <content type="html"><![CDATA[<p>最近人没丢，但也没干啥正事……没啥可写的。</p><p>接下来可能会继续玩 pwn，可能会继续去搞 mjb，可能会留下来做编译器……</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;最近人没丢，但也没干啥正事……没啥可写的。&lt;/p&gt;
-&lt;p&gt;接下来可能会继续玩 pwn，可能会继续去搞 mjb，可能会留下来做编译器……&lt;/p&gt;
-
-      
-    
-    </summary>
-    
-    
-      <category term="其它" scheme="https://github.com/Cracke-S-J/categories/%E5%85%B6%E5%AE%83/"/>
-    
-    
-      <category term="其它" scheme="https://github.com/Cracke-S-J/tags/%E5%85%B6%E5%AE%83/"/>
-    
-  </entry>
-  
-  <entry>
     <title>珠帘寨</title>
     <link href="https://github.com/Cracke-S-J/2019/07/25/zhulianzhai/"/>
     <id>https://github.com/Cracke-S-J/2019/07/25/zhulianzhai/</id>
@@ -574,6 +546,34 @@
       
         &lt;h3 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h3&gt;&lt;p&gt;nemo大佬来北京，聊天中问起我最近有没有写代码，我一想，好像是真没有，所以单纯是想来写个代码。&lt;/p&gt;
 &lt;h3 id=&quot;简介&quot;&gt;&lt;a hr
+      
+    
+    </summary>
+    
+    
+      <category term="编程" scheme="https://github.com/Cracke-S-J/categories/programming/"/>
+    
+    
+      <category term="android" scheme="https://github.com/Cracke-S-J/tags/android/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>iSmart逆向分析之绕过签名验证</title>
+    <link href="https://github.com/Cracke-S-J/2019/05/10/iSmart-break-sign/"/>
+    <id>https://github.com/Cracke-S-J/2019/05/10/iSmart-break-sign/</id>
+    <published>2019-05-10T11:33:40.000Z</published>
+    <updated>2019-05-29T13:32:27.446Z</updated>
+    
+    <content type="html"><![CDATA[<p>这个iSmart我本想搞一搞它，但是被乱七八糟的事一拖再拖，一直拖到我iSmart<strong>读完了</strong>，没有搞下去的动力了，所以只绕了个签名验证。这个app是个新手练手的好样本，日后有机会或者会继续分析。</p><p>扔一个链接。</p><p><a href="https://bbs.pediy.com/thread-251339.htm" target="_blank" rel="noopener">https://bbs.pediy.com/thread-251339.htm</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;这个iSmart我本想搞一搞它，但是被乱七八糟的事一拖再拖，一直拖到我iSmart&lt;strong&gt;读完了&lt;/strong&gt;，没有搞下去的动力了，所以只绕了个签名验证。这个app是个新手练手的好样本，日后有机会或者会继续分析。&lt;/p&gt;
+&lt;p&gt;扔一个链接。&lt;/p&gt;
+&lt;p&gt;&lt;a 
       
     
     </summary>
