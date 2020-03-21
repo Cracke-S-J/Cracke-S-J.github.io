@@ -1,0 +1,681 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>ELF 文件格式分析 | </title>
+    <meta name="author" content="ssj">
+    
+    <meta name="description" content="ELF 文件结构屡看屡忘，写个 hello.c 分析一下。
+12345int main()&amp;#123;        int a = 0;        a = a + 3;        return 0;&amp;#125;
+gcc hello.c -o hello，用readelf -a hello查">
+    
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta property="og:title" content="ELF 文件格式分析">
+    <meta property="og:site_name" content="ssj&#39;s blog">
+
+    
+    <meta property="og:image" content>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="ssj&#39;s blog" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/tranquil-heart.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+</html>
+
+<body>
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="pink accent-1">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
+        </a>
+        <div class="">
+            <a href="/" class="brand-logo hide-on-med-and-down">ssj&#39;s blog</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/" >
+                            <i class="fa fa-home "></i>
+                            
+                            Home
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives" >
+                            <i class="fa fa-archive "></i>
+                            
+                            Archives
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                            <i class="fa fa-bookmark "></i>
+                            
+                            menu.categories
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-reading " href="/reading" >
+                            <i class="fa fa-book "></i>
+                            
+                            Reading
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about" >
+                            <i class="fa fa-user "></i>
+                            
+                            About
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search" >
+                            <i class="fa fa-search "></i>
+                            
+                            menu.搜索
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav pink darken-1" id="main-menu">
+        
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="/favicon.png" alt="User Avatar">
+                </div>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">ssj</p>
+                        <p class="desc"></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/" >
+                    <i class="fa fa-home "></i>
+                    
+                    Home
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives" >
+                    <i class="fa fa-archive "></i>
+                    
+                    Archives
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                    <i class="fa fa-bookmark "></i>
+                    
+                    menu.categories
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-reading " href="/reading" >
+                    <i class="fa fa-book "></i>
+                    
+                    Reading
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about" >
+                    <i class="fa fa-user "></i>
+                    
+                    About
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search" >
+                    <i class="fa fa-search "></i>
+                    
+                    menu.搜索
+                </a>
+            </li>
+        
+    </ul>
+
+    <ul class="side-nav pink darken-1" id="category-menu">
+    
+
+            
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CTF/">
+                    CTF <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/android/">
+                    android <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Ethereum/">
+                    Ethereum <span class="right">3</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/算法/">
+                    算法 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Android/">
+                    Android <span class="right">8</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/面试体验/">
+                    面试体验 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/马甲包/">
+                    马甲包 <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/脱壳/">
+                    脱壳 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/opera/">
+                    opera <span class="right">5</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/resume/">
+                    resume <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/pwn/">
+                    pwn <span class="right">4</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/pwn/ctf/">
+                    ctf <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/学习记录/">
+                    学习记录 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/C/">
+                    C <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+</nav>
+
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">Search</label>
+        </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper pink">
+        <span class="breadcrumb">Current page(Categories)</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/pwn/">pwn</a><a class="breadcrumb" href="/categories/pwn/ctf/">ctf</a>
+
+
+        
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>ELF 文件格式分析</h1>
+    
+
+
+            </div>
+            <time class="pink-link-context" datetime="2019-10-21T11:13:21.000Z"><a href="/2019/10/21/ELF文件格式分析/">2019-10-21</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/pwn/" class="chip pink lighten-1">pwn</a>
+        
+            <a href="/tags/ctf/" class="chip pink lighten-1">ctf</a>
+        
+    </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    
+</div>
+
+
+            <div class="entry pink-link-context">
+                <p>ELF 文件结构屡看屡忘，写个 hello.c 分析一下。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> a = <span class="number">0</span>;</span><br><span class="line">        a = a + <span class="number">3</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>gcc hello.c -o hello</code>，用<code>readelf -a hello</code>查看文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br></pre></td><td class="code"><pre><span class="line">ELF Header:</span><br><span class="line">  Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00</span><br><span class="line">  Class:                             ELF32</span><br><span class="line">  Data:                              2&apos;s complement, little endian</span><br><span class="line">  Version:                           1 (current)</span><br><span class="line">  OS/ABI:                            UNIX - System V</span><br><span class="line">  ABI Version:                       0</span><br><span class="line">  Type:                              EXEC (Executable file)</span><br><span class="line">  Machine:                           Intel 80386</span><br><span class="line">  Version:                           0x1</span><br><span class="line">  Entry point address:               0x80482e0</span><br><span class="line">  Start of program headers:          52 (bytes into file)</span><br><span class="line">  Start of section headers:          6072 (bytes into file)</span><br><span class="line">  Flags:                             0x0</span><br><span class="line">  Size of this header:               52 (bytes)</span><br><span class="line">  Size of program headers:           32 (bytes)</span><br><span class="line">  Number of program headers:         9</span><br><span class="line">  Size of section headers:           40 (bytes)</span><br><span class="line">  Number of section headers:         31</span><br><span class="line">  Section header string table index: 28</span><br><span class="line"></span><br><span class="line">Section Headers:</span><br><span class="line">  [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al</span><br><span class="line">  [ 0]                   NULL            00000000 000000 000000 00      0   0  0</span><br><span class="line">  [ 1] .interp           PROGBITS        08048154 000154 000013 00   A  0   0  1</span><br><span class="line">  [ 2] .note.ABI-tag     NOTE            08048168 000168 000020 00   A  0   0  4</span><br><span class="line">  [ 3] .note.gnu.build-i NOTE            08048188 000188 000024 00   A  0   0  4</span><br><span class="line">  [ 4] .gnu.hash         GNU_HASH        080481ac 0001ac 000020 04   A  5   0  4</span><br><span class="line">  [ 5] .dynsym           DYNSYM          080481cc 0001cc 000040 10   A  6   1  4</span><br><span class="line">  [ 6] .dynstr           STRTAB          0804820c 00020c 000045 00   A  0   0  1</span><br><span class="line">  [ 7] .gnu.version      VERSYM          08048252 000252 000008 02   A  5   0  2</span><br><span class="line">  [ 8] .gnu.version_r    VERNEED         0804825c 00025c 000020 00   A  6   1  4</span><br><span class="line">  [ 9] .rel.dyn          REL             0804827c 00027c 000008 08   A  5   0  4</span><br><span class="line">  [10] .rel.plt          REL             08048284 000284 000008 08  AI  5  24  4</span><br><span class="line">  [11] .init             PROGBITS        0804828c 00028c 000023 00  AX  0   0  4</span><br><span class="line">  [12] .plt              PROGBITS        080482b0 0002b0 000020 04  AX  0   0 16</span><br><span class="line">  [13] .plt.got          PROGBITS        080482d0 0002d0 000008 00  AX  0   0  8</span><br><span class="line">  [14] .text             PROGBITS        080482e0 0002e0 000182 00  AX  0   0 16</span><br><span class="line">  [15] .fini             PROGBITS        08048464 000464 000014 00  AX  0   0  4</span><br><span class="line">  [16] .rodata           PROGBITS        08048478 000478 000008 00   A  0   0  4</span><br><span class="line">  [17] .eh_frame_hdr     PROGBITS        08048480 000480 00002c 00   A  0   0  4</span><br><span class="line">  [18] .eh_frame         PROGBITS        080484ac 0004ac 0000c0 00   A  0   0  4</span><br><span class="line">  [19] .init_array       INIT_ARRAY      08049f08 000f08 000004 00  WA  0   0  4</span><br><span class="line">  [20] .fini_array       FINI_ARRAY      08049f0c 000f0c 000004 00  WA  0   0  4</span><br><span class="line">  [21] .jcr              PROGBITS        08049f10 000f10 000004 00  WA  0   0  4</span><br><span class="line">  [22] .dynamic          DYNAMIC         08049f14 000f14 0000e8 08  WA  6   0  4</span><br><span class="line">  [23] .got              PROGBITS        08049ffc 000ffc 000004 04  WA  0   0  4</span><br><span class="line">  [24] .got.plt          PROGBITS        0804a000 001000 000010 04  WA  0   0  4</span><br><span class="line">  [25] .data             PROGBITS        0804a010 001010 000008 00  WA  0   0  4</span><br><span class="line">  [26] .bss              NOBITS          0804a018 001018 000004 00  WA  0   0  1</span><br><span class="line">  [27] .comment          PROGBITS        00000000 001018 000035 01  MS  0   0  1</span><br><span class="line">  [28] .shstrtab         STRTAB          00000000 0016ad 00010a 00      0   0  1</span><br><span class="line">  [29] .symtab           SYMTAB          00000000 001050 000440 10     30  47  4</span><br><span class="line">  [30] .strtab           STRTAB          00000000 001490 00021d 00      0   0  1</span><br><span class="line">Key to Flags:</span><br><span class="line">  W (write), A (alloc), X (execute), M (merge), S (strings)</span><br><span class="line">  I (info), L (link order), G (group), T (TLS), E (exclude), x (unknown)</span><br><span class="line">  O (extra OS processing required) o (OS specific), p (processor specific)</span><br><span class="line"></span><br><span class="line">There are no section groups in this file.</span><br><span class="line"></span><br><span class="line">Program Headers:</span><br><span class="line">  Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align</span><br><span class="line">  PHDR           0x000034 0x08048034 0x08048034 0x00120 0x00120 R E 0x4</span><br><span class="line">  INTERP         0x000154 0x08048154 0x08048154 0x00013 0x00013 R   0x1</span><br><span class="line">      [Requesting program interpreter: /lib/ld-linux.so.2]</span><br><span class="line">  LOAD           0x000000 0x08048000 0x08048000 0x0056c 0x0056c R E 0x1000</span><br><span class="line">  LOAD           0x000f08 0x08049f08 0x08049f08 0x00110 0x00114 RW  0x1000</span><br><span class="line">  DYNAMIC        0x000f14 0x08049f14 0x08049f14 0x000e8 0x000e8 RW  0x4</span><br><span class="line">  NOTE           0x000168 0x08048168 0x08048168 0x00044 0x00044 R   0x4</span><br><span class="line">  GNU_EH_FRAME   0x000480 0x08048480 0x08048480 0x0002c 0x0002c R   0x4</span><br><span class="line">  GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x10</span><br><span class="line">  GNU_RELRO      0x000f08 0x08049f08 0x08049f08 0x000f8 0x000f8 R   0x1</span><br><span class="line"></span><br><span class="line"> Section to Segment mapping:</span><br><span class="line">  Segment Sections...</span><br><span class="line">   00</span><br><span class="line">   01     .interp</span><br><span class="line">   02     .interp .note.ABI-tag .note.gnu.build-id .gnu.hash .dynsym .dynstr .gnu.version .gnu.version_r .rel.dyn .rel.plt .init .plt .plt.got .text .fini .rodata .eh_frame_hdr .eh_frame</span><br><span class="line">   03     .init_array .fini_array .jcr .dynamic .got .got.plt .data .bss</span><br><span class="line">   04     .dynamic</span><br><span class="line">   05     .note.ABI-tag .note.gnu.build-id</span><br><span class="line">   06     .eh_frame_hdr</span><br><span class="line">   07</span><br><span class="line">   08     .init_array .fini_array .jcr .dynamic .got</span><br><span class="line"></span><br><span class="line">Dynamic section at offset 0xf14 contains 24 entries:</span><br><span class="line">  Tag        Type                         Name/Value</span><br><span class="line"> 0x00000001 (NEEDED)                     Shared library: [libc.so.6]</span><br><span class="line"> 0x0000000c (INIT)                       0x804828c</span><br><span class="line"> 0x0000000d (FINI)                       0x8048464</span><br><span class="line"> 0x00000019 (INIT_ARRAY)                 0x8049f08</span><br><span class="line"> 0x0000001b (INIT_ARRAYSZ)               4 (bytes)</span><br><span class="line"> 0x0000001a (FINI_ARRAY)                 0x8049f0c</span><br><span class="line"> 0x0000001c (FINI_ARRAYSZ)               4 (bytes)</span><br><span class="line"> 0x6ffffef5 (GNU_HASH)                   0x80481ac</span><br><span class="line"> 0x00000005 (STRTAB)                     0x804820c</span><br><span class="line"> 0x00000006 (SYMTAB)                     0x80481cc</span><br><span class="line"> 0x0000000a (STRSZ)                      69 (bytes)</span><br><span class="line"> 0x0000000b (SYMENT)                     16 (bytes)</span><br><span class="line"> 0x00000015 (DEBUG)                      0x0</span><br><span class="line"> 0x00000003 (PLTGOT)                     0x804a000</span><br><span class="line"> 0x00000002 (PLTRELSZ)                   8 (bytes)</span><br><span class="line"> 0x00000014 (PLTREL)                     REL</span><br><span class="line"> 0x00000017 (JMPREL)                     0x8048284</span><br><span class="line"> 0x00000011 (REL)                        0x804827c</span><br><span class="line"> 0x00000012 (RELSZ)                      8 (bytes)</span><br><span class="line"> 0x00000013 (RELENT)                     8 (bytes)</span><br><span class="line"> 0x6ffffffe (VERNEED)                    0x804825c</span><br><span class="line"> 0x6fffffff (VERNEEDNUM)                 1</span><br><span class="line"> 0x6ffffff0 (VERSYM)                     0x8048252</span><br><span class="line"> 0x00000000 (NULL)                       0x0</span><br><span class="line"></span><br><span class="line">Relocation section &apos;.rel.dyn&apos; at offset 0x27c contains 1 entries:</span><br><span class="line"> Offset     Info    Type            Sym.Value  Sym. Name</span><br><span class="line">08049ffc  00000106 R_386_GLOB_DAT    00000000   __gmon_start__</span><br><span class="line"></span><br><span class="line">Relocation section &apos;.rel.plt&apos; at offset 0x284 contains 1 entries:</span><br><span class="line"> Offset     Info    Type            Sym.Value  Sym. Name</span><br><span class="line">0804a00c  00000207 R_386_JUMP_SLOT   00000000   __libc_start_main@GLIBC_2.0</span><br><span class="line"></span><br><span class="line">The decoding of unwind sections for machine type Intel 80386 is not currently supported.</span><br><span class="line"></span><br><span class="line">Symbol table &apos;.dynsym&apos; contains 4 entries:</span><br><span class="line">   Num:    Value  Size Type    Bind   Vis      Ndx Name</span><br><span class="line">     0: 00000000     0 NOTYPE  LOCAL  DEFAULT  UND</span><br><span class="line">     1: 00000000     0 NOTYPE  WEAK   DEFAULT  UND __gmon_start__</span><br><span class="line">     2: 00000000     0 FUNC    GLOBAL DEFAULT  UND __libc_start_main@GLIBC_2.0 (2)</span><br><span class="line">     3: 0804847c     4 OBJECT  GLOBAL DEFAULT   16 _IO_stdin_used</span><br><span class="line"></span><br><span class="line">Symbol table &apos;.symtab&apos; contains 68 entries:</span><br><span class="line">   Num:    Value  Size Type    Bind   Vis      Ndx Name</span><br><span class="line">     0: 00000000     0 NOTYPE  LOCAL  DEFAULT  UND</span><br><span class="line">     1: 08048154     0 SECTION LOCAL  DEFAULT    1</span><br><span class="line">     2: 08048168     0 SECTION LOCAL  DEFAULT    2</span><br><span class="line">     3: 08048188     0 SECTION LOCAL  DEFAULT    3</span><br><span class="line">     4: 080481ac     0 SECTION LOCAL  DEFAULT    4</span><br><span class="line">     5: 080481cc     0 SECTION LOCAL  DEFAULT    5</span><br><span class="line">     6: 0804820c     0 SECTION LOCAL  DEFAULT    6</span><br><span class="line">     7: 08048252     0 SECTION LOCAL  DEFAULT    7</span><br><span class="line">     8: 0804825c     0 SECTION LOCAL  DEFAULT    8</span><br><span class="line">     9: 0804827c     0 SECTION LOCAL  DEFAULT    9</span><br><span class="line">    10: 08048284     0 SECTION LOCAL  DEFAULT   10</span><br><span class="line">    11: 0804828c     0 SECTION LOCAL  DEFAULT   11</span><br><span class="line">    12: 080482b0     0 SECTION LOCAL  DEFAULT   12</span><br><span class="line">    13: 080482d0     0 SECTION LOCAL  DEFAULT   13</span><br><span class="line">    14: 080482e0     0 SECTION LOCAL  DEFAULT   14</span><br><span class="line">    15: 08048464     0 SECTION LOCAL  DEFAULT   15</span><br><span class="line">    16: 08048478     0 SECTION LOCAL  DEFAULT   16</span><br><span class="line">    17: 08048480     0 SECTION LOCAL  DEFAULT   17</span><br><span class="line">    18: 080484ac     0 SECTION LOCAL  DEFAULT   18</span><br><span class="line">    19: 08049f08     0 SECTION LOCAL  DEFAULT   19</span><br><span class="line">    20: 08049f0c     0 SECTION LOCAL  DEFAULT   20</span><br><span class="line">    21: 08049f10     0 SECTION LOCAL  DEFAULT   21</span><br><span class="line">    22: 08049f14     0 SECTION LOCAL  DEFAULT   22</span><br><span class="line">    23: 08049ffc     0 SECTION LOCAL  DEFAULT   23</span><br><span class="line">    24: 0804a000     0 SECTION LOCAL  DEFAULT   24</span><br><span class="line">    25: 0804a010     0 SECTION LOCAL  DEFAULT   25</span><br><span class="line">    26: 0804a018     0 SECTION LOCAL  DEFAULT   26</span><br><span class="line">    27: 00000000     0 SECTION LOCAL  DEFAULT   27</span><br><span class="line">    28: 00000000     0 FILE    LOCAL  DEFAULT  ABS crtstuff.c</span><br><span class="line">    29: 08049f10     0 OBJECT  LOCAL  DEFAULT   21 __JCR_LIST__</span><br><span class="line">    30: 08048320     0 FUNC    LOCAL  DEFAULT   14 deregister_tm_clones</span><br><span class="line">    31: 08048350     0 FUNC    LOCAL  DEFAULT   14 register_tm_clones</span><br><span class="line">    32: 08048390     0 FUNC    LOCAL  DEFAULT   14 __do_global_dtors_aux</span><br><span class="line">    33: 0804a018     1 OBJECT  LOCAL  DEFAULT   26 completed.7209</span><br><span class="line">    34: 08049f0c     0 OBJECT  LOCAL  DEFAULT   20 __do_global_dtors_aux_fin</span><br><span class="line">    35: 080483b0     0 FUNC    LOCAL  DEFAULT   14 frame_dummy</span><br><span class="line">    36: 08049f08     0 OBJECT  LOCAL  DEFAULT   19 __frame_dummy_init_array_</span><br><span class="line">    37: 00000000     0 FILE    LOCAL  DEFAULT  ABS hello.c</span><br><span class="line">    38: 00000000     0 FILE    LOCAL  DEFAULT  ABS crtstuff.c</span><br><span class="line">    39: 08048568     0 OBJECT  LOCAL  DEFAULT   18 __FRAME_END__</span><br><span class="line">    40: 08049f10     0 OBJECT  LOCAL  DEFAULT   21 __JCR_END__</span><br><span class="line">    41: 00000000     0 FILE    LOCAL  DEFAULT  ABS</span><br><span class="line">    42: 08049f0c     0 NOTYPE  LOCAL  DEFAULT   19 __init_array_end</span><br><span class="line">    43: 08049f14     0 OBJECT  LOCAL  DEFAULT   22 _DYNAMIC</span><br><span class="line">    44: 08049f08     0 NOTYPE  LOCAL  DEFAULT   19 __init_array_start</span><br><span class="line">    45: 08048480     0 NOTYPE  LOCAL  DEFAULT   17 __GNU_EH_FRAME_HDR</span><br><span class="line">    46: 0804a000     0 OBJECT  LOCAL  DEFAULT   24 _GLOBAL_OFFSET_TABLE_</span><br><span class="line">    47: 08048460     2 FUNC    GLOBAL DEFAULT   14 __libc_csu_fini</span><br><span class="line">    48: 00000000     0 NOTYPE  WEAK   DEFAULT  UND _ITM_deregisterTMCloneTab</span><br><span class="line">    49: 08048310     4 FUNC    GLOBAL HIDDEN    14 __x86.get_pc_thunk.bx</span><br><span class="line">    50: 0804a010     0 NOTYPE  WEAK   DEFAULT   25 data_start</span><br><span class="line">    51: 0804a018     0 NOTYPE  GLOBAL DEFAULT   25 _edata</span><br><span class="line">    52: 08048464     0 FUNC    GLOBAL DEFAULT   15 _fini</span><br><span class="line">    53: 0804a010     0 NOTYPE  GLOBAL DEFAULT   25 __data_start</span><br><span class="line">    54: 00000000     0 NOTYPE  WEAK   DEFAULT  UND __gmon_start__</span><br><span class="line">    55: 0804a014     0 OBJECT  GLOBAL HIDDEN    25 __dso_handle</span><br><span class="line">    56: 0804847c     4 OBJECT  GLOBAL DEFAULT   16 _IO_stdin_used</span><br><span class="line">    57: 00000000     0 FUNC    GLOBAL DEFAULT  UND __libc_start_main@@GLIBC_</span><br><span class="line">    58: 08048400    93 FUNC    GLOBAL DEFAULT   14 __libc_csu_init</span><br><span class="line">    59: 0804a01c     0 NOTYPE  GLOBAL DEFAULT   26 _end</span><br><span class="line">    60: 080482e0     0 FUNC    GLOBAL DEFAULT   14 _start</span><br><span class="line">    61: 08048478     4 OBJECT  GLOBAL DEFAULT   16 _fp_hw</span><br><span class="line">    62: 0804a018     0 NOTYPE  GLOBAL DEFAULT   26 __bss_start</span><br><span class="line">    63: 080483db    24 FUNC    GLOBAL DEFAULT   14 main</span><br><span class="line">    64: 00000000     0 NOTYPE  WEAK   DEFAULT  UND _Jv_RegisterClasses</span><br><span class="line">    65: 0804a018     0 OBJECT  GLOBAL HIDDEN    25 __TMC_END__</span><br><span class="line">    66: 00000000     0 NOTYPE  WEAK   DEFAULT  UND _ITM_registerTMCloneTable</span><br><span class="line">    67: 0804828c     0 FUNC    GLOBAL DEFAULT   11 _init</span><br><span class="line"></span><br><span class="line">Histogram for `.gnu.hash&apos; bucket list length (total of 2 buckets):</span><br><span class="line"> Length  Number     % of total  Coverage</span><br><span class="line">      0  1          ( 50.0%)</span><br><span class="line">      1  1          ( 50.0%)    100.0%</span><br><span class="line"></span><br><span class="line">Version symbols section &apos;.gnu.version&apos; contains 4 entries:</span><br><span class="line"> Addr: 0000000008048252  Offset: 0x000252  Link: 5 (.dynsym)</span><br><span class="line">  000:   0 (*local*)       0 (*local*)       2 (GLIBC_2.0)     1 (*global*)</span><br><span class="line"></span><br><span class="line">Version needs section &apos;.gnu.version_r&apos; contains 1 entries:</span><br><span class="line"> Addr: 0x000000000804825c  Offset: 0x00025c  Link: 6 (.dynstr)</span><br><span class="line">  000000: Version: 1  File: libc.so.6  Cnt: 1</span><br><span class="line">  0x0010:   Name: GLIBC_2.0  Flags: none  Version: 2</span><br><span class="line"></span><br><span class="line">Displaying notes found at file offset 0x00000168 with length 0x00000020:</span><br><span class="line">  Owner                 Data size       Description</span><br><span class="line">  GNU                  0x00000010       NT_GNU_ABI_TAG (ABI version tag)</span><br><span class="line">    OS: Linux, ABI: 2.6.32</span><br><span class="line"></span><br><span class="line">Displaying notes found at file offset 0x00000188 with length 0x00000024:</span><br><span class="line">  Owner                 Data size       Description</span><br><span class="line">  GNU                  0x00000014       NT_GNU_BUILD_ID (unique build ID bitstring)</span><br><span class="line">    Build ID: 59a287bd61f3c01f4a0f4838756814c2de1bf490</span><br></pre></td></tr></table></figure>
+<p>这样看一遍结构会比干看分析或者结构体要好一些。其实结构也不是很复杂。</p>
+<p>linux 有标准库<code>elf.h</code>来解析 ELF 文件，或许写一遍怎么解析理解会更深一些。</p>
+<p>之前看都是瞎看了，elf header 里一些无关紧要的 flag 记了一堆，看到后来关键的 section、segment 都冇脑子了。</p>
+<p>还是挺重要的，理解力差就多想几遍，记忆力差就多看几遍，无它。</p>
+
+                
+<p class="pink-link-context">
+    <a href="/2019/12/01/majiabao/" rel="next" title="逆向改包 Tips">
+    Prev: 逆向改包 Tips
+  </a>
+</p>
+
+
+
+<p class="pink-link-context">
+    <a href="/2019/07/25/zhulianzhai/" rel="next" title="珠帘寨">
+    Next: 珠帘寨
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large pink">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect pink" title="Return to top"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse pink darken-1"  data-activates="main-menu" title="Menu"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer pink accent-1 darken-1">
+    
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">Social</h5>
+                
+                    <a class="social-link" href="https://github.com/cracke-s-j" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                
+
+            </div>
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">Links</h5>
+                
+                    <a class="social-link" href="https://blog.dyf.ink/" target="_blank">友情链接 dyf&#39;s blog</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright pink-link-context">
+        <div class="container">
+            © 2020 ssj, All rights reserved.
+            <p class="right" style="margin-top: 0;">Blog powered by <a href="https://hexo.io">Hexo</a> | Theme <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+        </div>
+    </div>
+</footer>
+
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+    </div>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
+<script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
+
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
+
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
+            });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('pink lighten-2');
+
+            
+            // 添加new标签
+            $('').append('<span class="new badge pink"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
+        });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async
+  src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"superSample":2,"width":250,"height":500,"position":"left","hOffset":0,"vOffset":0},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
