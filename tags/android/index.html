@@ -7,7 +7,7 @@
 
     
 
-    <title>android | </title>
+    <title>Android | </title>
     <meta name="author" content="ssj">
     
     
@@ -209,6 +209,14 @@
         
 
             <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/脱壳/">
+                    脱壳 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
                 <a class="no-padding" href="/categories/Android/马甲包/">
                     马甲包 <span class="right">2</span></a>
                 </a>
@@ -224,17 +232,17 @@
 
         
 
-            <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/Android/脱壳/">
-                    脱壳 <span class="right">1</span></a>
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/opera/">
+                    opera <span class="right">5</span></a>
                 </a>
             </li>
 
         
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/opera/">
-                    opera <span class="right">5</span></a>
+                <a class="no-padding" href="/categories/resume/">
+                    resume <span class="right">1</span></a>
                 </a>
             </li>
 
@@ -251,14 +259,6 @@
             <li class="collapse-level-1" collapse-level="1">
                 <a class="no-padding" href="/categories/pwn/ctf/">
                     ctf <span class="right">2</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/resume/">
-                    resume <span class="right">1</span></a>
                 </a>
             </li>
 
@@ -311,7 +311,7 @@
         
 
         
-            <a class="breadcrumb" href="/tags/android/">android</a>
+            <a class="breadcrumb" href="/tags/Android/">Android</a>
         
     </div>
 </nav>
@@ -320,10 +320,52 @@
 
     <div class="collection mt-0">
         
-            <a href="/2019/05/29/CTF-android/" class="collection-item grey-text text-darken-1">
-                <time datetime="2019-05-29T11:42:47.000Z">2019-05-29</time>
+            <a href="/2020/02/05/bytedanceinterview/" class="collection-item grey-text text-darken-1">
+                <time datetime="2020-02-05T08:06:01.000Z">2020-02-05</time>
                 <span>&nbsp;&nbsp;&nbsp;</span>
-                小菜比ssj吹头发记
+                字跳面试实况转播
+            </a>
+        
+            <a href="/2019/12/01/majiabao/" class="collection-item grey-text text-darken-1">
+                <time datetime="2019-12-01T03:47:25.000Z">2019-12-01</time>
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                逆向改包 Tips
+            </a>
+        
+            <a href="/2019/07/08/ndk/" class="collection-item grey-text text-darken-1">
+                <time datetime="2019-07-08T09:17:51.000Z">2019-07-08</time>
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                Android Studio NDK 开发环境搭建
+            </a>
+        
+            <a href="/2019/06/27/vest-car-king/" class="collection-item grey-text text-darken-1">
+                <time datetime="2019-06-27T12:26:41.000Z">2019-06-27</time>
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                给车王二手车套马甲
+            </a>
+        
+            <a href="/2019/06/27/android-inject-code/" class="collection-item grey-text text-darken-1">
+                <time datetime="2019-06-27T10:20:08.000Z">2019-06-27</time>
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                Android静态注入常用代码
+            </a>
+        
+            <a href="/2019/06/20/easy-android-unpack/" class="collection-item grey-text text-darken-1">
+                <time datetime="2019-06-20T06:36:05.000Z">2019-06-20</time>
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                Android脱壳入门
+            </a>
+        
+            <a href="/2019/05/17/ssj-android-shell-0th/" class="collection-item grey-text text-darken-1">
+                <time datetime="2019-05-17T11:38:07.000Z">2019-05-17</time>
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                小菜比ssj写了一个壳子
+            </a>
+        
+            <a href="/2019/05/10/iSmart-break-sign/" class="collection-item grey-text text-darken-1">
+                <time datetime="2019-05-10T11:33:40.000Z">2019-05-10</time>
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                iSmart逆向分析之绕过签名验证
             </a>
         
     </div>
@@ -563,57 +605,6 @@
                                         end = 100;
                                     }
                                     if (end > content.length) {
-                                        end = content.length;
-                                    }
-                                    var match_content = content.substring(start, end);
-                                    // highlight all keywords
-                                    keywords.forEach(function(keyword) {
-                                        var regS = new RegExp(keyword, "gi");
-                                        match_content = match_content.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
-                                    });
-
-                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
-                                }
-                                str += "</li>";
-                            }
-                        });
-                        str += "</ul>";
-                        $resultContent.innerHTML = str;
-                    });
-                }
-            });
-        }
-    })(jQuery);
-</script>
-
-
-<script src="/js/prettify.js"></script>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $("pre").addClass("prettyprint");
-        prettyPrint();
-    });
-</script>
-
-
-
-
-
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
-});
-</script>
-<script type="text/javascript" async
-  src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
-
-
-
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"superSample":2,"width":250,"height":500,"position":"left","hOffset":0,"vOffset":0},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
-</html>
-                       if (end > content.length) {
                                         end = content.length;
                                     }
                                     var match_content = content.substring(start, end);
