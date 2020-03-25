@@ -74,6 +74,30 @@
   </entry>
   
   <entry>
+    <title>浅谈 Shadowsocks 协议漏洞</title>
+    <link href="https://github.com/Cracke-S-J/2020/03/25/%E6%B5%85%E8%B0%88ss%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/"/>
+    <id>https://github.com/Cracke-S-J/2020/03/25/%E6%B5%85%E8%B0%88ss%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/</id>
+    <published>2020-03-25T05:29:08.000Z</published>
+    <updated>2020-03-25T06:16:05.569Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h2><h3 id="CFB-加密模式"><a href="#CFB-加密模式" class="headerlink" title="CFB 加密模式"></a>CFB 加密模式</h3><p>在此复习一下我们小学二年级学过的密码学知识。（在此安利一下 B 站 <a href="https://space.bilibili.com/456606920" target="_blank" rel="noopener">小学生Vita君</a>，没有恰饭，很可爱的小孩）</p><p>比如 AES-256-CFB，它是一种流式加密而不是分组加密，不会直接将明文进行 AES 操作，而是 xor(明文, AES(密文))。</p><p>由此可以得出以下三个结论：</p><ol><li>CFB 的加密和解密函数是一样的，因为最后一步是 xor，连续加密两遍就是本身。</li><li>密文的某个 byte 被篡改后，解密出来的该 byte 是错的，第 N+1 个block也是错的，其他数据都是正确的。</li><li>在给定的 key 和 iv 下，cfb 的每个 block 退化为普通的 xor，已知某段明文和和对应的密文时，可以算出使用的 xor_key，从而可以对该段明文密文进行伪造。这个很重要，因为这样就可以 qiang 你了（滑稽</li></ol><h3 id="ss-整体工作流程"><a href="#ss-整体工作流程" class="headerlink" title="ss 整体工作流程"></a>ss 整体工作流程</h3><p>浏览器用 socks5 代理，将数据包发给 sslocal，sslocal 加密，发给 ssserver，ssserver 解密数据，访问指定资源，返回加密的数据，sslocal 再解密，将数据返回给浏览器。</p><p>加密和解密主要是下面那样：</p><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 加密</span></span><br><span class="line">data = sock5Header + httpRequest</span><br><span class="line">rand_iv + AES-cfb(key, rand_iv, data)</span><br><span class="line"><span class="comment"># 解密</span></span><br><span class="line">httpResponse = AES-cfb(key, rand_iv2, recv_data)</span><br></pre></td></tr></table></figure><p>看起来攻击者知道 rand_iv1 和 rand_iv2，但是不知道 key，不能整体解密。</p><h2 id="Case1-解密-http-返回包"><a href="#Case1-解密-http-返回包" class="headerlink" title="Case1 解密 http 返回包"></a>Case1 解密 http 返回包</h2><p>从 ssserver 来的返回包，加密包的第一个 block 是可以猜到的，是 HTTP/1.1，所以 key[:8] 可以算出来了，然后我们就拥有了伪造前 8 个字节的能力。可能给它发送到指定端口来监听。</p><h2 id="Case2-解密指定-domain-的-httpRequest包"><a href="#Case2-解密指定-domain-的-httpRequest包" class="headerlink" title="Case2 解密指定 domain 的 httpRequest包"></a>Case2 解密指定 domain 的 httpRequest包</h2><p>由于 requests 包的前几个字节是<code>0x1 ip port</code>，猜起来比较困难，所以我们只能在它 domain 表式的情况下<code>0x03 + domain_len + domain + port</code>，猜个这个，然后也可以改掉。</p><h2 id="Case3-确认-https-流量是否属于某个域名"><a href="#Case3-确认-https-流量是否属于某个域名" class="headerlink" title="Case3 确认 https 流量是否属于某个域名"></a>Case3 确认 https 流量是否属于某个域名</h2><p>在 https 的情况下，我们什么都看不到了，只知道它是个包，但是无所谓，用 Case2 的方法猜到域名就 ok，然后直接封掉你（误。</p><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/LeadroyaL/ss-redirect-vuln-exp">https://github.com/LeadroyaL/ss-redirect-vuln-exp</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;背景知识&quot;&gt;&lt;a href=&quot;#背景知识&quot; class=&quot;headerlink&quot; title=&quot;背景知识&quot;&gt;&lt;/a&gt;背景知识&lt;/h2&gt;&lt;h3 id=&quot;CFB-加密模式&quot;&gt;&lt;a href=&quot;#CFB-加密模式&quot; class=&quot;headerlink&quot; title=&quot;C
+      
+    
+    </summary>
+    
+    
+      <category term="CVE" scheme="https://github.com/Cracke-S-J/categories/CVE/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>MariaDB (CVE-2020-7221) 提权漏洞分析</title>
     <link href="https://github.com/Cracke-S-J/2020/03/24/mariadb%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     <id>https://github.com/Cracke-S-J/2020/03/24/mariadb%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</id>
@@ -571,36 +595,6 @@
     
     
       <category term="C++" scheme="https://github.com/Cracke-S-J/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>四郎探母</title>
-    <link href="https://github.com/Cracke-S-J/2019/06/06/yangsilang-visit-his-mother/"/>
-    <id>https://github.com/Cracke-S-J/2019/06/06/yangsilang-visit-his-mother/</id>
-    <published>2019-06-06T04:48:42.000Z</published>
-    <updated>2020-03-23T09:22:02.961Z</updated>
-    
-    <content type="html"><![CDATA[<p>四郎探母可以说特别经典了，本人听过很多各式各样的版本，最震撼的还是杜月笙生日那次，哈哈。</p><p>其中 gdg 的见母给我听笑了，奇奇怪怪，是我出戏了。</p><hr><p>四郎探母是杨家将的故事，剧中淡化了战争，突出了忠孝仁义，人情伦理。</p><p>杨家共生了六个儿子，两个女儿，后来又收了一个义子，分别排行为大郎、二郎、三郎、四郎、五郎、六郎、七郎、八姐、九妹（京剧中不是这样，毕竟还有一出戏叫八郎探母）。他们个个是英雄好汉，每个人都能带兵打仗，独当一面。</p><p>杨四郎长得一表人材，武艺高强，英勇善战，在几个兄弟中间，最得父母的喜欢。他们寄希望于四郎，日后统率杨家将的非他莫属，然而谁能想到，金沙滩一场恶战，却改写了他的人生命运。</p><p>雁门关北面的金沙滩，北国的契丹王在那儿设下重兵。杨家将全部出征，拼死厮杀。但杨家将在这场大战中损失惨重，伤失元气。首先是大郎和二郎身亡，一个被乱箭射死，一个被大刀劈死；而三郎死得更加悲壮，他在追杀敌军时陷入淤泥之中，被对方的战马踩死；过后清点人数时，又发现四郎失踪，有的说是被北国俘虏了，有的说失散了。由于杨家大将死伤过半，朝廷虽给予封赏，但毕竟元气难以恢复；而且有人说三道四，伤透了杨家人心。在这种情况下，五郎为了超世脱俗，便出家当了和尚（一说是重伤被五台山方丈救下）。</p><p>杨四郎的确是和杨家将失散了，他是在向敌人冲杀时，被对方裹挟走的。人多，混乱，在情急中迷失了方向。可当他发现走错方向时晚了，因为对方的将领早已看到他勇猛厮杀，非普通军士，就让人把他给绑了，押送回营。再说契丹王的损失也十分惨重，老王在大战中身亡。众将佐觉得不可一日无王，经过合计，就推拥皇后萧绰执掌朝政，这就是历史上有名的萧太后。人们押着杨四郎来到萧太后跟前，备说详情，断言他肯定是杨家大将。既已被俘，杨四郎已经作好了必死的准备。不过他不甘心，他要时刻准备返回宋朝，和各位兄弟一起为国尽忠。于是，当萧太后问他叫什么时，他说了一个假名：木易。呵，不是杨家人，萧太后放心了。呵。</p><p>萧太后所生一女，名为铁镜公主，虽已年过十八，尚未许配人家。当然会有一些大臣来为公主说媒拉线，均因萧太后看不上那些想做她女婿的人，直到如今也没有把婚事定下来。萧太后见这个穆义长得相貌堂堂，又让他试了试武功，甚为满意。便让大臣作媒，把铁镜公主嫁给了他。</p><p>四郎家有娇妻孟氏，两人十分恩爱。他当然不愿娶北番公主，因为他并不打算在北方呆一辈子，一有机会他会跑回宋朝的。但经不住别人的威胁，他也只好屈从了。就这样，杨家人对他生死不知；而他也是时刻挂念着母亲和众兄弟姐妹。虽说萧太后和公主待他很好，但一片思乡之情无时无刻不在煎熬着他。</p><p>一晃十五年过去了，杨延辉由一个青年变成了已届而立的中年人。此时我猜杨四郎心境已与当年不同了。在辽做了驸马，皇亲国戚有家有口的，为什么还要回宋给皇上卖力呢。当然这是个人理解，也可以说如果我是杨四郎我是不会回去的哈哈哈哈。</p><p>萧天佐摆下天门大阵，六郎延昭挂帅，老母佘太君亲押粮草来到北番，四郎很想去见母亲一面。</p><ul><li>第一折坐宫，可见四郎和公主相敬如宾十分恩爱，公主也是性情中人。</li><li>见母，佘太君听闻四郎经历后，并没有国别民族的偏见，而是问公主贤不贤惠，可不可爱。</li><li>四郎已经回到宋营，但为还令箭仍赶在天亮之前回到银安，可见与公主恩爱有佳，也可见他并不是很想为宋朝继续卖命了。</li><li>见妻现在逐渐不演了，咱也不知道为什么…回营，六郎、佘太君、孟氏、八姐九妹好一通哭，没拦住，天地为大忠孝当先，日后见母梦里再见。</li><li>四郎得救后，萧太后命其把守北天门，并把金鈚箭给了他，虽说是不准他回营探母，为什么不理解成，是对杨延辉的信任，允许他想妈了就回去看看呢？</li></ul><hr><p><strong>杨六郎告御状</strong></p><p>这段京剧一般不演了，只听过李军老师的徽剧唱段，情感很很很到位，真不愧是我准叔，很有准（真）。</p><p>杨六郎在八贤王的帮助下，把潘洪（潘仁美）搞死了。</p><blockquote><p>我杨家下幽州，八骑马八杆枪，好似八条蛟龙弄海潮，到如今只落得单骑延昭。</p></blockquote><p><strong>八贤王</strong></p><p>赵德芳（八贤王、八王），宋太祖赵匡胤第四子，宋太宗赵光义之侄，宋真宗赵恒的堂兄，北宋宗室。在戏曲演义中，赵德芳也被虚构为手持金锏，上打昏君，下打谗臣的正气凛然的“八贤王”形象，是正义化身，出现于杨家将、包青天、三侠五义等故事中。</p><p>赵匡胤去世之后，本来皇位的人选就是赵德芳，但是此时的赵德芳仅仅只有3岁，根本无法担任皇帝，于是赵光义申请做了摄政王，但是就在第二天上朝的时候，不知道是不是赵光义派人安排好了，满朝的文武百官纷纷要求摄政王的赵光义登基做皇帝，对于小太子赵德芳，大家认为等到赵德芳长大之后，赵光义再禅让，这样才能让天下安定，文武百官才能够信服，最终赵光义如愿以偿的做了大宋朝的第二任皇帝。</p><p>赵光义做了皇帝之后，首先的第一件事就是安顿赵匡胤的妻子和儿子，但是这样登基的赵光义在很多的礼教上是说不过去的，在宋皇后知道赵光义做了皇帝的消息之后，于是宋皇后公然登上金銮宝殿，对着赵光义破口大骂，毕竟是赵光义害死了自己的亲哥哥，而且还公开抢夺自己侄子的皇位，这样的举动真的是无德无义之人，面对皇后的唾骂，赵光义在无奈之下便开始对他们进行封赏，封宋皇后为皇太后。</p><p>不过，最让人为难的还是小太子赵德芳，最大的封赏就是把皇位还给赵德芳，但是赵德芳年纪太小，无法做皇帝，再说了赵光义也舍不得自己的皇位，于是赵光义便封了赵德芳为保国王、护国王、上殿不参王、下殿不辞王、殿前王、殿左王、殿右王、殿后王（听着这么像郭老编的，听书听个乐），八贤王，世袭罔替的八大贤王，并赐瓦面金锏，上打昏君，下打谗臣。</p><p>所以为什么八王上金殿他那么横，因为江山是人家家里的。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;四郎探母可以说特别经典了，本人听过很多各式各样的版本，最震撼的还是杜月笙生日那次，哈哈。&lt;/p&gt;
-&lt;p&gt;其中 gdg 的见母给我听笑了，奇奇怪怪，是我出戏了。&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;四郎探母是杨家将的故事，剧中淡化了战争，突出了忠孝仁义，人情伦理。&lt;/p&gt;
-&lt;p&gt;杨家共生
-      
-    
-    </summary>
-    
-    
-      <category term="听戏" scheme="https://github.com/Cracke-S-J/categories/%E5%90%AC%E6%88%8F/"/>
-    
-    
-      <category term="京剧" scheme="https://github.com/Cracke-S-J/tags/%E4%BA%AC%E5%89%A7/"/>
     
   </entry>
   
