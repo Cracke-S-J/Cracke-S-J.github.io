@@ -1,0 +1,816 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>Android 逆向知识整理 | </title>
+    <meta name="author" content="ssj">
+    
+    <meta name="description" content="通常会拿到一个 apk，然后分析它的攻击面。我之前太自负了，从来没有系统整理过。
+脱壳先大致查一下壳，不过现在有通用脱壳机一般不 care 这个。我一般是解压看一下。
+工具脱Fdex2一个 Xposed 插件，能脱一代壳。只是 hook 是相应的 dex 加载点。
+VitualAppBangcle ">
+    
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta property="og:title" content="Android 逆向知识整理">
+    <meta property="og:site_name" content="ssj&#39;s blog">
+
+    
+    <meta property="og:image" content>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="ssj&#39;s blog" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/tranquil-heart.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+</html>
+
+<body>
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="pink accent-1">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
+        </a>
+        <div class="">
+            <a href="/" class="brand-logo hide-on-med-and-down">ssj&#39;s blog</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/" >
+                            <i class="fa fa-home "></i>
+                            
+                            Home
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives" >
+                            <i class="fa fa-archive "></i>
+                            
+                            Archives
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                            <i class="fa fa-bookmark "></i>
+                            
+                            Categories
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-reading " href="/reading" >
+                            <i class="fa fa-book "></i>
+                            
+                            Reading
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about" >
+                            <i class="fa fa-user "></i>
+                            
+                            About
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search" >
+                            <i class="fa fa-search "></i>
+                            
+                            menu.搜索
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav pink darken-1" id="main-menu">
+        
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="/favicon.png" alt="User Avatar">
+                </div>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">ssj</p>
+                        <p class="desc"></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/" >
+                    <i class="fa fa-home "></i>
+                    
+                    Home
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives" >
+                    <i class="fa fa-archive "></i>
+                    
+                    Archives
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                    <i class="fa fa-bookmark "></i>
+                    
+                    Categories
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-reading " href="/reading" >
+                    <i class="fa fa-book "></i>
+                    
+                    Reading
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about" >
+                    <i class="fa fa-user "></i>
+                    
+                    About
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search" >
+                    <i class="fa fa-search "></i>
+                    
+                    menu.搜索
+                </a>
+            </li>
+        
+    </ul>
+
+    <ul class="side-nav pink darken-1" id="category-menu">
+    
+
+            
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CTF/">
+                    CTF <span class="right">5</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/Android/">
+                    Android <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/pwn/">
+                    pwn <span class="right">4</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Ethereum/">
+                    Ethereum <span class="right">3</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/算法/">
+                    算法 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/面试体验/">
+                    面试体验 <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/面试体验/Android/">
+                    Android <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/面试体验/安全/">
+                    安全 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Android/">
+                    Android <span class="right">8</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/马甲包/">
+                    马甲包 <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/脱壳/">
+                    脱壳 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/听戏/">
+                    听戏 <span class="right">5</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/A简历/">
+                    A简历 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CVE/">
+                    CVE <span class="right">3</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/学习记录/">
+                    学习记录 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Cpp/">
+                    Cpp <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+</nav>
+
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">Search</label>
+        </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper pink">
+        <span class="breadcrumb">Current page(Categories)</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/Android/">Android</a>
+
+
+        
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>Android 逆向知识整理</h1>
+    
+
+
+            </div>
+            <time class="pink-link-context" datetime="2020-03-31T08:40:34.000Z"><a href="/2020/03/31/android逆向知识整理/">2020-03-31</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/Android/" class="chip pink lighten-1">Android</a>
+        
+    </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#脱壳"><span class="section table-of-contents-text">脱壳</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#工具脱"><span class="section table-of-contents-text">工具脱</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-4"><a class="section table-of-contents-link" href="#Fdex2"><span class="section table-of-contents-text">Fdex2</span></a></li><li class="section table-of-contents-item section table-of-contents-level-4"><a class="section table-of-contents-link" href="#VitualApp"><span class="section table-of-contents-text">VitualApp</span></a></li><li class="section table-of-contents-item section table-of-contents-level-4"><a class="section table-of-contents-link" href="#FATR"><span class="section table-of-contents-text">FATR</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#脚本"><span class="section table-of-contents-text">脚本</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#手脱"><span class="section table-of-contents-text">手脱</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#静态分析"><span class="section table-of-contents-text">静态分析</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#动态调试"><span class="section table-of-contents-text">动态调试</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Hook"><span class="section table-of-contents-text">Hook</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#Xposed"><span class="section table-of-contents-text">Xposed</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#Frida"><span class="section table-of-contents-text">Frida</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#过签名校验"><span class="section table-of-contents-text">过签名校验</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#抓包问题"><span class="section table-of-contents-text">抓包问题</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#如果抓不到包"><span class="section table-of-contents-text">如果抓不到包</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#时而抓到时而抓不到"><span class="section table-of-contents-text">时而抓到时而抓不到</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#收不到返回包"><span class="section table-of-contents-text">收不到返回包</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#有二次加密"><span class="section table-of-contents-text">有二次加密</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#攻击面"><span class="section table-of-contents-text">攻击面</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#二进制代码保护"><span class="section table-of-contents-text">二进制代码保护</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#用户数据安全"><span class="section table-of-contents-text">用户数据安全</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#数据传输保护"><span class="section table-of-contents-text">数据传输保护</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#加密算法及密钥安全"><span class="section table-of-contents-text">加密算法及密钥安全</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#跨进程交互安全"><span class="section table-of-contents-text">跨进程交互安全</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#其它-Android-应用规范"><span class="section table-of-contents-text">其它 Android 应用规范</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#后记"><span class="section table-of-contents-text">后记</span></a></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <p>通常会拿到一个 apk，然后分析它的攻击面。我之前太自负了，从来没有系统整理过。</p>
+<h2 id="脱壳"><a href="#脱壳" class="headerlink" title="脱壳"></a>脱壳</h2><p>先大致查一下壳，不过现在有通用脱壳机一般不 care 这个。我一般是解压看一下。</p>
+<h3 id="工具脱"><a href="#工具脱" class="headerlink" title="工具脱"></a>工具脱</h3><h4 id="Fdex2"><a href="#Fdex2" class="headerlink" title="Fdex2"></a>Fdex2</h4><p>一个 Xposed 插件，能脱一代壳。只是 hook 是相应的 dex 加载点。</p>
+<h4 id="VitualApp"><a href="#VitualApp" class="headerlink" title="VitualApp"></a>VitualApp</h4><p>Bangcle 东明大佬魔改的 VitualApp，主要特点是不用 root，可以脱类抽，不过 load 所有类的时候可能会卡死。</p>
+<h4 id="FATR"><a href="#FATR" class="headerlink" title="FATR"></a>FATR</h4><p>没用过，听说是刷机。</p>
+<h3 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h3><p>Frida 脚本，可脱一代二代，hook loadClass，把相关功能点一点，就对应的内容会回填，填完了再 dump 出来即可。</p>
+<h3 id="手脱"><a href="#手脱" class="headerlink" title="手脱"></a>手脱</h3><p>用 IDA 调，缺点是要过反调，一般是上面操作解决不了问题才上手，主要是脱 vmp 壳。</p>
+<p>要分析它的指令替换的操作，正确地回填才能看到代码。也是体力活。</p>
+<p>例如<a href="https://bbs.pediy.com/thread-257061.htm" target="_blank" rel="noopener">这个</a>。</p>
+<h2 id="静态分析"><a href="#静态分析" class="headerlink" title="静态分析"></a>静态分析</h2><ol>
+<li>我习惯 adb shell dumpsys activity top，从顶层 view 开始入手分析。</li>
+<li>还可以调试，看它调用栈。</li>
+<li>还可以 hook 打 log 出来帮忙分析。</li>
+<li>总之就是经验+耐心。</li>
+</ol>
+<h2 id="动态调试"><a href="#动态调试" class="headerlink" title="动态调试"></a>动态调试</h2><ol>
+<li>基本就是过反调，可以用 Xposed 或者也有其它工具一键反调。smali。</li>
+<li>so 的反调要看套路，要改转发端口，改名字，搜一下 kill、exit 之类的。</li>
+<li>还有就是 IDA 要用熟吧。</li>
+</ol>
+<h2 id="Hook"><a href="#Hook" class="headerlink" title="Hook"></a>Hook</h2><h3 id="Xposed"><a href="#Xposed" class="headerlink" title="Xposed"></a>Xposed</h3><ol>
+<li>不能 findAndHook 接口和抽象方法。</li>
+<li>子类没有重写父类方法也能 hook 到。</li>
+<li>使用 XposedBridge.hookAllMethods 拦截抽象方法的具体实现方法。</li>
+<li>只能 hook Java 层。</li>
+<li>带壳 app 要让壳先attachBaseContext，再用之后那个 classLoader。</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(Java.available) &#123;</span><br><span class="line">    Java.perform(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> application = Java.use(<span class="string">"android.app.Application"</span>);</span><br><span class="line">        <span class="keyword">var</span> reflectClass = Java.use(<span class="string">"java.lang.Class"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"application: "</span> + application);</span><br><span class="line"></span><br><span class="line">        application.attach.overload(<span class="string">'android.content.Context'</span>).implementation = <span class="function"><span class="keyword">function</span>(<span class="params">context</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> result = <span class="keyword">this</span>.attach(context); <span class="comment">// 先执行原来的attach方法</span></span><br><span class="line">            <span class="keyword">var</span> classloader = context.getClassLoader(); <span class="comment">// 获取classloader</span></span><br><span class="line">            Java.classFactory.loader = classloader;</span><br><span class="line">            <span class="comment">//这不里能直接使用Java.use，因为java.use会检查在不在perform里面，不在就会失败</span></span><br><span class="line">            <span class="keyword">var</span> AyWelcome = Java.classFactory.use(<span class="string">"flytv.run.monitor.fragment.user.AyWelcome"</span>); </span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">"AyWelcome: "</span> + AyWelcome);</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Frida"><a href="#Frida" class="headerlink" title="Frida"></a>Frida</h3><ol>
+<li>可 hook Java 层和 C 层。</li>
+<li>可以早期无痛注入。Frida 在注入进程的时候，会使用 ptrace 来完成，所以在遇到具备反调试的应用时（如各种壳），会导致注入失败。测试发现，Frida 仅仅在注入的时候会使用 ptrace，只要在壳运行之前进行注入，可以无视各种反调试。使用Xposed进行辅助，在应用才运行的时候，按需暂停5s，再注入Frida脚本。</li>
+</ol>
+<h2 id="过签名校验"><a href="#过签名校验" class="headerlink" title="过签名校验"></a>过签名校验</h2><p>先大致看一下是不是无脑校验。如果无脑不用管。</p>
+<p>在对APK进行签名的时候，签名工具会将包含原始签名信息的 .RSA/.DSA 文件放入APK（zip压缩包）的 /META-INF/ 目录下。在APK安装的时候，Android Framework 会使用其自身的机制对APK包中的文件进行完整性校验。同时，Android 应用本身也可以通过 android.content.pm.Signature 获取自身的签名信息，参考这里，如 Issuer、公钥等。如果 Android 应用在代码中预置了公钥，可通过比较公钥的方式进行完整性保护，确保当前的 APK 由开发者签发。</p>
+<p>由于上述方法校验过程中需要调用系统相关的函数获取公钥，因此，可以通过热补丁的方式拦截当前 Android 应用运行时的 API 调用，在其获取签名的时候返回原始的信息，欺骗 Android 应用，让其认为获取到了原始的签名信息。</p>
+<p>这里使用了阿里巴巴开源的热补丁框架 AndFix 进行 API 的调用拦截。AndFix 具有较好的兼容性，兼容市面上大多数机型、系统版本。使用该框架可以在运行时对指定的系统函数进行拦截，修改目标函数的执行逻辑。</p>
+<p>还有一个什么方法，是字节的二面面试官提的，没听清，也不知道怎么联系，害，还有梆梆的什么技术也没听清，该死的信号。</p>
+<h2 id="抓包问题"><a href="#抓包问题" class="headerlink" title="抓包问题"></a>抓包问题</h2><p>先 JustTrustMe 过掉所有官方客户端校验。</p>
+<h3 id="如果抓不到包"><a href="#如果抓不到包" class="headerlink" title="如果抓不到包"></a>如果抓不到包</h3><ol>
+<li>看是不是对证书做了强制校验，如果是，Xposed 掉。</li>
+<li>看是不是不走代理，NO_Proxy、HttpURLConnection。</li>
+<li>试试 ProxyDroid。</li>
+<li>它走的非 http/https，打开 wireshark，确认一下传输协议。</li>
+</ol>
+<h3 id="时而抓到时而抓不到"><a href="#时而抓到时而抓不到" class="headerlink" title="时而抓到时而抓不到"></a>时而抓到时而抓不到</h3><ol>
+<li>可能是遇到了 okhttp 有路由选择，运行时保存多条路由线路，当网络不通时，马上切换到下一条，其中包括 no_proxy 线路。可以 hook 此方法让每次切换的路由失败；也可能hook相关的调用些方法的类，让在网络超时后，不调用这个切换路由的方法，搜一下关键函数<code>RouteSelector.resetNextProxy(HttpUrl url, Proxy proxy)</code>。</li>
+<li>用到 okhttp 的 Certificate Pinning 进行通信的，进行 hook droidproxy 等强制路由有可能会导致 ssl 握手失败，在 Xposed 里面装个 <a href="https://github.com/ac-pm/SSLUnpinning_Xposed">SSLUnpinning</a> 就解决问题了。</li>
+</ol>
+<h3 id="收不到返回包"><a href="#收不到返回包" class="headerlink" title="收不到返回包"></a>收不到返回包</h3><p>服务端也做了校验，（只能从客户端找证书？）。</p>
+<h3 id="有二次加密"><a href="#有二次加密" class="headerlink" title="有二次加密"></a>有二次加密</h3><p>恭喜获得逆向之旅。找到加密函数以及密钥或者固定密钥写插件去破解它得到明文。</p>
+<h2 id="攻击面"><a href="#攻击面" class="headerlink" title="攻击面"></a>攻击面</h2><h3 id="二进制代码保护"><a href="#二进制代码保护" class="headerlink" title="二进制代码保护"></a>二进制代码保护</h3><ul>
+<li>DEX 文件加固强度不足</li>
+<li>缺少 DEX 代码(classes.dex)加密保护</li>
+<li>缺少 Dalvik 反调试检测</li>
+<li>缺少 Native 反调试检测</li>
+<li>缺少 Native 代码注入检测</li>
+<li>缺少 Native 库(.so文件)加密保护</li>
+<li>缺少脚本代码(Javascript、Lua 等文件)加密保护</li>
+<li>缺少敏感资源文件加密保护</li>
+<li>缺少自身签名完整性校验</li>
+<li>缺少自身文件完整性校验</li>
+</ul>
+<h3 id="用户数据安全"><a href="#用户数据安全" class="headerlink" title="用户数据安全"></a>用户数据安全</h3><ul>
+<li>客户端明文存储敏感信息<ul>
+<li>SharedPreferences</li>
+<li>SQLite</li>
+</ul>
+</li>
+<li>明文传输核心业务数据<ul>
+<li>http</li>
+<li>可能看到的 https</li>
+</ul>
+</li>
+<li>允许备份标记没有设置为关闭<ul>
+<li>android:allowBackup 为显式地 False</li>
+</ul>
+</li>
+<li>敏感信息界面截屏未进行提示</li>
+<li>调试日志输出敏感信息</li>
+<li>缺少运行环境安全性检查（Root？安装 Xposed？）</li>
+</ul>
+<h3 id="数据传输保护"><a href="#数据传输保护" class="headerlink" title="数据传输保护"></a>数据传输保护</h3><ul>
+<li>使用 HTTP 进行核心业务数据交互</li>
+<li>使用 ALLOW_ALL_HOSTNAME_VERIFIER 忽略 SSL 证书域名验证</li>
+<li>自定义 HostnameVerifier 忽略 SSL 证书域名验证</li>
+<li>自定义 X509TrustManager 未正确校验 SSL 证书链</li>
+<li>自定义 WebViewClient 忽略 SSL 证书校验异常</li>
+<li>端口开放风险（Hint:netstat 看有没有开放可疑的端口，如果有，逆向之旅看有没有可能被利用，比如<code>虫洞</code>）</li>
+</ul>
+<h3 id="加密算法及密钥安全"><a href="#加密算法及密钥安全" class="headerlink" title="加密算法及密钥安全"></a>加密算法及密钥安全</h3><ul>
+<li>不合理配置加密算法<ul>
+<li>加密核心、敏感数据时使用了不安全的 DES 加密算法</li>
+<li>AES 加密时是否使用了不安全的 ECB 模式</li>
+<li>RSA 加密时每次加密的结果是否是一样的</li>
+</ul>
+</li>
+<li>密钥明文硬编码</li>
+</ul>
+<h3 id="跨进程交互安全"><a href="#跨进程交互安全" class="headerlink" title="跨进程交互安全"></a>跨进程交互安全</h3><p>全用 Drozer 可以测，还有个什么超级拒绝服务漏洞检测也可，但是找不到了。</p>
+<ul>
+<li>导出组件 Activity 拒绝服务漏洞</li>
+<li>导出组件 Service 拒绝服务漏洞</li>
+<li>导出组件 Broadcast Receiver 拒绝服务漏洞</li>
+<li>导出组件 Content Provider 数据泄露</li>
+<li>导出组件 Content Provider SQL 注入漏洞</li>
+<li>导出组件 Content Provider 目录遍历漏洞</li>
+</ul>
+<h3 id="其它-Android-应用规范"><a href="#其它-Android-应用规范" class="headerlink" title="其它 Android 应用规范"></a>其它 Android 应用规范</h3><ul>
+<li>允许调试标记没有设置为关闭（android:debuggable，现在好像无所谓了，是真的无所谓）</li>
+<li>WebView addJavaScriptInterface 远程代码执行漏洞</li>
+<li>WebView 存在潜在跨站脚本攻击风险（grep “setJavaScriptEnabled”）</li>
+<li>允许 WebView 访问本地任意脚本（setAllowFileAccess(false)；对本地文件校验）</li>
+<li>WebView BadKernel 远程代码执行漏洞(CVE-2016-6754)(CNNVD-201608-414)（v8 引擎问题，用 WebView 访问<a href="https://secboom.com/vul/Badkernel.html" target="_blank" rel="noopener">Badkernel</a>）</li>
+<li>App沙箱文件权限设置错误（Context.MODE_WORLD_READABLE 和 Context.MODE_WORLD_WRITABLE）</li>
+<li>Janus 漏洞（zip 压缩包漏洞，不要用 v1 签名）</li>
+<li>访问第三方页面时未进行提示</li>
+<li>未校验二维码域名</li>
+<li>地址随机化</li>
+<li>堆栈保护</li>
+<li>点击劫持（可还行）</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=utf-8"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>点击劫持 POC<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">Html,body,iframe&#123;</span><br><span class="line"><span class="css"><span class="selector-tag">Display</span><span class="selector-pseudo">:block</span>;      <span class="comment">/*此处可以设为null*/</span></span></span><br><span class="line"><span class="css"><span class="selector-tag">Height</span><span class="selector-pseudo">:100</span>%;</span></span><br><span class="line"><span class="css"><span class="selector-tag">Width</span><span class="selector-pseudo">:100</span>%;</span></span><br><span class="line"><span class="css"><span class="selector-tag">Margin</span><span class="selector-pseudo">:0</span>;</span></span><br><span class="line"><span class="css"><span class="selector-tag">Padding</span><span class="selector-pseudo">:0</span>;</span></span><br><span class="line"><span class="css"><span class="selector-tag">Border</span><span class="selector-pseudo">:nonne</span>;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span>&gt;</span>点击劫持<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"http://XXX.jpg"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">"http://XXX.com "</span> <span class="attr">scrolling</span>=<span class="string">"no"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span>   攻击URL</span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>在离开梆梆大半年了，不讨论离开的原因，夸一下梆梆。</p>
+<p>有 Nemo 师傅和其它师傅带小弟，是真的香，还记得当初 Nemo 推荐我的方向、让我读的博客和代码，我全都没看完，是我不对，如果能耐心读完，肯定不止现在的代码能力。</p>
+<p>每周五有技术分享（也不是每周），大家在一起讨论很酷的知识；还记得我分享的智能合约漏洞，一鸣大佬带着笔记过来听，还录屏录音（害，自闭自闭）。</p>
+<p>团队很年轻，很有活力，每天都在学习和干活，大家在一起不会犯懒。</p>
+<p>技术这边不是很官僚，当面试的时候看到一个好凶的大哥，不知道怎么叫，后来发现就是杰哥（手动狗头）；杰哥也是有个大哥的样子，虽然狡猾的很但是也很好的朋友。</p>
+<p>非技术人员特别热情，叫一声 sj大佬 之类的，请教个问题，都特别到位，印象中好多售前、项目经理都特别好学，经常请教很多问题，让看代码就看代码，让改代码就改代码，让装 kali 就装 kali，接连否认自己不行。有的项目经理非科班出身，技术上也懂的很多。</p>
+
+                
+<p class="pink-link-context">
+    <a href="/2220/03/18/流水账/" rel="next" title="ssj 每日流水账">
+    Prev: ssj 每日流水账
+  </a>
+</p>
+
+
+
+<p class="pink-link-context">
+    <a href="/2020/03/25/浅谈ss协议漏洞/" rel="next" title="浅谈 Shadowsocks 协议漏洞">
+    Next: 浅谈 Shadowsocks 协议漏洞
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large pink">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect pink" title="Return to top"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse pink darken-1"  data-activates="main-menu" title="Menu"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer pink accent-1 darken-1">
+    
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">Social</h5>
+                
+                    <a class="social-link" href="https://github.com/cracke-s-j" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                
+
+            </div>
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">Links</h5>
+                
+                    <a class="social-link" href="https://blog.dyf.ink/" target="_blank">友情链接 dyf&#39;s blog</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright pink-link-context">
+        <div class="container">
+            © 2020 ssj, All rights reserved.
+            <p class="right" style="margin-top: 0;">Blog powered by <a href="https://hexo.io">Hexo</a> | Theme <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+        </div>
+    </div>
+</footer>
+
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+    </div>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
+<script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
+
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
+
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
+            });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('pink lighten-2');
+
+            
+            // 添加new标签
+            $('').append('<span class="new badge pink"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
+        });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async
+  src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"superSample":2,"width":250,"height":500,"position":"left","hOffset":0,"vOffset":0},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

