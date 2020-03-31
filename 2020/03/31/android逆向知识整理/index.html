@@ -214,6 +214,30 @@ VitualAppBangcle ">
         
 
             <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Android/">
+                    Android <span class="right">8</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/脱壳/">
+                    脱壳 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/马甲包/">
+                    马甲包 <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/面试体验/">
                     面试体验 <span class="right">2</span></a>
                 </a>
@@ -238,30 +262,6 @@ VitualAppBangcle ">
         
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/Android/">
-                    Android <span class="right">8</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/Android/马甲包/">
-                    马甲包 <span class="right">2</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/Android/脱壳/">
-                    脱壳 <span class="right">1</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/听戏/">
                     听戏 <span class="right">5</span></a>
                 </a>
@@ -270,16 +270,16 @@ VitualAppBangcle ">
         
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/A简历/">
-                    A简历 <span class="right">1</span></a>
+                <a class="no-padding" href="/categories/CVE/">
+                    CVE <span class="right">3</span></a>
                 </a>
             </li>
 
         
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/CVE/">
-                    CVE <span class="right">3</span></a>
+                <a class="no-padding" href="/categories/A简历/">
+                    A简历 <span class="right">1</span></a>
                 </a>
             </li>
 
@@ -401,7 +401,7 @@ VitualAppBangcle ">
 <li>只能 hook Java 层。</li>
 <li>带壳 app 要让壳先attachBaseContext，再用之后那个 classLoader。</li>
 </ol>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(Java.available) &#123;</span><br><span class="line">    Java.perform(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> application = Java.use(<span class="string">"android.app.Application"</span>);</span><br><span class="line">        <span class="keyword">var</span> reflectClass = Java.use(<span class="string">"java.lang.Class"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"application: "</span> + application);</span><br><span class="line"></span><br><span class="line">        application.attach.overload(<span class="string">'android.content.Context'</span>).implementation = <span class="function"><span class="keyword">function</span>(<span class="params">context</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> result = <span class="keyword">this</span>.attach(context); <span class="comment">// 先执行原来的attach方法</span></span><br><span class="line">            <span class="keyword">var</span> classloader = context.getClassLoader(); <span class="comment">// 获取classloader</span></span><br><span class="line">            Java.classFactory.loader = classloader;</span><br><span class="line">            <span class="comment">//这不里能直接使用Java.use，因为java.use会检查在不在perform里面，不在就会失败</span></span><br><span class="line">            <span class="keyword">var</span> AyWelcome = Java.classFactory.use(<span class="string">"flytv.run.monitor.fragment.user.AyWelcome"</span>); </span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">"AyWelcome: "</span> + AyWelcome);</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(Java.available) &#123;</span><br><span class="line">    Java.perform(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> application = Java.use(<span class="string">"android.app.Application"</span>);</span><br><span class="line">        <span class="keyword">var</span> reflectClass = Java.use(<span class="string">"java.lang.Class"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"application: "</span> + application);</span><br><span class="line"></span><br><span class="line">        application.attach.overload(<span class="string">'android.content.Context'</span>).implementation = <span class="function"><span class="keyword">function</span>(<span class="params">context</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> result = <span class="keyword">this</span>.attach(context); <span class="comment">// 先执行原来的attach方法</span></span><br><span class="line">            <span class="keyword">var</span> classloader = context.getClassLoader(); <span class="comment">// 获取classloader</span></span><br><span class="line">            Java.classFactory.loader = classloader;</span><br><span class="line">            <span class="comment">//这不里能直接使用Java.use，因为java.use会检查在不在perform里面，不在就会失败</span></span><br><span class="line">            <span class="keyword">var</span> AyWelcome = Java.classFactory.use(<span class="string">"flytv.run.monitor.fragment.user.AyWelcome"</span>);</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">"AyWelcome: "</span> + AyWelcome);</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="Frida"><a href="#Frida" class="headerlink" title="Frida"></a>Frida</h3><ol>
 <li>可 hook Java 层和 C 层。</li>
 <li>可以早期无痛注入。Frida 在注入进程的时候，会使用 ptrace 来完成，所以在遇到具备反调试的应用时（如各种壳），会导致注入失败。测试发现，Frida 仅仅在注入的时候会使用 ptrace，只要在壳运行之前进行注入，可以无视各种反调试。使用Xposed进行辅助，在应用才运行的时候，按需暂停5s，再注入Frida脚本。</li>
@@ -502,6 +502,7 @@ VitualAppBangcle ">
 <p>团队很年轻，很有活力，每天都在学习和干活，大家在一起不会犯懒。</p>
 <p>技术这边不是很官僚，当面试的时候看到一个好凶的大哥，不知道怎么叫，后来发现就是杰哥（手动狗头）；杰哥也是有个大哥的样子，虽然狡猾的很但是也很好的朋友。</p>
 <p>非技术人员特别热情，叫一声 sj大佬 之类的，请教个问题，都特别到位，印象中好多售前、项目经理都特别好学，经常请教很多问题，让看代码就看代码，让改代码就改代码，让装 kali 就装 kali，接连否认自己不行。有的项目经理非科班出身，技术上也懂的很多。</p>
+<p>还有有（较）硬核的 wiki，都是大佬们的骚操作。</p>
 
                 
 <p class="pink-link-context">
