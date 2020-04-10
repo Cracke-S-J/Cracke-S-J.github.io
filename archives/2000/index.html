@@ -7,16 +7,13 @@
 
     
 
-    <title>以太坊背景知识 | </title>
+    <title>Archives: 2000 | </title>
     <meta name="author" content="ssj">
-    
-    <meta name="description" content="0x00 以太坊以太坊入门，快速理解一些概念http://me.tryblockchain.org/getting-up-to-speed-on-ethereum.html
-以太坊以太坊，Ethereum是一个分布式的计算机，有许多的节点，其中的每一个节点，都会执行字节码（其实就是智能合约），然后把">
     
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <meta property="og:title" content="以太坊背景知识">
+    
     <meta property="og:site_name" content="ssj&#39;s blog">
 
     
@@ -322,153 +319,40 @@
 
     <main>
         <div class="container main-container">
-    <nav class="page-nav hide-on-small-only">
+    
+
+<nav class="page-nav hide-on-small-only">
     <div class="nav-wrapper pink">
-        <span class="breadcrumb">Current page(Categories)</span>
-        
-            
-    
-    
-    <a class="breadcrumb" href="/categories/Ethereum/">Ethereum</a>
-
-
+        <span class="breadcrumb">Current page(Tags)</span>
         
 
         
     </div>
 </nav>
 
-<article>
-    <div class="card">
-        <div class="card-content">
-            
-
-            <div class="article-title">
-                
-    
-        <h1>以太坊背景知识</h1>
-    
 
 
-            </div>
-            <time class="pink-link-context" datetime="2019-03-13T11:16:08.000Z"><a href="/2019/03/13/Ethereum-background/">2019-03-13</a></time>
-
-            <span id="busuanzi_container_page_pv" class="read-times-container">
-    <i class="fa fa-eye"></i>
-    <span id="busuanzi_value_page_pv"></span>
-</span>
-
-            
-    <div class="tags-row">
+    <ul class="collapsible mt-0" data-collapsible="accordion">
         
-            <a href="/tags/Ethereum/" class="chip pink lighten-1">Ethereum</a>
         
-    </div>
-
-
-            <div class="toc pink-link-context hide-on-med-and-down">
-    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#0x00-以太坊"><span class="section table-of-contents-text">0x00 以太坊</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#以太坊入门，快速理解一些概念"><span class="section table-of-contents-text">以太坊入门，快速理解一些概念</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#以太坊"><span class="section table-of-contents-text">以太坊</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#智能合约"><span class="section table-of-contents-text">智能合约</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#Gas"><span class="section table-of-contents-text">Gas</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-4"><a class="section table-of-contents-link" href="#DAPP"><span class="section table-of-contents-text">DAPP</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#以太坊交易过程"><span class="section table-of-contents-text">以太坊交易过程</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#0x01-环境-metamask-remix（方便）"><span class="section table-of-contents-text">0x01 环境 metamask+remix（方便）</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#0x02-solidity语法的一些问题"><span class="section table-of-contents-text">0x02 solidity语法的一些问题</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#call-与-delegatecall"><span class="section table-of-contents-text">call 与 delegatecall</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#tx-origin-与-msg-sender"><span class="section table-of-contents-text">tx.origin 与 msg.sender</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#private-public-internal-external-view-pure"><span class="section table-of-contents-text">private public internal external view pure</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#fallback"><span class="section table-of-contents-text">fallback</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#转账"><span class="section table-of-contents-text">转账</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#合约地址"><span class="section table-of-contents-text">合约地址</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#this"><span class="section table-of-contents-text">this</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#新版细节"><span class="section table-of-contents-text">新版细节</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#memory-与-storage"><span class="section table-of-contents-text">memory 与 storage</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#0x03-solidity内部存储机制"><span class="section table-of-contents-text">0x03 solidity内部存储机制</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#gt-gt"><span class="section table-of-contents-text">-&gt; -&gt;</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#DASP-Top10"><span class="section table-of-contents-text">DASP Top10</span></a></li></ol>
-</div>
-
-
-            <div class="entry pink-link-context">
-                <h2 id="0x00-以太坊"><a href="#0x00-以太坊" class="headerlink" title="0x00 以太坊"></a>0x00 以太坊</h2><h3 id="以太坊入门，快速理解一些概念"><a href="#以太坊入门，快速理解一些概念" class="headerlink" title="以太坊入门，快速理解一些概念"></a>以太坊入门，快速理解一些概念</h3><p><a href="http://me.tryblockchain.org/getting-up-to-speed-on-ethereum.html" target="_blank" rel="noopener">http://me.tryblockchain.org/getting-up-to-speed-on-ethereum.html</a></p>
-<h3 id="以太坊"><a href="#以太坊" class="headerlink" title="以太坊"></a>以太坊</h3><p>以太坊，Ethereum是一个分布式的计算机，有许多的节点，其中的每一个节点，都会执行字节码（其实就是智能合约），然后把结果存在区块链上。由于整个网络是分布式的，且应用就是一个个的状态组成，存储了状态就有了服务；所以它就能永不停机，没有一个中心化的结点（没有任何一个节点说了算，去中心化的），任何第三方不能干预。</p>
-<p>显然上面这一段话，直接解释了以太坊是什么。但你可能有非常多的问题。以太坊入门，就是看白皮书最好，最快。</p>
-<h3 id="智能合约"><a href="#智能合约" class="headerlink" title="智能合约"></a>智能合约</h3><p>智能合约与平时的代码其实没有什么区别，只是运行于一个以太坊这样的分布式平台上而已。这个运行的平台，赋予了这些代码不可变，确定性，分布式和可自校验状态等特点。代码运行过程中状态的存储，是不可变的。每一个人，都可以开一个自己的节点，重放整个区块链，将会获得同样的结果（能控制所有节点都达到一致状态，就是所谓的共识）。</p>
-<p>在以太坊中，每个合约都有一个唯一的地址来标识它自己（由创建者的哈希地址和曾经发送过的交易的数量推算出来）。客户端可以与这个地址进行交互，可以发送ether，调用函数，查询当前的状态等。</p>
-<p>智能合约，本质上来说就是代码，以及代码运行后存储到区块链上的状态两个元素组成。比如，你用来收发ETH的钱包，本质上就是一个智能合约，只是外面套了一个界面。</p>
-<h3 id="Gas"><a href="#Gas" class="headerlink" title="Gas"></a>Gas</h3><p>智能合约，就是一些代码，运行整个分布式网络中。由于网络中的每一个节点都是一个全节点。这样的好处是容错性强，坏处是效率低，消耗资源与时间（原来只在一个节点执行一次就行，现在所有节点中每一个，都要执行一模一样的运算）。因为执行计算要花钱，而要执行的运算量与代码直接相关。所以，每个在网络运行的底层操作都需要一定量的gas。gas只是一个名字，它代表的是执行所需要花费的成本（由于以太坊是图灵完备的，随便一个死循环就将导致网络不可用，所以引入了gas的概念）。整个分布式网络引入了强制限制，来避免停机问题。因此如果你写一个死循环，当gas耗尽后，网络就会拒绝执行接下来的操作，并且回滚你之前的所有操作。</p>
-<p>gas的价格由市场决定，类似于比特币的交易费机制。如果你的gas价格高，节点则将优先因为利益问题打包你的交易。</p>
-<p>一般来说，在Ethereum中计算和存储东西比在传统环境中做的更为昂贵，但是，Ethereum为您的代码提供了上述我们讨论过的那些好的属性，这可能是一样有价值的。</p>
-<p>一般来说，在以太坊网上读取状态是免费的，只有写入状态是收费的。</p>
-<h4 id="DAPP"><a href="#DAPP" class="headerlink" title="DAPP"></a>DAPP</h4><p>DApp是Decentralized Application的缩写，译为:分散式的应用程序。DApp运行在去中心化的网络上，也就是区块链网络中。网络中不存在中心化的节点可以完整的控制DApp。传统App是中心化的。需要请求某台服务器来获取数据，处理数据等。一个完全的DApp是需要满足完全开源并且是自治的应用程序。DApp一经部署完毕，就不可更改。应用的升级必须由大部分用户达成共识之后才可以进行升级。所有的数据必须进行加密存储在去中心化的区块链应用平台上。没有中心化的机构能够进行干扰。不会出现某些数据的删除或者修改。</p>
-<h3 id="以太坊交易过程"><a href="#以太坊交易过程" class="headerlink" title="以太坊交易过程"></a>以太坊交易过程</h3><p>用户将一笔交易发送到一个以太坊节点。</p>
-<p>这个以太坊节点将交易转发给其它挖矿的节点。</p>
-<p>挖矿的节点收到交易后将交易放入txpool（交易池）。</p>
-<p>所有挖矿节点都在txpool中选择gas价高者，做成交易块，然后运算块的hash。</p>
-<p>若干个节点中的一个幸运儿运算出来hash，并交该块广播给其它节点验证。</p>
-<p>其它节点验证通过，在txpool中删除上链交易。</p>
-<h2 id="0x01-环境-metamask-remix（方便）"><a href="#0x01-环境-metamask-remix（方便）" class="headerlink" title="0x01 环境 metamask+remix（方便）"></a>0x01 环境 metamask+remix（方便）</h2><p>官网安装metamask（科学上网）。<a href="http://remix.ethereum.org（不能用https）。" target="_blank" rel="noopener">http://remix.ethereum.org（不能用https）。</a></p>
-<p>注册一个账号，（坑：记单词顺序），然后在测试链上<strong>要钱</strong>。</p>
-<p>本地链玄学。</p>
-<h2 id="0x02-solidity语法的一些问题"><a href="#0x02-solidity语法的一些问题" class="headerlink" title="0x02 solidity语法的一些问题"></a>0x02 solidity语法的一些问题</h2><h3 id="call-与-delegatecall"><a href="#call-与-delegatecall" class="headerlink" title="call 与 delegatecall"></a>call 与 delegatecall</h3><p>向合约发送消息有两种底层调用的接口，一个是call，一个是delegatecall。</p>
-<p>call的原型为：<br><code>&lt;address&gt;.call.value(...)(...) returns (bool)</code></p>
-<p>delegatecall原型为：<br><code>&lt;address&gt;.delegatecall(...) returns (bool)</code></p>
-<p>这个东西在新版返回一个元组，第一个是bool，元组是随便一些变量的列表，tuple一般是两个。</p>
-<p>二者的异同：</p>
-<p>相同|不同</p>
-<ol>
-<li>调用时传递合约所有gas|1. call可以使用.value传ETH</li>
-<li>执行失败返回false|2. call的外部调用上下文是外部合约，而delegatecall的外部调用上下文是自身</li>
-</ol>
-<h3 id="tx-origin-与-msg-sender"><a href="#tx-origin-与-msg-sender" class="headerlink" title="tx.origin 与 msg.sender"></a>tx.origin 与 msg.sender</h3><h3 id="private-public-internal-external-view-pure"><a href="#private-public-internal-external-view-pure" class="headerlink" title="private public internal external view pure"></a>private public internal external view pure</h3><h3 id="fallback"><a href="#fallback" class="headerlink" title="fallback"></a>fallback</h3><p>两种情况会调用fallback：</p>
-<p>调用函数找不到时。向合约发送ether时。</p>
-<h3 id="转账"><a href="#转账" class="headerlink" title="转账"></a>转账</h3><ol>
-<li><address>.transfer()    //失败抛出throw且回滚，2300gas</address></li>
-<li><address>.send()    //失败返回false，2300gas</address></li>
-<li><address>.gas().call.value()()    //失败返回false，所有gas</address></li>
-</ol>
-<h3 id="合约地址"><a href="#合约地址" class="headerlink" title="合约地址"></a>合约地址</h3><p>一份已创建的合约地址由以下函数决定:</p>
-<p><code>keccak256(rlp.encode([&lt;account_address&gt;, &lt;transaction_nonce&gt;])</code></p>
-<p>以太坊要求每笔交易必须有一个nonce数值。nonce值从0开始递增，每发送一笔交易，nonce便加1。</p>
-<h3 id="this"><a href="#this" class="headerlink" title="this"></a>this</h3><p>this是一个指针，旧版this是当前地址，新版address(this)是当前合约地址，具体看文档。</p>
-<h3 id="新版细节"><a href="#新版细节" class="headerlink" title="新版细节"></a>新版细节</h3><p>remix让怎么办就怎么办。</p>
-<h3 id="memory-与-storage"><a href="#memory-与-storage" class="headerlink" title="memory 与 storage"></a>memory 与 storage</h3><p>struct在旧版中，在函数是声明默认是storage，storage是个指针啊，不初始化的话它就是个没有对象的野指针，默认指在slot 0。</p>
-<h2 id="0x03-solidity内部存储机制"><a href="#0x03-solidity内部存储机制" class="headerlink" title="0x03 solidity内部存储机制"></a>0x03 solidity内部存储机制</h2><p>Solidity中的状态变量存储模型。</p>
-<p>Solidity预留了3个32字节大小的槽位：</p>
-<p>· 0-64: 哈希方法的暂存空间。</p>
-<p>· 64-96: 当前已分配内存大小(也称空闲内存指针)。</p>
-<p>暂存空间可在语句之间使用（如在内联编译时使用）。</p>
-<p>有一些在Solidity中的操作需要超过64字节的临时空间，这样就会超过预留的暂存空间。他们就将会分配到空闲内存指针所在的地方，但由于他们自身的特点，生命周期相对较短，且指针本身不能更新，内存也许会，也许不会被清零。因此，不应该认为空闲的内存一定已经是清零的。</p>
-<p>理解模型有几个关键点：</p>
-<p>1.合约的存储由一个256位指针处理，而合约内的变量都存储在以合约指针为基址的偏移地址中。</p>
-<p>2.大小固定的变量（除了mapping，变长数组以外的所有类型）在存储中是依次连续从位置0开始排列在一个32字节槽中。</p>
-<p>3.如果多个变量占用的大小少于32字节，会尽可能的打包到单个槽位里。</p>
-<p>4.由于mapping和变长数组的大小不可预知，因此定义使用keccak256哈希来计算数据存储位置。</p>
-<p>5.对于mapping，会在mapping定义位置（p）占用一个槽位，但其中无数据，而数据存储位置通过 keccak256(k . p)计算得到，k为mapping键。</p>
-<p>6.对于动态数组，会在数组定义位置（p）占用一个槽位，存储数组元素个数，而数据存储位置通过 keccak256(p)计算得到。</p>
-<h2 id="gt-gt"><a href="#gt-gt" class="headerlink" title="-&gt; -&gt;"></a>-&gt; -&gt;</h2><p>2018年/前10dapp漏洞。<a href="https://www.dasp.co/" target="_blank" rel="noopener">https://www.dasp.co/</a></p>
-<p>SSD’s wiki</p>
-<p>在这个平台练习那些漏洞 <a href="https://ethernaut.zeppelin.solutions" target="_blank" rel="noopener">https://ethernaut.zeppelin.solutions</a></p>
-<h2 id="DASP-Top10"><a href="#DASP-Top10" class="headerlink" title="DASP Top10"></a>DASP Top10</h2><ol>
-<li>Reentrancy</li>
-<li>Access Control</li>
-<li>Arithmetic</li>
-<li>Unchecked Low Level Calls</li>
-<li>Denial of Services</li>
-<li>Bad Randomness</li>
-<li>Front Running</li>
-<li>Time Manipulation</li>
-<li>Short Addresses</li>
-<li>Unknown Unknowns</li>
-</ol>
-
-                
-<p class="pink-link-context">
-    <a href="/2019/03/18/Ethereum-bug/" rel="next" title="以太坊漏洞 TOP9">
-    Prev: 以太坊漏洞 TOP9
-  </a>
-</p>
-
-
-
-<p class="pink-link-context">
-    <a href="/2019/03/08/start-poem/" rel="next" title="定场诗">
-    Next: 定场诗
-  </a>
-</p>
-
-
-            </div>
-			
-        </div>
-    </div>
-</article>
-
-
-
-
+            <li>
+                <div class="collapsible-header active">
+                    <i class="fa fa-archive"></i>2000
+                </div>
+                <div class="collapsible-body">
+                    <div class="collection">
+                        
+                            <a href="/2000/03/18/流水账/" class="collection-item grey-text text-darken-1">
+                                <time datetime="2000-03-18T15:38:53.000Z">2000-03-18</time>
+                                <span>&nbsp;&nbsp;&nbsp;</span>
+                                ssj 每日流水账
+                            </a>
+                        
+                    </div>
+                </div>
+            </li>
+        
+    </ul>
 
 
 </div>
