@@ -46,6 +46,55 @@
   </entry>
   
   <entry>
+    <title>v8 编译环境搭建</title>
+    <link href="https://github.com/Cracke-S-J/2020/04/18/v8%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"/>
+    <id>https://github.com/Cracke-S-J/2020/04/18/v8%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</id>
+    <published>2020-04-18T10:15:18.000Z</published>
+    <updated>2020-04-18T10:50:57.957Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>只要思路不滑坡，办法总比困难多。</p></blockquote><p>最近一直琢磨着挖个洞啥的，看别人分析浏览器漏洞都好羡慕，但是屡次想把v8编译环境搭起来，屡次都没有成功，今天一狠心，终于搭起来了。下面说一下我的踩坑过程。</p><p>首先上网搜了一个，大多是两种选择，要么搭全局梯子，要么用vps等海外服务器。</p><p>再说一下我的情况，没有钱、没有海外信用卡、没有梯子、只有一台没有桌面的学生版阿里云服务器的苦逼。</p><h3 id="首先我选择了搭全局梯子"><a href="#首先我选择了搭全局梯子" class="headerlink" title="首先我选择了搭全局梯子"></a>首先我选择了搭全局梯子</h3><p>穷逼的我没有梯子，到墙外一直是靠蹭公司的梯子，所以我打开了free-ss.com，找了个Japan，手机扫一下，没有问题，然后一波google怎么在没有桌面系统的情况用纯command配置代理，然后失败了，就很疑惑，坐等大佬解答<code>Failed to connect to 127.0.0.1 port 8123: Connection refused</code>呜呜呜。</p><h3 id="然后只能搞台便便宜宜vps"><a href="#然后只能搞台便便宜宜vps" class="headerlink" title="然后只能搞台便便宜宜vps"></a>然后只能搞台便便宜宜vps</h3><p>google了一波羊毛，基本都是要有海外信用卡才能薅，要么就要充个$10，显然70多软妹币的价钱我是不能接受的，然后看了一下虚拟信用卡，要先充钱，然后提现要实名认证，举着身份证照相那种，害，不靠谱不靠谱。</p><p>现在咋鸡毛办，乖乖交钱？ssj这种资深羊毛党怎么会束手就擒呢？于是我打开了某宝，几块钱买了一张虚拟信用卡，看评论说谷歌云不一定成功，ms家的云还行，aws成功率挺高，那就aws了，熟练地填上卡号，并找了一个美国大学生的身份写了上去，地址、邮编一气呵成，呵~然后我成功get了aws的试用。</p><h3 id="开始搭编译环境"><a href="#开始搭编译环境" class="headerlink" title="开始搭编译环境"></a>开始搭编译环境</h3><p>就是上网搜了搜v8怎么构建，就在所以配置都结束以后，终于开始编译，然后，我内存不够….频繁被kill……</p><h3 id="终章，成功解决问题"><a href="#终章，成功解决问题" class="headerlink" title="终章，成功解决问题"></a>终章，成功解决问题</h3><p>把aws上的v8/目录直接copy到国内server上，在国内server上装了一下依赖，直接ninja，竟然tmd成功了！果然是google，构建个项目可移植性这么ok！其实我的主要目的是用xvsa扫一下，如果没有用此方法编过，我也可以用ninja -t commands把compilation_database取出来，再魔改下xcbuild直接预处理。当然能成功编过是最好的了！</p><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>遇事问谷歌，再遇事问某宝，一定会解决问题。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;只要思路不滑坡，办法总比困难多。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;最近一直琢磨着挖个洞啥的，看别人分析浏览器漏洞都好羡慕，但是屡次想把v8编译环境搭起来，屡次都没有成功，今天一狠心，终于搭起来了。下面说一下我的踩坑过程。&lt;/p&gt;
+&lt;p&gt;首
+      
+    
+    </summary>
+    
+    
+      <category term="CVE" scheme="https://github.com/Cracke-S-J/categories/CVE/"/>
+    
+    
+      <category term="CVE" scheme="https://github.com/Cracke-S-J/tags/CVE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Qualcomm QSEECOM 接口漏洞（CVE-2019-14040）分析</title>
+    <link href="https://github.com/Cracke-S-J/2020/04/18/QualcommQSEECOM%E6%8E%A5%E5%8F%A3%E6%BC%8F%E6%B4%9E%EF%BC%88CVE-2019-14040%EF%BC%89%E5%88%86%E6%9E%90/"/>
+    <id>https://github.com/Cracke-S-J/2020/04/18/QualcommQSEECOM%E6%8E%A5%E5%8F%A3%E6%BC%8F%E6%B4%9E%EF%BC%88CVE-2019-14040%EF%BC%89%E5%88%86%E6%9E%90/</id>
+    <published>2020-04-18T02:54:56.000Z</published>
+    <updated>2020-04-18T02:55:30.763Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+      <category term="CVE" scheme="https://github.com/Cracke-S-J/categories/CVE/"/>
+    
+    
+      <category term="CVE" scheme="https://github.com/Cracke-S-J/tags/CVE/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Linux PWN 相关知识整理</title>
     <link href="https://github.com/Cracke-S-J/2020/04/15/LinuxPWN%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/"/>
     <id>https://github.com/Cracke-S-J/2020/04/15/LinuxPWN%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/</id>
@@ -539,65 +588,6 @@
       <category term="CTF" scheme="https://github.com/Cracke-S-J/tags/CTF/"/>
     
       <category term="pwn" scheme="https://github.com/Cracke-S-J/tags/pwn/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Android Studio NDK 开发环境搭建</title>
-    <link href="https://github.com/Cracke-S-J/2019/07/08/ndk/"/>
-    <id>https://github.com/Cracke-S-J/2019/07/08/ndk/</id>
-    <published>2019-07-08T09:17:51.000Z</published>
-    <updated>2020-03-21T11:19:14.914Z</updated>
-    
-    <content type="html"><![CDATA[<ol><li>配好NDK路径。</li><li>在java层声明native方法，使用javah -d [路径] [类]，生成头文件。<br><code>C:\Users\12639\Documents\GitHub\Android\kuaiban\app\src\main\java&gt;javah -d ../jni ssj.kuaiban.MainActivity</code></li><li>在cpp里写代码。</li><li><p>写Android.mk和Application.mk</p><p>Android.mk</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">LOCAL_PATH := $(call my-dir)</span><br><span class="line">include $(CLEAR_VARS)</span><br><span class="line"></span><br><span class="line">LOCAL_MODULE := checkFlag</span><br><span class="line">LOCAL_SRC_FILES := checkFlag.c</span><br><span class="line"></span><br><span class="line">include $(BUILD_SHARED_LIBRARY)</span><br></pre></td></tr></table></figure><p>Application.mk(其实这句话也没什么卵用)</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">APP_ABI := all</span><br></pre></td></tr></table></figure></li><li><p>右击app -&gt; Link C++ Project with Gradle -&gt; 选ndk-build -&gt; 选刚才写的Android.mk</p></li><li>配置build.gradle，在defaultConfig里面加：<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">externalNativeBuild &#123;</span><br><span class="line">         ndkBuild &#123;</span><br><span class="line">             arguments <span class="string">"NDK_APPLICATION_MK:=src/main/jni/Application.mk"</span></span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure></li></ol><p>在Android Studio 3.x上，这样基本就成了。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ol&gt;
-&lt;li&gt;配好NDK路径。&lt;/li&gt;
-&lt;li&gt;在java层声明native方法，使用javah -d [路径] [类]，生成头文件。&lt;br&gt;&lt;code&gt;C:\Users\12639\Documents\GitHub\Android\kuaiban\app\src\main
-      
-    
-    </summary>
-    
-    
-      <category term="Android" scheme="https://github.com/Cracke-S-J/categories/Android/"/>
-    
-    
-      <category term="Android" scheme="https://github.com/Cracke-S-J/tags/Android/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>给车王二手车套马甲</title>
-    <link href="https://github.com/Cracke-S-J/2019/06/27/vest-car-king/"/>
-    <id>https://github.com/Cracke-S-J/2019/06/27/vest-car-king/</id>
-    <published>2019-06-27T12:26:41.000Z</published>
-    <updated>2020-03-21T11:19:28.665Z</updated>
-    
-    <content type="html"><![CDATA[<p>加资源，要在R$*.smali、res/values/public.xml、res/value/ids.xml这三个里面加，编译不会出错，至于为什么闪退待研究。</p><p>然后手加了几段代码Activity$1.smali不能用，就用*&amp;111也可，加新class不忘注册。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;加资源，要在R$*.smali、res/values/public.xml、res/value/ids.xml这三个里面加，编译不会出错，至于为什么闪退待研究。&lt;/p&gt;
-&lt;p&gt;然后手加了几段代码Activity$1.smali不能用，就用*&amp;amp;111也可，加新clas
-      
-    
-    </summary>
-    
-    
-      <category term="Android" scheme="https://github.com/Cracke-S-J/categories/Android/"/>
-    
-      <category term="马甲包" scheme="https://github.com/Cracke-S-J/categories/Android/%E9%A9%AC%E7%94%B2%E5%8C%85/"/>
-    
-    
-      <category term="Android" scheme="https://github.com/Cracke-S-J/tags/Android/"/>
-    
-      <category term="马甲包" scheme="https://github.com/Cracke-S-J/tags/%E9%A9%AC%E7%94%B2%E5%8C%85/"/>
     
   </entry>
   
