@@ -7,13 +7,16 @@
 
     
 
-    <title>脱壳 | </title>
+    <title>操作系统学习笔记 | </title><meta name="robots" content="noindex">
     <meta name="author" content="ssj">
+    
+    <meta name="description" content="前两天被Alpha Lab的人问的有点懵比，内核很多细节我都不懂，我决定每天拿出一个小时来先学习一下操作系统，清华大学学堂在线。学完这个会再学一下编译链接和装载，因为我忘记在哪看的jd对这些要求很高，学好了就写简历上。
+其实大多数东西我是能听懂并且明白的，但是没有系统的学习总结过，知识很零散，突然问">
     
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    
+    <meta property="og:title" content="操作系统学习笔记">
     <meta property="og:site_name" content="ssj&#39;s blog">
 
     
@@ -319,30 +322,132 @@
 
     <main>
         <div class="container main-container">
-    
-
-<nav class="page-nav hide-on-small-only">
+    <nav class="page-nav hide-on-small-only">
     <div class="nav-wrapper pink">
         <span class="breadcrumb">Current page(Categories)</span>
         
+            
+    
+    
+    <a class="breadcrumb" href="/categories/基础知识/">基础知识</a>
+
 
         
-            <a class="breadcrumb" href="/categories/Android/脱壳/">脱壳</a>
+
         
     </div>
 </nav>
 
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>操作系统学习笔记</h1>
+    
 
 
-    <div class="collection mt-0">
+            </div>
+            <time class="pink-link-context" datetime="2020-04-19T10:18:48.000Z"><a href="/2020/04/19/操作系统学习笔记/">2020-04-19</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
         
-            <a href="/2019/06/20/easy-android-unpack/" class="collection-item grey-text text-darken-1">
-                <time datetime="2019-06-20T06:36:05.000Z">2019-06-20</time>
-                <span>&nbsp;&nbsp;&nbsp;</span>
-                Android脱壳入门
-            </a>
+            <a href="/tags/基础知识/" class="chip pink lighten-1">基础知识</a>
         
     </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第一章-Kernel-内部组件"><span class="section table-of-contents-text">第一章 Kernel 内部组件</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第二章-操作系统基本知识"><span class="section table-of-contents-text">第二章 操作系统基本知识</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第三章-内存分配的基本知识"><span class="section table-of-contents-text">第三章 内存分配的基本知识</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第四章-非连续内存分配"><span class="section table-of-contents-text">第四章 非连续内存分配</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第五章-虚拟内存"><span class="section table-of-contents-text">第五章 虚拟内存</span></a></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <p>前两天被Alpha Lab的人问的有点懵比，内核很多细节我都不懂，我决定每天拿出一个小时来先学习一下操作系统，清华大学学堂在线。学完这个会再学一下编译链接和装载，因为我忘记在哪看的jd对这些要求很高，学好了就写简历上。</p>
+<p>其实大多数东西我是能听懂并且明白的，但是没有系统的学习总结过，知识很零散，突然问起来就容易傻逼。</p>
+<h2 id="第一章-Kernel-内部组件"><a href="#第一章-Kernel-内部组件" class="headerlink" title="第一章 Kernel 内部组件"></a>第一章 Kernel 内部组件</h2><ul>
+<li>cpu调度器</li>
+<li>物理内存管理</li>
+<li>虚拟内存管理</li>
+<li>文件系统管理</li>
+<li>中断处理与设备驱动</li>
+</ul>
+<h2 id="第二章-操作系统基本知识"><a href="#第二章-操作系统基本知识" class="headerlink" title="第二章 操作系统基本知识"></a>第二章 操作系统基本知识</h2><ul>
+<li>启动过程<ul>
+<li>BIOS</li>
+<li>bootloader</li>
+<li>OS init</li>
+</ul>
+</li>
+<li>基本概念<ul>
+<li>中断</li>
+<li>异常</li>
+<li>系统调用</li>
+</ul>
+</li>
+<li>跨操作系统的开销<ul>
+<li>建立中断/异常/系统调用号与对应服务例程映射关系的初始化开销</li>
+<li>建立内核堆栈</li>
+<li>验证参数</li>
+<li>内核态映射到用户态的地址空间，更新页面映射权限</li>
+<li>内核态独立地址空间，刷新TLB</li>
+</ul>
+</li>
+</ul>
+<h2 id="第三章-内存分配的基本知识"><a href="#第三章-内存分配的基本知识" class="headerlink" title="第三章 内存分配的基本知识"></a>第三章 内存分配的基本知识</h2><ul>
+<li>编译器会处理符号地址到逻辑地址</li>
+<li>MMU会根据TLB从逻辑地址找到物理地址</li>
+<li>具体分配策略由操作系统定</li>
+</ul>
+<p>操作系统中管理内存的不同方法（还没讲）</p>
+<ul>
+<li>程序重定位</li>
+<li>分段</li>
+<li>分页</li>
+<li>虚拟内存</li>
+<li>按需分页虚拟内存</li>
+<li>实现必须知道内存架构</li>
+<li>硬件负责处理cpu访问请求</li>
+</ul>
+<p>讲了三种鸡肋的连续内存分配方法，和两种鸡肋的碎片整理方法。</p>
+<p>是因为我舔狗属性么，我怎么觉得清华这课讲的这么好。（手动狗头）</p>
+<h2 id="第四章-非连续内存分配"><a href="#第四章-非连续内存分配" class="headerlink" title="第四章 非连续内存分配"></a>第四章 非连续内存分配</h2><ul>
+<li>分段（现在用的比较少）</li>
+<li>分页<ul>
+<li>页表</li>
+<li>TLB</li>
+<li>多级页表</li>
+<li>反向页表（用的比较少，IBM的部分power64）</li>
+</ul>
+</li>
+</ul>
+<h2 id="第五章-虚拟内存"><a href="#第五章-虚拟内存" class="headerlink" title="第五章 虚拟内存"></a>第五章 虚拟内存</h2><ul>
+<li>覆盖技术、交换技术（两根鸡肋）</li>
+<li>虚存技术，swap in/out</li>
+</ul>
+<!-- flag of hidden posts -->
+                
+
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
 
 
 </div>
