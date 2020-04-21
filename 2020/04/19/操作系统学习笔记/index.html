@@ -204,6 +204,14 @@
         
 
             <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/算法/">
+                    算法 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/Android/">
                     Android <span class="right">8</span></a>
                 </a>
@@ -222,14 +230,6 @@
             <li class="collapse-level-1" collapse-level="1">
                 <a class="no-padding" href="/categories/Android/马甲包/">
                     马甲包 <span class="right">2</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/算法/">
-                    算法 <span class="right">1</span></a>
                 </a>
             </li>
 
@@ -367,7 +367,7 @@
 
 
             <div class="toc pink-link-context hide-on-med-and-down">
-    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第一章-Kernel-内部组件"><span class="section table-of-contents-text">第一章 Kernel 内部组件</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第二章-操作系统基本知识"><span class="section table-of-contents-text">第二章 操作系统基本知识</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第三章-内存分配的基本知识"><span class="section table-of-contents-text">第三章 内存分配的基本知识</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第四章-非连续内存分配"><span class="section table-of-contents-text">第四章 非连续内存分配</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第五章-虚拟内存"><span class="section table-of-contents-text">第五章 虚拟内存</span></a></li></ol>
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第一章-Kernel-内部组件"><span class="section table-of-contents-text">第一章 Kernel 内部组件</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第二章-操作系统基本知识"><span class="section table-of-contents-text">第二章 操作系统基本知识</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第三章-内存分配的基本知识"><span class="section table-of-contents-text">第三章 内存分配的基本知识</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第四章-非连续内存分配"><span class="section table-of-contents-text">第四章 非连续内存分配</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第五章-虚拟内存"><span class="section table-of-contents-text">第五章 虚拟内存</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第六章-页面转换算法"><span class="section table-of-contents-text">第六章 页面转换算法</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第七章-进程相关"><span class="section table-of-contents-text">第七章 进程相关</span></a></li></ol>
 </div>
 
 
@@ -435,6 +435,32 @@
 <li>虚存技术，swap in/out</li>
 <li>页表表项</li>
 <li>后备存储、swap</li>
+</ul>
+<h2 id="第六章-页面转换算法"><a href="#第六章-页面转换算法" class="headerlink" title="第六章 页面转换算法"></a>第六章 页面转换算法</h2><ul>
+<li>局部页面置换算法<ul>
+<li>OPT(最优页面置换算法，理想情况)</li>
+<li>FIFO(鸡肋)</li>
+<li>LRU(基于时间)</li>
+<li>Clock<ul>
+<li>两个bit标记，存在和脏</li>
+<li>二次机会法</li>
+</ul>
+</li>
+<li>LFU 最不常用算法(基于访问次数)</li>
+<li>Belady现象，因为不是栈算法，这是一个科学家名，不是两个单词</li>
+</ul>
+</li>
+<li>全局页面置换算法<ul>
+<li>工作集跟常驻集要尽量重合</li>
+<li>基于工作集的算法，往前数几个</li>
+<li>基于缺页率</li>
+</ul>
+</li>
+<li>抖动问题</li>
+</ul>
+<h2 id="第七章-进程相关"><a href="#第七章-进程相关" class="headerlink" title="第七章 进程相关"></a>第七章 进程相关</h2><ul>
+<li>进程控制块</li>
+<li>进程的生命周期</li>
 </ul>
 <!-- flag of hidden posts -->
                 
