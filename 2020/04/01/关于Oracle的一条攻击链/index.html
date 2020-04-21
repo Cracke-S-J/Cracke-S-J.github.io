@@ -203,14 +203,6 @@
         
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/算法/">
-                    算法 <span class="right">1</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/Android/">
                     Android <span class="right">8</span></a>
                 </a>
@@ -229,6 +221,14 @@
             <li class="collapse-level-1" collapse-level="1">
                 <a class="no-padding" href="/categories/Android/脱壳/">
                     脱壳 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/算法/">
+                    算法 <span class="right">1</span></a>
                 </a>
             </li>
 
@@ -373,6 +373,7 @@
             <div class="entry pink-link-context">
                 <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>这是 CVE-2019-2444。背景是有一个程序叫 jssu，是为 Oracle Scheduler 提供服务的组件，它的一些权限配置有问题，导致可以符号链接攻击造成提权。但是前提要有 oracle 账号，但是这可以配合 CVE-2018-3004 这个 Java 反序列化漏洞绕过 Oracle JVM 的一些安全机制，拿到 oracel 用户权限。</p>
 <h2 id="CVE-2018-3004"><a href="#CVE-2018-3004" class="headerlink" title="CVE-2018-3004"></a>CVE-2018-3004</h2><p>CVE-2018-3004 简单介绍两句，XMLDecoder 反序列化，组装的时候，调用的方法是不被 Jvm 限制的，所以可以构造一个 FileWriter，实现 oracle 用户权限的任意写入。然后用本文主要介绍的这个 CVE 对它进行提权。</p>
+<p>（这个漏洞没有搜到公开的资料，暂不做分析了（是我懒得去diff它，太难了））</p>
 <h2 id="漏洞点"><a href="#漏洞点" class="headerlink" title="漏洞点"></a>漏洞点</h2><p>主要有几下几个条件组合，成就了这个攻击：</p>
 <ol>
 <li>jssu 程序所在组是 oinstall，跟 oracle 同组，所有者是 root，设置了 suid，权限是 4750。</li>
