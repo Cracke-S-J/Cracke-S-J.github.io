@@ -269,7 +269,7 @@
 
             <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/CVE/">
-                    CVE <span class="right">8</span></a>
+                    CVE <span class="right">9</span></a>
                 </a>
             </li>
 
@@ -367,7 +367,7 @@
 
 
             <div class="toc pink-link-context hide-on-med-and-down">
-    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第一章-Kernel-内部组件"><span class="section table-of-contents-text">第一章 Kernel 内部组件</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第二章-操作系统基本知识"><span class="section table-of-contents-text">第二章 操作系统基本知识</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第三章-内存分配的基本知识"><span class="section table-of-contents-text">第三章 内存分配的基本知识</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第四章-非连续内存分配"><span class="section table-of-contents-text">第四章 非连续内存分配</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第五章-虚拟内存"><span class="section table-of-contents-text">第五章 虚拟内存</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第六章-页面转换算法"><span class="section table-of-contents-text">第六章 页面转换算法</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第七章-进程相关"><span class="section table-of-contents-text">第七章 进程相关</span></a></li></ol>
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第一章-Kernel-内部组件"><span class="section table-of-contents-text">第一章 Kernel 内部组件</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第二章-操作系统基本知识"><span class="section table-of-contents-text">第二章 操作系统基本知识</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第三章-内存分配的基本知识"><span class="section table-of-contents-text">第三章 内存分配的基本知识</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第四章-非连续内存分配"><span class="section table-of-contents-text">第四章 非连续内存分配</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第五章-虚拟内存"><span class="section table-of-contents-text">第五章 虚拟内存</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第六章-页面转换算法"><span class="section table-of-contents-text">第六章 页面转换算法</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第七章-进程相关"><span class="section table-of-contents-text">第七章 进程相关</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#第八章-cpu-调度"><span class="section table-of-contents-text">第八章 cpu 调度</span></a></li></ol>
 </div>
 
 
@@ -461,6 +461,34 @@
 <h2 id="第七章-进程相关"><a href="#第七章-进程相关" class="headerlink" title="第七章 进程相关"></a>第七章 进程相关</h2><ul>
 <li>进程控制块</li>
 <li>进程的生命周期</li>
+<li>线程<ul>
+<li>用户线程</li>
+<li>内核线程</li>
+<li>轻量级线程</li>
+</ul>
+</li>
+<li>进程的创建、加载、等等、终止、回收</li>
+</ul>
+<h2 id="第八章-cpu-调度"><a href="#第八章-cpu-调度" class="headerlink" title="第八章 cpu 调度"></a>第八章 cpu 调度</h2><ul>
+<li>调度原则</li>
+<li>调度算法<ul>
+<li>先来先服务</li>
+<li>短进程优先（估算时间）</li>
+<li>最高响应比优先</li>
+<li>轮循（公平）</li>
+<li>多级反馈队列</li>
+<li>公平共享调度</li>
+</ul>
+</li>
+<li>实时调度<ul>
+<li>硬时限</li>
+<li>软时限</li>
+<li>速度单调调度</li>
+<li>最早期限调度</li>
+</ul>
+</li>
+<li>SMP多处理器调度</li>
+<li>优先级反转</li>
 </ul>
 <!-- flag of hidden posts -->
                 

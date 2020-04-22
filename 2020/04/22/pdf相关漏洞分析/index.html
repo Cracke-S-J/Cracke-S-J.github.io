@@ -7,13 +7,18 @@
 
     
 
-    <title>Ethereum | </title>
+    <title>pdf相关漏洞分析 | </title>
     <meta name="author" content="ssj">
+    
+    <meta name="description" content="背景知识Windows内存管理与js相关堆利用我可能要先补一下windows内存管理及相关js知识，之前较少了解过。
+从 HeapSpray( 堆喷射 ) 到 HeapFengShui( 堆风水 )
+PDF相关PDF文件解析与PDF恶代分析中的一些坑
+PDF漏洞（CVE-2018-12794）浅析h">
     
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    
+    <meta property="og:title" content="pdf相关漏洞分析">
     <meta property="og:site_name" content="ssj&#39;s blog">
 
     
@@ -319,42 +324,90 @@
 
     <main>
         <div class="container main-container">
-    
-
-<nav class="page-nav hide-on-small-only">
+    <nav class="page-nav hide-on-small-only">
     <div class="nav-wrapper pink">
         <span class="breadcrumb">Current page(Categories)</span>
         
+            
+    
+    
+    <a class="breadcrumb" href="/categories/CVE/">CVE</a>
+
 
         
-            <a class="breadcrumb" href="/categories/Ethereum/">Ethereum</a>
+
         
     </div>
 </nav>
 
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>pdf相关漏洞分析</h1>
+    
 
 
-    <div class="collection mt-0">
+            </div>
+            <time class="pink-link-context" datetime="2020-04-22T11:05:49.000Z"><a href="/2020/04/22/pdf相关漏洞分析/">2020-04-22</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
         
-            <a href="/2019/03/25/Ethereum-practice/" class="collection-item grey-text text-darken-1">
-                <time datetime="2019-03-25T11:25:47.000Z">2019-03-25</time>
-                <span>&nbsp;&nbsp;&nbsp;</span>
-                Ethernaut Writeup
-            </a>
-        
-            <a href="/2019/03/18/Ethereum-bug/" class="collection-item grey-text text-darken-1">
-                <time datetime="2019-03-18T11:17:29.000Z">2019-03-18</time>
-                <span>&nbsp;&nbsp;&nbsp;</span>
-                以太坊漏洞 TOP9
-            </a>
-        
-            <a href="/2019/03/13/Ethereum-background/" class="collection-item grey-text text-darken-1">
-                <time datetime="2019-03-13T11:16:08.000Z">2019-03-13</time>
-                <span>&nbsp;&nbsp;&nbsp;</span>
-                以太坊背景知识
-            </a>
+            <a href="/tags/CVE/" class="chip pink lighten-1">CVE</a>
         
     </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#背景知识"><span class="section table-of-contents-text">背景知识</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#Windows内存管理与js相关堆利用"><span class="section table-of-contents-text">Windows内存管理与js相关堆利用</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#PDF相关"><span class="section table-of-contents-text">PDF相关</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#PDF漏洞（CVE-2018-12794）浅析"><span class="section table-of-contents-text">PDF漏洞（CVE-2018-12794）浅析</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#深入分析Adobe忽略了6年的PDF漏洞"><span class="section table-of-contents-text">深入分析Adobe忽略了6年的PDF漏洞</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#CVE-2018-4990-Adobe-Reader代码执行漏洞利用分析"><span class="section table-of-contents-text">CVE-2018-4990 Adobe Reader代码执行漏洞利用分析</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Fuzz闭源的PDF阅读器"><span class="section table-of-contents-text">Fuzz闭源的PDF阅读器</span></a></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <h2 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h2><h3 id="Windows内存管理与js相关堆利用"><a href="#Windows内存管理与js相关堆利用" class="headerlink" title="Windows内存管理与js相关堆利用"></a>Windows内存管理与js相关堆利用</h3><p>我可能要先补一下windows内存管理及相关js知识，之前较少了解过。</p>
+<p><a href="https://asanzjx.github.io/2018/11/27/FromHeapSprayToHeapFengShui/" target="_blank" rel="noopener">从 HeapSpray( 堆喷射 ) 到 HeapFengShui( 堆风水 )</a></p>
+<h3 id="PDF相关"><a href="#PDF相关" class="headerlink" title="PDF相关"></a>PDF相关</h3><p><a href="https://www.anquanke.com/post/id/87127" target="_blank" rel="noopener">PDF文件解析与PDF恶代分析中的一些坑</a></p>
+<h2 id="PDF漏洞（CVE-2018-12794）浅析"><a href="#PDF漏洞（CVE-2018-12794）浅析" class="headerlink" title="PDF漏洞（CVE-2018-12794）浅析"></a>PDF漏洞（CVE-2018-12794）浅析</h2><p><a href="https://www.anquanke.com/post/id/177861" target="_blank" rel="noopener">https://www.anquanke.com/post/id/177861</a></p>
+<h2 id="深入分析Adobe忽略了6年的PDF漏洞"><a href="#深入分析Adobe忽略了6年的PDF漏洞" class="headerlink" title="深入分析Adobe忽略了6年的PDF漏洞"></a>深入分析Adobe忽略了6年的PDF漏洞</h2><p><a href="https://xlab.tencent.com/cn/2019/09/12/deep-analysis-of-cve-2019-8014/" target="_blank" rel="noopener">https://xlab.tencent.com/cn/2019/09/12/deep-analysis-of-cve-2019-8014/</a></p>
+<h2 id="CVE-2018-4990-Adobe-Reader代码执行漏洞利用分析"><a href="#CVE-2018-4990-Adobe-Reader代码执行漏洞利用分析" class="headerlink" title="CVE-2018-4990 Adobe Reader代码执行漏洞利用分析"></a>CVE-2018-4990 Adobe Reader代码执行漏洞利用分析</h2><p><a href="https://www.anquanke.com/post/id/145822" target="_blank" rel="noopener">https://www.anquanke.com/post/id/145822</a></p>
+<p><a href="https://www.freebuf.com/articles/system/173095.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/system/173095.html</a></p>
+<h2 id="Fuzz闭源的PDF阅读器"><a href="#Fuzz闭源的PDF阅读器" class="headerlink" title="Fuzz闭源的PDF阅读器"></a>Fuzz闭源的PDF阅读器</h2><p><a href="https://www.anquanke.com/post/id/183330" target="_blank" rel="noopener">https://www.anquanke.com/post/id/183330</a></p>
+
+                
+<p class="pink-link-context">
+    <a href="/2220/05/29/resume/" rel="next" title="简历">
+    Prev: 简历
+  </a>
+</p>
+
+
+
+<p class="pink-link-context">
+    <a href="/2020/04/20/日常整理过路CVE/" rel="next" title="日常整理过路 CVE">
+    Next: 日常整理过路 CVE
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
 
 
 </div>
