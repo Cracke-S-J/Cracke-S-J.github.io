@@ -212,30 +212,6 @@
         
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/Android/">
-                    Android <span class="right">8</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/Android/马甲包/">
-                    马甲包 <span class="right">2</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/Android/脱壳/">
-                    脱壳 <span class="right">1</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/面试体验/">
                     面试体验 <span class="right">2</span></a>
                 </a>
@@ -260,6 +236,30 @@
         
 
             <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Android/">
+                    Android <span class="right">8</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/马甲包/">
+                    马甲包 <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/脱壳/">
+                    脱壳 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/听戏/">
                     听戏 <span class="right">5</span></a>
                 </a>
@@ -269,7 +269,15 @@
 
             <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/CVE/">
-                    CVE <span class="right">9</span></a>
+                    CVE <span class="right">10</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CVE/v8/">
+                    v8 <span class="right">2</span></a>
                 </a>
             </li>
 
@@ -494,9 +502,28 @@
 <li>线程安全问题背景</li>
 <li>三个概念：临界区、同步、互斥</li>
 <li>临界区设计方法<ul>
-<li>禁用硬件中断</li>
-<li>基于软件的解决方法</li>
-<li>更高级的抽象</li>
+<li>禁用硬件中断<ul>
+<li>没有中断，没有上下文切换，没有并发</li>
+<li>进入临界区禁用中断，离开开启中断</li>
+<li>线程无法停止，临界区任意长</li>
+</ul>
+</li>
+<li>基于软件的解决方法<ul>
+<li>Dekker算法，第一个针对双线程例子的正确解决方案</li>
+<li>Bakery算法，针对n线程的临界区问题解决方案</li>
+<li>需要忙等、复杂</li>
+<li>Peterson算法需要原子的LOAD和STORE指令</li>
+</ul>
+</li>
+<li>更高级的抽象<ul>
+<li>硬件提供原语，原子操作指令<ul>
+<li>Test-and-Set</li>
+<li>交换</li>
+</ul>
+</li>
+<li>操作系统锁、信号量</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
