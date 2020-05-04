@@ -7,7 +7,7 @@
 
     
 
-    <title>【未完成】v8入门学习 | </title>
+    <title>v8入门学习 | </title>
     <meta name="author" content="ssj">
     
     <meta name="description" content="前一阵好不容易把v8环境搓好了，要学习一波v8、浏览器漏洞。
@@ -21,7 +21,7 @@ V8 是怎么跑起来的">
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <meta property="og:title" content="【未完成】v8入门学习">
+    <meta property="og:title" content="v8入门学习">
     <meta property="og:site_name" content="ssj&#39;s blog">
 
     
@@ -209,14 +209,6 @@ V8 是怎么跑起来的">
         
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/算法/">
-                    算法 <span class="right">1</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/Android/">
                     Android <span class="right">8</span></a>
                 </a>
@@ -241,16 +233,16 @@ V8 是怎么跑起来的">
         
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/面试体验/">
-                    面试体验 <span class="right">2</span></a>
+                <a class="no-padding" href="/categories/算法/">
+                    算法 <span class="right">1</span></a>
                 </a>
             </li>
 
         
 
-            <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/面试体验/Android/">
-                    Android <span class="right">1</span></a>
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/面试体验/">
+                    面试体验 <span class="right">2</span></a>
                 </a>
             </li>
 
@@ -264,9 +256,9 @@ V8 是怎么跑起来的">
 
         
 
-            <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/听戏/">
-                    听戏 <span class="right">5</span></a>
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/面试体验/Android/">
+                    Android <span class="right">1</span></a>
                 </a>
             </li>
 
@@ -289,16 +281,24 @@ V8 是怎么跑起来的">
         
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/A简历/">
-                    A简历 <span class="right">1</span></a>
+                <a class="no-padding" href="/categories/二进制漏洞/">
+                    二进制漏洞 <span class="right">1</span></a>
                 </a>
             </li>
 
         
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/二进制漏洞/">
-                    二进制漏洞 <span class="right">1</span></a>
+                <a class="no-padding" href="/categories/听戏/">
+                    听戏 <span class="right">5</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/A简历/">
+                    A简历 <span class="right">1</span></a>
                 </a>
             </li>
 
@@ -359,7 +359,7 @@ V8 是怎么跑起来的">
             <div class="article-title">
                 
     
-        <h1>【未完成】v8入门学习</h1>
+        <h1>v8入门学习</h1>
     
 
 
@@ -402,7 +402,53 @@ V8 是怎么跑起来的">
 <li>既然可以泄露地址和任意内存读写，就也可以传统利用，不是非要wasm那种利用。</li>
 <li>具体目的是，构造一个特殊的html，里面写exp的js，然后Victim点开html，达到RCE。</li>
 </ol>
-<h3 id="对象内存布局"><a href="#对象内存布局" class="headerlink" title="对象内存布局"></a>对象内存布局</h3><p>TODO: 我早就该整理，结果太懒了，明天一定。我的bb还没写，明天一定。明天一定。</p>
+<h3 id="对象内存布局"><a href="#对象内存布局" class="headerlink" title="对象内存布局"></a>对象内存布局</h3><p>我早就该整理，结果太懒了，明天一定。我的bb还没写，明天一定。明天一定。终于今天一定。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">JSObject</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Map</td>
+</tr>
+<tr>
+<td style="text-align:center">Properties</td>
+</tr>
+<tr>
+<td style="text-align:center">Elements</td>
+</tr>
+<tr>
+<td style="text-align:center">Property #1</td>
+</tr>
+<tr>
+<td style="text-align:center">Property#2</td>
+</tr>
+</tbody>
+</table>
+<p>Map大致是个头：</p>
+<ul>
+<li>type： 表述了堆内实例是一个 JSObject 对象</li>
+<li>inobject properties：对象内存储空间（包含未使用的 slots）</li>
+<li>unused property fields：未使用的属性存储空间</li>
+<li>instance size：实例（在堆内）的大小</li>
+<li>constructor：对象构造器</li>
+<li>prototype：对象原型</li>
+<li><p>stable[dictionary]：对象当前状态</p>
+<ul>
+<li>stable_map：快速模式</li>
+<li>dictionary_map：字典模式<br>… …</li>
+</ul>
+</li>
+<li><p>预分配（不超过）一定大小*的空间用作对象内属性存储（inobject_properties）。</p>
+</li>
+<li>预分配空间不足时（无空闲 slot），新增属性会存储在 properties 内。</li>
+<li>数字式属性存储在 elements 内。</li>
+<li>properties/elements 空间不足时会创建（拷贝）一个更大的 FixedArray。</li>
+</ul>
+<p>基本就是这个意思，其它可能不清楚的临用到再调。</p>
+<p>还有对象的快速模式/字典模式，GC的处理等。</p>
 <h3 id="JS部分语法"><a href="#JS部分语法" class="headerlink" title="JS部分语法"></a>JS部分语法</h3><h4 id="Array-from"><a href="#Array-from" class="headerlink" title="Array.from()"></a>Array.from()</h4><p>这个是make一个Array from某些东西。</p>
 <p>eg:</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>.from(<span class="string">'foo'</span>) <span class="comment">//Array ["f", "o", "o"]</span></span><br><span class="line"><span class="built_in">Array</span>.from([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], x =&gt; x + x) <span class="comment">// Array [2, 4, 6]</span></span><br></pre></td></tr></table></figure>
