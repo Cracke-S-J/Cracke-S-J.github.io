@@ -46,17 +46,32 @@
   </entry>
   
   <entry>
-    <title>文档型漏洞入门学习</title>
+    <title>【未完成】文档型漏洞入门学习</title>
     <link href="https://github.com/Cracke-S-J/2020/05/04/%E6%96%87%E6%A1%A3%E5%9E%8B%E6%BC%8F%E6%B4%9E%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0/"/>
     <id>https://github.com/Cracke-S-J/2020/05/04/%E6%96%87%E6%A1%A3%E5%9E%8B%E6%BC%8F%E6%B4%9E%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0/</id>
     <published>2020-05-04T15:04:45.000Z</published>
-    <updated>2020-05-04T15:04:45.685Z</updated>
+    <updated>2020-05-05T15:49:45.613Z</updated>
+    
+    <content type="html"><![CDATA[<p>在我眼中，文档型漏洞就是，Office系列跟Adobe系列，或者其它要解析文档的程序，解析文档有内存控制问题，达到恶意文档可以产生RCE的目的。可能还有一些Word解析公式的问题，暂且都归为文档型，因为具体叫什么怎么分，我也不会分。还有VS Code的RCE的问题，不知道能不能算文档型。</p><p>感觉基本就是将在CTF pwn题中学到的东西投入现实使用了。</p><h2 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h2><p><a href="http://www.greyhathacker.net/" target="_blank" rel="noopener">Dokany/Google Drive File Stream Kernel Stack-based Buffer Overflow Vulnerability</a></p><h3 id="PDF文件解析与恶代分析"><a href="#PDF文件解析与恶代分析" class="headerlink" title="PDF文件解析与恶代分析"></a><a href="https://zhuanlan.zhihu.com/p/30597307" target="_blank" rel="noopener">PDF文件解析与恶代分析</a></h3><p>TODO:</p><h2 id="“噩梦公式漏洞”：CVE-2017-11882-Microsoft-Office-Word-栈溢出漏洞"><a href="#“噩梦公式漏洞”：CVE-2017-11882-Microsoft-Office-Word-栈溢出漏洞" class="headerlink" title="“噩梦公式漏洞”：CVE-2017-11882 Microsoft Office Word 栈溢出漏洞"></a>“噩梦公式漏洞”：CVE-2017-11882 Microsoft Office Word 栈溢出漏洞</h2><p><a href="https://www.sunxiaokong.xyz/2020-01-11/CVE-2017-11882-analysis/" target="_blank" rel="noopener">https://www.sunxiaokong.xyz/2020-01-11/CVE-2017-11882-analysis/</a></p><p>这个是一个栈溢出。<a href="https://github.com/embedi/CVE-2017-11882/blob/master/example/exploit.rtf">POC</a>长这样。</p><p>由于EQNEDT32.EXE在解析Equation.3 OLE对象中的MTEF数据流里的font类型记录时，没有对font name的长度进行判断，将其复制入0x28大小的栈空间时可发生溢出，并可覆盖返回地址。由于存在漏洞的EQNEDT32.EXE年代久远，没有开启ASLR、GS等漏洞缓解措施，只需要简单的将返回地址覆盖成同模块内的call WinExec()指令地址即可稳定地完成漏洞利用。</p><h2 id="CVE-2015-1641-Word-利用样本分析-类型混淆"><a href="#CVE-2015-1641-Word-利用样本分析-类型混淆" class="headerlink" title="CVE-2015-1641 Word 利用样本分析 类型混淆"></a>CVE-2015-1641 Word 利用样本分析 类型混淆</h2><p><a href="https://paper.seebug.org/351/" target="_blank" rel="noopener">https://paper.seebug.org/351/</a></p><h2 id="CVE-2015-2545-Word-利用样本分析-UAF"><a href="#CVE-2015-2545-Word-利用样本分析-UAF" class="headerlink" title="CVE-2015-2545 Word 利用样本分析 UAF"></a>CVE-2015-2545 Word 利用样本分析 UAF</h2><p><a href="https://paper.seebug.org/368/" target="_blank" rel="noopener">https://paper.seebug.org/368/</a></p>]]></content>
     
     <summary type="html">
+    
+      
+      
+        &lt;p&gt;在我眼中，文档型漏洞就是，Office系列跟Adobe系列，或者其它要解析文档的程序，解析文档有内存控制问题，达到恶意文档可以产生RCE的目的。可能还有一些Word解析公式的问题，暂且都归为文档型，因为具体叫什么怎么分，我也不会分。还有VS Code的RCE的问题，不知道能
+      
     
     </summary>
     
     
+      <category term="CVE" scheme="https://github.com/Cracke-S-J/categories/CVE/"/>
+    
+      <category term="Docs" scheme="https://github.com/Cracke-S-J/categories/CVE/Docs/"/>
+    
+    
+      <category term="CVE" scheme="https://github.com/Cracke-S-J/tags/CVE/"/>
+    
+      <category term="Docs" scheme="https://github.com/Cracke-S-J/tags/Docs/"/>
     
   </entry>
   
