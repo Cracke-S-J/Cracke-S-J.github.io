@@ -7,7 +7,7 @@
 
     
 
-    <title>操作系统学习笔记 | </title><meta name="robots" content="noindex">
+    <title>操作系统学习笔记 | </title>
     <meta name="author" content="ssj">
     
     <meta name="description" content="前两天被Alpha Lab的人问的有点懵比，内核很多细节我都不懂，我决定每天拿出一个小时来先学习一下操作系统，清华大学学堂在线。学完这个会再学一下编译链接和装载，因为我忘记在哪看的jd对这些要求很高，学好了就写简历上。
@@ -172,14 +172,6 @@
             
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/Ethereum/">
-                    Ethereum <span class="right">3</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/CTF/">
                     CTF <span class="right">6</span></a>
                 </a>
@@ -204,6 +196,14 @@
         
 
             <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Ethereum/">
+                    Ethereum <span class="right">3</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/算法/">
                     算法 <span class="right">1</span></a>
                 </a>
@@ -220,16 +220,16 @@
         
 
             <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/Android/脱壳/">
-                    脱壳 <span class="right">1</span></a>
+                <a class="no-padding" href="/categories/Android/马甲包/">
+                    马甲包 <span class="right">2</span></a>
                 </a>
             </li>
 
         
 
             <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/Android/马甲包/">
-                    马甲包 <span class="right">2</span></a>
+                <a class="no-padding" href="/categories/Android/脱壳/">
+                    脱壳 <span class="right">1</span></a>
                 </a>
             </li>
 
@@ -294,6 +294,14 @@
             <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/A简历/">
                     A简历 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/基础知识/">
+                    基础知识 <span class="right">1</span></a>
                 </a>
             </li>
 
@@ -575,10 +583,92 @@
 </ul>
 </li>
 <li>虚拟文件系统</li>
+<li>数据缓存</li>
+<li>打开文件的数据结构<ul>
+<li>卷控制块 superblock<ul>
+<li>每个文件系统一个</li>
+<li>文件系统详细信息</li>
+<li>块、块大小、空余块、计数/指针等</li>
 </ul>
-<!-- flag of hidden posts -->
-                
+</li>
+<li>文件控制块 vnode/inode<ul>
+<li>每个文件一个</li>
+<li>文件详细信息</li>
+<li>许可、拥有者、大小、数据库位置等</li>
+</ul>
+</li>
+<li>目录节点 dentry<ul>
+<li>每个目录项一个（目录和文件）</li>
+<li>将目录项数据结构及树形布局编码成树型数据结构</li>
+<li>指向文件控制块、父节点、项目列表</li>
+</ul>
+</li>
+<li>打开文件描述<ul>
+<li>每个被打开的文件一个</li>
+<li>文件状态信息</li>
+<li>目录项、当前文件指针、文件操作设置等</li>
+</ul>
+</li>
+<li>打开文件表<ul>
+<li>一个进程一个</li>
+<li>一个系统级的</li>
+<li>每个卷控制块也会保存一个列表</li>
+<li>所以如果有文件被打开将不能被卸载</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>数据分配<ul>
+<li>分配方式<ul>
+<li>连续分配</li>
+<li>链式分配</li>
+<li>索引分配</li>
+</ul>
+</li>
+<li>指标<ul>
+<li>高效：如存储利用（外部碎片）</li>
+<li>表现：如访问速度</li>
+</ul>
+</li>
+<li>文件头包含13个指针<ul>
+<li>10个指向数据块</li>
+<li>第11指向间接数据块</li>
+<li>第12指向二重间接</li>
+<li>第13指向三重间接</li>
+</ul>
+</li>
+<li>影响<ul>
+<li>提高了文件大小限制阈值</li>
+<li>动态分配数据块，文件容易扩展</li>
+<li>小文件小开销</li>
+<li>只大文件间接</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>空闲空间列表<ul>
+<li>指向空闲链表的指针</li>
+<li>位图</li>
+</ul>
+</li>
+<li>多磁盘管理 RAID</li>
+<li>磁盘调度</li>
+</ul>
 
+                
+<p class="pink-link-context">
+    <a href="/2020/04/20/日常整理过路CVE/" rel="next" title="日常整理过路 CVE">
+    Prev: 日常整理过路 CVE
+  </a>
+</p>
+
+
+
+<p class="pink-link-context">
+    <a href="/2020/04/18/v8编译环境搭建/" rel="next" title="v8 编译环境搭建">
+    Next: v8 编译环境搭建
+  </a>
+</p>
 
 
             </div>
