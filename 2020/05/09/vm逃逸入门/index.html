@@ -11,8 +11,10 @@
     <meta name="author" content="ssj">
     
     <meta name="description" content="继Linux内核、浏览器、文档型漏洞，虚拟机应该是最后一块了，（从目前我入门二进制漏洞实战来看。主要是针对VM Ware和Virtual Box。
-CVE-2017-4901 利用一个堆溢出漏洞实现 VMware 虚拟机逃逸https://paper.seebug.org/348/
-48小时逃逸Vi">
+背景知识在此整理读写原语的获取技巧读原语TODO
+写原语TODO
+写shellcodeTODO
+CVE-2017-4901 利用一个堆溢出漏洞实现 VM">
     
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -197,16 +199,16 @@ CVE-2017-4901 利用一个堆溢出漏洞实现 VMware 虚拟机逃逸https://pa
         
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/Ethereum/">
-                    Ethereum <span class="right">3</span></a>
+                <a class="no-padding" href="/categories/算法/">
+                    算法 <span class="right">1</span></a>
                 </a>
             </li>
 
         
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/算法/">
-                    算法 <span class="right">1</span></a>
+                <a class="no-padding" href="/categories/Ethereum/">
+                    Ethereum <span class="right">3</span></a>
                 </a>
             </li>
 
@@ -402,16 +404,76 @@ CVE-2017-4901 利用一个堆溢出漏洞实现 VMware 虚拟机逃逸https://pa
 
 
             <div class="toc pink-link-context hide-on-med-and-down">
-    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#CVE-2017-4901-利用一个堆溢出漏洞实现-VMware-虚拟机逃逸"><span class="section table-of-contents-text">CVE-2017-4901 利用一个堆溢出漏洞实现 VMware 虚拟机逃逸</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#48小时逃逸Virtualbox虚拟机——记一次CTF中的0day之旅"><span class="section table-of-contents-text">48小时逃逸Virtualbox虚拟机——记一次CTF中的0day之旅</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#VirtualBox-E1000-0day-虚拟机逃逸漏洞"><span class="section table-of-contents-text">VirtualBox E1000 0day 虚拟机逃逸漏洞</span></a></li></ol>
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#背景知识"><span class="section table-of-contents-text">背景知识</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#在此整理读写原语的获取技巧"><span class="section table-of-contents-text">在此整理读写原语的获取技巧</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-4"><a class="section table-of-contents-link" href="#读原语"><span class="section table-of-contents-text">读原语</span></a></li><li class="section table-of-contents-item section table-of-contents-level-4"><a class="section table-of-contents-link" href="#写原语"><span class="section table-of-contents-text">写原语</span></a></li><li class="section table-of-contents-item section table-of-contents-level-4"><a class="section table-of-contents-link" href="#写shellcode"><span class="section table-of-contents-text">写shellcode</span></a></li></ol></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#CVE-2017-4901-利用一个堆溢出漏洞实现-VMware-虚拟机逃逸"><span class="section table-of-contents-text">CVE-2017-4901 利用一个堆溢出漏洞实现 VMware 虚拟机逃逸</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#VMware-RPCI-机制"><span class="section table-of-contents-text">VMware RPCI 机制</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#漏洞点-拖放-DnD-与复制粘贴-CP"><span class="section table-of-contents-text">漏洞点 拖放(DnD)与复制粘贴(CP)</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#利用"><span class="section table-of-contents-text">利用</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-4"><a class="section table-of-contents-link" href="#绕过ASLR"><span class="section table-of-contents-text">绕过ASLR</span></a></li><li class="section table-of-contents-item section table-of-contents-level-4"><a class="section table-of-contents-link" href="#覆盖-CopyPaste"><span class="section table-of-contents-text">覆盖 CopyPaste</span></a></li><li class="section table-of-contents-item section table-of-contents-level-4"><a class="section table-of-contents-link" href="#覆盖-DnD"><span class="section table-of-contents-text">覆盖 DnD</span></a></li></ol></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#VirtualBox-E1000-0day-虚拟机逃逸漏洞"><span class="section table-of-contents-text">VirtualBox E1000 0day 虚拟机逃逸漏洞</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#漏洞简介"><span class="section table-of-contents-text">漏洞简介</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#漏洞点"><span class="section table-of-contents-text">漏洞点</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#漏洞利用"><span class="section table-of-contents-text">漏洞利用</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#48小时逃逸Virtualbox虚拟机——记一次CTF中的0day之旅"><span class="section table-of-contents-text">48小时逃逸Virtualbox虚拟机——记一次CTF中的0day之旅</span></a></li></ol>
 </div>
 
 
             <div class="entry pink-link-context">
                 <p>继Linux内核、浏览器、文档型漏洞，虚拟机应该是最后一块了，（从目前我入门二进制漏洞实战来看。主要是针对VM Ware和Virtual Box。</p>
+<h2 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h2><h3 id="在此整理读写原语的获取技巧"><a href="#在此整理读写原语的获取技巧" class="headerlink" title="在此整理读写原语的获取技巧"></a>在此整理读写原语的获取技巧</h3><h4 id="读原语"><a href="#读原语" class="headerlink" title="读原语"></a>读原语</h4><p>TODO</p>
+<h4 id="写原语"><a href="#写原语" class="headerlink" title="写原语"></a>写原语</h4><p>TODO</p>
+<h4 id="写shellcode"><a href="#写shellcode" class="headerlink" title="写shellcode"></a>写shellcode</h4><p>TODO</p>
 <h2 id="CVE-2017-4901-利用一个堆溢出漏洞实现-VMware-虚拟机逃逸"><a href="#CVE-2017-4901-利用一个堆溢出漏洞实现-VMware-虚拟机逃逸" class="headerlink" title="CVE-2017-4901 利用一个堆溢出漏洞实现 VMware 虚拟机逃逸"></a>CVE-2017-4901 利用一个堆溢出漏洞实现 VMware 虚拟机逃逸</h2><p><a href="https://paper.seebug.org/348/" target="_blank" rel="noopener">https://paper.seebug.org/348/</a></p>
+<h3 id="VMware-RPCI-机制"><a href="#VMware-RPCI-机制" class="headerlink" title="VMware RPCI 机制"></a>VMware RPCI 机制</h3><p>用这个与host实现通信看下代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span>  </span><br><span class="line">Backdoor_InOut(Backdoor_proto *myBp) <span class="comment">// IN/OUT  </span></span><br><span class="line">&#123;</span><br><span class="line">   uint64 dummy;</span><br><span class="line"></span><br><span class="line">   __asm__ __volatile__(</span><br><span class="line">#ifdef __APPLE__</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * Save %rbx on the stack because the Mac OS GCC doesn't want us to</span></span><br><span class="line"><span class="comment">         * clobber it - it erroneously thinks %rbx is the PIC register.</span></span><br><span class="line"><span class="comment">         * (Radar bug 7304232)</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="string">"pushq %%rbx"</span>           <span class="string">"\n\t"</span></span><br><span class="line">#endif</span><br><span class="line">        <span class="string">"pushq %%rax"</span>           <span class="string">"\n\t"</span></span><br><span class="line">        <span class="string">"movq 40(%%rax), %%rdi"</span> <span class="string">"\n\t"</span></span><br><span class="line">        <span class="string">"movq 32(%%rax), %%rsi"</span> <span class="string">"\n\t"</span></span><br><span class="line">        <span class="string">"movq 24(%%rax), %%rdx"</span> <span class="string">"\n\t"</span></span><br><span class="line">        <span class="string">"movq 16(%%rax), %%rcx"</span> <span class="string">"\n\t"</span></span><br><span class="line">        <span class="string">"movq  8(%%rax), %%rbx"</span> <span class="string">"\n\t"</span></span><br><span class="line">        <span class="string">"movq   (%%rax), %%rax"</span> <span class="string">"\n\t"</span></span><br><span class="line">        <span class="string">"inl %%dx, %%eax"</span>       <span class="string">"\n\t"</span>  <span class="comment">/* NB: There is no inq instruction */</span></span><br><span class="line">        <span class="string">"xchgq %%rax, (%%rsp)"</span>  <span class="string">"\n\t"</span></span><br><span class="line">        <span class="string">"movq %%rdi, 40(%%rax)"</span> <span class="string">"\n\t"</span></span><br><span class="line">        <span class="string">"movq %%rsi, 32(%%rax)"</span> <span class="string">"\n\t"</span></span><br><span class="line">        <span class="string">"movq %%rdx, 24(%%rax)"</span> <span class="string">"\n\t"</span></span><br><span class="line">        <span class="string">"movq %%rcx, 16(%%rax)"</span> <span class="string">"\n\t"</span></span><br><span class="line">        <span class="string">"movq %%rbx,  8(%%rax)"</span> <span class="string">"\n\t"</span></span><br><span class="line">        <span class="string">"popq          (%%rax)"</span> <span class="string">"\n\t"</span></span><br><span class="line">#ifdef __APPLE__</span><br><span class="line">        <span class="string">"popq %%rbx"</span>            <span class="string">"\n\t"</span></span><br><span class="line">#endif</span><br><span class="line">      : <span class="string">"=a"</span> (dummy)</span><br><span class="line">      : <span class="string">"0"</span> (myBp)</span><br><span class="line">      <span class="comment">/*</span></span><br><span class="line"><span class="comment">       * vmware can modify the whole VM state without the compiler knowing</span></span><br><span class="line"><span class="comment">       * it. So far it does not modify EFLAGS. --hpreg</span></span><br><span class="line"><span class="comment">       */</span></span><br><span class="line">      :</span><br><span class="line">#ifndef __APPLE__</span><br><span class="line">      <span class="comment">/* %rbx is unchanged at the end of the function on Mac OS. */</span></span><br><span class="line">      <span class="string">"rbx"</span>,</span><br><span class="line">#endif</span><br><span class="line">      <span class="string">"rcx"</span>, <span class="string">"rdx"</span>, <span class="string">"rsi"</span>, <span class="string">"rdi"</span>, <span class="string">"memory"</span></span><br><span class="line">   );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意<code>inl</code>这个指令，guest是不允许io操作的，它发起io操作，host会产生异常，异常会被捕捉，从而实现通信。</p>
+<h3 id="漏洞点-拖放-DnD-与复制粘贴-CP"><a href="#漏洞点-拖放-DnD-与复制粘贴-CP" class="headerlink" title="漏洞点 拖放(DnD)与复制粘贴(CP)"></a>漏洞点 拖放(DnD)与复制粘贴(CP)</h3><p>对于Version 4的DnD/CP功能，它检查是否越界的时候，只对第一个包有效，后续的包可能越界产生堆溢出。Version 3也是一样的。</p>
+<h3 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h3><h4 id="绕过ASLR"><a href="#绕过ASLR" class="headerlink" title="绕过ASLR"></a>绕过ASLR</h4><p>找到了如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">info-set guestinfo.KEY VALUE</span><br><span class="line">info-get guestinfo.KEY</span><br></pre></td></tr></table></figure>
+<p>我们可以通过溢出来覆盖结尾的null字节，让字符串连接上相邻的内存块。如果我们能够在发生溢出的内存块和DnD或CP对象之间分配一个字符串，那么我们就能泄露对象的vtable地址，从而我们就可以知道vmware-vmx的地址。</p>
+<p>基本就是堆喷的思想，分配一堆字符串，利用溢出改字符，找出被改那个字符串，这样就找到了一个字符串可以被用来读取泄露的数据，然后以0xA8的粒度继续溢出，由于DnD和CP对象的vtable距离vmware-vmx基地址的偏移是固定的，每次溢出后只需要检查最低一些数据位，就能够判断溢出是否到达了目标对象。</p>
+<h4 id="覆盖-CopyPaste"><a href="#覆盖-CopyPaste" class="headerlink" title="覆盖 CopyPaste"></a>覆盖 CopyPaste</h4><p>对于 CopyPaste 对象，我们可以覆盖虚表指针，让它指向我们可控的其他数据。我们需要找到一个指针，指针指向的数据是可控并被用做对象的虚表。为此我们使用了另一个 RPCI 命令 unity.window.contents.start。这个命令主要用于 Unity 模式下，在 host 上绘制一些图像。这个操作可以让我们往相对 vmware-vmx 偏移已知的位置写入一些数据。该命令接收的参数是图像的宽度和高度，二者都是32位，合并起来我们就在已知位置获得了一个64位的数据。我们用它来作为虚表中的一个指针，通过发送一个 CopyPast 命令即可触发该虚函数调用，步骤如下：</p>
+<ul>
+<li>发送 unity.window.contents.start 命令，通过指定参数宽度和高度，往全局变量处写入一个64位的栈迁移 gadget 地址</li>
+<li>覆盖对象虚表指针，指向伪造的虚表（调整虚表地址偏移）</li>
+<li>发送 CopyPaste 命令，触发虚函数调用</li>
+<li>ROP</li>
+</ul>
+<h4 id="覆盖-DnD"><a href="#覆盖-DnD" class="headerlink" title="覆盖 DnD"></a>覆盖 DnD</h4><p>先康一眼结构：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">DnD_CopyPaste_RpcV3&#123;  </span><br><span class="line">    <span class="keyword">void</span> * vtable;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">uint64_t</span> ifacetype;</span><br><span class="line">    RpcUtil&#123;</span><br><span class="line">        <span class="keyword">void</span> * vtable;</span><br><span class="line">        RpcBase * mRpc;</span><br><span class="line">        DnDTransportBuffer&#123;</span><br><span class="line">            <span class="keyword">uint64_t</span> seqNum;</span><br><span class="line">            <span class="keyword">uint8_t</span> * buffer;</span><br><span class="line">            <span class="keyword">uint64_t</span> totalSize;</span><br><span class="line">            <span class="keyword">uint64_t</span> offset;</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">RpcBase&#123;  </span><br><span class="line">    <span class="keyword">void</span> * vtable;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于 DnD 对象，我们不能只覆盖 vtable 指针，因为在发生溢出之后 vtable 会立马被访问，另一个虚函数会被调用，而目前我们只能通过 unity 图像的宽度和高度控制一个 qword，所以无法控制更大的虚表。</p>
+<p>对象中有个指针指向另一个C++对象 RpcBase，如果我们能用一个可控数据的指针的指针覆盖 mRpc 这个域，那我们就控制了 RpcBase 的 vtable。对此我们可以继续使用 unity.window.contents.start 命令来来控制 mRpc，该命令的另一个参数是 imgsize，这个参数代表分配的图像 buffer 的大小。这个 buffer 分配出来后，它的地址会存在 vmware-vmx 的固定偏移处。我们可以使用命令 unity.window.contents.chunk 来填充 buffer 的内容。步骤如下：</p>
+<ul>
+<li>发送unity.window.contents.start命令来分配一个buffer，后续我们用它来存储一个伪造的vtable。</li>
+<li>发送unity.window.contents.chunk命令来填充伪造的vtable，其中填入一个栈迁移的gadget</li>
+<li>通过溢出覆盖DnD对象的mRpc域，让它指向存储buffer地址的地方（某全局变量处），即写入一个指针的指针</li>
+<li>通过发送DnD命令来触发mRpc域的虚函数调用</li>
+<li>ROP</li>
+</ul>
+<h2 id="VirtualBox-E1000-0day-虚拟机逃逸漏洞"><a href="#VirtualBox-E1000-0day-虚拟机逃逸漏洞" class="headerlink" title="VirtualBox E1000 0day 虚拟机逃逸漏洞"></a>VirtualBox E1000 0day 虚拟机逃逸漏洞</h2><p><a href="https://www.anquanke.com/post/id/163714" target="_blank" rel="noopener">https://www.anquanke.com/post/id/163714</a></p>
+<h3 id="漏洞简介"><a href="#漏洞简介" class="headerlink" title="漏洞简介"></a>漏洞简介</h3><p>VirtualBox默认虚拟网络设备为上文的82540EM（NAT模式），以下简称E1000。</p>
+<p>E1000存在漏洞，允许guest虚拟机中拥有管理员权限的攻击者转移到主机ring3中，并利用其它方式（/dev/vboxdrv）提权至ring0。</p>
+<h3 id="漏洞点"><a href="#漏洞点" class="headerlink" title="漏洞点"></a>漏洞点</h3><p>网卡驱动逻辑漏洞，因为处理Tx描述符校验有一些问题，可能只校验了三个却循环执行了五个。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">context_1.header_length = 0</span><br><span class="line">context_1.maximum_segment_size = 0x3010</span><br><span class="line">context_1.tcp_segmentation_enabled = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">data_2.data_length = 0x10</span><br><span class="line">data_2.end_of_packet = <span class="literal">false</span></span><br><span class="line">data_2.tcp_segmentation_enabled = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">data_3.data_length = 0</span><br><span class="line">data_3.end_of_packet = <span class="literal">true</span></span><br><span class="line">data_3.tcp_segmentation_enabled = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">context_4.header_length = 0</span><br><span class="line">context_4.maximum_segment_size = 0xF</span><br><span class="line">context_4.tcp_segmentation_enabled = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">data_5.data_length = 0x4188</span><br><span class="line">data_5.end_of_packet = <span class="literal">true</span></span><br><span class="line">data_5.tcp_segmentation_enabled = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>可以绕过校验非法改长度，达到堆溢出。</p>
+<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><ul>
+<li>攻击者先卸载Linux guest虚拟机中默认加载的e1000.ko并加载漏洞利用的LKM。</li>
+<li>LKM根据数据表初始化E1000，仅初始化发送部分即可。</li>
+<li>LKM禁用E1000环回模式<ol>
+<li>LKM禁用E1000环回模式，使得堆栈缓冲区溢出代码不可达。</li>
+<li>LKM利用漏洞造成堆缓冲区溢出。</li>
+<li>堆缓冲区溢出可用E1000 EEPROM在128KB范围内写入任意两个字节，攻击者获得写原语。</li>
+<li>LKM利用写原语8次，将数据写入堆中ACPI（高级配置和电源接口）数据结构。写入堆缓冲区索引变量后从中读取单字节，因为缓冲区大小小于最大索引号255，攻击者可读缓冲区，获得读原语。</li>
+<li>LKM使用读原语8次访问ACPI并从堆中读8字节数据（VBoxDD.so共享库指针）</li>
+<li>LKM将指针减去RVA即可拿到VBoxDD.so库。</li>
+</ol>
+</li>
+<li>LKM启用E1000环回模式<ol>
+<li>LKM启用E1000环回模式，使得堆栈缓冲区溢出代码可达。</li>
+<li>LKM利用漏洞造成堆栈缓冲区溢出，返回地址（RIP/EIP）被覆盖，攻击者获得控制权。</li>
+<li>利用ROP链执行shellcode。</li>
+</ol>
+</li>
+<li>执行shellcode<ol>
+<li>shellcode加载器从堆栈处载入shellcode执行。</li>
+<li>shellcode利用fork和execve系统调用执行进程。</li>
+</ol>
+</li>
+<li>攻击者卸载LKM并加载e1000.ko并恢复网络。</li>
+</ul>
 <h2 id="48小时逃逸Virtualbox虚拟机——记一次CTF中的0day之旅"><a href="#48小时逃逸Virtualbox虚拟机——记一次CTF中的0day之旅" class="headerlink" title="48小时逃逸Virtualbox虚拟机——记一次CTF中的0day之旅"></a>48小时逃逸Virtualbox虚拟机——记一次CTF中的0day之旅</h2><p><a href="https://zhuanlan.zhihu.com/p/58910752" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/58910752</a></p>
 <p><a href="https://xz.aliyun.com/t/5008" target="_blank" rel="noopener">https://xz.aliyun.com/t/5008</a></p>
-<h2 id="VirtualBox-E1000-0day-虚拟机逃逸漏洞"><a href="#VirtualBox-E1000-0day-虚拟机逃逸漏洞" class="headerlink" title="VirtualBox E1000 0day 虚拟机逃逸漏洞"></a>VirtualBox E1000 0day 虚拟机逃逸漏洞</h2><p><a href="https://www.anquanke.com/post/id/163714" target="_blank" rel="noopener">https://www.anquanke.com/post/id/163714</a></p>
+<p>它可以将越界部分所有的’\0’替换为’\n’。。</p>
 
                 
 <p class="pink-link-context">
