@@ -199,14 +199,6 @@ CVE-2017-4901 利用一个堆溢出漏洞实现 VM">
         
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/算法/">
-                    算法 <span class="right">1</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/Ethereum/">
                     Ethereum <span class="right">3</span></a>
                 </a>
@@ -233,6 +225,14 @@ CVE-2017-4901 利用一个堆溢出漏洞实现 VM">
             <li class="collapse-level-1" collapse-level="1">
                 <a class="no-padding" href="/categories/Android/马甲包/">
                     马甲包 <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/算法/">
+                    算法 <span class="right">1</span></a>
                 </a>
             </li>
 
@@ -444,7 +444,7 @@ CVE-2017-4901 利用一个堆溢出漏洞实现 VM">
 <h3 id="漏洞简介"><a href="#漏洞简介" class="headerlink" title="漏洞简介"></a>漏洞简介</h3><p>VirtualBox默认虚拟网络设备为上文的82540EM（NAT模式），以下简称E1000。</p>
 <p>E1000存在漏洞，允许guest虚拟机中拥有管理员权限的攻击者转移到主机ring3中，并利用其它方式（/dev/vboxdrv）提权至ring0。</p>
 <h3 id="漏洞点"><a href="#漏洞点" class="headerlink" title="漏洞点"></a>漏洞点</h3><p>网卡驱动逻辑漏洞，因为处理Tx描述符校验有一些问题，可能只校验了三个却循环执行了五个。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">context_1.header_length = 0</span><br><span class="line">context_1.maximum_segment_size = 0x3010</span><br><span class="line">context_1.tcp_segmentation_enabled = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">data_2.data_length = 0x10</span><br><span class="line">data_2.end_of_packet = <span class="literal">false</span></span><br><span class="line">data_2.tcp_segmentation_enabled = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">data_3.data_length = 0</span><br><span class="line">data_3.end_of_packet = <span class="literal">true</span></span><br><span class="line">data_3.tcp_segmentation_enabled = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">context_4.header_length = 0</span><br><span class="line">context_4.maximum_segment_size = 0xF</span><br><span class="line">context_4.tcp_segmentation_enabled = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">data_5.data_length = 0x4188</span><br><span class="line">data_5.end_of_packet = <span class="literal">true</span></span><br><span class="line">data_5.tcp_segmentation_enabled = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">context_1.header_length = 0</span><br><span class="line">context_1.maximum_segment_size = 0x3010</span><br><span class="line">context_1.tcp_segmentation_enabled = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">data_2.data_length = 0x10</span><br><span class="line">data_2.end_of_packet = <span class="literal">false</span></span><br><span class="line">data_2.tcp_segmentation_enabled = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">data_3.data_length = 0</span><br><span class="line">data_3.end_of_packet = <span class="literal">true</span></span><br><span class="line">data_3.tcp_segmentation_enabled = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">context_4.header_length = 0</span><br><span class="line">context_4.maximum_segment_size = 0xF</span><br><span class="line"></span><br><span class="line">context_4.tcp_segmentation_enabled = <span class="literal">true</span></span><br><span class="line">data_5.data_length = 0x4188</span><br><span class="line">data_5.end_of_packet = <span class="literal">true</span></span><br><span class="line">data_5.tcp_segmentation_enabled = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
 <p>可以绕过校验非法改长度，达到堆溢出。</p>
 <h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><ul>
 <li>攻击者先卸载Linux guest虚拟机中默认加载的e1000.ko并加载漏洞利用的LKM。</li>
