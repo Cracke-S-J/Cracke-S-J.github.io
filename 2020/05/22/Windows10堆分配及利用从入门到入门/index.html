@@ -1,0 +1,758 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>Windows10堆分配及利用从入门到入门 | </title>
+    <meta name="author" content="ssj">
+    
+    <meta name="description" content="Win10堆分配背景知识Windows不像Linux，有开源代码可以读，微软至今都没有完全公布
+前端和后端分配器前端分配器(Front End Allocator)是后端分配器(Back End Allocator)的一种抽象优化层。不同的使用案例会涉及到不同类型的前端分配器。
+前端分配器有两种：
+">
+    
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta property="og:title" content="Windows10堆分配及利用从入门到入门">
+    <meta property="og:site_name" content="ssj&#39;s blog">
+
+    
+    <meta property="og:image" content>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="ssj&#39;s blog" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/tranquil-heart.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+</html>
+
+<body>
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="pink accent-1">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
+        </a>
+        <div class="">
+            <a href="/" class="brand-logo hide-on-med-and-down">ssj&#39;s blog</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/" >
+                            <i class="fa fa-home "></i>
+                            
+                            Home
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives" >
+                            <i class="fa fa-archive "></i>
+                            
+                            Archives
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                            <i class="fa fa-bookmark "></i>
+                            
+                            Categories
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-reading " href="/reading" >
+                            <i class="fa fa-book "></i>
+                            
+                            Reading
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about" >
+                            <i class="fa fa-user "></i>
+                            
+                            About
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search" >
+                            <i class="fa fa-search "></i>
+                            
+                            Search
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav pink darken-1" id="main-menu">
+        
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="/favicon.png" alt="User Avatar">
+                </div>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">ssj</p>
+                        <p class="desc"></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/" >
+                    <i class="fa fa-home "></i>
+                    
+                    Home
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives" >
+                    <i class="fa fa-archive "></i>
+                    
+                    Archives
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                    <i class="fa fa-bookmark "></i>
+                    
+                    Categories
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-reading " href="/reading" >
+                    <i class="fa fa-book "></i>
+                    
+                    Reading
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about" >
+                    <i class="fa fa-user "></i>
+                    
+                    About
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search" >
+                    <i class="fa fa-search "></i>
+                    
+                    Search
+                </a>
+            </li>
+        
+    </ul>
+
+    <ul class="side-nav pink darken-1" id="category-menu">
+    
+
+            
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CTF/">
+                    CTF <span class="right">6</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/Android/">
+                    Android <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/pwn/">
+                    pwn <span class="right">5</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Ethereum/">
+                    Ethereum <span class="right">3</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/算法/">
+                    算法 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Android/">
+                    Android <span class="right">8</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/马甲包/">
+                    马甲包 <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/脱壳/">
+                    脱壳 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/面试体验/">
+                    面试体验 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/面试体验/Android/">
+                    Android <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CVE/">
+                    CVE <span class="right">13</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CVE/Base/">
+                    Base <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CVE/v8/">
+                    v8 <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CVE/VM/">
+                    VM <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CVE/Docs/">
+                    Docs <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/二进制漏洞/">
+                    二进制漏洞 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/听戏/">
+                    听戏 <span class="right">5</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/A简历/">
+                    A简历 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/基础知识/">
+                    基础知识 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Cpp/">
+                    Cpp <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+</nav>
+
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">Search</label>
+        </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper pink">
+        <span class="breadcrumb">Current page(Categories)</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/CVE/">CVE</a><a class="breadcrumb" href="/categories/CVE/Base/">Base</a>
+
+
+        
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>Windows10堆分配及利用从入门到入门</h1>
+    
+
+
+            </div>
+            <time class="pink-link-context" datetime="2020-05-22T06:11:00.000Z"><a href="/2020/05/22/Windows10堆分配及利用从入门到入门/">2020-05-22</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/CVE/" class="chip pink lighten-1">CVE</a>
+        
+            <a href="/tags/Base/" class="chip pink lighten-1">Base</a>
+        
+    </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Win10堆分配背景知识"><span class="section table-of-contents-text">Win10堆分配背景知识</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#前端和后端分配器"><span class="section table-of-contents-text">前端和后端分配器</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#那我应该怎么稳定利用"><span class="section table-of-contents-text">那我应该怎么稳定利用</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#操练起来"><span class="section table-of-contents-text">操练起来</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#由上述知识，先写一个泄露地址的demo"><span class="section table-of-contents-text">由上述知识，先写一个泄露地址的demo</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#信息泄露之后，任意代码执行"><span class="section table-of-contents-text">信息泄露之后，任意代码执行</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#总结"><span class="section table-of-contents-text">总结</span></a></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <h2 id="Win10堆分配背景知识"><a href="#Win10堆分配背景知识" class="headerlink" title="Win10堆分配背景知识"></a>Win10堆分配背景知识</h2><p>Windows不像Linux，有开源代码可以读，微软至今都没有完全公布</p>
+<h3 id="前端和后端分配器"><a href="#前端和后端分配器" class="headerlink" title="前端和后端分配器"></a>前端和后端分配器</h3><p>前端分配器(Front End Allocator)是后端分配器(Back End Allocator)的一种抽象优化层。不同的使用案例会涉及到不同类型的前端分配器。</p>
+<p>前端分配器有两种：</p>
+<ul>
+<li>旁视列表（Look aside list, LAL）</li>
+<li>低碎片堆（Low fragmentation heap，LFH）</li>
+</ul>
+<p>LAL是一个由128个链表组成的表，每个列表含有特定大小的空闲块，其始于16字节。存在是意义主要是优化加速。</p>
+<p>LFH比较复杂，主要是一种允许系统以某些预定大小分配内存的方法。这意味着当应用程序请求分配时，系统返回适合的最小可用块。</p>
+<p>如果前端分配器不能满足分配的请求，则请求会被发送到后端分配器。</p>
+<p>后端分配器实际上是默认选择，并且至少需要18次分配才能启用LFH。而且，这些分配不必是连续的，它们只需要具有相同的大小。</p>
+<p>看一段demo验证：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CHUNK_SIZE 0x300</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> args, <span class="keyword">char</span>** argv)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    LPVOID chunk;</span><br><span class="line">    LPVOID last_chunk;</span><br><span class="line">    HANDLE defaultHeap = GetProcessHeap();</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">25</span>; i++) &#123;</span><br><span class="line">        chunk = HeapAlloc(defaultHeap, <span class="number">0</span>, CHUNK_SIZE);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"[%2d] Chunk is at 0x%08x.  "</span>, i, chunk);</span><br><span class="line">        <span class="keyword">if</span> (i) &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%-6d from the previous address\n"</span>, </span><br><span class="line">                (<span class="keyword">long</span> <span class="keyword">long</span>)chunk - (<span class="keyword">long</span> <span class="keyword">long</span>)last_chunk);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        last_chunk = chunk;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">[ 0] Chunk is at 0x00765cb0.</span><br><span class="line">[ 1] Chunk is at 0x00768860.  11184  from the previous address</span><br><span class="line">[ 2] Chunk is at 0x00768b70.  784    from the previous address</span><br><span class="line">[ 3] Chunk is at 0x00765fc0.  -11184 from the previous address</span><br><span class="line">[ 4] Chunk is at 0x007662d0.  784    from the previous address</span><br><span class="line">[ 5] Chunk is at 0x007665e0.  784    from the previous address</span><br><span class="line">[ 6] Chunk is at 0x007668f0.  784    from the previous address</span><br><span class="line">[ 7] Chunk is at 0x00766c00.  784    from the previous address</span><br><span class="line">[ 8] Chunk is at 0x0076ae30.  16944  from the previous address</span><br><span class="line">[ 9] Chunk is at 0x0076b140.  784    from the previous address</span><br><span class="line">[10] Chunk is at 0x0076b450.  784    from the previous address</span><br><span class="line">[11] Chunk is at 0x0076b760.  784    from the previous address</span><br><span class="line">[12] Chunk is at 0x0076ba70.  784    from the previous address</span><br><span class="line">[13] Chunk is at 0x0076bd80.  784    from the previous address</span><br><span class="line">[14] Chunk is at 0x0076c090.  784    from the previous address</span><br><span class="line">[15] Chunk is at 0x0076c3a0.  784    from the previous address</span><br><span class="line">[16] Chunk is at 0x0076c6b0.  784    from the previous address</span><br><span class="line">[17] Chunk is at 0x0076d650.  4000   from the previous address</span><br><span class="line">[18] Chunk is at 0x0076ca10.  -3136  from the previous address</span><br><span class="line">[19] Chunk is at 0x0076e5a0.  7056   from the previous address</span><br><span class="line">[20] Chunk is at 0x0076d340.  -4704  from the previous address</span><br><span class="line">[21] Chunk is at 0x0076cd20.  -1568  from the previous address</span><br><span class="line">[22] Chunk is at 0x0076d960.  3136   from the previous address</span><br><span class="line">[23] Chunk is at 0x0076d030.  -2352  from the previous address</span><br><span class="line">[24] Chunk is at 0x0076dc70.  3136   from the previous address</span><br></pre></td></tr></table></figure>
+<p>从执行结果可以看到，前18块内存基本是连续的，后7块就乱了起来，证明后7块启用了LFH，我们要想稳定利用的话，就要尽量用后端分配器分配，避免用到LFH，因为用到LFH显然，free的块很难紧接着被再分配到了。</p>
+<h3 id="那我应该怎么稳定利用"><a href="#那我应该怎么稳定利用" class="headerlink" title="那我应该怎么稳定利用"></a>那我应该怎么稳定利用</h3><p>写个demo试一下，直接分配能分配到吗：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CHUNK_SIZE 0x300</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> args, <span class="keyword">char</span>** argv)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    LPVOID chunk;</span><br><span class="line">    HANDLE defaultHeap = GetProcessHeap();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Trigger LFH</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">18</span>; i++) &#123;</span><br><span class="line">        HeapAlloc(defaultHeap, <span class="number">0</span>, CHUNK_SIZE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    chunk = HeapAlloc(defaultHeap, <span class="number">0</span>, CHUNK_SIZE);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"New chunk in LFH : 0x%08x\n"</span>, chunk);</span><br><span class="line"></span><br><span class="line">    BOOL result = HeapFree(defaultHeap, HEAP_NO_SERIALIZE, chunk);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"HeapFree returns %d\n"</span>, result);</span><br><span class="line"></span><br><span class="line">    chunk = HeapAlloc(defaultHeap, <span class="number">0</span>, CHUNK_SIZE);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Another new chunk : 0x%08x\n"</span>, chunk);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">λ  .\a.exe</span><br><span class="line">New chunk <span class="keyword">in</span> LFH : 0x006fb170</span><br><span class="line">HeapFree returns 1</span><br><span class="line">Another new chunk : 0x006fb170</span><br><span class="line">----------------------------------------------</span><br><span class="line">λ  .\a.exe</span><br><span class="line">New chunk <span class="keyword">in</span> LFH : 0x0072c250</span><br><span class="line">HeapFree returns 1</span><br><span class="line">Another new chunk : 0x0072bf40</span><br><span class="line">----------------------------------------------</span><br><span class="line">λ  .\a.exe</span><br><span class="line">New chunk <span class="keyword">in</span> LFH : 0x0077da50</span><br><span class="line">HeapFree returns 1</span><br><span class="line">Another new chunk : 0x0077d740</span><br><span class="line">----------------------------------------------</span><br><span class="line">λ  .\a.exe</span><br><span class="line">New chunk <span class="keyword">in</span> LFH : 0x0074b170</span><br><span class="line">HeapFree returns 1</span><br><span class="line">Another new chunk : 0x0074b480</span><br><span class="line">----------------------------------------------</span><br></pre></td></tr></table></figure>
+<p>可以看到第一次我人品暴发，分配成功了，后续再都没有成功。</p>
+<h2 id="操练起来"><a href="#操练起来" class="headerlink" title="操练起来"></a>操练起来</h2><h3 id="由上述知识，先写一个泄露地址的demo"><a href="#由上述知识，先写一个泄露地址的demo" class="headerlink" title="由上述知识，先写一个泄露地址的demo"></a>由上述知识，先写一个泄露地址的demo</h3><p>来一套pwn手的习惯操作：</p>
+<ol>
+<li>分配连续的未由LFH处理过的块。</li>
+<li>释放中间某个，留下个hole。</li>
+<li>在hole上分配某个可控大小的对象，通常是应用程序里适合的好用的对象，一个优秀的选择是BSTR。</li>
+<li>然后释放3中对象的下一个内存块，产生hole2。</li>
+<li>把要泄露的指针保存到数组里，把数组分配到hole2。</li>
+<li>（通过溢出之类的）通过3读5中的对象，泄露。</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;comdef.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CHUNK_SIZE 0x190</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line">LPVOID chunk[<span class="number">20</span>];</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FooObject</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    FooObject() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~FooObject() &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> args, <span class="keyword">char</span>** argv)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    BSTR bstr;</span><br><span class="line">    FooObject *fooObject = <span class="keyword">new</span> FooObject();</span><br><span class="line"></span><br><span class="line">    HANDLE defaultHeap = GetProcessHeap();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Trigger LFH</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">18</span>; i++) &#123;</span><br><span class="line">        chunk[i] = HeapAlloc(defaultHeap, <span class="number">0</span>, CHUNK_SIZE);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"[%2d] alloc chunk at 0x%08x\n"</span>, i, chunk[i]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"[%d] free chunk at 0x%08x\n"</span>, <span class="number">5</span>, chunk[<span class="number">5</span>]);</span><br><span class="line">    HeapFree(defaultHeap, HEAP_NO_SERIALIZE, chunk[<span class="number">5</span>]);</span><br><span class="line"></span><br><span class="line">    bstr = SysAllocString(<span class="string">L"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"BSTR string : 0x%08x\n"</span>, bstr);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"[%d] free chunk at 0x%08x\n"</span>, <span class="number">6</span>, chunk[<span class="number">6</span>]);</span><br><span class="line">    HeapFree(defaultHeap, HEAP_NO_SERIALIZE, chunk[<span class="number">6</span>]);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> addr_foo_object = (<span class="keyword">int</span>)fooObject;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Foo Object at 0x%08x\n"</span>, addr_foo_object);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; array0(<span class="number">40</span>, addr_foo_object);</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; array1(<span class="number">40</span>, addr_foo_object);</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; array2(<span class="number">40</span>, addr_foo_object);</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; array3(<span class="number">40</span>, addr_foo_object);</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; array4(<span class="number">40</span>, addr_foo_object);</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; array5(<span class="number">40</span>, addr_foo_object);</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; array6(<span class="number">40</span>, addr_foo_object);</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; array7(<span class="number">40</span>, addr_foo_object);</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; array8(<span class="number">40</span>, addr_foo_object);</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; array9(<span class="number">40</span>, addr_foo_object);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"BSTR string[-2] : %d\n"</span>, bstr[<span class="number">-2</span>]);</span><br><span class="line">    bstr[<span class="number">-2</span>] = <span class="number">256</span>;</span><br><span class="line">    <span class="keyword">int</span> vtable = bstr[<span class="number">131</span>] &lt;&lt; <span class="number">16</span> | bstr[<span class="number">130</span>];</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"vtable addr 0x%08x\n"</span>, vtable);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[ 0] alloc chunk at 0x00a20968</span><br><span class="line">[ 1] alloc chunk at 0x00a27d38</span><br><span class="line">[ 2] alloc chunk at 0x00a27ed0</span><br><span class="line">[ 3] alloc chunk at 0x00a28068</span><br><span class="line">[ 4] alloc chunk at 0x00a28200</span><br><span class="line">[ 5] alloc chunk at 0x00a28398</span><br><span class="line">[ 6] alloc chunk at 0x00a28530</span><br><span class="line">[ 7] alloc chunk at 0x00a286c8</span><br><span class="line">[ 8] alloc chunk at 0x00a28860</span><br><span class="line">[ 9] alloc chunk at 0x00a289f8</span><br><span class="line">[10] alloc chunk at 0x00a28b90</span><br><span class="line">[11] alloc chunk at 0x00a28d28</span><br><span class="line">[12] alloc chunk at 0x00a24d08</span><br><span class="line">[13] alloc chunk at 0x00a24ea0</span><br><span class="line">[14] alloc chunk at 0x00a25038</span><br><span class="line">[15] alloc chunk at 0x00a251d0</span><br><span class="line">[16] alloc chunk at 0x00a25368</span><br><span class="line">[17] alloc chunk at 0x00a29878</span><br><span class="line">[5] free chunk at 0x00a28398</span><br><span class="line">BSTR string : 0x00a2839c</span><br><span class="line">[6] free chunk at 0x00a28530</span><br><span class="line">Foo Object at 0x00a12d50</span><br><span class="line">BSTR string[-2] : 248</span><br><span class="line">vtable addr 0x00a12d50</span><br></pre></td></tr></table></figure>
+<p>可以看到成功输出了vtable。</p>
+<h3 id="信息泄露之后，任意代码执行"><a href="#信息泄露之后，任意代码执行" class="headerlink" title="信息泄露之后，任意代码执行"></a>信息泄露之后，任意代码执行</h3><p>通过以上操作我们已经可以任意地址读了，再结合这个溢出的任意地址写，就可以改vtable来任意代码执行了。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;comdef.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CHUNK_SIZE 0x190</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line">LPVOID chunk[<span class="number">20</span>];</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FooObject</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    FooObject() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~FooObject() &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"Destructor!\n"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">shell</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"shell!\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> args, <span class="keyword">char</span>** argv)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    BSTR bstr;</span><br><span class="line">    FooObject* fooObject = <span class="keyword">new</span> FooObject();</span><br><span class="line"></span><br><span class="line">    HANDLE defaultHeap = GetProcessHeap();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Trigger LFH</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">18</span>; i++) &#123;</span><br><span class="line">        chunk[i] = HeapAlloc(defaultHeap, <span class="number">0</span>, CHUNK_SIZE);</span><br><span class="line">        <span class="comment">// printf("[%2d] alloc chunk at 0x%08x\n", i, chunk[i]);</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"[%d] free chunk at 0x%08x\n"</span>, <span class="number">5</span>, chunk[<span class="number">5</span>]);</span><br><span class="line">    HeapFree(defaultHeap, HEAP_NO_SERIALIZE, chunk[<span class="number">5</span>]);</span><br><span class="line"></span><br><span class="line">    bstr = SysAllocString(<span class="string">L"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"BSTR string : 0x%08x\n"</span>, bstr);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"[%d] free chunk at 0x%08x\n"</span>, <span class="number">6</span>, chunk[<span class="number">6</span>]);</span><br><span class="line">    HeapFree(defaultHeap, HEAP_NO_SERIALIZE, chunk[<span class="number">6</span>]);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> addr_foo_object = (<span class="keyword">int</span>)fooObject;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Foo Object at 0x%08x\n"</span>, addr_foo_object);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; array0(<span class="number">40</span>, addr_foo_object);</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; array1(<span class="number">40</span>, addr_foo_object);</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; array2(<span class="number">40</span>, addr_foo_object);</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; array3(<span class="number">40</span>, addr_foo_object);</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; array4(<span class="number">40</span>, addr_foo_object);</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; array5(<span class="number">40</span>, addr_foo_object);</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; array6(<span class="number">40</span>, addr_foo_object);</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; array7(<span class="number">40</span>, addr_foo_object);</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; array8(<span class="number">40</span>, addr_foo_object);</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; array9(<span class="number">40</span>, addr_foo_object);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"BSTR string[-2] : %d\n"</span>, bstr[<span class="number">-2</span>]);</span><br><span class="line">    bstr[<span class="number">-2</span>] = <span class="number">256</span>;</span><br><span class="line">    <span class="keyword">int</span> vtable_addr = bstr[<span class="number">131</span>] &lt;&lt; <span class="number">16</span> | bstr[<span class="number">130</span>];</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"vtable addr : 0x%08x\n"</span>, vtable_addr);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> vtable = *(<span class="keyword">int</span> *)vtable_addr;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"vtable : 0x%08x\n"</span>, vtable);</span><br><span class="line"></span><br><span class="line">    DWORD dwOld = <span class="number">0</span>;</span><br><span class="line">    VirtualProtect((<span class="keyword">void</span> *)vtable, <span class="number">0x1000</span>, PAGE_EXECUTE_READWRITE, &amp;dwOld);</span><br><span class="line"></span><br><span class="line">    (*(<span class="keyword">int</span>*)vtable) = (<span class="keyword">int</span>)shell;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">delete</span>(fooObject);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到执行结果如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[5] free chunk at 0x007810c0</span><br><span class="line">BSTR string : 0x007810c4</span><br><span class="line">[6] free chunk at 0x00781258</span><br><span class="line">Foo Object at 0x007732c0</span><br><span class="line">BSTR string[-2] : 248</span><br><span class="line">vtable addr : 0x007732c0</span><br><span class="line">vtable : 0x00b63318</span><br><span class="line">shell!</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>当然这只是打个样，实际情况要复杂的多，要利用读写原语修改页属性，然后改虚表执行代码，当然虚表也可能改崩，随鸡应变。</p>
+
+                
+<p class="pink-link-context">
+    <a href="/2220/05/29/resume/" rel="next" title="简历">
+    Prev: 简历
+  </a>
+</p>
+
+
+
+<p class="pink-link-context">
+    <a href="/2020/05/09/vm逃逸入门/" rel="next" title="VM 逃逸入门学习">
+    Next: VM 逃逸入门学习
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large pink">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect pink" title="Return to top"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse pink darken-1"  data-activates="main-menu" title="Menu"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer pink accent-1 darken-1">
+    
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">Social</h5>
+                
+                    <a class="social-link" href="https://github.com/cracke-s-j" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                
+
+            </div>
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">Links</h5>
+                
+                    <a class="social-link" href="https://blog.dyf.ink/" target="_blank">友情链接 dyf&#39;s blog</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright pink-link-context">
+        <div class="container">
+            © 2020 ssj, All rights reserved.
+            <p class="right" style="margin-top: 0;">Blog powered by <a href="https://hexo.io">Hexo</a> | Theme <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+        </div>
+    </div>
+</footer>
+
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+    </div>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
+<script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
+
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
+
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
+            });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('pink lighten-2');
+
+            
+            // 添加new标签
+            $('').append('<span class="new badge pink"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
+        });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async
+  src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"superSample":2,"width":250,"height":500,"position":"left","hOffset":0,"vOffset":-100},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
