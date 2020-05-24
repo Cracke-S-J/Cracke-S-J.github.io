@@ -1,0 +1,775 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>小菜比ssj写了一个壳子 | </title>
+    <meta name="author" content="ssj">
+    
+    <meta name="description" content="背景nemo大佬来北京，聊天中问起我最近有没有写代码，我一想，好像是真没有，所以单纯是想来写个代码。
+简介零代壳，稍微明白点的人用010就（或者什么方法都能）可以拿掉，但是因为太垃圾通用脱壳机不能脱，可以挡一些不是很明白的人hhh，批话王。思路是从百度剽窃的，后续还会升级，再加一些其它加固措施。
+三">
+    
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta property="og:title" content="小菜比ssj写了一个壳子">
+    <meta property="og:site_name" content="ssj&#39;s blog">
+
+    
+    <meta property="og:image" content>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="ssj&#39;s blog" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/tranquil-heart.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+</html>
+
+<body>
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="pink accent-1">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
+        </a>
+        <div class="">
+            <a href="/" class="brand-logo hide-on-med-and-down">ssj&#39;s blog</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/" >
+                            <i class="fa fa-home "></i>
+                            
+                            Home
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives" >
+                            <i class="fa fa-archive "></i>
+                            
+                            Archives
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                            <i class="fa fa-bookmark "></i>
+                            
+                            Categories
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-reading " href="/reading" >
+                            <i class="fa fa-book "></i>
+                            
+                            Reading
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about" >
+                            <i class="fa fa-user "></i>
+                            
+                            About
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search" >
+                            <i class="fa fa-search "></i>
+                            
+                            Search
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav pink darken-1" id="main-menu">
+        
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="/favicon.png" alt="User Avatar">
+                </div>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">ssj</p>
+                        <p class="desc"></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/" >
+                    <i class="fa fa-home "></i>
+                    
+                    Home
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives" >
+                    <i class="fa fa-archive "></i>
+                    
+                    Archives
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                    <i class="fa fa-bookmark "></i>
+                    
+                    Categories
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-reading " href="/reading" >
+                    <i class="fa fa-book "></i>
+                    
+                    Reading
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about" >
+                    <i class="fa fa-user "></i>
+                    
+                    About
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search" >
+                    <i class="fa fa-search "></i>
+                    
+                    Search
+                </a>
+            </li>
+        
+    </ul>
+
+    <ul class="side-nav pink darken-1" id="category-menu">
+    
+
+            
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CTF/">
+                    CTF <span class="right">6</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/Android/">
+                    Android <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/pwn/">
+                    pwn <span class="right">5</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Ethereum/">
+                    Ethereum <span class="right">3</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Android/">
+                    Android <span class="right">10</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/马甲包/">
+                    马甲包 <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/CVE/">
+                    CVE <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/脱壳/">
+                    脱壳 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/算法/">
+                    算法 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/面试体验/">
+                    面试体验 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/面试体验/Android/">
+                    Android <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/听戏/">
+                    听戏 <span class="right">5</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CVE/">
+                    CVE <span class="right">13</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CVE/v8/">
+                    v8 <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CVE/Base/">
+                    Base <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CVE/VM/">
+                    VM <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CVE/Docs/">
+                    Docs <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/基础知识/">
+                    基础知识 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/二进制漏洞/">
+                    二进制漏洞 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Cpp/">
+                    Cpp <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+</nav>
+
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">Search</label>
+        </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper pink">
+        <span class="breadcrumb">Current page(Categories)</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/Android/">Android</a>
+
+
+        
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>小菜比ssj写了一个壳子</h1>
+    
+
+
+            </div>
+            <time class="pink-link-context" datetime="2019-05-17T11:38:07.000Z"><a href="/2019/05/17/小菜比ssj写了一个壳子/">2019-05-17</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/Android/" class="chip pink lighten-1">Android</a>
+        
+    </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#背景"><span class="section table-of-contents-text">背景</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#简介"><span class="section table-of-contents-text">简介</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#三部分"><span class="section table-of-contents-text">三部分</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-4"><a class="section table-of-contents-link" href="#源apk"><span class="section table-of-contents-text">源apk</span></a></li><li class="section table-of-contents-item section table-of-contents-level-4"><a class="section table-of-contents-link" href="#那个壳"><span class="section table-of-contents-text">那个壳</span></a></li><li class="section table-of-contents-item section table-of-contents-level-4"><a class="section table-of-contents-link" href="#加密-拼装工具"><span class="section table-of-contents-text">加密+拼装工具</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#综上"><span class="section table-of-contents-text">综上</span></a></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>nemo大佬来北京，聊天中问起我最近有没有写代码，我一想，好像是真没有，所以单纯是想来写个代码。</p>
+<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>零代壳，稍微明白点的人用010就（或者什么方法都能）可以拿掉，但是因为太垃圾通用脱壳机不能脱，可以挡一些不是很明白的人hhh，批话王。思路是从百度剽窃的，后续还会升级，再加一些其它加固措施。</p>
+<h3 id="三部分"><a href="#三部分" class="headerlink" title="三部分"></a>三部分</h3><p>整个过程主要有三部分，第一是源apk，第二是那个壳（？可以这么叫），第三是一个加密工具，把前2个合成一个apk。前两个是android工程，第三个是用什么写都行此处用的java。</p>
+<h4 id="源apk"><a href="#源apk" class="headerlink" title="源apk"></a>源apk</h4><p>这个就是源apk，这个要注意的是写的时候要有一个application。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyApplication</span> <span class="keyword">extends</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate();</span><br><span class="line">        Log.i(<span class="string">"demo"</span>, <span class="string">"source apk onCreate:"</span>+<span class="keyword">this</span>);</span><br><span class="line">        Toast.makeText(MyApplication.<span class="keyword">this</span>,<span class="string">"application,start!"</span>,Toast.LENGTH_LONG).show();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>application标签里，android:name那个地方写我们写的application，否则就是默认系统给创建的。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:name</span>=<span class="string">".MyApplication"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:allowBackup</span>=<span class="string">"false"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:roundIcon</span>=<span class="string">"@mipmap/ic_launcher_round"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:supportsRtl</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:theme</span>=<span class="string">"@style/AppTheme"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">tools:ignore</span>=<span class="string">"GoogleAppIndexingWarning"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".MainActivity"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="那个壳"><a href="#那个壳" class="headerlink" title="那个壳"></a>那个壳</h4><p>两个类，代码写的已经很明白了，不多解释。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProxyApplication</span> <span class="keyword">extends</span> <span class="title">Application</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String appkey = <span class="string">"APPLICATION_CLASS_NAME"</span>;</span><br><span class="line">    <span class="keyword">private</span> String apkFileName;</span><br><span class="line">    <span class="keyword">private</span> String libPath;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//attachBaseContext执行在onCreate前，重写它来加载源apk</span></span><br><span class="line">    <span class="meta">@RequiresApi</span>(api = Build.VERSION_CODES.KITKAT)</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">attachBaseContext</span><span class="params">(Context base)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.attachBaseContext(base);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            File odex = <span class="keyword">this</span>.getDir(<span class="string">"payload_odex"</span>, MODE_PRIVATE);</span><br><span class="line">            File libs = <span class="keyword">this</span>.getDir(<span class="string">"payload_lib"</span>, MODE_PRIVATE);</span><br><span class="line">            String odexPath = odex.getAbsolutePath();</span><br><span class="line">            libPath = libs.getAbsolutePath();</span><br><span class="line">            apkFileName = odex.getAbsolutePath() + <span class="string">"/payload.apk"</span>;</span><br><span class="line">            File dexFile = <span class="keyword">new</span> File(apkFileName);</span><br><span class="line">            Log.i(<span class="string">"demo"</span>, <span class="string">"apk size:"</span>+dexFile.length());</span><br><span class="line">            <span class="keyword">if</span> (!dexFile.exists()) &#123;</span><br><span class="line">                dexFile.createNewFile();</span><br><span class="line">                <span class="keyword">byte</span>[] dexdata = <span class="keyword">this</span>.readDexFileFromApk();</span><br><span class="line">                <span class="keyword">this</span>.splitPayLoadFromDex(dexdata);</span><br><span class="line">            &#125;</span><br><span class="line">            Object currentActivityThread = RefInvoke.invokeStaticMethod(</span><br><span class="line">                    <span class="string">"android.app.ActivityThread"</span>, <span class="string">"currentActivityThread"</span>,</span><br><span class="line">                    <span class="keyword">new</span> Class[] &#123;&#125;, <span class="keyword">new</span> Object[] &#123;&#125;);</span><br><span class="line">            String packageName = <span class="keyword">this</span>.getPackageName();</span><br><span class="line">            ArrayMap mPackages = (ArrayMap) RefInvoke.getFieldOjbect(</span><br><span class="line">                    <span class="string">"android.app.ActivityThread"</span>, currentActivityThread,</span><br><span class="line">                    <span class="string">"mPackages"</span>);</span><br><span class="line">            <span class="keyword">assert</span> mPackages != <span class="keyword">null</span>;</span><br><span class="line">            WeakReference wr = (WeakReference) mPackages.get(packageName);</span><br><span class="line">            <span class="keyword">assert</span> wr != <span class="keyword">null</span>;</span><br><span class="line">            DexClassLoader dLoader = <span class="keyword">new</span> DexClassLoader(apkFileName, odexPath,</span><br><span class="line">                    libPath, (ClassLoader) RefInvoke.getFieldOjbect(</span><br><span class="line">                    <span class="string">"android.app.LoadedApk"</span>, wr.get(), <span class="string">"mClassLoader"</span>));</span><br><span class="line">            RefInvoke.setFieldObject(<span class="string">"android.app.LoadedApk"</span>, <span class="string">"mClassLoader"</span>,</span><br><span class="line">                    wr.get(), dLoader);</span><br><span class="line">            Log.i(<span class="string">"demo"</span>,<span class="string">"classloader:"</span>+dLoader);</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                Object actObj = dLoader.loadClass(<span class="string">"com.ssj.crackeme.forceapkobj.MainActivity"</span>);</span><br><span class="line">                Log.i(<span class="string">"demo"</span>, <span class="string">"actObj:"</span>+actObj);</span><br><span class="line">            &#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">                Log.i(<span class="string">"demo"</span>, <span class="string">"activity:"</span>+Log.getStackTraceString(e));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            Log.i(<span class="string">"demo"</span>, <span class="string">"error:"</span>+Log.getStackTraceString(e));</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequiresApi</span>(api = Build.VERSION_CODES.KITKAT)</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate();</span><br><span class="line">        loadResources(apkFileName);</span><br><span class="line">        Log.i(<span class="string">"demo"</span>, <span class="string">"onCreate"</span>);</span><br><span class="line"></span><br><span class="line">        String appClassName = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            ApplicationInfo ai = <span class="keyword">this</span>.getPackageManager()</span><br><span class="line">                    .getApplicationInfo(<span class="keyword">this</span>.getPackageName(), PackageManager.GET_META_DATA);</span><br><span class="line">            Bundle bundle = ai.metaData;</span><br><span class="line">            <span class="keyword">if</span> (bundle != <span class="keyword">null</span> &amp;&amp; bundle.containsKey(appkey)) &#123;</span><br><span class="line">                appClassName = bundle.getString(appkey);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                Log.i(<span class="string">"demo"</span>, <span class="string">"have no application class name"</span>);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NameNotFoundException e) &#123;</span><br><span class="line">            Log.i(<span class="string">"demo"</span>, <span class="string">"error:"</span> + Log.getStackTraceString(e));</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Object currentActivityThread = RefInvoke.invokeStaticMethod(</span><br><span class="line">                <span class="string">"android.app.ActivityThread"</span>, <span class="string">"currentActivityThread"</span>,</span><br><span class="line">                <span class="keyword">new</span> Class[]&#123;&#125;, <span class="keyword">new</span> Object[]&#123;&#125;);</span><br><span class="line">        Object mBoundApplication = RefInvoke.getFieldOjbect(</span><br><span class="line">                <span class="string">"android.app.ActivityThread"</span>, currentActivityThread,</span><br><span class="line">                <span class="string">"mBoundApplication"</span>);</span><br><span class="line">        Object loadedApkInfo = RefInvoke.getFieldOjbect(</span><br><span class="line">                <span class="string">"android.app.ActivityThread$AppBindData"</span>,</span><br><span class="line">                mBoundApplication, <span class="string">"info"</span>);</span><br><span class="line"></span><br><span class="line">        RefInvoke.setFieldObject(<span class="string">"android.app.LoadedApk"</span>, <span class="string">"mApplication"</span>,</span><br><span class="line">                loadedApkInfo, <span class="keyword">null</span>);</span><br><span class="line">        Object oldApplication = RefInvoke.getFieldOjbect(</span><br><span class="line">                <span class="string">"android.app.ActivityThread"</span>, currentActivityThread,</span><br><span class="line">                <span class="string">"mInitialApplication"</span>);</span><br><span class="line"></span><br><span class="line">        ArrayList&lt;Application&gt; mAllApplications = (ArrayList&lt;Application&gt;) RefInvoke</span><br><span class="line">                .getFieldOjbect(<span class="string">"android.app.ActivityThread"</span>,</span><br><span class="line">                        currentActivityThread, <span class="string">"mAllApplications"</span>);</span><br><span class="line">        <span class="keyword">assert</span> mAllApplications != <span class="keyword">null</span>;</span><br><span class="line">        mAllApplications.remove(oldApplication);</span><br><span class="line">        ApplicationInfo appinfo_In_LoadedApk = (ApplicationInfo) RefInvoke</span><br><span class="line">                .getFieldOjbect(<span class="string">"android.app.LoadedApk"</span>, loadedApkInfo,</span><br><span class="line">                        <span class="string">"mApplicationInfo"</span>);</span><br><span class="line">        ApplicationInfo appinfo_In_AppBindData = (ApplicationInfo) RefInvoke</span><br><span class="line">                .getFieldOjbect(<span class="string">"android.app.ActivityThread$AppBindData"</span>,</span><br><span class="line">                        mBoundApplication, <span class="string">"appInfo"</span>);</span><br><span class="line">        <span class="keyword">assert</span> appinfo_In_LoadedApk != <span class="keyword">null</span>;</span><br><span class="line">        appinfo_In_LoadedApk.className = appClassName;</span><br><span class="line">        <span class="keyword">assert</span> appinfo_In_AppBindData != <span class="keyword">null</span>;</span><br><span class="line">        appinfo_In_AppBindData.className = appClassName;</span><br><span class="line">        Application app = (Application) RefInvoke.invokeMethod(</span><br><span class="line">                <span class="string">"android.app.LoadedApk"</span>, <span class="string">"makeApplication"</span>, loadedApkInfo,</span><br><span class="line">                <span class="keyword">new</span> Class[]&#123;<span class="keyword">boolean</span>.class, Instrumentation.class&#125;,</span><br><span class="line">                <span class="keyword">new</span> Object[]&#123;<span class="keyword">false</span>, <span class="keyword">null</span>&#125;);</span><br><span class="line">        RefInvoke.setFieldObject(<span class="string">"android.app.ActivityThread"</span>,</span><br><span class="line">                <span class="string">"mInitialApplication"</span>, currentActivityThread, app);</span><br><span class="line">        ArrayMap mProviderMap = (ArrayMap) RefInvoke.getFieldOjbect(</span><br><span class="line">                <span class="string">"android.app.ActivityThread"</span>, currentActivityThread,</span><br><span class="line">                <span class="string">"mProviderMap"</span>);</span><br><span class="line">        <span class="keyword">assert</span> mProviderMap != <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">for</span> (Object providerClientRecord : mProviderMap.values()) &#123;</span><br><span class="line">            Object localProvider = RefInvoke.getFieldOjbect(</span><br><span class="line">                    <span class="string">"android.app.ActivityThread$ProviderClientRecord"</span>,</span><br><span class="line">                    providerClientRecord, <span class="string">"mLocalProvider"</span>);</span><br><span class="line">            RefInvoke.setFieldObject(<span class="string">"android.content.ContentProvider"</span>,</span><br><span class="line">                    <span class="string">"mContext"</span>, localProvider, app);</span><br><span class="line">        &#125;</span><br><span class="line">        Log.i(<span class="string">"demo"</span>, <span class="string">"app:"</span> + app);</span><br><span class="line">        <span class="keyword">assert</span> app != <span class="keyword">null</span>;</span><br><span class="line">        app.onCreate();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">splitPayLoadFromDex</span><span class="params">(<span class="keyword">byte</span>[] apkdata)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> ablen = apkdata.length;</span><br><span class="line">        <span class="keyword">byte</span>[] dexlen = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">4</span>];</span><br><span class="line">        System.arraycopy(apkdata, ablen - <span class="number">4</span>, dexlen, <span class="number">0</span>, <span class="number">4</span>);</span><br><span class="line">        ByteArrayInputStream bais = <span class="keyword">new</span> ByteArrayInputStream(dexlen);</span><br><span class="line">        DataInputStream in = <span class="keyword">new</span> DataInputStream(bais);</span><br><span class="line">        <span class="keyword">int</span> readInt = in.readInt();</span><br><span class="line">        System.out.println(Integer.toHexString(readInt));</span><br><span class="line">        <span class="keyword">byte</span>[] newdex = <span class="keyword">new</span> <span class="keyword">byte</span>[readInt];</span><br><span class="line">        System.arraycopy(apkdata, ablen - <span class="number">4</span> - readInt, newdex, <span class="number">0</span>, readInt);</span><br><span class="line">        newdex = decrypt(newdex);</span><br><span class="line">        File file = <span class="keyword">new</span> File(apkFileName);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            FileOutputStream localFileOutputStream = <span class="keyword">new</span> FileOutputStream(file);</span><br><span class="line">            localFileOutputStream.write(newdex);</span><br><span class="line">            localFileOutputStream.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException localIOException) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(localIOException);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ZipInputStream localZipInputStream = <span class="keyword">new</span> ZipInputStream(</span><br><span class="line">                <span class="keyword">new</span> BufferedInputStream(<span class="keyword">new</span> FileInputStream(file)));</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            ZipEntry localZipEntry = localZipInputStream.getNextEntry();</span><br><span class="line">            <span class="keyword">if</span> (localZipEntry == <span class="keyword">null</span>) &#123;</span><br><span class="line">                localZipInputStream.close();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            String name = localZipEntry.getName();</span><br><span class="line">            <span class="keyword">if</span> (name.startsWith(<span class="string">"lib/"</span>) &amp;&amp; name.endsWith(<span class="string">".so"</span>)) &#123;</span><br><span class="line">                File storeFile = <span class="keyword">new</span> File(libPath + <span class="string">"/"</span></span><br><span class="line">                        + name.substring(name.lastIndexOf(<span class="string">'/'</span>)));</span><br><span class="line">                storeFile.createNewFile();</span><br><span class="line">                FileOutputStream fos = <span class="keyword">new</span> FileOutputStream(storeFile);</span><br><span class="line">                <span class="keyword">byte</span>[] arrayOfByte = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">                <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                    <span class="keyword">int</span> i = localZipInputStream.read(arrayOfByte);</span><br><span class="line">                    <span class="keyword">if</span> (i == -<span class="number">1</span>)</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    fos.write(arrayOfByte, <span class="number">0</span>, i);</span><br><span class="line">                &#125;</span><br><span class="line">                fos.flush();</span><br><span class="line">                fos.close();</span><br><span class="line">            &#125;</span><br><span class="line">            localZipInputStream.closeEntry();</span><br><span class="line">        &#125;</span><br><span class="line">        localZipInputStream.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">byte</span>[] readDexFileFromApk() <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        ByteArrayOutputStream dexByteArrayOutputStream = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">        ZipInputStream localZipInputStream = <span class="keyword">new</span> ZipInputStream(</span><br><span class="line">                <span class="keyword">new</span> BufferedInputStream(<span class="keyword">new</span> FileInputStream(</span><br><span class="line">                        <span class="keyword">this</span>.getApplicationInfo().sourceDir)));</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            ZipEntry localZipEntry = localZipInputStream.getNextEntry();</span><br><span class="line">            <span class="keyword">if</span> (localZipEntry == <span class="keyword">null</span>) &#123;</span><br><span class="line">                localZipInputStream.close();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (localZipEntry.getName().equals(<span class="string">"classes.dex"</span>)) &#123;</span><br><span class="line">                <span class="keyword">byte</span>[] arrayOfByte = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">                <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                    <span class="keyword">int</span> i = localZipInputStream.read(arrayOfByte);</span><br><span class="line">                    <span class="keyword">if</span> (i == -<span class="number">1</span>)</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    dexByteArrayOutputStream.write(arrayOfByte, <span class="number">0</span>, i);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            localZipInputStream.closeEntry();</span><br><span class="line">        &#125;</span><br><span class="line">        localZipInputStream.close();</span><br><span class="line">        <span class="keyword">return</span> dexByteArrayOutputStream.toByteArray();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">byte</span>[] decrypt(<span class="keyword">byte</span>[] srcdata) &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;srcdata.length;i++)&#123;</span><br><span class="line">            srcdata[i] = (<span class="keyword">byte</span>)(<span class="number">0xFF</span> ^ srcdata[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> srcdata;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> AssetManager mAssetManager;</span><br><span class="line">    <span class="keyword">protected</span> Resources mResources;</span><br><span class="line">    <span class="keyword">protected</span> Theme mTheme;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">loadResources</span><span class="params">(String dexPath)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            AssetManager assetManager = AssetManager.class.newInstance();</span><br><span class="line">            Method addAssetPath = assetManager.getClass().getMethod(<span class="string">"addAssetPath"</span>, String.class);</span><br><span class="line">            addAssetPath.invoke(assetManager, dexPath);</span><br><span class="line">            mAssetManager = assetManager;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            Log.i(<span class="string">"inject"</span>, <span class="string">"loadResource error:"</span>+Log.getStackTraceString(e));</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        Resources superRes = <span class="keyword">super</span>.getResources();</span><br><span class="line">        superRes.getDisplayMetrics();</span><br><span class="line">        superRes.getConfiguration();</span><br><span class="line">        mResources = <span class="keyword">new</span> Resources(mAssetManager, superRes.getDisplayMetrics(),superRes.getConfiguration());</span><br><span class="line">        mTheme = mResources.newTheme();</span><br><span class="line">        mTheme.setTo(<span class="keyword">super</span>.getTheme());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> AssetManager <span class="title">getAssets</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mAssetManager == <span class="keyword">null</span> ? <span class="keyword">super</span>.getAssets() : mAssetManager;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Resources <span class="title">getResources</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mResources == <span class="keyword">null</span> ? <span class="keyword">super</span>.getResources() : mResources;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Theme <span class="title">getTheme</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mTheme == <span class="keyword">null</span> ? <span class="keyword">super</span>.getTheme() : mTheme;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RefInvoke</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> Object <span class="title">invokeStaticMethod</span><span class="params">(String class_name, String method_name, Class[] pareTyple, Object[] pareVaules)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Class obj_class = Class.forName(class_name);</span><br><span class="line">            Method method = obj_class.getDeclaredMethod(method_name, pareTyple);</span><br><span class="line">            method.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">            <span class="keyword">return</span> method.invoke(<span class="keyword">null</span>, pareVaules);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SecurityException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalArgumentException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">static</span> Object <span class="title">invokeMethod</span><span class="params">(String class_name, String method_name, Object obj, Class[] pareTyple, Object[] pareVaules)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Class obj_class = Class.forName(class_name);</span><br><span class="line">            Method method = obj_class.getDeclaredMethod(method_name, pareTyple);</span><br><span class="line">            method.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">            <span class="keyword">return</span> method.invoke(obj, pareVaules);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SecurityException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalArgumentException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">static</span> Object <span class="title">getFieldOjbect</span><span class="params">(String class_name, Object obj, String filedName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Class obj_class = Class.forName(class_name);</span><br><span class="line">            Field field = obj_class.getDeclaredField(filedName);</span><br><span class="line">            field.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">            <span class="keyword">return</span> field.get(obj);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SecurityException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchFieldException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalArgumentException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setFieldObject</span><span class="params">(String classname, String filedName, Object obj, Object filedVaule)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Class obj_class = Class.forName(classname);</span><br><span class="line">            Field field = obj_class.getDeclaredField(filedName);</span><br><span class="line">            field.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">            field.set(obj, filedVaule);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SecurityException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchFieldException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalArgumentException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这里要注意的是，manifest里的入口activity要写那个源apk的入口activity。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta-data</span> </span></span><br><span class="line"><span class="tag">    <span class="attr">android:name</span>=<span class="string">"APPLICATION_CLASS_NAME"</span> </span></span><br><span class="line"><span class="tag">    <span class="attr">android:value</span>=<span class="string">"com.xxx.xxx.MyApplication"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:name</span>=<span class="string">"com.xxx.xxx.MainActivity"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="加密-拼装工具"><a href="#加密-拼装工具" class="headerlink" title="加密+拼装工具"></a>加密+拼装工具</h4><p>这个就是把源apk和壳的dex拼在一起，并加密，变成新的壳的dex，并修正dex头中<strong>checksum</strong>、<strong>signature</strong>、<strong>file_size</strong>的值。</p>
+<p>新dex结构：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">dex</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">…</td>
+</tr>
+<tr>
+<td style="text-align:center">checksum</td>
+</tr>
+<tr>
+<td style="text-align:center">signature</td>
+</tr>
+<tr>
+<td style="text-align:center">file_size</td>
+</tr>
+<tr>
+<td style="text-align:center">…</td>
+</tr>
+<tr>
+<td style="text-align:center">壳的dex</td>
+</tr>
+<tr>
+<td style="text-align:center">源程序的apk</td>
+</tr>
+<tr>
+<td style="text-align:center">源程序apk的大小</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ssjShellTool</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">byte</span>[] intToByte(<span class="keyword">int</span> number) &#123;</span><br><span class="line">        <span class="keyword">byte</span>[] b = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">4</span>]; </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">3</span>; i &gt;= <span class="number">0</span>; i--) &#123; </span><br><span class="line">            b[i] = (<span class="keyword">byte</span>) (number % <span class="number">256</span>); </span><br><span class="line">            number &gt;&gt;= <span class="number">8</span>; </span><br><span class="line">        &#125; </span><br><span class="line">        <span class="keyword">return</span> b; </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            File payloadSrcFile = <span class="keyword">new</span> File(<span class="string">"force/source.apk"</span>);</span><br><span class="line">            System.out.println(<span class="string">"apk size:"</span>+payloadSrcFile.length());</span><br><span class="line">            File unShellDexFile = <span class="keyword">new</span> File(<span class="string">"force/shell.dex"</span>);</span><br><span class="line">            System.out.println(<span class="string">"dex size:"</span>+unShellDexFile.length());</span><br><span class="line">            <span class="keyword">byte</span>[] payloadArray = encrpt(readFileBytes(payloadSrcFile));</span><br><span class="line">            <span class="keyword">byte</span>[] unShellDexArray = readFileBytes(unShellDexFile);</span><br><span class="line">            <span class="keyword">int</span> payloadLen = payloadArray.length;</span><br><span class="line">            <span class="keyword">int</span> unShellDexLen = unShellDexArray.length;</span><br><span class="line">            <span class="keyword">int</span> totalLen = payloadLen + unShellDexLen + <span class="number">4</span>;</span><br><span class="line">            System.out.println(<span class="string">"tot size:"</span>+totalLen);</span><br><span class="line">            <span class="keyword">byte</span>[] newdex = <span class="keyword">new</span> <span class="keyword">byte</span>[totalLen];</span><br><span class="line">            </span><br><span class="line">            System.arraycopy(unShellDexArray, <span class="number">0</span>, newdex, <span class="number">0</span>, unShellDexLen);</span><br><span class="line">            System.arraycopy(payloadArray, <span class="number">0</span>, newdex, unShellDexLen, payloadLen);</span><br><span class="line">            System.arraycopy(intToByte(payloadLen), <span class="number">0</span>, newdex, totalLen-<span class="number">4</span>, <span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">            fixFileSizeHeader(newdex);</span><br><span class="line">            fixSHA1Header(newdex);</span><br><span class="line">            fixCheckSumHeader(newdex);</span><br><span class="line"></span><br><span class="line">            String str = <span class="string">"force/classes.dex"</span>;</span><br><span class="line">            File file = <span class="keyword">new</span> File(str);</span><br><span class="line">            <span class="keyword">if</span> (!file.exists()) &#123;</span><br><span class="line">                file.createNewFile();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            FileOutputStream localFileOutputStream = <span class="keyword">new</span> FileOutputStream(str);</span><br><span class="line">            localFileOutputStream.write(newdex);</span><br><span class="line">            localFileOutputStream.flush();</span><br><span class="line">            localFileOutputStream.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"finish"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//此处加密</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">byte</span>[] encrpt(<span class="keyword">byte</span>[] srcdata)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i&lt;srcdata.length;i++)&#123;</span><br><span class="line">            srcdata[i] = (<span class="keyword">byte</span>)(<span class="number">0xFF</span> ^ srcdata[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> srcdata;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">fixCheckSumHeader</span><span class="params">(<span class="keyword">byte</span>[] dexBytes)</span> </span>&#123;</span><br><span class="line">        Adler32 adler = <span class="keyword">new</span> Adler32();</span><br><span class="line">        adler.update(dexBytes, <span class="number">12</span>, dexBytes.length - <span class="number">12</span>);</span><br><span class="line">        <span class="keyword">long</span> value = adler.getValue();</span><br><span class="line">        <span class="keyword">int</span> va = (<span class="keyword">int</span>) value;</span><br><span class="line">        <span class="keyword">byte</span>[] newcs = intToByte(va);</span><br><span class="line">        <span class="keyword">byte</span>[] recs = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">4</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">            recs[i] = newcs[newcs.length - <span class="number">1</span> - i];</span><br><span class="line">        &#125;</span><br><span class="line">        System.arraycopy(recs, <span class="number">0</span>, dexBytes, <span class="number">8</span>, <span class="number">4</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">fixSHA1Header</span><span class="params">(<span class="keyword">byte</span>[] dexBytes)</span></span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> NoSuchAlgorithmException </span>&#123;</span><br><span class="line">        MessageDigest md = MessageDigest.getInstance(<span class="string">"SHA-1"</span>);</span><br><span class="line">        md.update(dexBytes, <span class="number">32</span>, dexBytes.length - <span class="number">32</span>);</span><br><span class="line">        <span class="keyword">byte</span>[] newdt = md.digest();</span><br><span class="line">        System.arraycopy(newdt, <span class="number">0</span>, dexBytes, <span class="number">12</span>, <span class="number">20</span>);</span><br><span class="line">        String hexstr = <span class="string">""</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; newdt.length; i++) &#123;</span><br><span class="line">            hexstr += Integer.toString((newdt[i] &amp; <span class="number">0xff</span>) + <span class="number">0x100</span>, <span class="number">16</span>)</span><br><span class="line">                    .substring(<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(hexstr);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">fixFileSizeHeader</span><span class="params">(<span class="keyword">byte</span>[] dexBytes)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">byte</span>[] newfs = intToByte(dexBytes.length);</span><br><span class="line">        <span class="keyword">byte</span>[] refs = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">4</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">            refs[i] = newfs[newfs.length - <span class="number">1</span> - i];</span><br><span class="line">        &#125;</span><br><span class="line">        System.arraycopy(refs, <span class="number">0</span>, dexBytes, <span class="number">32</span>, <span class="number">4</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">byte</span>[] readFileBytes(File file) <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="keyword">byte</span>[] arrayOfByte = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">        ByteArrayOutputStream localByteArrayOutputStream = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">        FileInputStream fis = <span class="keyword">new</span> FileInputStream(file);</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            <span class="keyword">int</span> i = fis.read(arrayOfByte);</span><br><span class="line">            <span class="keyword">if</span> (i != -<span class="number">1</span>) &#123;</span><br><span class="line">                localByteArrayOutputStream.write(arrayOfByte, <span class="number">0</span>, i);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                fis.close();</span><br><span class="line">                <span class="keyword">return</span> localByteArrayOutputStream.toByteArray();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="综上"><a href="#综上" class="headerlink" title="综上"></a>综上</h3><p>综上，这就是一个垃圾壳子。</p>
+<p>TODO:</p>
+<ul>
+<li>搞一个加密算法把内容加密一下</li>
+<li>加载源apk的代码写到so里</li>
+<li>加些反调试、检测Xposed的内容</li>
+<li>后续可能还会升级成类抽取的…</li>
+</ul>
+
+                
+<p class="pink-link-context">
+    <a href="/2019/05/29/小菜比ssj吹头发记/" rel="next" title="小菜比ssj吹头发记">
+    Prev: 小菜比ssj吹头发记
+  </a>
+</p>
+
+
+
+<p class="pink-link-context">
+    <a href="/2019/05/10/iSmart逆向分析之绕过签名验证/" rel="next" title="iSmart逆向分析之绕过签名验证">
+    Next: iSmart逆向分析之绕过签名验证
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large pink">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect pink" title="Return to top"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse pink darken-1"  data-activates="main-menu" title="Menu"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer pink accent-1 darken-1">
+    
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">Social</h5>
+                
+                    <a class="social-link" href="https://github.com/cracke-s-j" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                
+
+            </div>
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">Links</h5>
+                
+                    <a class="social-link" href="https://blog.dyf.ink/" target="_blank">友情链接 dyf&#39;s blog</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright pink-link-context">
+        <div class="container">
+            © 2020 ssj, All rights reserved.
+            <p class="right" style="margin-top: 0;">Blog powered by <a href="https://hexo.io">Hexo</a> | Theme <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+        </div>
+    </div>
+</footer>
+
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+    </div>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
+<script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
+
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
+
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
+            });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('pink lighten-2');
+
+            
+            // 添加new标签
+            $('').append('<span class="new badge pink"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
+        });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async
+  src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"superSample":2,"width":250,"height":500,"position":"left","hOffset":0,"vOffset":-100},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

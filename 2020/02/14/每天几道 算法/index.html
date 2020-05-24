@@ -1,0 +1,795 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>每天几道 算法 | </title>
+    <meta name="author" content="ssj">
+    
+    <meta name="description" content="跟 dyf 聊天，扯起了算法，从高三 oi 退役以来，就大一冬天看过一阵算法，去梆梆之后就基本再也没看过了，于是就上 leetcode 刷了几道，难度相比竞赛来说还是弱的很，但是挺有意思的。
+爬楼梯问题就是一个线性 dp，dp[i] = min(dp[i-1]+val[i-1], dp[i-2]+v">
+    
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta property="og:title" content="每天几道 算法">
+    <meta property="og:site_name" content="ssj&#39;s blog">
+
+    
+    <meta property="og:image" content>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="ssj&#39;s blog" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/tranquil-heart.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+</html>
+
+<body>
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="pink accent-1">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
+        </a>
+        <div class="">
+            <a href="/" class="brand-logo hide-on-med-and-down">ssj&#39;s blog</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/" >
+                            <i class="fa fa-home "></i>
+                            
+                            Home
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives" >
+                            <i class="fa fa-archive "></i>
+                            
+                            Archives
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                            <i class="fa fa-bookmark "></i>
+                            
+                            Categories
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-reading " href="/reading" >
+                            <i class="fa fa-book "></i>
+                            
+                            Reading
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about" >
+                            <i class="fa fa-user "></i>
+                            
+                            About
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search" >
+                            <i class="fa fa-search "></i>
+                            
+                            Search
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav pink darken-1" id="main-menu">
+        
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="/favicon.png" alt="User Avatar">
+                </div>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">ssj</p>
+                        <p class="desc"></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/" >
+                    <i class="fa fa-home "></i>
+                    
+                    Home
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives" >
+                    <i class="fa fa-archive "></i>
+                    
+                    Archives
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                    <i class="fa fa-bookmark "></i>
+                    
+                    Categories
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-reading " href="/reading" >
+                    <i class="fa fa-book "></i>
+                    
+                    Reading
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about" >
+                    <i class="fa fa-user "></i>
+                    
+                    About
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search" >
+                    <i class="fa fa-search "></i>
+                    
+                    Search
+                </a>
+            </li>
+        
+    </ul>
+
+    <ul class="side-nav pink darken-1" id="category-menu">
+    
+
+            
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CTF/">
+                    CTF <span class="right">6</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/Android/">
+                    Android <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/pwn/">
+                    pwn <span class="right">5</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Ethereum/">
+                    Ethereum <span class="right">3</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Android/">
+                    Android <span class="right">10</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/马甲包/">
+                    马甲包 <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/CVE/">
+                    CVE <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/脱壳/">
+                    脱壳 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/算法/">
+                    算法 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/面试体验/">
+                    面试体验 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/面试体验/Android/">
+                    Android <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/听戏/">
+                    听戏 <span class="right">5</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CVE/">
+                    CVE <span class="right">13</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CVE/v8/">
+                    v8 <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CVE/Base/">
+                    Base <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CVE/VM/">
+                    VM <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CVE/Docs/">
+                    Docs <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/基础知识/">
+                    基础知识 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/二进制漏洞/">
+                    二进制漏洞 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Cpp/">
+                    Cpp <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+</nav>
+
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">Search</label>
+        </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper pink">
+        <span class="breadcrumb">Current page(Categories)</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/算法/">算法</a>
+
+
+        
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>每天几道 算法</h1>
+    
+
+
+            </div>
+            <time class="pink-link-context" datetime="2020-02-13T17:07:29.000Z"><a href="/2020/02/14/每天几道 算法/">2020-02-14</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/算法/" class="chip pink lighten-1">算法</a>
+        
+    </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#爬楼梯问题"><span class="section table-of-contents-text">爬楼梯问题</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#找第一个不重复的字母"><span class="section table-of-contents-text">找第一个不重复的字母</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#出现前-k-多的字符串"><span class="section table-of-contents-text">出现前 k 多的字符串</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#数组组三角形"><span class="section table-of-contents-text">数组组三角形</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#毒死猪"><span class="section table-of-contents-text">毒死猪</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#铺地板"><span class="section table-of-contents-text">铺地板</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#二叉搜索树"><span class="section table-of-contents-text">二叉搜索树</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#回文字典序"><span class="section table-of-contents-text">回文字典序</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#奇偶跳"><span class="section table-of-contents-text">奇偶跳</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#合并两个数组"><span class="section table-of-contents-text">合并两个数组</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#字符串查找"><span class="section table-of-contents-text">字符串查找</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#我的日程安排表"><span class="section table-of-contents-text">我的日程安排表</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#不喜欢问题"><span class="section table-of-contents-text">不喜欢问题</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#奇怪的打印机"><span class="section table-of-contents-text">奇怪的打印机</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#计算器"><span class="section table-of-contents-text">计算器</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#迟到"><span class="section table-of-contents-text">迟到</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#种花"><span class="section table-of-contents-text">种花</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#还是不喜欢问题"><span class="section table-of-contents-text">还是不喜欢问题</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#子串独特字符"><span class="section table-of-contents-text">子串独特字符</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#滑砖拼图"><span class="section table-of-contents-text">滑砖拼图</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#还是猪"><span class="section table-of-contents-text">还是猪</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#优美排列"><span class="section table-of-contents-text">优美排列</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#连网线"><span class="section table-of-contents-text">连网线</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#数据流不相交区间"><span class="section table-of-contents-text">数据流不相交区间</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#填数独"><span class="section table-of-contents-text">填数独</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#二叉树的祖父结点"><span class="section table-of-contents-text">二叉树的祖父结点</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#返回重复子树"><span class="section table-of-contents-text">返回重复子树</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#反转链表"><span class="section table-of-contents-text">反转链表</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#排序"><span class="section table-of-contents-text">排序</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#词根"><span class="section table-of-contents-text">词根</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#最短路"><span class="section table-of-contents-text">最短路</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#找数"><span class="section table-of-contents-text">找数</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#建二叉搜索树"><span class="section table-of-contents-text">建二叉搜索树</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#边框着色"><span class="section table-of-contents-text">边框着色</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#判断是否是子串"><span class="section table-of-contents-text">判断是否是子串</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#切砖"><span class="section table-of-contents-text">切砖</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#猜数"><span class="section table-of-contents-text">猜数</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#位运算加法"><span class="section table-of-contents-text">位运算加法</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#增减字符串"><span class="section table-of-contents-text">增减字符串</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#字母板上的路径"><span class="section table-of-contents-text">字母板上的路径</span></a></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <p>跟 dyf 聊天，扯起了算法，从高三 oi 退役以来，就大一冬天看过一阵算法，去梆梆之后就基本再也没看过了，于是就上 leetcode 刷了几道，难度相比竞赛来说还是弱的很，但是挺有意思的。</p>
+<h2 id="爬楼梯问题"><a href="#爬楼梯问题" class="headerlink" title="爬楼梯问题"></a>爬楼梯问题</h2><p>就是一个线性 dp，dp[i] = min(dp[i-1]+val[i-1], dp[i-2]+val[i-2])，当前状态是由走一步或者走两步来的。</p>
+<h2 id="找第一个不重复的字母"><a href="#找第一个不重复的字母" class="headerlink" title="找第一个不重复的字母"></a>找第一个不重复的字母</h2><p>水题，不表。</p>
+<h2 id="出现前-k-多的字符串"><a href="#出现前-k-多的字符串" class="headerlink" title="出现前 k 多的字符串"></a>出现前 k 多的字符串</h2><p>STL 排排序就行。</p>
+<h2 id="数组组三角形"><a href="#数组组三角形" class="headerlink" title="数组组三角形"></a>数组组三角形</h2><p>左右指针移动计数，O(n^2)。</p>
+<h2 id="毒死猪"><a href="#毒死猪" class="headerlink" title="毒死猪"></a>毒死猪</h2><p>这个挺有意思，可以算机智题或建模。假设有 n 只水桶，猪饮水中毒后会在 m 分钟内死亡，你需要多少猪（x）就能在 p 分钟内找出 “有毒” 水桶？这 n 只水桶里有且仅有一只有毒的桶。x = (p/m+1)根号(n)。</p>
+<h2 id="铺地板"><a href="#铺地板" class="headerlink" title="铺地板"></a>铺地板</h2><p>你是一位施工队的工长，根据设计师的要求准备为一套设计风格独特的房子进行室内装修。房子的客厅大小为 n x m，为保持极简的风格，需要使用尽可能少的 正方形 瓷砖来铺盖地面。假设正方形瓷砖的规格不限，边长都是整数。(1 &lt;= n &lt;= 13, 1 &lt;= m &lt;= 13)</p>
+<p>看起来像可恶的 dp，一共有三种情况，两个块横着拼或竖着拼，还有一种是四个块围起来，中间一个 1x1 的小块，O((m*n)^2) = 2,924,207，合适。</p>
+<h2 id="二叉搜索树"><a href="#二叉搜索树" class="headerlink" title="二叉搜索树"></a>二叉搜索树</h2><p>给定一个所有节点为非负值的二叉搜索树,求树中任意两节点的差的绝对值的最小值。</p>
+<p>知识点是二叉搜索树，它的中序遍历是从小到大排序的。</p>
+<h2 id="回文字典序"><a href="#回文字典序" class="headerlink" title="回文字典序"></a>回文字典序</h2><p>一道无聊的模拟题。</p>
+<h2 id="奇偶跳"><a href="#奇偶跳" class="headerlink" title="奇偶跳"></a>奇偶跳</h2><p>给定一个整数数组 A，你可以从某一起始索引出发，跳跃一定次数。在你跳跃的过程中，第 1、3、5… 次跳跃称为奇数跳跃，而第 2、4、6… 次跳跃称为偶数跳跃。</p>
+<p>你可以按以下方式从索引 i 向后跳转到索引 j（其中 i &lt; j）：</p>
+<p>在进行奇数跳跃时（如，第 1，3，5… 次跳跃），你将会跳到索引 j，使得 A[i] &lt;= A[j]，A[j] 是可能的最小值。如果存在多个这样的索引 j，你只能跳到满足要求的最小索引 j 上。<br>在进行偶数跳跃时（如，第 2，4，6… 次跳跃），你将会跳到索引 j，使得 A[i] =&gt; A[j]，A[j] 是可能的最大值。如果存在多个这样的索引 j，你只能跳到满足要求的最小索引 j 上。<br>（对于某些索引 i，可能无法进行合乎要求的跳跃。）<br>如果从某一索引开始跳跃一定次数（可能是 0 次或多次），就可以到达数组的末尾（索引 A.length - 1），那么该索引就会被认为是好的起始索引。</p>
+<p>返回好的起始索引的数量。</p>
+<p>这显然是一道 dp 题。</p>
+<p>f(i, 0) = f(j, 1)<br>f(i, 1) = f(k, 0)<br>j 表示奇数跳的下一个位置，k 表示偶数跳的下一个位置。</p>
+<p>下一个位置的预处理可以用单调队列。</p>
+<h2 id="合并两个数组"><a href="#合并两个数组" class="headerlink" title="合并两个数组"></a>合并两个数组</h2><p>无聊的排序。</p>
+<h2 id="字符串查找"><a href="#字符串查找" class="headerlink" title="字符串查找"></a>字符串查找</h2><p>无聊的字符串处理题。</p>
+<h2 id="我的日程安排表"><a href="#我的日程安排表" class="headerlink" title="我的日程安排表"></a>我的日程安排表</h2><p>看起来这么像线段树呢，其实不用，遍历就行。前缀和差分也行。</p>
+<h2 id="不喜欢问题"><a href="#不喜欢问题" class="headerlink" title="不喜欢问题"></a>不喜欢问题</h2><p>有点像囚犯打架问题，着色。</p>
+<h2 id="奇怪的打印机"><a href="#奇怪的打印机" class="headerlink" title="奇怪的打印机"></a>奇怪的打印机</h2><p>有台奇怪的打印机有以下两个特殊要求：</p>
+<ol>
+<li>打印机每次只能打印同一个字符序列。</li>
+<li>每次可以在任意起始和结束位置打印新字符，并且会覆盖掉原来已有的字符。</li>
+</ol>
+<p>事出有幺，必为 dp，有一种合并石子的感 jio。可是合并石子我已经忘了。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> 枚举长度</span><br><span class="line">    <span class="keyword">for</span> 枚举边界</span><br><span class="line">        <span class="keyword">for</span> 枚举边界中的 k</span><br><span class="line">            f[l][r] = min(f[l][r], f[l][k - <span class="number">1</span>] + f[k + <span class="number">1</span>][r]);</span><br></pre></td></tr></table></figure>
+<h2 id="计算器"><a href="#计算器" class="headerlink" title="计算器"></a>计算器</h2><p>代码能力题，两个栈。现在再写，有一种 tm 语法树的感觉。</p>
+<h2 id="迟到"><a href="#迟到" class="headerlink" title="迟到"></a>迟到</h2><p>水模拟。</p>
+<h2 id="种花"><a href="#种花" class="headerlink" title="种花"></a>种花</h2><p>水模拟。</p>
+<h2 id="还是不喜欢问题"><a href="#还是不喜欢问题" class="headerlink" title="还是不喜欢问题"></a>还是不喜欢问题</h2><p>。</p>
+<h2 id="子串独特字符"><a href="#子串独特字符" class="headerlink" title="子串独特字符"></a>子串独特字符</h2><p>如果一个字符在字符串 S 中有且仅有出现一次，那么我们称其为独特字符。</p>
+<p>例如，在字符串 S = “LETTER” 中，”L” 和 “R” 可以被称为独特字符。</p>
+<p>我们再定义 UNIQ(S) 作为字符串 S 中独特字符的个数。</p>
+<p>那么，在 S = “LETTER” 中， UNIQ(“LETTER”) =  2。</p>
+<p>对于给定字符串 S，计算其所有非空子串的独特字符的个数（即 UNIQ(substring)）之和。</p>
+<p>如果在 S 的不同位置上出现两个甚至多个相同的子串，那么我们认为这些子串是不同的。</p>
+<p>考虑到答案可能会非常大，规定返回格式为：结果 mod 10 ^ 9 + 7。</p>
+<p>说明: 0 &lt;= S.length &lt;= 10000。</p>
+<p><code>f[i] = f[i − 1] + (i + n[i] − 2 ∗ m[i])</code> 瞎鸡推一下推来的。</p>
+<p><code>f[i] = sum(1 to i - 1 -&gt; i)</code></p>
+<h2 id="滑砖拼图"><a href="#滑砖拼图" class="headerlink" title="滑砖拼图"></a>滑砖拼图</h2><p>是什么华容道游戏，bfs。</p>
+<h2 id="还是猪"><a href="#还是猪" class="headerlink" title="还是猪"></a>还是猪</h2><p>。</p>
+<h2 id="优美排列"><a href="#优美排列" class="headerlink" title="优美排列"></a>优美排列</h2><p>假设有从 1 到 N 的 N 个整数，如果从这 N 个数字中成功构造出一个数组，使得数组的第 i 位 (1 &lt;= i &lt;= N) 满足如下两个条件中的一个，我们就称这个数组为一个优美的排列。条件：</p>
+<ul>
+<li>第 i 位的数字能被 i 整除</li>
+<li>i 能被第 i 位上的数字整除</li>
+</ul>
+<p>现在给定一个整数 N，请问可以构造多少个优美的排列？（N &lt;= 15）</p>
+<p>暴力的气息哈哈哈哈。dfs。</p>
+<h2 id="连网线"><a href="#连网线" class="headerlink" title="连网线"></a>连网线</h2><p>并查集，只要大于 n - 1 条边，就是块数 - 1，否则不行。</p>
+<h2 id="数据流不相交区间"><a href="#数据流不相交区间" class="headerlink" title="数据流不相交区间"></a>数据流不相交区间</h2><p>给定一个非负整数的数据流输入 a1，a2，…，an，…，将到目前为止看到的数字总结为不相交的区间列表。</p>
+<p>例如，假设数据流中的整数为 1，3，7，2，6，…，每次的总结为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">1</span>]</span><br><span class="line">[<span class="number">1</span>, <span class="number">1</span>], [<span class="number">3</span>, <span class="number">3</span>]</span><br><span class="line">[<span class="number">1</span>, <span class="number">1</span>], [<span class="number">3</span>, <span class="number">3</span>], [<span class="number">7</span>, <span class="number">7</span>]</span><br><span class="line">[<span class="number">1</span>, <span class="number">3</span>], [<span class="number">7</span>, <span class="number">7</span>]</span><br><span class="line">[<span class="number">1</span>, <span class="number">3</span>], [<span class="number">6</span>, <span class="number">7</span>]</span><br></pre></td></tr></table></figure>
+<p>讲真一开始没看懂。后来，就插入就完了。</p>
+<p>最后 3 秒提交通过，稳…</p>
+<h2 id="填数独"><a href="#填数独" class="headerlink" title="填数独"></a>填数独</h2><p>dfs 回溯。会爆栈，可以用空间优化时间。</p>
+<h2 id="二叉树的祖父结点"><a href="#二叉树的祖父结点" class="headerlink" title="二叉树的祖父结点"></a>二叉树的祖父结点</h2><p><code>dfs(gp_val, p_val, node);</code></p>
+<h2 id="返回重复子树"><a href="#返回重复子树" class="headerlink" title="返回重复子树"></a>返回重复子树</h2><p>又让我想起了 compiler…用 map 映射，然后花式遍历。</p>
+<h2 id="反转链表"><a href="#反转链表" class="headerlink" title="反转链表"></a>反转链表</h2><p>就是想让写一下链表反转。</p>
+<h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><p>两行代码…</p>
+<h2 id="词根"><a href="#词根" class="headerlink" title="词根"></a>词根</h2><p>在英语中，我们有一个叫做 词根(root)的概念，它可以跟着其他一些词组成另一个较长的单词——我们称这个词为 继承词(successor)。例如，词根an，跟随着单词 other(其他)，可以形成新的单词 another(另一个)。</p>
+<p>现在，给定一个由许多词根组成的词典和一个句子。你需要将句子中的所有继承词用词根替换掉。如果继承词有许多可以形成它的词根，则用最短的词根替换它。</p>
+<p>这个是给单词建图…快的话建个数组模拟邻接表。</p>
+<h2 id="最短路"><a href="#最短路" class="headerlink" title="最短路"></a>最短路</h2><p>这小范围，写个 bfs 就行。</p>
+<h2 id="找数"><a href="#找数" class="headerlink" title="找数"></a>找数</h2><p>给定一个大小为 n 的数组，找出其中所有出现超过 ⌊ n/3 ⌋ 次的元素。</p>
+<p>说明: 要求算法的时间复杂度为 O(n)，空间复杂度为 O(1)。</p>
+<p>这个算法叫摩尔投票算法？？</p>
+<h2 id="建二叉搜索树"><a href="#建二叉搜索树" class="headerlink" title="建二叉搜索树"></a>建二叉搜索树</h2><h2 id="边框着色"><a href="#边框着色" class="headerlink" title="边框着色"></a>边框着色</h2><p>dfs。</p>
+<h2 id="判断是否是子串"><a href="#判断是否是子串" class="headerlink" title="判断是否是子串"></a>判断是否是子串</h2><p>双指针。</p>
+<h2 id="切砖"><a href="#切砖" class="headerlink" title="切砖"></a>切砖</h2><p>智力题。</p>
+<h2 id="猜数"><a href="#猜数" class="headerlink" title="猜数"></a>猜数</h2><p>智力题。</p>
+<h2 id="位运算加法"><a href="#位运算加法" class="headerlink" title="位运算加法"></a>位运算加法</h2><p>c++ 编译选项加的有毒？我就是成心让它溢出的，佛，最后用 js 写过了。</p>
+<h2 id="增减字符串"><a href="#增减字符串" class="headerlink" title="增减字符串"></a>增减字符串</h2><p>a~，又让我想起单调队列了…不过好像是个 O(n) 的模拟题。</p>
+<h2 id="字母板上的路径"><a href="#字母板上的路径" class="headerlink" title="字母板上的路径"></a>字母板上的路径</h2><p>让我想起了曼哈顿距离…其实没啥关系，是道水题。</p>
+
+                
+<p class="pink-link-context">
+    <a href="/2020/03/20/CVE-2017-2636 Linux kernel dbf 分析/" rel="next" title="CVE-2017-2636 Linux kernel dbf 分析">
+    Prev: CVE-2017-2636 Linux kernel dbf 分析
+  </a>
+</p>
+
+
+
+<p class="pink-link-context">
+    <a href="/2020/02/05/字节跳动面试实况转播/" rel="next" title="字节跳动面试实况转播">
+    Next: 字节跳动面试实况转播
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large pink">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect pink" title="Return to top"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse pink darken-1"  data-activates="main-menu" title="Menu"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer pink accent-1 darken-1">
+    
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">Social</h5>
+                
+                    <a class="social-link" href="https://github.com/cracke-s-j" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                
+
+            </div>
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">Links</h5>
+                
+                    <a class="social-link" href="https://blog.dyf.ink/" target="_blank">友情链接 dyf&#39;s blog</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright pink-link-context">
+        <div class="container">
+            © 2020 ssj, All rights reserved.
+            <p class="right" style="margin-top: 0;">Blog powered by <a href="https://hexo.io">Hexo</a> | Theme <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+        </div>
+    </div>
+</footer>
+
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+    </div>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
+<script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
+
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
+
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
+            });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('pink lighten-2');
+
+            
+            // 添加new标签
+            $('').append('<span class="new badge pink"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
+        });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async
+  src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"superSample":2,"width":250,"height":500,"position":"left","hOffset":0,"vOffset":-100},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

