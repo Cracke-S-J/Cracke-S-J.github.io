@@ -7,13 +7,16 @@
 
     
 
-    <title>马甲包 | </title>
+    <title>StageFright 系列漏洞（二——五） | </title>
     <meta name="author" content="ssj">
+    
+    <meta name="description" content="二 CVE-2015-3828 / CVE-2015-3826在status_t MPEG4Extractor::parse3GPPMetaData(off64_t offset, size_t size, int depth)这个函数中，有一个翻车的整数越界：
+123456789101112131">
     
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    
+    <meta property="og:title" content="StageFright 系列漏洞（二——五）">
     <meta property="og:site_name" content="ssj&#39;s blog">
 
     
@@ -351,36 +354,89 @@
 
     <main>
         <div class="container main-container">
-    
-
-<nav class="page-nav hide-on-small-only">
+    <nav class="page-nav hide-on-small-only">
     <div class="nav-wrapper pink">
-        <span class="breadcrumb">Current page(Tags)</span>
+        <span class="breadcrumb">Current page(Categories)</span>
         
+            
+    
+    
+    <a class="breadcrumb" href="/categories/Android/">Android</a><a class="breadcrumb" href="/categories/Android/CVE/">CVE</a>
+
 
         
-            <a class="breadcrumb" href="/tags/马甲包/">马甲包</a>
+
         
     </div>
 </nav>
 
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>StageFright 系列漏洞（二——五）</h1>
+    
 
 
-    <div class="collection mt-0">
+            </div>
+            <time class="pink-link-context" datetime="2020-05-30T15:38:26.000Z"><a href="/2020/05/30/StageFright-系列漏洞（二——五）/">2020-05-30</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
         
-            <a href="/2019/12/01/逆向改包 Tips/" class="collection-item grey-text text-darken-1">
-                <time datetime="2019-12-01T03:47:25.000Z">2019-12-01</time>
-                <span>&nbsp;&nbsp;&nbsp;</span>
-                逆向改包 Tips
-            </a>
+            <a href="/tags/Android/" class="chip pink lighten-1">Android</a>
         
-            <a href="/2019/06/27/给车王二手车套马甲/" class="collection-item grey-text text-darken-1">
-                <time datetime="2019-06-27T12:26:41.000Z">2019-06-27</time>
-                <span>&nbsp;&nbsp;&nbsp;</span>
-                给车王二手车套马甲
-            </a>
+            <a href="/tags/CVE/" class="chip pink lighten-1">CVE</a>
         
     </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#二-CVE-2015-3828-CVE-2015-3826"><span class="section table-of-contents-text">二 CVE-2015-3828 / CVE-2015-3826</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#三-CVE-2015-3827"><span class="section table-of-contents-text">三 CVE-2015-3827</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#四-CVE-2015-3829"><span class="section table-of-contents-text">四 CVE-2015-3829</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#五-CVE-2015-1539"><span class="section table-of-contents-text">五 CVE-2015-1539</span></a></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <h2 id="二-CVE-2015-3828-CVE-2015-3826"><a href="#二-CVE-2015-3828-CVE-2015-3826" class="headerlink" title="二 CVE-2015-3828 / CVE-2015-3826"></a>二 CVE-2015-3828 / CVE-2015-3826</h2><p>在<code>status_t MPEG4Extractor::parse3GPPMetaData(off64_t offset, size_t size, int depth)</code>这个函数中，有一个翻车的整数越界：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (metadataKey &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">bool</span> isUTF8 = <span class="literal">true</span>; <span class="comment">// Common case</span></span><br><span class="line">    <span class="keyword">char16_t</span> *framedata = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">int</span> len16 = <span class="number">0</span>; <span class="comment">// Number of UTF-16 characters</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (size - <span class="number">6</span> &gt;= <span class="number">4</span>) &#123;                <span class="comment">// &lt;-- 这里，如果size是个负数</span></span><br><span class="line">        len16 = ((size - <span class="number">6</span>) / <span class="number">2</span>) - <span class="number">1</span>;   <span class="comment">// don't include 0x0000 terminator</span></span><br><span class="line">        framedata = (<span class="keyword">char16_t</span> *)(buffer + <span class="number">6</span>);</span><br><span class="line">        <span class="keyword">if</span> (<span class="number">0xfffe</span> == *framedata) &#123;</span><br><span class="line">            <span class="comment">// endianness marker (BOM) doesn't match host endianness</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len16; i++) &#123;</span><br><span class="line">                framedata[i] = bswap_16(framedata[i]);      <span class="comment">// &lt;-- 这里，越界，越界大小端转换</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// BOM is now swapped to 0xfeff, we will execute next block too</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="number">0xfeff</span> == *framedata) &#123;</span><br><span class="line">            <span class="comment">// Remove the BOM</span></span><br><span class="line">            framedata++;</span><br><span class="line">            len16--;</span><br><span class="line">            isUTF8 = <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// else normal non-zero-length UTF-8 string</span></span><br><span class="line">        <span class="comment">// we can't handle UTF-16 without BOM as there is no other</span></span><br><span class="line">        <span class="comment">// indication of encoding.</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (isUTF8) &#123;</span><br><span class="line">        mFileMetaData-&gt;setCString(metadataKey, (<span class="keyword">const</span> <span class="keyword">char</span> *)buffer + <span class="number">6</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Convert from UTF-16 string to UTF-8 string.</span></span><br><span class="line">        String8 tmpUTF8str(framedata, len16);               <span class="comment">// &lt;-- 这里应该没问题</span></span><br><span class="line">        mFileMetaData-&gt;setCString(metadataKey, tmpUTF8str.<span class="built_in">string</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="三-CVE-2015-3827"><a href="#三-CVE-2015-3827" class="headerlink" title="三 CVE-2015-3827"></a>三 CVE-2015-3827</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">case FOURCC('c', 'o', 'v', 'r'):</span><br><span class="line">&#123;</span><br><span class="line">    *offset += chunk_size;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (mFileMetaData != <span class="literal">NULL</span>) &#123;</span><br><span class="line">        ALOGV(<span class="string">"chunk_data_size = %lld and data_offset = %lld"</span>,</span><br><span class="line">                chunk_data_size, data_offset);</span><br><span class="line"></span><br><span class="line">        sp&lt;ABuffer&gt; buffer = <span class="keyword">new</span> ABuffer(chunk_data_size + <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (mDataSource-&gt;readAt(</span><br><span class="line">            data_offset, buffer-&gt;data(), chunk_data_size) != (<span class="keyword">ssize_t</span>)chunk_data_size) &#123;</span><br><span class="line">            <span class="keyword">return</span> ERROR_IO;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">int</span> kSkipBytesOfDataBox = <span class="number">16</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 这里没有判断 chunk_data_size 和 16 的大小，溢出</span></span><br><span class="line">        mFileMetaData-&gt;setData(</span><br><span class="line">            kKeyAlbumArt, MetaData::TYPE_NONE,</span><br><span class="line">            buffer-&gt;data() + kSkipBytesOfDataBox, chunk_data_size - kSkipBytesOfDataBox);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> MetaData::typed_data::setData(</span><br><span class="line">        <span class="keyword">uint32_t</span> type, <span class="keyword">const</span> <span class="keyword">void</span> *data, <span class="keyword">size_t</span> size) &#123;</span><br><span class="line">    clear();</span><br><span class="line"></span><br><span class="line">    mType = type;</span><br><span class="line">    allocateStorage(size);</span><br><span class="line">    <span class="built_in">memcpy</span>(storage(), data, size);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>回溯一下，看chunk_data_size来自哪：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">off64_t</span> chunk_data_size = *offset + chunk_size - data_offset;</span><br></pre></td></tr></table></figure>
+<p>chunk_size的值&lt;=24会触发漏洞。</p>
+<h2 id="四-CVE-2015-3829"><a href="#四-CVE-2015-3829" class="headerlink" title="四 CVE-2015-3829"></a>四 CVE-2015-3829</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">case FOURCC('c', 'o', 'v', 'r'):</span><br><span class="line">&#123;</span><br><span class="line">    *offset += chunk_size;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (mFileMetaData != <span class="literal">NULL</span>) &#123;</span><br><span class="line">        ALOGV(<span class="string">"chunk_data_size = %lld and data_offset = %lld"</span>,</span><br><span class="line">                chunk_data_size, data_offset);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// patch</span></span><br><span class="line">        <span class="comment">// if (chunk_data_size &gt;= SIZE_MAX - 1) &#123;</span></span><br><span class="line">        <span class="comment">//     return ERROR_MALFORMED;</span></span><br><span class="line">        <span class="comment">// &#125;</span></span><br><span class="line">        <span class="comment">// 如果chunk_data_size + 1 &gt;= SIZE_MAX的话</span></span><br><span class="line">        <span class="comment">// 这里长度分配为零或者分配的比较小，就空指针引用或者越界操作了</span></span><br><span class="line">        sp&lt;ABuffer&gt; buffer = <span class="keyword">new</span> ABuffer(chunk_data_size + <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (mDataSource-&gt;readAt(</span><br><span class="line">            data_offset, buffer-&gt;data(), chunk_data_size) != (<span class="keyword">ssize_t</span>)chunk_data_size) &#123;</span><br><span class="line">            <span class="keyword">return</span> ERROR_IO;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">int</span> kSkipBytesOfDataBox = <span class="number">16</span>;</span><br><span class="line">        <span class="keyword">if</span> (chunk_data_size &lt;= kSkipBytesOfDataBox) &#123;</span><br><span class="line">            <span class="keyword">return</span> ERROR_MALFORMED;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        mFileMetaData-&gt;setData(</span><br><span class="line">            kKeyAlbumArt, MetaData::TYPE_NONE,</span><br><span class="line">            buffer-&gt;data() + kSkipBytesOfDataBox, chunk_data_size - kSkipBytesOfDataBox);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="五-CVE-2015-1539"><a href="#五-CVE-2015-1539" class="headerlink" title="五 CVE-2015-1539"></a>五 CVE-2015-1539</h2><p>这里 -= 2 的时候有溢出：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">status_t</span> ESDS::parseESDescriptor(<span class="keyword">size_t</span> offset, <span class="keyword">size_t</span> size) &#123;</span><br><span class="line">    <span class="keyword">if</span> (size &lt; <span class="number">3</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> ERROR_MALFORMED;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    offset += <span class="number">2</span>;  <span class="comment">// skip ES_ID</span></span><br><span class="line">    size -= <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">unsigned</span> streamDependenceFlag = mData[offset] &amp; <span class="number">0x80</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> URL_Flag = mData[offset] &amp; <span class="number">0x40</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> OCRstreamFlag = mData[offset] &amp; <span class="number">0x20</span>;</span><br><span class="line"></span><br><span class="line">    ++offset;</span><br><span class="line">    --size;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (streamDependenceFlag) &#123;</span><br><span class="line">        <span class="keyword">if</span> (size &lt; <span class="number">2</span>)</span><br><span class="line">            <span class="keyword">return</span> ERROR_MALFORMED;</span><br><span class="line">        offset += <span class="number">2</span>;</span><br><span class="line">        size -= <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>根据patch来看，还有几处：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">@@ <span class="number">-136</span>,<span class="number">6</span> +<span class="number">136</span>,<span class="number">8</span> @@</span><br><span class="line">    --size;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (streamDependenceFlag) &#123;</span><br><span class="line">+        <span class="keyword">if</span> (size &lt; <span class="number">2</span>)</span><br><span class="line">+            <span class="keyword">return</span> ERROR_MALFORMED;</span><br><span class="line">        offset += <span class="number">2</span>;</span><br><span class="line">        size -= <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">@@ <span class="number">-145</span>,<span class="number">11</span> +<span class="number">147</span>,<span class="number">15</span> @@</span><br><span class="line">            <span class="keyword">return</span> ERROR_MALFORMED;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">unsigned</span> URLlength = mData[offset];</span><br><span class="line">+        <span class="keyword">if</span> (URLlength &gt;= size)</span><br><span class="line">+            <span class="keyword">return</span> ERROR_MALFORMED;</span><br><span class="line">        offset += URLlength + <span class="number">1</span>;</span><br><span class="line">        size -= URLlength + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (OCRstreamFlag) &#123;</span><br><span class="line">+        <span class="keyword">if</span> (size &lt; <span class="number">2</span>)</span><br><span class="line">+            <span class="keyword">return</span> ERROR_MALFORMED;</span><br><span class="line">        offset += <span class="number">2</span>;</span><br><span class="line">        size -= <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+
+                
+
+
+<p class="pink-link-context">
+    <a href="/2020/05/24/StageFright-系列漏洞（一）CVE-2015-1538/" rel="next" title="StageFright 系列漏洞（一）CVE-2015-1538">
+    Next: StageFright 系列漏洞（一）CVE-2015-1538
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
 
 
 </div>
