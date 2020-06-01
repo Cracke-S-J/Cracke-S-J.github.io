@@ -213,7 +213,7 @@
 
             <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/CVE/">
-                    CVE <span class="right">13</span></a>
+                    CVE <span class="right">14</span></a>
                 </a>
             </li>
 
@@ -221,7 +221,7 @@
 
             <li class="collapse-level-1" collapse-level="1">
                 <a class="no-padding" href="/categories/CVE/v8/">
-                    v8 <span class="right">2</span></a>
+                    v8 <span class="right">3</span></a>
                 </a>
             </li>
 
@@ -284,22 +284,6 @@
         
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/面试体验/">
-                    面试体验 <span class="right">1</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/面试体验/Android/">
-                    Android <span class="right">1</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/基础知识/">
                     基础知识 <span class="right">1</span></a>
                 </a>
@@ -310,6 +294,22 @@
             <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/算法/">
                     算法 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/面试体验/">
+                    面试体验 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/面试体验/Android/">
+                    Android <span class="right">1</span></a>
                 </a>
             </li>
 
@@ -419,6 +419,12 @@
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">@@ <span class="number">-136</span>,<span class="number">6</span> +<span class="number">136</span>,<span class="number">8</span> @@</span><br><span class="line">    --size;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (streamDependenceFlag) &#123;</span><br><span class="line">+        <span class="keyword">if</span> (size &lt; <span class="number">2</span>)</span><br><span class="line">+            <span class="keyword">return</span> ERROR_MALFORMED;</span><br><span class="line">        offset += <span class="number">2</span>;</span><br><span class="line">        size -= <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">@@ <span class="number">-145</span>,<span class="number">11</span> +<span class="number">147</span>,<span class="number">15</span> @@</span><br><span class="line">            <span class="keyword">return</span> ERROR_MALFORMED;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">unsigned</span> URLlength = mData[offset];</span><br><span class="line">+        <span class="keyword">if</span> (URLlength &gt;= size)</span><br><span class="line">+            <span class="keyword">return</span> ERROR_MALFORMED;</span><br><span class="line">        offset += URLlength + <span class="number">1</span>;</span><br><span class="line">        size -= URLlength + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (OCRstreamFlag) &#123;</span><br><span class="line">+        <span class="keyword">if</span> (size &lt; <span class="number">2</span>)</span><br><span class="line">+            <span class="keyword">return</span> ERROR_MALFORMED;</span><br><span class="line">        offset += <span class="number">2</span>;</span><br><span class="line">        size -= <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
 
                 
+<p class="pink-link-context">
+    <a href="/2020/05/31/learning-v8-翻译/" rel="next" title="learning v8 翻译">
+    Prev: learning v8 翻译
+  </a>
+</p>
+
 
 
 <p class="pink-link-context">

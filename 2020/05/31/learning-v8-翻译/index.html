@@ -7,13 +7,16 @@
 
     
 
-    <title>读书 | </title>
+    <title>learning v8 翻译 | </title>
     <meta name="author" content="ssj">
+    
+    <meta name="description" content="https://github.com/danbev/learning-v8，这是原谅，可以让我看嘤文的话脑子基本不在线，所以边翻译边学习。
+介绍v8基本由堆内存管理和执行栈组成，Chrome里面有回调队列、事件loop和其它WebAPIs（DOM，ajax，setTimeout等）或者在Node里A">
     
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <meta property="og:title" content="读书">
+    <meta property="og:title" content="learning v8 翻译">
     <meta property="og:site_name" content="ssj&#39;s blog">
 
     
@@ -350,422 +353,113 @@
 
 
     <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper pink">
+        <span class="breadcrumb">Current page(Categories)</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/CVE/">CVE</a><a class="breadcrumb" href="/categories/CVE/v8/">v8</a>
+
+
         
 
-<div class="container main-container">
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
     
-        <div class="">
-            <div class="row">
-                <ul class="tabs ">
-                    
-                        
-                        <li class="tab col s4 ">
-                            <a class="pink-text " href="#readed">已读(8)</a>
-                        </li>
-                        
-                    
-                        
-                        <li class="tab col s4 ">
-                            <a class="pink-text " href="#reading">在读(3)</a>
-                        </li>
-                        
-                    
-                        
-                        <li class="tab col s4 ">
-                            <a class="pink-text " href="#wanted">想读(3)</a>
-                        </li>
-                        
-                    
-                </ul>
+        <h1>learning v8 翻译</h1>
+    
+
+
             </div>
+            <time class="pink-link-context" datetime="2020-05-31T14:03:35.000Z"><a href="/2020/05/31/learning-v8-翻译/">2020-05-31</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
 
             
-                <div id="readed" class="row" style="margin-top: 20px;">
-                    
-                    
-                        <div class="book-item col s12 m6">
-                            <div class="card small hoverable">
-                                <div class="card-image waves-effect waves-block waves-light">
-                                    <img class="card-cover-image activator" src="/img/sicp.jpg">
-                                </div>
-                                <div class="card-content pink-link-context">
-                                    <span class="card-title truncate activator grey-text text-darken-4">计算机程序的构造和解释
-                                    </span>
-                                    <p>Score: 666
-                                        <a class="external-link right" href="http://book.douban.com/subject/1148282/" target="_blank">
-
-                                            <i class="fa fa-external-link"></i>
-                                        </a>
-                                    </p>
-                                </div>
-
-                                <div class="card-reveal">
-                                    <span class="card-title grey-text text-darken-4">Comment
-                                        <i class="fa fa-times-circle-o right"></i>
-                                    </span>
-
-                                    <p></p>
-                                </div>
-                            </div>
-                        </div>
-                    
-                        <div class="book-item col s12 m6">
-                            <div class="card small hoverable">
-                                <div class="card-image waves-effect waves-block waves-light">
-                                    <img class="card-cover-image activator" src="/img/忏悔录.jpg">
-                                </div>
-                                <div class="card-content pink-link-context">
-                                    <span class="card-title truncate activator grey-text text-darken-4">忏悔录[奥古斯丁]
-                                    </span>
-                                    <p>Score: 666
-                                        <a class="external-link right" href="https://book.douban.com/subject/1060531/" target="_blank">
-
-                                            <i class="fa fa-external-link"></i>
-                                        </a>
-                                    </p>
-                                </div>
-
-                                <div class="card-reveal">
-                                    <span class="card-title grey-text text-darken-4">Comment
-                                        <i class="fa fa-times-circle-o right"></i>
-                                    </span>
-
-                                    <p></p>
-                                </div>
-                            </div>
-                        </div>
-                    
-                        <div class="book-item col s12 m6">
-                            <div class="card small hoverable">
-                                <div class="card-image waves-effect waves-block waves-light">
-                                    <img class="card-cover-image activator" src="/img/计算机网络.jpg">
-                                </div>
-                                <div class="card-content pink-link-context">
-                                    <span class="card-title truncate activator grey-text text-darken-4">计算机网络
-                                    </span>
-                                    <p>Score: 666
-                                        <a class="external-link right" href="https://book.douban.com/subject/1391207/" target="_blank">
-
-                                            <i class="fa fa-external-link"></i>
-                                        </a>
-                                    </p>
-                                </div>
-
-                                <div class="card-reveal">
-                                    <span class="card-title grey-text text-darken-4">Comment
-                                        <i class="fa fa-times-circle-o right"></i>
-                                    </span>
-
-                                    <p></p>
-                                </div>
-                            </div>
-                        </div>
-                    
-                        <div class="book-item col s12 m6">
-                            <div class="card small hoverable">
-                                <div class="card-image waves-effect waves-block waves-light">
-                                    <img class="card-cover-image activator" src="/img/Linux内核设计与实现.jpg">
-                                </div>
-                                <div class="card-content pink-link-context">
-                                    <span class="card-title truncate activator grey-text text-darken-4">Linux内核设计与实现
-                                    </span>
-                                    <p>Score: 666
-                                        <a class="external-link right" href="https://book.douban.com/subject/6097773/" target="_blank">
-
-                                            <i class="fa fa-external-link"></i>
-                                        </a>
-                                    </p>
-                                </div>
-
-                                <div class="card-reveal">
-                                    <span class="card-title grey-text text-darken-4">Comment
-                                        <i class="fa fa-times-circle-o right"></i>
-                                    </span>
-
-                                    <p></p>
-                                </div>
-                            </div>
-                        </div>
-                    
-                        <div class="book-item col s12 m6">
-                            <div class="card small hoverable">
-                                <div class="card-image waves-effect waves-block waves-light">
-                                    <img class="card-cover-image activator" src="/img/清华园日记.jpg">
-                                </div>
-                                <div class="card-content pink-link-context">
-                                    <span class="card-title truncate activator grey-text text-darken-4">清华园日记
-                                    </span>
-                                    <p>Score: 666
-                                        <a class="external-link right" href="https://book.douban.com/subject/1592351/" target="_blank">
-
-                                            <i class="fa fa-external-link"></i>
-                                        </a>
-                                    </p>
-                                </div>
-
-                                <div class="card-reveal">
-                                    <span class="card-title grey-text text-darken-4">Comment
-                                        <i class="fa fa-times-circle-o right"></i>
-                                    </span>
-
-                                    <p></p>
-                                </div>
-                            </div>
-                        </div>
-                    
-                        <div class="book-item col s12 m6">
-                            <div class="card small hoverable">
-                                <div class="card-image waves-effect waves-block waves-light">
-                                    <img class="card-cover-image activator" src="/img/白帽子讲Web安全.jpg">
-                                </div>
-                                <div class="card-content pink-link-context">
-                                    <span class="card-title truncate activator grey-text text-darken-4">白帽子讲Web安全
-                                    </span>
-                                    <p>Score: 666
-                                        <a class="external-link right" href="https://book.douban.com/subject/10546925/" target="_blank">
-
-                                            <i class="fa fa-external-link"></i>
-                                        </a>
-                                    </p>
-                                </div>
-
-                                <div class="card-reveal">
-                                    <span class="card-title grey-text text-darken-4">Comment
-                                        <i class="fa fa-times-circle-o right"></i>
-                                    </span>
-
-                                    <p>道哥牛笔</p>
-                                </div>
-                            </div>
-                        </div>
-                    
-                        <div class="book-item col s12 m6">
-                            <div class="card small hoverable">
-                                <div class="card-image waves-effect waves-block waves-light">
-                                    <img class="card-cover-image activator" src="/img/黑客攻防技术宝典系统实战篇.jpg">
-                                </div>
-                                <div class="card-content pink-link-context">
-                                    <span class="card-title truncate activator grey-text text-darken-4">黑客攻防技术宝典:系统实战篇(第2版)
-                                    </span>
-                                    <p>Score: 666
-                                        <a class="external-link right" href="https://book.douban.com/subject/4225167/" target="_blank">
-
-                                            <i class="fa fa-external-link"></i>
-                                        </a>
-                                    </p>
-                                </div>
-
-                                <div class="card-reveal">
-                                    <span class="card-title grey-text text-darken-4">Comment
-                                        <i class="fa fa-times-circle-o right"></i>
-                                    </span>
-
-                                    <p></p>
-                                </div>
-                            </div>
-                        </div>
-                    
-                        <div class="book-item col s12 m6">
-                            <div class="card small hoverable">
-                                <div class="card-image waves-effect waves-block waves-light">
-                                    <img class="card-cover-image activator" src="/img/无线电安全攻防大揭秘.jpg">
-                                </div>
-                                <div class="card-content pink-link-context">
-                                    <span class="card-title truncate activator grey-text text-darken-4">无线电安全攻防大揭秘
-                                    </span>
-                                    <p>Score: 666
-                                        <a class="external-link right" href="https://book.douban.com/subject/26772898/" target="_blank">
-
-                                            <i class="fa fa-external-link"></i>
-                                        </a>
-                                    </p>
-                                </div>
-
-                                <div class="card-reveal">
-                                    <span class="card-title grey-text text-darken-4">Comment
-                                        <i class="fa fa-times-circle-o right"></i>
-                                    </span>
-
-                                    <p></p>
-                                </div>
-                            </div>
-                        </div>
-                    
-                </div>
-            
-                <div id="wanted" class="row" style="margin-top: 20px;">
-                    
-                    
-                        <div class="book-item col s12 m6">
-                            <div class="card small hoverable">
-                                <div class="card-image waves-effect waves-block waves-light">
-                                    <img class="card-cover-image activator" src="/img/入侵的艺术.jpg">
-                                </div>
-                                <div class="card-content pink-link-context">
-                                    <span class="card-title truncate activator grey-text text-darken-4">入侵的艺术
-                                    </span>
-                                    <p>Score: 666
-                                        <a class="external-link right" href="https://book.douban.com/subject/1962588/" target="_blank">
-
-                                            <i class="fa fa-external-link"></i>
-                                        </a>
-                                    </p>
-                                </div>
-
-                                <div class="card-reveal">
-                                    <span class="card-title grey-text text-darken-4">Comment
-                                        <i class="fa fa-times-circle-o right"></i>
-                                    </span>
-
-                                    <p></p>
-                                </div>
-                            </div>
-                        </div>
-                    
-                        <div class="book-item col s12 m6">
-                            <div class="card small hoverable">
-                                <div class="card-image waves-effect waves-block waves-light">
-                                    <img class="card-cover-image activator" src="/img/数学之美.jpg">
-                                </div>
-                                <div class="card-content pink-link-context">
-                                    <span class="card-title truncate activator grey-text text-darken-4">数学之美
-                                    </span>
-                                    <p>Score: 666
-                                        <a class="external-link right" href="https://book.douban.com/subject/26163454/" target="_blank">
-
-                                            <i class="fa fa-external-link"></i>
-                                        </a>
-                                    </p>
-                                </div>
-
-                                <div class="card-reveal">
-                                    <span class="card-title grey-text text-darken-4">Comment
-                                        <i class="fa fa-times-circle-o right"></i>
-                                    </span>
-
-                                    <p></p>
-                                </div>
-                            </div>
-                        </div>
-                    
-                        <div class="book-item col s12 m6">
-                            <div class="card small hoverable">
-                                <div class="card-image waves-effect waves-block waves-light">
-                                    <img class="card-cover-image activator" src="/img/漏洞战争.jpg">
-                                </div>
-                                <div class="card-content pink-link-context">
-                                    <span class="card-title truncate activator grey-text text-darken-4">漏洞战争：软件漏洞分析精要
-                                    </span>
-                                    <p>Score: 666
-                                        <a class="external-link right" href="https://book.douban.com/subject/26830238/" target="_blank">
-
-                                            <i class="fa fa-external-link"></i>
-                                        </a>
-                                    </p>
-                                </div>
-
-                                <div class="card-reveal">
-                                    <span class="card-title grey-text text-darken-4">Comment
-                                        <i class="fa fa-times-circle-o right"></i>
-                                    </span>
-
-                                    <p></p>
-                                </div>
-                            </div>
-                        </div>
-                    
-                </div>
-            
-                <div id="reading" class="row" style="margin-top: 20px;">
-                    
-                    
-                        <div class="book-item col s12 m6">
-                            <div class="card small hoverable">
-                                <div class="card-image waves-effect waves-block waves-light">
-                                    <img class="card-cover-image activator" src="/img/Linux内核源代码情景分析.jpg">
-                                </div>
-                                <div class="card-content pink-link-context">
-                                    <span class="card-title truncate activator grey-text text-darken-4">Linux内核源代码情景分析
-                                    </span>
-                                    <p>Score: 666
-                                        <a class="external-link right" href="https://book.douban.com/subject/1231584/" target="_blank">
-
-                                            <i class="fa fa-external-link"></i>
-                                        </a>
-                                    </p>
-                                </div>
-
-                                <div class="card-reveal">
-                                    <span class="card-title grey-text text-darken-4">Comment
-                                        <i class="fa fa-times-circle-o right"></i>
-                                    </span>
-
-                                    <p></p>
-                                </div>
-                            </div>
-                        </div>
-                    
-                        <div class="book-item col s12 m6">
-                            <div class="card small hoverable">
-                                <div class="card-image waves-effect waves-block waves-light">
-                                    <img class="card-cover-image activator" src="/img/社会工程.jpg">
-                                </div>
-                                <div class="card-content pink-link-context">
-                                    <span class="card-title truncate activator grey-text text-darken-4">社会工程-安全体系中的人性漏洞
-                                    </span>
-                                    <p>Score: 666
-                                        <a class="external-link right" href="https://book.douban.com/subject/25768304/" target="_blank">
-
-                                            <i class="fa fa-external-link"></i>
-                                        </a>
-                                    </p>
-                                </div>
-
-                                <div class="card-reveal">
-                                    <span class="card-title grey-text text-darken-4">Comment
-                                        <i class="fa fa-times-circle-o right"></i>
-                                    </span>
-
-                                    <p></p>
-                                </div>
-                            </div>
-                        </div>
-                    
-                        <div class="book-item col s12 m6">
-                            <div class="card small hoverable">
-                                <div class="card-image waves-effect waves-block waves-light">
-                                    <img class="card-cover-image activator" src="/img/0day安全.jpg">
-                                </div>
-                                <div class="card-content pink-link-context">
-                                    <span class="card-title truncate activator grey-text text-darken-4">0day安全：软件漏洞分析技术（第2版）
-                                    </span>
-                                    <p>Score: 666
-                                        <a class="external-link right" href="https://book.douban.com/subject/6524076/" target="_blank">
-
-                                            <i class="fa fa-external-link"></i>
-                                        </a>
-                                    </p>
-                                </div>
-
-                                <div class="card-reveal">
-                                    <span class="card-title grey-text text-darken-4">Comment
-                                        <i class="fa fa-times-circle-o right"></i>
-                                    </span>
-
-                                    <p></p>
-                                </div>
-                            </div>
-                        </div>
-                    
-                </div>
-            
-
-        </div>
+    <div class="tags-row">
         
+            <a href="/tags/CVE/" class="chip pink lighten-1">CVE</a>
+        
+            <a href="/tags/v8/" class="chip pink lighten-1">v8</a>
+        
+    </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#介绍"><span class="section table-of-contents-text">介绍</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Isolate"><span class="section table-of-contents-text">Isolate</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Context"><span class="section table-of-contents-text">Context</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#ObjectTemplate"><span class="section table-of-contents-text">ObjectTemplate</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#FunctionTemplate"><span class="section table-of-contents-text">FunctionTemplate</span></a></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <p><a href="https://github.com/danbev/learning-v8">https://github.com/danbev/learning-v8</a>，这是原谅，可以让我看嘤文的话脑子基本不在线，所以边翻译边学习。</p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>v8基本由堆内存管理和执行栈组成，Chrome里面有回调队列、事件loop和其它WebAPIs（DOM，ajax，setTimeout等）或者在Node里APIs是Node.js API。</p>
+<p>执行栈是一个装着栈指针的栈，对于每个调用函数，该函数被入栈，返回的时候出栈，当它们全部返回以后，可以从返回点继续执行，单线程的时候，要一直等函数返回才能继续执行。</p>
+<p>这样就引出了异步执行函数，什么是异步函数？</p>
+<p>以调用setTimeout函数为例，setTimeout被推入栈然后继续执行，这是回调队列和事件loop起作用的地方，setTimeout可以将函数添加到回调队列，当调用栈为空的时候，事件loop将处理这个队列。</p>
+<p>TODO: 添加mirco task queue</p>
+<p>【ssj】: 这里这么啰嗦估计跟Android那一套差不多。</p>
+<h2 id="Isolate"><a href="#Isolate" class="headerlink" title="Isolate"></a>Isolate</h2><p>Isolate是v8 runtime的独立副本，它有它自己的堆栈，两个不同的Isolate可以看做完全独立的沙箱实例。</p>
+<h2 id="Context"><a href="#Context" class="headerlink" title="Context"></a>Context</h2><p>基本就是常规的那种上下文。</p>
+<h2 id="ObjectTemplate"><a href="#ObjectTemplate" class="headerlink" title="ObjectTemplate"></a>ObjectTemplate</h2><p>这个允许创建对象，不需要使用构造函数，举个例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = &#123;&#125;;</span><br></pre></td></tr></table></figure>
+<p>这个类在include/v8.h中声明然后继承了模板：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">V8_EXPORT</span> <span class="title">ObjectTemplate</span> :</span> <span class="keyword">public</span> Template &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">V8_EXPORT</span> <span class="title">Template</span> :</span> <span class="keyword">public</span> Data &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">V8_EXPORT</span> <span class="title">Data</span> &#123;</span></span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">  Data();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>模板没有任何 members/fields，它只有函数声明。</p>
+<p>我们创建一个ObjectTemplate实例，并可以向其中添加使用些ObjectTemplate实例创建的所有实例为属性（外国人说话真麻烦），这是通过调用Set，Template的成员函数来完成的，可以自定义属性，Name是Symbols和Strings的父类，它们都可以用作属性的名字。</p>
+<p>下面是src/api/api.cc中Set的定义：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> Template::Set&lt;v8::Local&lt;Name&gt; name, v8::Local&lt;Data&gt; value, v8::PropertyAttribute attribute) &#123;</span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">  i::ApiNatives::AddDataProperty(isolate, templ, Utils::OpenHandle(*name),</span><br><span class="line">                                 value_obj,</span><br><span class="line">                                 <span class="keyword">static_cast</span>&lt;i::PropertyAttributes&gt;(attribute));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这里有个<a href="https://github.com/danbev/learning-v8/blob/master/test/objecttemplate_test.cc">例子</a>。</p>
+<h2 id="FunctionTemplate"><a href="#FunctionTemplate" class="headerlink" title="FunctionTemplate"></a>FunctionTemplate</h2><p>这是创建函数的模板，<a href="https://github.com/danbev/learning-v8/blob/master/test/functiontemplate_test.cc">例子</a>。</p>
+<p>一个函数模板的实例可以这样被创建：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Local&lt;FunctionTemplate&gt; ft = FunctionTemplate::New(isolate_, function_callback, data);</span><br><span class="line">Local&lt;Function&gt; function = ft-&gt;GetFunction(context).ToLocalChecked();</span><br></pre></td></tr></table></figure>
+<p>函数是这样被调用的：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MaybeLocal&lt;Value&gt; ret = function-&gt;Call(context, recv, <span class="number">0</span>, <span class="literal">nullptr</span>);</span><br></pre></td></tr></table></figure>
+<p>Function::Call在这里src/api/api.cc:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> has_pending_exception = <span class="literal">false</span>;</span><br><span class="line"><span class="keyword">auto</span> self = Utils::OpenHandle(<span class="keyword">this</span>);</span><br><span class="line">i::Handle&lt;i::Object&gt; recv_obj = Utils::OpenHandle(*recv);</span><br><span class="line">i::Handle&lt;i::Object&gt;* args = <span class="keyword">reinterpret_cast</span>&lt;i::Handle&lt;i::Object&gt;*&gt;(argv);</span><br><span class="line">Local&lt;Value&gt; result;</span><br><span class="line">has_pending_exception = !ToLocal&lt;Value&gt;(</span><br><span class="line">    i::Execution::Call(isolate, self, recv_obj, argc, args), &amp;result);</span><br></pre></td></tr></table></figure>
+<p>注意到<code>Call</code>的返回结果是<code>MaybeHandle&lt;Object&gt;</code>类型，将被传入ToLocal<value>，在这里定义的<code>api.h</code>:</value></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">inline</span> <span class="title">bool</span> <span class="title">ToLocal</span>(<span class="title">v8</span>:</span>:internal::MaybeHandle&lt;v8::internal::Object&gt; maybe,</span><br><span class="line">                    Local&lt;T&gt;* local) &#123;</span><br><span class="line">  v8::internal::Handle&lt;v8::internal::Object&gt; handle;</span><br><span class="line">  <span class="keyword">if</span> (maybe.ToHandle(&amp;handle)) &#123;</span><br><span class="line">    *local = Utils::Convert&lt;v8::internal::Object, T&gt;(handle);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</span><br></pre></td></tr></table></figure>
+<p>再康一眼<code>Execution::Call</code>在这里<code>execution/execution.cc</code>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> Invoke(isolate, InvokeParams::SetUpForCall(isolate, callable, receiver, argc, argv));</span><br></pre></td></tr></table></figure>
+<p><code>SetUpForCall</code> 将返回一个 <code>InvokeParams</code>. TODO: 进一步康康 InvokeParams.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">V8_WARN_UNUSED_RESULT MaybeHandle&lt;Object&gt; Invoke(Isolate* isolate,</span><br><span class="line">                                                 <span class="keyword">const</span> InvokeParams&amp; params) &#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Handle&lt;Object&gt; receiver = params.is_construct</span><br><span class="line">                                    ? isolate-&gt;factory()-&gt;the_hole_value()</span><br><span class="line">                                    : params.receiver;</span><br></pre></td></tr></table></figure>
+
+                
+
+
+<p class="pink-link-context">
+    <a href="/2020/05/30/StageFright-系列漏洞（二——五）/" rel="next" title="StageFright 系列漏洞（二——五）">
+    Next: StageFright 系列漏洞（二——五）
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
 
 
 
-    
+
+
+
 </div>
 
         <div class="fixed-action-btn float-sitemap">
