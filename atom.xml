@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://github.com/Cracke-S-J/"/>
-  <updated>2020-06-07T12:30:38.762Z</updated>
+  <updated>2020-06-08T14:00:55.436Z</updated>
   <id>https://github.com/Cracke-S-J/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://github.com/Cracke-S-J/2020/06/07/%E5%AD%A6%E4%B9%A0v8%E6%BA%90%E7%A0%81/"/>
     <id>https://github.com/Cracke-S-J/2020/06/07/%E5%AD%A6%E4%B9%A0v8%E6%BA%90%E7%A0%81/</id>
     <published>2020-06-07T10:09:46.000Z</published>
-    <updated>2020-06-07T12:30:38.762Z</updated>
+    <updated>2020-06-08T14:00:55.436Z</updated>
     
     <content type="html"><![CDATA[<blockquote><p>人总是会变的，以前我想变成风去推动风车，现在我想等风起。——大蛇丸</p></blockquote><h2 id="我为什么要学习v8源码"><a href="#我为什么要学习v8源码" class="headerlink" title="我为什么要学习v8源码"></a>我为什么要学习v8源码</h2><p>v8源码这个坑，给人感觉可能只有前端大佬会去趟，我这种前端只会写两句半的猹猹为什么要学习，因为我最近在学习又好搭环境又好利用的浏览器漏洞，目前fuzz无从fuzz，甚至漏洞点原理结合poc都看不太懂，我觉得原理是没有搂一遍v8源码，熟悉一下。</p><h3 id="常见v8漏洞点产生原因"><a href="#常见v8漏洞点产生原因" class="headerlink" title="常见v8漏洞点产生原因"></a>常见v8漏洞点产生原因</h3><ul><li>遍历优化过程中信息不匹配造成的类型混淆</li><li>优化过程中变量范围或者啥的计算错误</li><li>（不会了</li></ul><p>可见不像c的漏洞那种，用了个realloc，double free了，或者条件竞争什么的容易看出，这种漏洞点要懂编译器。</p><h3 id="用libfuzzer-fuzz-v8"><a href="#用libfuzzer-fuzz-v8" class="headerlink" title="用libfuzzer fuzz v8"></a>用libfuzzer fuzz v8</h3><p><a href="https://yq.aliyun.com/articles/215709" target="_blank" rel="noopener">https://yq.aliyun.com/articles/215709</a></p><p>总之就是v8自带fuzzer的，去fuzz就行了，可是这个fuzz怎么写的，原理怎么，我现在并不清楚，要fuzz的点也不清楚。</p>]]></content>
     
