@@ -1,0 +1,741 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>【未完成】Android安全公告阅读 | </title><meta name="robots" content="noindex">
+    <meta name="author" content="ssj">
+    
+    <meta name="description" content="2020年4月CVE-2020-0080没想到第一个就翻车。
+A-144092031
+123456789101112131415161718192021222324252627Return&amp;lt;Status&amp;gt; DrmPlugin::releaseSecureStops(const Secur">
+    
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta property="og:title" content="【未完成】Android安全公告阅读">
+    <meta property="og:site_name" content="ssj&#39;s blog">
+
+    
+    <meta property="og:image" content>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="ssj&#39;s blog" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/tranquil-heart.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+</html>
+
+<body>
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="pink accent-1">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
+        </a>
+        <div class="">
+            <a href="/" class="brand-logo hide-on-med-and-down">ssj&#39;s blog</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/" >
+                            <i class="fa fa-home "></i>
+                            
+                            Home
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives" >
+                            <i class="fa fa-archive "></i>
+                            
+                            Archives
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                            <i class="fa fa-bookmark "></i>
+                            
+                            Categories
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-reading " href="/reading" >
+                            <i class="fa fa-book "></i>
+                            
+                            Reading
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about" >
+                            <i class="fa fa-user "></i>
+                            
+                            About
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search" >
+                            <i class="fa fa-search "></i>
+                            
+                            Search
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav pink darken-1" id="main-menu">
+        
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="/favicon.png" alt="User Avatar">
+                </div>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">ssj</p>
+                        <p class="desc"></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/" >
+                    <i class="fa fa-home "></i>
+                    
+                    Home
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives" >
+                    <i class="fa fa-archive "></i>
+                    
+                    Archives
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                    <i class="fa fa-bookmark "></i>
+                    
+                    Categories
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-reading " href="/reading" >
+                    <i class="fa fa-book "></i>
+                    
+                    Reading
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about" >
+                    <i class="fa fa-user "></i>
+                    
+                    About
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search" >
+                    <i class="fa fa-search "></i>
+                    
+                    Search
+                </a>
+            </li>
+        
+    </ul>
+
+    <ul class="side-nav pink darken-1" id="category-menu">
+    
+
+            
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Android/">
+                    Android <span class="right">11</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/脱壳/">
+                    脱壳 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/马甲包/">
+                    马甲包 <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Ethereum/">
+                    Ethereum <span class="right">3</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CVE/">
+                    CVE <span class="right">8</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/二进制/">
+                    二进制 <span class="right">7</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/v8/">
+                    v8 <span class="right">4</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/Base/">
+                    Base <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/vm/">
+                    vm <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/Docs/">
+                    Docs <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CTF/">
+                    CTF <span class="right">7</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/pwn/">
+                    pwn <span class="right">6</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/Android/">
+                    Android <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/杂/">
+                    杂 <span class="right">5</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/杂/定场诗/">
+                    定场诗 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/杂/听戏/">
+                    听戏 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/杂/京剧/">
+                    京剧 <span class="right">3</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/面试体验/">
+                    面试体验 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/面试体验/Android/">
+                    Android <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/基础知识/">
+                    基础知识 <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/基础知识/Cpp/">
+                    Cpp <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/算法/">
+                    算法 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+</nav>
+
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">Search</label>
+        </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper pink">
+        <span class="breadcrumb">Current page(Categories)</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/Android/">Android</a>
+
+
+        
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>【未完成】Android安全公告阅读</h1>
+    
+
+
+            </div>
+            <time class="pink-link-context" datetime="2020-06-10T14:19:27.000Z"><a href="/2020/06/10/Android安全公告阅读/">2020-06-10</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/Android/" class="chip pink lighten-1">Android</a>
+        
+    </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2020年4月"><span class="section table-of-contents-text">2020年4月</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#CVE-2020-0080"><span class="section table-of-contents-text">CVE-2020-0080</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2020年3月"><span class="section table-of-contents-text">2020年3月</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#CVE-2020-0032"><span class="section table-of-contents-text">CVE-2020-0032</span></a></li></ol></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <h2 id="2020年4月"><a href="#2020年4月" class="headerlink" title="2020年4月"></a>2020年4月</h2><h3 id="CVE-2020-0080"><a href="#CVE-2020-0080" class="headerlink" title="CVE-2020-0080"></a>CVE-2020-0080</h3><p>没想到第一个就翻车。</p>
+<p><a href="https://android.googlesource.com/platform/frameworks/av/+/fe8b9a7cb32f739e3855c51c8803590908a1da9c%5E%21/#F0" target="_blank" rel="noopener">A-144092031</a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">Return&lt;Status&gt; DrmPlugin::releaseSecureStops(<span class="keyword">const</span> SecureStopRelease&amp; ssRelease) &#123;</span><br><span class="line">    <span class="comment">// OpaqueData starts with 4 byte decimal integer string</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">size_t</span> kFourBytesOffset = <span class="number">4</span>;</span><br><span class="line">    <span class="keyword">if</span> (ssRelease.opaqueData.size() &lt; kFourBytesOffset) &#123;</span><br><span class="line">        ALOGE(<span class="string">"Invalid secureStopRelease length"</span>);</span><br><span class="line">        <span class="keyword">return</span> Status::BAD_VALUE;</span><br><span class="line">    &#125;</span><br><span class="line">    Status status = Status::OK;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">uint8_t</span>&gt; input = toVector(ssRelease.opaqueData);</span><br><span class="line">    <span class="keyword">if</span> (input.size() &lt; kSecureStopIdSize + kFourBytesOffset) &#123;</span><br><span class="line">        <span class="comment">// The minimum size of SecureStopRelease has to contain</span></span><br><span class="line">        <span class="comment">// a 4 bytes count and one secureStop id</span></span><br><span class="line">        ALOGE(<span class="string">"Total size of secureStops is too short"</span>);</span><br><span class="line">        <span class="keyword">return</span> Status::BAD_VALUE;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// The format of opaqueData is shared between the server</span></span><br><span class="line">    <span class="comment">// and the drm service. The clearkey implementation consists of:</span></span><br><span class="line">    <span class="comment">//    count - number of secure stops</span></span><br><span class="line">    <span class="comment">//    list of fixed length secure stops</span></span><br><span class="line">+    <span class="keyword">size_t</span> countBufferSize = <span class="keyword">sizeof</span>(<span class="keyword">uint32_t</span>);</span><br><span class="line">+    <span class="keyword">if</span> (input.size() &lt; countBufferSize) &#123;</span><br><span class="line">+        <span class="comment">// SafetyNet logging</span></span><br><span class="line">+        android_errorWriteLog(<span class="number">0x534e4554</span>, <span class="string">"144766455"</span>);</span><br><span class="line">+        <span class="keyword">return</span> Status::BAD_VALUE;</span><br><span class="line">+    &#125;</span><br><span class="line">    <span class="keyword">uint32_t</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">sscanf</span>(<span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">char</span>*&gt;(input.data()), <span class="string">"%04"</span> PRIu32, &amp;count);</span><br></pre></td></tr></table></figure>
+<p>由上下文可知，kSecureStopIdSize + kFourBytesOffset = 14，已经大于sizeof(uint32_t)了，为什么还要加一个判断？</p>
+<h2 id="2020年3月"><a href="#2020年3月" class="headerlink" title="2020年3月"></a>2020年3月</h2><h3 id="CVE-2020-0032"><a href="#CVE-2020-0032" class="headerlink" title="CVE-2020-0032"></a>CVE-2020-0032</h3><p>这完全康不懂？？</p>
+<p><a href="https://android.googlesource.com/platform/external/libavc/+/ffcf2a87d66f935210ebd011eed474514d086b40" target="_blank" rel="noopener">A-145364230</a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@@ <span class="number">-1290</span>,<span class="number">8</span> +<span class="number">1292</span>,<span class="number">8</span> @@</span><br><span class="line">     WORD32 (*i4_poc_buf_id_map)[<span class="number">3</span>] = ps_dpb_mgr-&gt;ai4_poc_buf_id_map;</span><br><span class="line"></span><br><span class="line">     i4_min_poc = <span class="number">0x7fffffff</span>;</span><br><span class="line">-    i4_min_poc_buf_id = <span class="number">-1</span>;</span><br><span class="line">-    i4_min_index = <span class="number">-1</span>;</span><br><span class="line">+    i4_min_poc_buf_id = <span class="number">0</span>;</span><br><span class="line">+    i4_min_index = <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+<p>从-1改成0了。。。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ih264d_release_display_bufs</span><span class="params">(<span class="keyword">dec_struct_t</span> *ps_dec)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    WORD32 i, j;</span><br><span class="line">    WORD32 i4_min_poc;</span><br><span class="line">    WORD32 i4_min_poc_buf_id;</span><br><span class="line">    WORD32 i4_min_index;</span><br><span class="line">    <span class="keyword">dpb_manager_t</span> *ps_dpb_mgr = ps_dec-&gt;ps_dpb_mgr;</span><br><span class="line">    WORD32 (*i4_poc_buf_id_map)[<span class="number">3</span>] = ps_dpb_mgr-&gt;ai4_poc_buf_id_map;</span><br><span class="line">    i4_min_poc = <span class="number">0x7fffffff</span>;</span><br><span class="line">    i4_min_poc_buf_id = <span class="number">0</span>;</span><br><span class="line">    i4_min_index = <span class="number">0</span>;</span><br><span class="line">    ih264d_delete_nonref_nondisplay_pics(ps_dpb_mgr);</span><br><span class="line">    <span class="keyword">for</span>(j = <span class="number">0</span>; j &lt; ps_dpb_mgr-&gt;i1_poc_buf_id_entries; j++)</span><br><span class="line">    &#123;</span><br><span class="line">        i4_min_poc = <span class="number">0x7fffffff</span>;</span><br><span class="line">        <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; MAX_FRAMES; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(i4_poc_buf_id_map[i][<span class="number">0</span>] != <span class="number">-1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">/* Checking for &lt;= is necessary to handle cases where there is one</span></span><br><span class="line"><span class="comment">                   valid buffer with poc set to 0x7FFFFFFF. */</span></span><br><span class="line">                <span class="keyword">if</span>(i4_poc_buf_id_map[i][<span class="number">1</span>] &lt;= i4_min_poc)</span><br><span class="line">                &#123;</span><br><span class="line">                    i4_min_poc = i4_poc_buf_id_map[i][<span class="number">1</span>];</span><br><span class="line">                    i4_min_poc_buf_id = i4_poc_buf_id_map[i][<span class="number">0</span>];</span><br><span class="line">                    i4_min_index = i;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// #define DO_NOT_DISP 254</span></span><br><span class="line">        <span class="keyword">if</span>(DO_NOT_DISP != i4_min_poc_buf_id)</span><br><span class="line">        &#123;</span><br><span class="line">            ps_dec-&gt;i4_cur_display_seq++;</span><br><span class="line">            ih264_disp_mgr_add(</span><br><span class="line">                            (<span class="keyword">disp_mgr_t</span> *)ps_dec-&gt;pv_disp_buf_mgr,</span><br><span class="line">                            i4_min_poc_buf_id, ps_dec-&gt;i4_cur_display_seq,</span><br><span class="line">                            ps_dec-&gt;apv_buf_id_pic_buf_map[i4_min_poc_buf_id]);</span><br><span class="line">            i4_poc_buf_id_map[i4_min_index][<span class="number">0</span>] = <span class="number">-1</span>;</span><br><span class="line">            i4_poc_buf_id_map[i4_min_index][<span class="number">1</span>] = <span class="number">0x7fffffff</span>;</span><br><span class="line">            ps_dpb_mgr-&gt;ai4_poc_buf_id_map[i4_min_index][<span class="number">2</span>] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            i4_poc_buf_id_map[i4_min_index][<span class="number">0</span>] = <span class="number">-1</span>;</span><br><span class="line">            i4_poc_buf_id_map[i4_min_index][<span class="number">1</span>] = <span class="number">0x7fffffff</span>;</span><br><span class="line">            ps_dpb_mgr-&gt;ai4_poc_buf_id_map[i4_min_index][<span class="number">2</span>] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ps_dpb_mgr-&gt;i1_poc_buf_id_entries = <span class="number">0</span>;</span><br><span class="line">    ps_dec-&gt;i4_prev_max_display_seq = ps_dec-&gt;i4_prev_max_display_seq</span><br><span class="line">                    + ps_dec-&gt;i4_max_poc + ps_dec-&gt;u1_max_dec_frame_buffering</span><br><span class="line">                    + <span class="number">1</span>;</span><br><span class="line">    ps_dec-&gt;i4_max_poc = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>是因为数组索引吗？再看一下另一个为什么可以等于-1：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">WORD32 <span class="title">ih264d_assign_display_seq</span><span class="params">(<span class="keyword">dec_struct_t</span> *ps_dec)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    WORD32 i;</span><br><span class="line">    WORD32 i4_min_poc;</span><br><span class="line">    WORD32 i4_min_poc_buf_id;</span><br><span class="line">    WORD32 i4_min_index;</span><br><span class="line">    <span class="keyword">dpb_manager_t</span> *ps_dpb_mgr = ps_dec-&gt;ps_dpb_mgr;</span><br><span class="line">    WORD32 (*i4_poc_buf_id_map)[<span class="number">3</span>] = ps_dpb_mgr-&gt;ai4_poc_buf_id_map;</span><br><span class="line">    i4_min_poc = <span class="number">0x7fffffff</span>;</span><br><span class="line">    i4_min_poc_buf_id = <span class="number">-1</span>;</span><br><span class="line">    i4_min_index = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">if</span>(ps_dpb_mgr-&gt;i1_poc_buf_id_entries &gt;= ps_dec-&gt;i4_display_delay)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; MAX_FRAMES; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>((i4_poc_buf_id_map[i][<span class="number">0</span>] != <span class="number">-1</span>)</span><br><span class="line">                            &amp;&amp; (DO_NOT_DISP</span><br><span class="line">                                            != ps_dpb_mgr-&gt;ai4_poc_buf_id_map[i][<span class="number">0</span>]))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">/* Checking for &lt;= is necessary to handle cases where there is one</span></span><br><span class="line"><span class="comment">                   valid buffer with poc set to 0x7FFFFFFF. */</span></span><br><span class="line">                <span class="keyword">if</span>(i4_poc_buf_id_map[i][<span class="number">1</span>] &lt;= i4_min_poc)</span><br><span class="line">                &#123;</span><br><span class="line">                    i4_min_poc = i4_poc_buf_id_map[i][<span class="number">1</span>];</span><br><span class="line">                    i4_min_poc_buf_id = i4_poc_buf_id_map[i][<span class="number">0</span>];</span><br><span class="line">                    i4_min_index = i;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 因为这里有i4_min_index != -1的判断了</span></span><br><span class="line">        <span class="comment">// 为什么i4_min_poc_buf_id没判断也行？</span></span><br><span class="line">        <span class="comment">// 因为给i4_min_index赋值的同时，i4_min_poc_buf_id也一定会被赋值</span></span><br><span class="line">        <span class="keyword">if</span>((i4_min_index != <span class="number">-1</span>) &amp;&amp; (DO_NOT_DISP != i4_min_poc_buf_id))</span><br><span class="line">        &#123;</span><br><span class="line">            ps_dec-&gt;i4_cur_display_seq++;</span><br><span class="line">            ih264_disp_mgr_add(</span><br><span class="line">                            (<span class="keyword">disp_mgr_t</span> *)ps_dec-&gt;pv_disp_buf_mgr,</span><br><span class="line">                            i4_min_poc_buf_id, ps_dec-&gt;i4_cur_display_seq,</span><br><span class="line">                            ps_dec-&gt;apv_buf_id_pic_buf_map[i4_min_poc_buf_id]);</span><br><span class="line">            i4_poc_buf_id_map[i4_min_index][<span class="number">0</span>] = <span class="number">-1</span>;</span><br><span class="line">            i4_poc_buf_id_map[i4_min_index][<span class="number">1</span>] = <span class="number">0x7fffffff</span>;</span><br><span class="line">            ps_dpb_mgr-&gt;i1_poc_buf_id_entries--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(DO_NOT_DISP == i4_min_poc_buf_id)</span><br><span class="line">        &#123;</span><br><span class="line">            WORD32 i4_error_code;</span><br><span class="line">            i4_error_code = ERROR_GAPS_IN_FRM_NUM;</span><br><span class="line"><span class="comment">//          i4_error_code |= 1&lt;&lt;IVD_CORRUPTEDDATA;</span></span><br><span class="line">            <span class="keyword">return</span> i4_error_code;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下面思考一波利用，首先是要看一下，这块代码在Android中是干什么的，我们可控的输入点在哪：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*****************************************************************************/</span></span><br><span class="line"><span class="comment">/*                                                                           */</span></span><br><span class="line"><span class="comment">/*  Function Name : ih264d_release_display_bufs                              */</span></span><br><span class="line"><span class="comment">/*                                                                           */</span></span><br><span class="line"><span class="comment">/*  Description   : This function implments bumping process when mmco = 5.   */</span></span><br><span class="line"><span class="comment">/*                  Each outgoing frame from DPB is assigned a display       */</span></span><br><span class="line"><span class="comment">/*                  sequence number which increases monotonically. System    */</span></span><br><span class="line"><span class="comment">/*                  looks for this number to display a frame.                */</span></span><br><span class="line"><span class="comment">/*  Inputs        : ps_dec - Decoder parameters                              */</span></span><br><span class="line"><span class="comment">/*  Globals       : None                                                     */</span></span><br><span class="line"><span class="comment">/*  Processing    : Refer bumping process in the standard for mmco = 5       */</span></span><br><span class="line"><span class="comment">/*  Outputs       : Assigns display sequence number.                         */</span></span><br><span class="line"><span class="comment">/*  Returns       : None                                                     */</span></span><br><span class="line"><span class="comment">/*                                                                           */</span></span><br><span class="line"><span class="comment">/*  Issues        : None                                                     */</span></span><br><span class="line"><span class="comment">/*                                                                           */</span></span><br><span class="line"><span class="comment">/*  Revision History:                                                        */</span></span><br><span class="line"><span class="comment">/*                                                                           */</span></span><br><span class="line"><span class="comment">/*         DD MM YYYY   Author(s)       Changes (Describe the changes made)  */</span></span><br><span class="line"><span class="comment">/*         27 04 2005   NS              Draft                                */</span></span><br><span class="line"><span class="comment">/*                                                                           */</span></span><br><span class="line"><span class="comment">/*****************************************************************************/</span></span><br></pre></td></tr></table></figure>
+<p>行，根据这个函数名，完全没有看出来……康一下在哪里调用的：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="number">673</span><span class="comment">/*!</span></span><br><span class="line"><span class="comment">674 **************************************************************************</span></span><br><span class="line"><span class="comment">675 * \if Function name : ih264d_init_pic \endif</span></span><br><span class="line"><span class="comment">676 *</span></span><br><span class="line"><span class="comment">677 * \brief</span></span><br><span class="line"><span class="comment">678 *    Initializes the picture.</span></span><br><span class="line"><span class="comment">679 *</span></span><br><span class="line"><span class="comment">680 * \return</span></span><br><span class="line"><span class="comment">681 *    0 on Success and Error code otherwise</span></span><br><span class="line"><span class="comment">682 *</span></span><br><span class="line"><span class="comment">683 * \note</span></span><br><span class="line"><span class="comment">684 *    This function is called when first slice of the</span></span><br><span class="line"><span class="comment">685 *    NON -IDR picture is encountered.</span></span><br><span class="line"><span class="comment">686 **************************************************************************</span></span><br><span class="line"><span class="comment">687 */</span></span><br><span class="line"><span class="number">688</span><span class="function">WORD32 <span class="title">ih264d_init_pic</span><span class="params">(<span class="keyword">dec_struct_t</span> *ps_dec,</span></span></span><br><span class="line"><span class="function"><span class="params"><span class="number">689</span>                       UWORD16 u2_frame_num,</span></span></span><br><span class="line"><span class="function"><span class="params"><span class="number">690</span>                       WORD32 i4_poc,</span></span></span><br><span class="line"><span class="function"><span class="params"><span class="number">691</span>                       <span class="keyword">dec_pic_params_t</span> *ps_pps)</span></span></span><br><span class="line"><span class="function">692</span>&#123;</span><br><span class="line"><span class="number">693</span>    <span class="keyword">dec_seq_params_t</span> *ps_seq = ps_pps-&gt;ps_sps;</span><br><span class="line"><span class="number">694</span>    <span class="keyword">prev_seq_params_t</span> * ps_prev_seq_params = &amp;ps_dec-&gt;s_prev_seq_params;</span><br><span class="line"><span class="number">695</span>    WORD32 i4_pic_bufs;</span><br><span class="line"><span class="number">696</span>    WORD32 ret;</span><br><span class="line"><span class="number">697</span></span><br><span class="line"><span class="number">698</span>    ps_dec-&gt;ps_cur_slice-&gt;u2_frame_num = u2_frame_num;</span><br><span class="line"><span class="number">699</span>    ps_dec-&gt;ps_cur_slice-&gt;i4_poc = i4_poc;</span><br><span class="line"><span class="number">700</span>    ps_dec-&gt;ps_cur_pps = ps_pps;</span><br><span class="line"><span class="number">701</span>    ps_dec-&gt;ps_cur_pps-&gt;pv_codec_handle = ps_dec;</span><br><span class="line"><span class="number">702</span></span><br><span class="line"><span class="number">703</span>    ps_dec-&gt;ps_cur_sps = ps_seq;</span><br><span class="line"><span class="number">704</span>    ps_dec-&gt;ps_dpb_mgr-&gt;i4_max_frm_num = ps_seq-&gt;u2_u4_max_pic_num_minus1</span><br><span class="line"><span class="number">705</span>                    + <span class="number">1</span>;</span><br><span class="line"><span class="number">706</span></span><br><span class="line"><span class="number">707</span>    ps_dec-&gt;ps_dpb_mgr-&gt;u2_pic_ht = ps_dec-&gt;u2_pic_ht;</span><br><span class="line"><span class="number">708</span>    ps_dec-&gt;ps_dpb_mgr-&gt;u2_pic_wd = ps_dec-&gt;u2_pic_wd;</span><br><span class="line"><span class="number">709</span>    ps_dec-&gt;i4_pic_type = <span class="number">-1</span>;</span><br><span class="line"><span class="number">710</span>    ps_dec-&gt;i4_frametype = <span class="number">-1</span>;</span><br><span class="line"><span class="number">711</span>    ps_dec-&gt;i4_content_type = <span class="number">-1</span>;</span><br><span class="line"><span class="number">712</span></span><br><span class="line"><span class="number">713</span>    <span class="comment">/*--------------------------------------------------------------------*/</span></span><br><span class="line"><span class="number">714</span>    <span class="comment">/* Get the value of MaxMbAddress and frmheight in Mbs                 */</span></span><br><span class="line"><span class="number">715</span>    <span class="comment">/*--------------------------------------------------------------------*/</span></span><br><span class="line"><span class="number">716</span>    ps_seq-&gt;u2_max_mb_addr =</span><br><span class="line"><span class="number">717</span>                    (ps_seq-&gt;u2_frm_wd_in_mbs</span><br><span class="line"><span class="number">718</span>                                    * (ps_dec-&gt;u2_pic_ht</span><br><span class="line"><span class="number">719</span>                                                    &gt;&gt; (<span class="number">4</span></span><br><span class="line"><span class="number">720</span>                                                                    + ps_dec-&gt;ps_cur_slice-&gt;u1_field_pic_flag)))</span><br><span class="line"><span class="number">721</span>                                    - <span class="number">1</span>;</span><br><span class="line"><span class="number">722</span>    ps_dec-&gt;u2_frm_ht_in_mbs = (ps_dec-&gt;u2_pic_ht</span><br><span class="line"><span class="number">723</span>                    &gt;&gt; (<span class="number">4</span> + ps_dec-&gt;ps_cur_slice-&gt;u1_field_pic_flag));</span><br><span class="line"><span class="number">724</span></span><br><span class="line"><span class="number">725</span>    <span class="comment">/***************************************************************************/</span></span><br><span class="line"><span class="number">726</span>    <span class="comment">/* If change in Level or the required PicBuffers i4_size is more than the  */</span></span><br><span class="line"><span class="number">727</span>    <span class="comment">/* current one FREE the current PicBuffers and allocate affresh            */</span></span><br><span class="line"><span class="number">728</span>    <span class="comment">/***************************************************************************/</span></span><br><span class="line"><span class="number">729</span>    <span class="keyword">if</span>(!ps_dec-&gt;u1_init_dec_flag)</span><br><span class="line"><span class="number">730</span>    &#123;</span><br><span class="line"><span class="number">731</span>        ps_dec-&gt;u1_max_dec_frame_buffering = ih264d_get_dpb_size(ps_seq);</span><br><span class="line"><span class="number">732</span></span><br><span class="line"><span class="number">733</span>        ps_dec-&gt;i4_display_delay = ps_dec-&gt;u1_max_dec_frame_buffering;</span><br><span class="line"><span class="number">734</span>        <span class="keyword">if</span>((<span class="number">1</span> == ps_seq-&gt;u1_vui_parameters_present_flag) &amp;&amp;</span><br><span class="line"><span class="number">735</span>           (<span class="number">1</span> == ps_seq-&gt;s_vui.u1_bitstream_restriction_flag))</span><br><span class="line"><span class="number">736</span>        &#123;</span><br><span class="line"><span class="number">737</span>            <span class="keyword">if</span>(ps_seq-&gt;u1_frame_mbs_only_flag == <span class="number">1</span>)</span><br><span class="line"><span class="number">738</span>                ps_dec-&gt;i4_display_delay = ps_seq-&gt;s_vui.u4_num_reorder_frames + <span class="number">1</span>;</span><br><span class="line"><span class="number">739</span>            <span class="keyword">else</span></span><br><span class="line"><span class="number">740</span>                ps_dec-&gt;i4_display_delay = ps_seq-&gt;s_vui.u4_num_reorder_frames * <span class="number">2</span> + <span class="number">2</span>;</span><br><span class="line"><span class="number">741</span>        &#125;</span><br><span class="line"><span class="number">742</span></span><br><span class="line"><span class="number">743</span>        <span class="keyword">if</span>(IVD_DECODE_FRAME_OUT == ps_dec-&gt;e_frm_out_mode)</span><br><span class="line"><span class="number">744</span>            ps_dec-&gt;i4_display_delay = <span class="number">0</span>;</span><br><span class="line"><span class="number">745</span></span><br><span class="line"><span class="number">746</span>        <span class="keyword">if</span>(ps_dec-&gt;u4_share_disp_buf == <span class="number">0</span>)</span><br><span class="line"><span class="number">747</span>        &#123;</span><br><span class="line"><span class="number">748</span>            <span class="keyword">if</span>(ps_seq-&gt;u1_frame_mbs_only_flag == <span class="number">1</span>)</span><br><span class="line"><span class="number">749</span>                ps_dec-&gt;u1_pic_bufs = ps_dec-&gt;i4_display_delay + ps_seq-&gt;u1_num_ref_frames + <span class="number">1</span>;</span><br><span class="line"><span class="number">750</span>            <span class="keyword">else</span></span><br><span class="line"><span class="number">751</span>                ps_dec-&gt;u1_pic_bufs = ps_dec-&gt;i4_display_delay + ps_seq-&gt;u1_num_ref_frames * <span class="number">2</span> + <span class="number">2</span>;</span><br><span class="line"><span class="number">752</span>        &#125;</span><br><span class="line"><span class="number">753</span>        <span class="keyword">else</span></span><br><span class="line"><span class="number">754</span>        &#123;</span><br><span class="line"><span class="number">755</span>            ps_dec-&gt;u1_pic_bufs = (WORD32)ps_dec-&gt;u4_num_disp_bufs;</span><br><span class="line"><span class="number">756</span>        &#125;</span><br><span class="line"><span class="number">757</span></span><br><span class="line"><span class="number">758</span>        <span class="comment">/* Ensure at least two buffers are allocated */</span></span><br><span class="line"><span class="number">759</span>        ps_dec-&gt;u1_pic_bufs = MAX(ps_dec-&gt;u1_pic_bufs, <span class="number">2</span>);</span><br><span class="line"><span class="number">760</span></span><br><span class="line"><span class="number">761</span>        <span class="keyword">if</span>(ps_dec-&gt;u4_share_disp_buf == <span class="number">0</span>)</span><br><span class="line"><span class="number">762</span>            ps_dec-&gt;u1_pic_bufs = MIN(ps_dec-&gt;u1_pic_bufs,</span><br><span class="line"><span class="number">763</span>                                      (H264_MAX_REF_PICS * <span class="number">2</span>));</span><br><span class="line"><span class="number">764</span></span><br><span class="line"><span class="number">765</span>        ps_dec-&gt;u1_max_dec_frame_buffering = MIN(</span><br><span class="line"><span class="number">766</span>                        ps_dec-&gt;u1_max_dec_frame_buffering,</span><br><span class="line"><span class="number">767</span>                        ps_dec-&gt;u1_pic_bufs);</span><br><span class="line"><span class="number">768</span></span><br><span class="line"><span class="number">769</span>        <span class="comment">/* Temporary hack to run Tractor Cav/Cab/MbAff Profiler streams  also for CAFI1_SVA_C.264 in conformance*/</span></span><br><span class="line"><span class="number">770</span>        <span class="keyword">if</span>(ps_dec-&gt;u1_init_dec_flag)</span><br><span class="line"><span class="number">771</span>        &#123;</span><br><span class="line"><span class="number">772</span>            ih264d_release_pics_in_dpb((<span class="keyword">void</span> *)ps_dec,</span><br><span class="line"><span class="number">773</span>                                       ps_dec-&gt;u1_pic_bufs);</span><br><span class="line"><span class="number">774</span>            ih264d_release_display_bufs(ps_dec);</span><br><span class="line"><span class="number">775</span>            ih264d_reset_ref_bufs(ps_dec-&gt;ps_dpb_mgr);</span><br><span class="line"><span class="number">776</span>        &#125;</span><br></pre></td></tr></table></figure>
+<p>看起来<code>dec_struct_t</code>结构巨jj长，不读了不读了。</p>
+<p><code>#define ivd_api_function ih264d_api_function</code>-&gt;<code>ih264d_api_function</code>-&gt;<code>ih264d_video_decode</code>-&gt;<code>ih264d_parse_nal_unit</code>-&gt;<code>ih264d_parse_decode_slice</code>-&gt;<code>ih264d_start_of_pic</code>-&gt;<code>ih264d_init_pic</code></p>
+<p>看到这样一条路径，应该就是这么解码然后读的吧，需要详细看下<code>/external/libavc/test/decoder/main.c</code>是怎么回事。</p>
+<!-- flag of hidden posts -->
+                
+
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large pink">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect pink" title="Return to top"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse pink darken-1"  data-activates="main-menu" title="Menu"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer pink accent-1 darken-1">
+    
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">Social</h5>
+                
+                    <a class="social-link" href="https://github.com/cracke-s-j" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                
+
+            </div>
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">Links</h5>
+                
+                    <a class="social-link" href="https://blog.dyf.ink/" target="_blank">友情链接 dyf&#39;s blog</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright pink-link-context">
+        <div class="container">
+            © 2020 ssj, All rights reserved.
+            <p class="right" style="margin-top: 0;">Blog powered by <a href="https://hexo.io">Hexo</a> | Theme <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+        </div>
+    </div>
+</footer>
+
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+    </div>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
+<script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
+
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
+
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
+            });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('pink lighten-2');
+
+            
+            // 添加new标签
+            $('').append('<span class="new badge pink"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
+        });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async
+  src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"superSample":2,"width":250,"height":500,"position":"left","hOffset":0,"vOffset":-100},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
