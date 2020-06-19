@@ -1,0 +1,861 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>Kernel相关漏洞文章阅读 | </title><meta name="robots" content="noindex">
+    <meta name="author" content="ssj">
+    
+    <meta name="description" content="想开始搞搞Kernel，先读一些文章找找感觉。
+堆喷套路size是否可控制？content是否可控？
+可能存在阻塞的系统调用里面找找？文件系统、驱动这些去找找？
+
+32位机器上，用ipv6喷射很稳定
+64位部分机型ip_mc_socklist比0x30要大
+可以setxattr喷射，稳定性不好
+se">
+    
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta property="og:title" content="Kernel相关漏洞文章阅读">
+    <meta property="og:site_name" content="ssj&#39;s blog">
+
+    
+    <meta property="og:image" content>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="ssj&#39;s blog" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/tranquil-heart.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+</html>
+
+<body>
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="pink accent-1">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
+        </a>
+        <div class="">
+            <a href="/" class="brand-logo hide-on-med-and-down">ssj&#39;s blog</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/" >
+                            <i class="fa fa-home "></i>
+                            
+                            Home
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives" >
+                            <i class="fa fa-archive "></i>
+                            
+                            Archives
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                            <i class="fa fa-bookmark "></i>
+                            
+                            Categories
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-reading " href="/reading" >
+                            <i class="fa fa-book "></i>
+                            
+                            Reading
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about" >
+                            <i class="fa fa-user "></i>
+                            
+                            About
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search" >
+                            <i class="fa fa-search "></i>
+                            
+                            Search
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav pink darken-1" id="main-menu">
+        
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="/favicon.png" alt="User Avatar">
+                </div>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">ssj</p>
+                        <p class="desc"></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/" >
+                    <i class="fa fa-home "></i>
+                    
+                    Home
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives" >
+                    <i class="fa fa-archive "></i>
+                    
+                    Archives
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                    <i class="fa fa-bookmark "></i>
+                    
+                    Categories
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-reading " href="/reading" >
+                    <i class="fa fa-book "></i>
+                    
+                    Reading
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about" >
+                    <i class="fa fa-user "></i>
+                    
+                    About
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search" >
+                    <i class="fa fa-search "></i>
+                    
+                    Search
+                </a>
+            </li>
+        
+    </ul>
+
+    <ul class="side-nav pink darken-1" id="category-menu">
+    
+
+            
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Android/">
+                    Android <span class="right">11</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/脱壳/">
+                    脱壳 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/马甲包/">
+                    马甲包 <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Ethereum/">
+                    Ethereum <span class="right">3</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CVE/">
+                    CVE <span class="right">8</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/二进制/">
+                    二进制 <span class="right">7</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/v8/">
+                    v8 <span class="right">4</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/Base/">
+                    Base <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/vm/">
+                    vm <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/Docs/">
+                    Docs <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CTF/">
+                    CTF <span class="right">7</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/pwn/">
+                    pwn <span class="right">6</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/Android/">
+                    Android <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/杂/">
+                    杂 <span class="right">5</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/杂/定场诗/">
+                    定场诗 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/杂/听戏/">
+                    听戏 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/杂/京剧/">
+                    京剧 <span class="right">3</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/面试体验/">
+                    面试体验 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/面试体验/Android/">
+                    Android <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/基础知识/">
+                    基础知识 <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/基础知识/Cpp/">
+                    Cpp <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/算法/">
+                    算法 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+</nav>
+
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">Search</label>
+        </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper pink">
+        <span class="breadcrumb">Current page(Categories)</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/二进制/">二进制</a><a class="breadcrumb" href="/categories/二进制/Kernel/">Kernel</a>
+
+
+        
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>Kernel相关漏洞文章阅读</h1>
+    
+
+
+            </div>
+            <time class="pink-link-context" datetime="2020-06-15T11:55:01.000Z"><a href="/2020/06/15/Kernel相关漏洞文章阅读/">2020-06-15</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/二进制/" class="chip pink lighten-1">二进制</a>
+        
+            <a href="/tags/Kernel/" class="chip pink lighten-1">Kernel</a>
+        
+    </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#堆喷套路"><span class="section table-of-contents-text">堆喷套路</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#绕保护套路"><span class="section table-of-contents-text">绕保护套路</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#CVE-2017-8890"><span class="section table-of-contents-text">CVE-2017-8890</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#漏洞原理"><span class="section table-of-contents-text">漏洞原理</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#利用思路"><span class="section table-of-contents-text">利用思路</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-4"><a class="section table-of-contents-link" href="#初步"><span class="section table-of-contents-text">初步</span></a></li><li class="section table-of-contents-item section table-of-contents-level-4"><a class="section table-of-contents-link" href="#进一步思考"><span class="section table-of-contents-text">进一步思考</span></a></li></ol></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#CVE-2017-13253"><span class="section table-of-contents-text">CVE-2017-13253</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#漏洞成因"><span class="section table-of-contents-text">漏洞成因</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#漏洞修复"><span class="section table-of-contents-text">漏洞修复</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#利用思路-1"><span class="section table-of-contents-text">利用思路</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#CVE-2017-13258"><span class="section table-of-contents-text">CVE-2017-13258</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#CVE-2019-8835"><span class="section table-of-contents-text">CVE-2019-8835</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#漏洞原理-1"><span class="section table-of-contents-text">漏洞原理</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#利用思路-2"><span class="section table-of-contents-text">利用思路</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#CVE-2020-11477"><span class="section table-of-contents-text">CVE-2020-11477</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#漏洞原理-2"><span class="section table-of-contents-text">漏洞原理</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#利用思路-3"><span class="section table-of-contents-text">利用思路</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Linux-Kernel-the-ROP-Exploit-of-Stack-Overflow-in-Android-Kernel"><span class="section table-of-contents-text">Linux Kernel: the ROP Exploit of Stack Overflow in Android Kernel</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#CVE-2020-1206-CVE-2020-0796"><span class="section table-of-contents-text">CVE-2020-1206/CVE-2020-0796</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#CVE-2020-0041"><span class="section table-of-contents-text">CVE-2020-0041</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#漏洞点"><span class="section table-of-contents-text">漏洞点</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#利用思路-4"><span class="section table-of-contents-text">利用思路</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Windows内核初探"><span class="section table-of-contents-text">Windows内核初探</span></a></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <p>想开始搞搞Kernel，先读一些文章找找感觉。</p>
+<h2 id="堆喷套路"><a href="#堆喷套路" class="headerlink" title="堆喷套路"></a>堆喷套路</h2><p>size是否可控制？content是否可控？</p>
+<p>可能存在阻塞的系统调用里面找找？文件系统、驱动这些去找找？</p>
+<ul>
+<li>32位机器上，用ipv6喷射很稳定</li>
+<li>64位部分机型ip_mc_socklist比0x30要大</li>
+<li>可以setxattr喷射，稳定性不好</li>
+<li>sendmmsg有最小值限制</li>
+<li>add_key/sendmmsg内存用完了之后立马被kfree</li>
+<li>setsockopt</li>
+</ul>
+<h2 id="绕保护套路"><a href="#绕保护套路" class="headerlink" title="绕保护套路"></a>绕保护套路</h2><ul>
+<li>关掉addr_limit</li>
+</ul>
+<h2 id="CVE-2017-8890"><a href="#CVE-2017-8890" class="headerlink" title="CVE-2017-8890"></a>CVE-2017-8890</h2><p>CVE-2017-8890是启明星辰ADLab去年披露的linux kernel double free漏洞，取名Phoenix Talon（凤凰爪四趾），可影响几乎所有Linux kernel 2.5.69 ~ Linux kernel 4.11的内核版本、对应的发行版本以及相关国产系统。</p>
+<h3 id="漏洞原理"><a href="#漏洞原理" class="headerlink" title="漏洞原理"></a>漏洞原理</h3><p>具体代码分析<a href="https://paper.seebug.org/327/" target="_blank" rel="noopener">这里</a>有，感觉单看别人粘代码分析乱七八糟的，还是要自己打开<a href="https://elixir.bootlin.com/linux/latest/source" target="_blank" rel="noopener">https://elixir.bootlin.com/linux/latest/source</a>去前前后后看一遍。</p>
+<p>先看两个结构体：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">inet_sock</span> &#123;</span></span><br><span class="line">    <span class="comment">/* sk and pinet6 has to be the first two members of inet_sock */</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sock</span>     <span class="title">sk</span>;</span></span><br><span class="line"></span><br><span class="line">    ........</span><br><span class="line"></span><br><span class="line">    __be32          inet_saddr;</span><br><span class="line">    __s16           uc_ttl;</span><br><span class="line">    __u16           cmsg_flags;</span><br><span class="line">    __be16          inet_sport;</span><br><span class="line">    __u16           inet_id;</span><br><span class="line"></span><br><span class="line">    ..........</span><br><span class="line">    __be32          mc_addr;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ip_mc_socklist</span> __<span class="title">rcu</span> *<span class="title">mc_list</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">inet_cork_full</span>   <span class="title">cork</span>;</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ip_mc_socklist</span> &#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ip_mc_socklist</span> __<span class="title">rcu</span> *<span class="title">next_rcu</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ip_mreqn</span>     <span class="title">multi</span>;</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span>        sfmode;     <span class="comment">/* MCAST_&#123;INCLUDE,EXCLUDE&#125; */</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ip_sf_socklist</span> __<span class="title">rcu</span> *<span class="title">sflist</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">rcu_head</span>     <span class="title">rcu</span>;</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">callback_head</span> &#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">callback_head</span> *<span class="title">next</span>;</span></span><br><span class="line">    <span class="keyword">void</span> (*func)(struct callback_head *head);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> rcu_head callback_head</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>当我们使用socket编程时，在服务端创建一个socket，内核会创建一个<code>inet_sock</code>，称为sock1；</li>
+<li>当服务端调用accept接收外来数据的时候会创建一个新的<code>inet_sock</code>，称为sock2；</li>
+<li>sock2的<code>ip_mc_socklist</code>指针拷贝自sock1；</li>
+<li>此时内核中存在两个不同的sock，它们的<code>ip_mc_socklist</code>却指向同一个对象；</li>
+<li>当服务端close socket的时候，内核会free对应的<code>inet_sock</code>，在这里是sock1，也会free对应的<code>ip_mc_socklist</code>；</li>
+<li>当服务端关闭accpet创建的<code>inet_sock</code>对象sock2时，其对应的<code>ip_mc_socklist</code>已经被释放过了，再次释放造成double free。</li>
+</ul>
+<h3 id="利用思路"><a href="#利用思路" class="headerlink" title="利用思路"></a>利用思路</h3><h4 id="初步"><a href="#初步" class="headerlink" title="初步"></a>初步</h4><ul>
+<li>堆喷，第一次free之后占位控制内相<ul>
+<li>寻找对象（64字节）<ul>
+<li>sendmmsg（未成功（我没试过</li>
+<li>ipv6_mc_socklist（内存对齐以后不是64字节了</li>
+</ul>
+</li>
+<li>解决问题，给ipv6_mc_socklist打个patch，调整内部成员顺序使其对齐成64字节</li>
+<li>将ipv6_mc_socklist的adrr设为”ff02:abcd:0:0:0:0:0:1”，通过读ip_mc_socklist-&gt;next_rcu判断是否堆喷成功</li>
+</ul>
+</li>
+<li>劫持EIP<ul>
+<li>发现<code>ip_mc_socklist-&gt;rcu-&gt;func</code>是一个函数指针，而且会在被free时调用，可以修改它然后触发二次free吗？</li>
+<li>不能，因为<code>kfree_rcu-&gt;__kfree_rcu-&gt;kfree_call_rcu-&gt;__call_rcu</code>，在函数参数转换的时候，它被修改成了偏移量。</li>
+<li>所以我们下步思路是在<code>kfree_rcu</code>之后<code>__call_rcu</code>之前，对该指针再次修改。</li>
+<li>也就是ret2usr，在到达用户空间以后，马上多线程去修改在用户空间的伪造的结构体中的函数指针。</li>
+</ul>
+</li>
+<li>执行shellcode<ul>
+<li>祖传方法<code>commit_creds(prepare_kernel_cred(0))</code>，发现不行，因为执行的时候由于内核软中断等原因，并不是位于exp进程对应上下文。</li>
+<li>需要自己写shellcode，找到<code>pid-&gt;task_struct-&gt;cred</code>，改成0即可。</li>
+</ul>
+</li>
+</ul>
+<p><strong>注意</strong>：本利用思路没有考虑SMEP/SMAP等保护（逃。</p>
+<h4 id="进一步思考"><a href="#进一步思考" class="headerlink" title="进一步思考"></a>进一步思考</h4><p>绕过PXN，PXN是什么来着？哦，是<strong>Privileged eXecute Never</strong>，绕过它就是不能用ret2usr。</p>
+<p>用jop，先构思一条理想中的jop，首先覆盖一个常用的内核函数以达到永久劫持EIP，然后泄露内核栈找到  addlimit修改这个值让任意地址可以读写，然后在汇编中正则查找。</p>
+<h2 id="CVE-2017-13253"><a href="#CVE-2017-13253" class="headerlink" title="CVE-2017-13253"></a>CVE-2017-13253</h2><p>Android Drm服务堆溢出。</p>
+<h3 id="漏洞成因"><a href="#漏洞成因" class="headerlink" title="漏洞成因"></a>漏洞成因</h3><p>没有检查<code>要复制的数据+目标缓冲区的位置是否超过堆的size</code>，检查不完整。</p>
+<p>贴几处check:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sum &lt;= SIZE_MAX</span><br><span class="line">subsampleSizes == totalSize</span><br><span class="line">totalSize &lt;= source.mSharedMemory-&gt;size()</span><br><span class="line">Offset &lt;= source.mSharedMemory-&gt;size() - totalSize</span><br><span class="line"></span><br><span class="line"><span class="comment">// 源缓冲区不溢出</span></span><br><span class="line">source.offset + offset + source.size &gt; sourceBase-&gt;getSize();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 目标缓冲区在堆内</span></span><br><span class="line">destBuffer.offset + destBuffer.size &gt; destBase-&gt;getSize()</span><br></pre></td></tr></table></figure>
+<h3 id="漏洞修复"><a href="#漏洞修复" class="headerlink" title="漏洞修复"></a>漏洞修复</h3><p>看下<a href="https://android.googlesource.com/platform/frameworks/av/+/871412cfa05770cfd8be0a130b68386775445057%5E%21/#F0" target="_blank" rel="noopener">补丁</a>。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+                sp&lt;IMemory&gt; dest = destination.mSharedMemory;</span><br><span class="line">+                <span class="keyword">if</span> (totalSize &gt; dest-&gt;size() ||</span><br><span class="line">+                        (<span class="keyword">size_t</span>)dest-&gt;offset() &gt; dest-&gt;size() - totalSize) &#123;</span><br><span class="line">+                    reply-&gt;writeInt32(BAD_VALUE);</span><br><span class="line">+                    android_errorWriteLog(<span class="number">0x534e4554</span>, <span class="string">"71389378"</span>);</span><br><span class="line">+                    <span class="keyword">return</span> OK;</span><br><span class="line">+                &#125;</span><br></pre></td></tr></table></figure>
+<p>从pathc也可以看出漏洞成因了。</p>
+<h3 id="利用思路-1"><a href="#利用思路-1" class="headerlink" title="利用思路"></a>利用思路</h3><p>据说是不能利用，poc运行结果如下：</p>
+<ul>
+<li>如果在2018年3月之后的Android版本 decrypt 会返回bad_value（-22）。</li>
+<li>如果没有crash（overwritten data 是可写的）decrypt return 他copy的数据的量。</li>
+<li>如果供应商将HAL实现为单独的进程?（例如Pixel 2），则解密应该返回UNKNOWN_ERROR（-32）。</li>
+<li>如果供应商在同一过程中实施HAL?（例如Nexus 5X），则解密应返回0。</li>
+</ul>
+<h2 id="CVE-2017-13258"><a href="#CVE-2017-13258" class="headerlink" title="CVE-2017-13258"></a>CVE-2017-13258</h2><p>蓝牙BNEP漏洞；BNEP是封装网络协议数据包的。（喂，这是哪门Kernel？）</p>
+<p>总之就是解析包的时候逻辑有问题：</p>
+<ul>
+<li>构造一个扩展包，只有长度没有cmd；</li>
+<li>类型设为cmd_not_understood；</li>
+<li>解析的时候cmd_not_understood要把不能understood的cmd返回来；</li>
+<li>由于没有cmd、length可控制，所以返回时根据代码来看泄露了*(p + len)这个字节。</li>
+<li>简单地通过设计包绕过一下check。</li>
+</ul>
+<p>Exp：<a href="https://www.exploit-db.com/exploits/44326" target="_blank" rel="noopener">https://www.exploit-db.com/exploits/44326</a></p>
+<h2 id="CVE-2019-8835"><a href="#CVE-2019-8835" class="headerlink" title="CVE-2019-8835"></a>CVE-2019-8835</h2><p><a href="https://www.anquanke.com/post/id/203416" target="_blank" rel="noopener">https://www.anquanke.com/post/id/203416</a></p>
+<p>eBPF程序在用户空间生成字节码，在内核空间虚拟机中执行，这就需要很多检查。</p>
+<h3 id="漏洞原理-1"><a href="#漏洞原理-1" class="headerlink" title="漏洞原理"></a>漏洞原理</h3><p>当虚拟机verifier的时候，<code>bpf_reg_state</code>来记录寄存器信息：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">ptype <span class="class"><span class="keyword">struct</span> <span class="title">bpf_reg_state</span></span></span><br><span class="line"><span class="class"><span class="title">type</span> = <span class="title">struct</span> <span class="title">bpf_reg_state</span> &#123;</span></span><br><span class="line">    <span class="keyword">enum</span> bpf_reg_type type;</span><br><span class="line">    <span class="keyword">union</span> &#123;</span><br><span class="line">        u16 range;</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">bpf_map</span> *<span class="title">map_ptr</span>;</span></span><br><span class="line">        u32 btf_id;</span><br><span class="line">        <span class="keyword">unsigned</span> <span class="keyword">long</span> raw;</span><br><span class="line">    &#125;;</span><br><span class="line">    s32 off;</span><br><span class="line">    u32 id;</span><br><span class="line">    u32 ref_obj_id;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">tnum</span> <span class="title">var_off</span>;</span></span><br><span class="line">    s64 smin_value;<span class="comment">//有符号时可能的最小值</span></span><br><span class="line">    s64 smax_value;<span class="comment">//有符号时可能的最大值</span></span><br><span class="line">    u64 umin_value;</span><br><span class="line">    u64 umax_value;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">bpf_reg_state</span> *<span class="title">parent</span>;</span></span><br><span class="line">    u32 frameno;</span><br><span class="line">    s32 subreg_def;</span><br><span class="line">    <span class="keyword">enum</span> bpf_reg_liveness live;</span><br><span class="line">    <span class="keyword">bool</span> precise;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>计算<code>smin_value/smax_value</code> or <code>umin_value/umax_value</code>其中有一个检查叫<code>reg_bound_offset32</code>，它计算范围的时候有些问题。64位下没什么；32位的话会把之前状态转移的umin_value和umax_value只取低32bit参与计算，假如计算之前umin_value == 1，umax_value == 100000001 , 取低32bit之后他们都会等于1，所以该状态下可以构造出任意值的寄存器都会被认做1或者别的常数，从而绕过虚拟机检测。</p>
+<h3 id="利用思路-2"><a href="#利用思路-2" class="headerlink" title="利用思路"></a>利用思路</h3><ul>
+<li>地址泄露<ul>
+<li>verifier认为的：(1 &amp; 2) &gt;&gt; 1 == 0, 实际运行时候的：(2 &amp; 2) &gt;&gt; 1 == 1；</li>
+<li>然后<code>r6 = r6 - 0x110</code>，<code>r7 = r7 - r6</code>，check的时候是稳过的，实际上已经造成了越界读写；</li>
+<li>查找偏移泄露出全局变量<code>const struct bpf_map_ops *array_map_ops</code>，绕过kaslr；</li>
+</ul>
+</li>
+<li>任意地址写<ul>
+<li>利用r7写入，ops改成fake_ops；把<code>map_update_elem</code>改成<code>map_push_elem</code>；</li>
+<li>然后该流程变为<code>index == value[0]; next = flags</code>， 最终效果是<code>*flags = value[0]</code>；</li>
+<li><code>value[0]</code>和<code>flags</code>都是ring3下传的，所以现实了任意地址写4个byte；</li>
+</ul>
+</li>
+<li>提权<ul>
+<li>祖传提权：<code>init_pid_ns-&gt;task_struct-&gt;cred</code>；</li>
+<li>modprobe_path：modprobe_path指向了一个内核在运行未知文件类型时运行的二进制文件，当内核运行一个错误格式的文件的时候，会调用这个modprobe_path所指向的二进制文件；</li>
+</ul>
+</li>
+</ul>
+<h2 id="CVE-2020-11477"><a href="#CVE-2020-11477" class="headerlink" title="CVE-2020-11477"></a>CVE-2020-11477</h2><h3 id="漏洞原理-2"><a href="#漏洞原理-2" class="headerlink" title="漏洞原理"></a>漏洞原理</h3><p>原理是整数溢出造成的Dos；很难触发，威胁不大。</p>
+<p><code>tcp_gso_segs</code>代表小报文个数，是uint_16，而<code>skb_buff</code>结构体最多可以由17 <em> 32 </em> 1024 / 8 = 69632个报文碎片积累而成，所以可以考虑在极限情况下触发这个case。</p>
+<h3 id="利用思路-3"><a href="#利用思路-3" class="headerlink" title="利用思路"></a>利用思路</h3><p>触发起来条件其实是很苛刻的。</p>
+<ul>
+<li>客户端连接服务端（同时三次握手过程中强制设置接受mss最大值为8）<ul>
+<li>实际上很难把它设成8，因为默认发行版linux系统都开启TSO（TCP Segment Offload），为了发挥网卡性能，网上会不断尝试扩大mss。</li>
+<li>TCP选项头设为40的话，可以加上长度为12的时间戳，或者重新编译加上md5。</li>
+</ul>
+</li>
+<li>客户端诱导服务端发送超长报文给客户端，贴近最大允许长度32k。<ul>
+<li>这一步是可以做到的，通过服务器下载文件时（linux内核调用tcp_sendpage不走tcp_sendmsg调用可以逼近报文极限值，需要超过31k大小，实际情况是比较罕见的），发现http服务器将客户端get的数据合并，逼近32k大小数据下发到客户端。</li>
+</ul>
+</li>
+<li>客户端不断发送重传要求，服务端重复发送17次报文填满skb分片队列，导致tcp_gso_segs变量整数溢出，导致服务器远程拒绝服务。<ul>
+<li>TCP重传过于迅速，积累不到65536个报文，马上就修正顺序了。</li>
+<li>分布式并发攻击可以做到积累报文超过65536。</li>
+</ul>
+</li>
+</ul>
+<h2 id="Linux-Kernel-the-ROP-Exploit-of-Stack-Overflow-in-Android-Kernel"><a href="#Linux-Kernel-the-ROP-Exploit-of-Stack-Overflow-in-Android-Kernel" class="headerlink" title="Linux Kernel: the ROP Exploit of Stack Overflow in Android Kernel"></a>Linux Kernel: the ROP Exploit of Stack Overflow in Android Kernel</h2><p><a href="https://paper.seebug.org/947/" target="_blank" rel="noopener">https://paper.seebug.org/947/</a></p>
+<p>好像也没写什么，就是Android Kernel搭环境+最基本的ROP，欺负我看不懂嘤文。</p>
+<h2 id="CVE-2020-1206-CVE-2020-0796"><a href="#CVE-2020-1206-CVE-2020-0796" class="headerlink" title="CVE-2020-1206/CVE-2020-0796"></a>CVE-2020-1206/CVE-2020-0796</h2><p>SMBleed是内核内存泄露，因为压缩包校验长度时，写长一点没有校验出来，造成未初始化内存读取。</p>
+<p>SMBGhost长度整数溢出导致堆溢出，RCE。</p>
+<h2 id="CVE-2020-0041"><a href="#CVE-2020-0041" class="headerlink" title="CVE-2020-0041"></a>CVE-2020-0041</h2><p>TODO:初读失败了，没完全看懂。</p>
+<h3 id="漏洞点"><a href="#漏洞点" class="headerlink" title="漏洞点"></a>漏洞点</h3><p>从看patch来看，是重构代码引进的，本来应该是/的地方写成了*，导致index越界，这个index是num_valid，用来做一系列check的。</p>
+<h3 id="利用思路-4"><a href="#利用思路-4" class="headerlink" title="利用思路"></a>利用思路</h3><p>没有看懂。</p>
+<p>好像就是利用num_valid的突然变大，从而可以构造一些绕过check的结构。但是我不清楚什么是<code>binder objectsl的parents</code>，什么叫父缓冲区，什么是修补指针。</p>
+<p><a href="https://www.4hou.com/posts/pXJp" target="_blank" rel="noopener">https://www.4hou.com/posts/pXJp</a></p>
+<p>最好再读一下这两part嘤文文章，可是我已经困了，明天的数据结构还没预习。</p>
+<p><a href="https://github.com/bluefrostsecurity/CVE-2020-0041">https://github.com/bluefrostsecurity/CVE-2020-0041</a></p>
+<h2 id="Windows内核初探"><a href="#Windows内核初探" class="headerlink" title="Windows内核初探"></a>Windows内核初探</h2><!-- flag of hidden posts -->
+                
+
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large pink">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect pink" title="Return to top"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse pink darken-1"  data-activates="main-menu" title="Menu"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer pink accent-1 darken-1">
+    
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">Social</h5>
+                
+                    <a class="social-link" href="https://github.com/cracke-s-j" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                
+
+            </div>
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">Links</h5>
+                
+                    <a class="social-link" href="https://blog.dyf.ink/" target="_blank">友情链接 dyf&#39;s blog</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright pink-link-context">
+        <div class="container">
+            © 2020 ssj, All rights reserved.
+            <p class="right" style="margin-top: 0;">Blog powered by <a href="https://hexo.io">Hexo</a> | Theme <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+        </div>
+    </div>
+</footer>
+
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+    </div>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
+<script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
+
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
+
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
+            });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('pink lighten-2');
+
+            
+            // 添加new标签
+            $('').append('<span class="new badge pink"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
+        });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async
+  src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"superSample":2,"width":250,"height":500,"position":"left","hOffset":0,"vOffset":-100},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

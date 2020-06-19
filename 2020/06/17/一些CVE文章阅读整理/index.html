@@ -1,0 +1,890 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>一些CVE和其它安全相关文章阅读整理 | </title><meta name="robots" content="noindex">
+    <meta name="author" content="ssj">
+    
+    <meta name="description" content="IE沙箱逃逸：CVE-2019-0880漏洞成因当程序访问系统安装打印机时会运行这个程序splwow64.exe，这个进程是IE提升策略白名单进程之一。
+该进程会创建LPC端口，我们稍作逆向可以知道创建端口的名称，连接上后，就可以通过LPC消息与之交互。
+消息处理时存在任意指针解引用：
+
+只接收长度">
+    
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta property="og:title" content="一些CVE和其它安全相关文章阅读整理">
+    <meta property="og:site_name" content="ssj&#39;s blog">
+
+    
+    <meta property="og:image" content>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="ssj&#39;s blog" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/tranquil-heart.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+</html>
+
+<body>
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="pink accent-1">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
+        </a>
+        <div class="">
+            <a href="/" class="brand-logo hide-on-med-and-down">ssj&#39;s blog</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/" >
+                            <i class="fa fa-home "></i>
+                            
+                            Home
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives" >
+                            <i class="fa fa-archive "></i>
+                            
+                            Archives
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                            <i class="fa fa-bookmark "></i>
+                            
+                            Categories
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-reading " href="/reading" >
+                            <i class="fa fa-book "></i>
+                            
+                            Reading
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about" >
+                            <i class="fa fa-user "></i>
+                            
+                            About
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search" >
+                            <i class="fa fa-search "></i>
+                            
+                            Search
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav pink darken-1" id="main-menu">
+        
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="/favicon.png" alt="User Avatar">
+                </div>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">ssj</p>
+                        <p class="desc"></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/" >
+                    <i class="fa fa-home "></i>
+                    
+                    Home
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives" >
+                    <i class="fa fa-archive "></i>
+                    
+                    Archives
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                    <i class="fa fa-bookmark "></i>
+                    
+                    Categories
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-reading " href="/reading" >
+                    <i class="fa fa-book "></i>
+                    
+                    Reading
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about" >
+                    <i class="fa fa-user "></i>
+                    
+                    About
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search" >
+                    <i class="fa fa-search "></i>
+                    
+                    Search
+                </a>
+            </li>
+        
+    </ul>
+
+    <ul class="side-nav pink darken-1" id="category-menu">
+    
+
+            
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Android/">
+                    Android <span class="right">11</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/脱壳/">
+                    脱壳 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/马甲包/">
+                    马甲包 <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Ethereum/">
+                    Ethereum <span class="right">3</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CVE/">
+                    CVE <span class="right">8</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/二进制/">
+                    二进制 <span class="right">7</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/v8/">
+                    v8 <span class="right">4</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/Base/">
+                    Base <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/vm/">
+                    vm <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/Docs/">
+                    Docs <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CTF/">
+                    CTF <span class="right">7</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/pwn/">
+                    pwn <span class="right">6</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/Android/">
+                    Android <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/杂/">
+                    杂 <span class="right">5</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/杂/定场诗/">
+                    定场诗 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/杂/听戏/">
+                    听戏 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/杂/京剧/">
+                    京剧 <span class="right">3</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/面试体验/">
+                    面试体验 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/面试体验/Android/">
+                    Android <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/基础知识/">
+                    基础知识 <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/基础知识/Cpp/">
+                    Cpp <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/算法/">
+                    算法 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+</nav>
+
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">Search</label>
+        </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper pink">
+        <span class="breadcrumb">Current page(Categories)</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/CVE/">CVE</a>
+
+
+        
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>一些CVE和其它安全相关文章阅读整理</h1>
+    
+
+
+            </div>
+            <time class="pink-link-context" datetime="2020-06-17T08:34:40.000Z"><a href="/2020/06/17/一些CVE文章阅读整理/">2020-06-17</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/CVE/" class="chip pink lighten-1">CVE</a>
+        
+    </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#IE沙箱逃逸：CVE-2019-0880"><span class="section table-of-contents-text">IE沙箱逃逸：CVE-2019-0880</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#漏洞成因"><span class="section table-of-contents-text">漏洞成因</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#利用思路"><span class="section table-of-contents-text">利用思路</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Android蓝牙子系统BlueFrag-CVE-2020-0022"><span class="section table-of-contents-text">Android蓝牙子系统BlueFrag(CVE-2020-0022)</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#use-after-free-about-Web-Audio-in-Chrome"><span class="section table-of-contents-text">use-after-free about Web Audio in Chrome</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#漏洞成因-1"><span class="section table-of-contents-text">漏洞成因</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#触发思路"><span class="section table-of-contents-text">触发思路</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#章鱼扫描器"><span class="section table-of-contents-text">章鱼扫描器(?</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#热岩浆"><span class="section table-of-contents-text">热岩浆(?</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Fuzzing-sockets"><span class="section table-of-contents-text">Fuzzing sockets</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#CVE-2020-9273"><span class="section table-of-contents-text">CVE-2020-9273</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#CVE-2020-9365"><span class="section table-of-contents-text">CVE-2020-9365</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#CVE-2020-9274"><span class="section table-of-contents-text">CVE-2020-9274</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#嘿，妈，我正在加密"><span class="section table-of-contents-text">嘿，妈，我正在加密</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#好像一个篇软文"><span class="section table-of-contents-text">好像一个篇软文</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#CVE-2020-0688-–-Exchange-RCE"><span class="section table-of-contents-text">CVE-2020-0688 – Exchange RCE</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#CVE-2020-5398"><span class="section table-of-contents-text">CVE-2020-5398</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#逃离fuzz"><span class="section table-of-contents-text">逃离fuzz</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#CVE-2019-10779-XSS-in-GCHQ-Stroom"><span class="section table-of-contents-text">CVE-2019-10779: XSS in GCHQ Stroom</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Fuzz常见的挑战和解决方案"><span class="section table-of-contents-text">Fuzz常见的挑战和解决方案</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Chromium-IPC漏洞"><span class="section table-of-contents-text">Chromium IPC漏洞</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Ubuntu-Whoopsie-Vulns-系列文章"><span class="section table-of-contents-text">Ubuntu Whoopsie Vulns 系列文章</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#（一）"><span class="section table-of-contents-text">（一）</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#（二）"><span class="section table-of-contents-text">（二）</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#（三）"><span class="section table-of-contents-text">（三）</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#（四）CVE-2019-11484-–-Ubuntu-whoopsie-integer-overflow"><span class="section table-of-contents-text">（四）CVE-2019-11484 – Ubuntu whoopsie integer overflow</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-4"><a class="section table-of-contents-link" href="#CVE-2019-7307"><span class="section table-of-contents-text">CVE-2019-7307</span></a></li><li class="section table-of-contents-item section table-of-contents-level-4"><a class="section table-of-contents-link" href="#CVE-2019-11476"><span class="section table-of-contents-text">CVE-2019-11476</span></a></li><li class="section table-of-contents-item section table-of-contents-level-4"><a class="section table-of-contents-link" href="#另一处vuln"><span class="section table-of-contents-text">另一处vuln</span></a></li><li class="section table-of-contents-item section table-of-contents-level-4"><a class="section table-of-contents-link" href="#利用"><span class="section table-of-contents-text">利用</span></a></li></ol></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#vm2沙箱逃逸"><span class="section table-of-contents-text">vm2沙箱逃逸</span></a></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <h2 id="IE沙箱逃逸：CVE-2019-0880"><a href="#IE沙箱逃逸：CVE-2019-0880" class="headerlink" title="IE沙箱逃逸：CVE-2019-0880"></a>IE沙箱逃逸：CVE-2019-0880</h2><h3 id="漏洞成因"><a href="#漏洞成因" class="headerlink" title="漏洞成因"></a>漏洞成因</h3><p>当程序访问系统安装打印机时会运行这个程序<code>splwow64.exe</code>，这个进程是IE提升策略白名单进程之一。</p>
+<p>该进程会创建LPC端口，我们稍作逆向可以知道创建端口的名称，连接上后，就可以通过LPC消息与之交互。</p>
+<p>消息处理时存在任意指针解引用：</p>
+<ul>
+<li>只接收长度为0x20的传入消息；把位于LPC消息的偏移0x30、0x38和0x40处的三个指针作为参数传递给GdiPrinterThunk函数；</li>
+<li>GdiPrinterThunk函数工作流程由位于第一个参数所指定的地址的偏移0x4处的字节确定；</li>
+<li>我们把该处地址内容设为0x76（Windows 7上是0x75），就可以通过任意参数调用memcpy；</li>
+</ul>
+<h3 id="利用思路"><a href="#利用思路" class="headerlink" title="利用思路"></a>利用思路</h3><ul>
+<li>任意地址写原语<ul>
+<li>创建共享section，共享section开始四个字节设为0x76，在LPC消息偏移0x30处指定共享section；</li>
+<li>这样就获得了memcpy原语；</li>
+</ul>
+</li>
+<li>绕过ASLR<ul>
+<li>ASLR只要不重启，各个进程加载相同模块的偏移都是一样的；</li>
+<li>在沙箱地址空间加载splwow64进程中winspool.drv，找到.data节，即可找到对应函数指针；</li>
+<li>可是IE渲染进程是32位的，splwow64进程是64位的；<ul>
+<li>IE允许从低完整性渲染进程写入LocalLow文件夹；<ul>
+<li>创建一个64位leakaddr.exe，负责加载winspool.drv，并将结果写入LocalLow文件夹中；</li>
+<li>将leakaddr.exe写入LocalLow中，并创建进程调用，由于没有提权，用户不知道它运行了；</li>
+<li>读文件获得函数地址；</li>
+</ul>
+</li>
+<li>Heaven’s Gate技术<ul>
+<li>此技术可以在IE进程的地址空间中加载64位DLL，从而可以泄露地址；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>WX内存<ul>
+<li>无法写入可执行内存页，也无法调用VirtualProtect来使内存页可写；</li>
+<li>把现有的某个函数指针覆盖成LoadLibraryA或者WinExec的地址；</li>
+<li>OpenPrinterW函数：该函数把winspool.drv的.data节中的一个地址（OpenPrinterW2函数指针）传送到RAX寄存器；并调用LdrpValidateUserCallTarget（CFG，控制流保护）来验证该地址；</li>
+<li>所以我们利用上述绕过ASLR方法和任意地址写原语来修改winspool.drv的.data节中的那个地址；</li>
+</ul>
+</li>
+<li>任意执行<ul>
+<li>将上上述偏移0x4处的字节设置为0x6A（在Windows 7上为0x69），则会发出对OpenPrinterW函数的调用，第一个参数可由我们控制；</li>
+<li>又因为OpenPrinter2W的指针已被我们覆盖；</li>
+<li>所以我们可以执行任意只有一个（可控）参数的函数；</li>
+<li>LoadLibraryA，可以逃逸沙箱加载dll；</li>
+<li>system，任意命令执行。</li>
+</ul>
+</li>
+</ul>
+<h2 id="Android蓝牙子系统BlueFrag-CVE-2020-0022"><a href="#Android蓝牙子系统BlueFrag-CVE-2020-0022" class="headerlink" title="Android蓝牙子系统BlueFrag(CVE-2020-0022)"></a>Android蓝牙子系统BlueFrag(CVE-2020-0022)</h2><p>我还看了一大通HCI包的格式和解析。</p>
+<p>其实漏洞点很简单，直接从<a href="https://android.googlesource.com/platform/system/bt/+/3cb7149d8fed2d7d77ceaa95bf845224c4db3baf" target="_blank" rel="noopener">patch</a>回溯着看也很好理解。</p>
+<p>位于HCI层分片数据包的重组，经过一大系列的各种解析分分合合以后，来到了下面：</p>
+<p>调用memcpy进行拷贝，第一个参数<code>partial_packet-&gt;data + partial_packet-&gt;offset</code>是正确的；第二个参数为<code>packet-&gt;data + packet-&gt;offset</code>也是正确的，第三个参数是要拷贝的长度len<code>packet-&gt;len - packet-&gt;offset</code>，这个值是有问题的，分两种情况。</p>
+<p>第一种情况是<code>projected_offset</code>小于<code>partial_packet-&gt;len</code>，<code>packet-&gt;len - packet-&gt;offset</code>为L2CAP数据包片段总长度，并且是个正数；这种情况是没问题的。</p>
+<p>第二种是<code>packet-&gt;len</code>在patch那一行<code>packet-&gt;len = partial_package-&gt;len - partial_package-&gt;offset</code>已经被修正过，修正为<code>partial_packet剩余空间</code>，不需要再一次<code>packet-&gt;len - packet-&gt;offset</code>的操作，如果<code>partial_packet</code>剩余空间长度小于4字节，那<code>packet-&gt;len - packet-&gt;offset</code>是小于零的，是一个负数。</p>
+<p>由于memcpy()函数第三个参数类型是一个无符号整型类型，因此整数溢出导致堆溢出。</p>
+<p>所以patch又给221那行改成了这样<code>(packet-&gt;len = partial_package-&gt;len - partial_package-&gt;offset) + package-&gt;offset</code>用于抵消后面的操作。</p>
+<p><a href="BlueFrag.png">这张图配合，挺好理解的</a></p>
+<h2 id="use-after-free-about-Web-Audio-in-Chrome"><a href="#use-after-free-about-Web-Audio-in-Chrome" class="headerlink" title="use-after-free about Web Audio in Chrome"></a>use-after-free about Web Audio in Chrome</h2><p><a href="https://securitylab.github.com/research/garbage-collection-uaf-chrome_gc" target="_blank" rel="noopener">Triggering garbage collection with rejected promises to cause use-after-free in Chrome</a></p>
+<h3 id="漏洞成因-1"><a href="#漏洞成因-1" class="headerlink" title="漏洞成因"></a>漏洞成因</h3><p>AudioNode提供Javascript接口，由AudioHandler进行管理，当主线程要释放AudioHandler的时候，必须保证处理音频的线程不在访问它，所以要加锁，然而代码中有一处锁处理的不好，使音频线程在没有获得锁的情况下也访问了AudioNode：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="function">MutexTryLocker <span class="title">try_locker</span><span class="params">(Context()-&gt;GetTearDownMutex())</span></span>;</span><br><span class="line">    <span class="keyword">if</span> (try_locker.Locked()) &#123;</span><br><span class="line">        DCHECK_GE(NumberOfInputs(), <span class="number">1u</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// This will cause the node(s) connected to us to process, which in turn</span></span><br><span class="line">        <span class="comment">// will pull on their input(s), all the way backwards through the</span></span><br><span class="line">        <span class="comment">// rendering graph.</span></span><br><span class="line">        AudioBus* rendered_bus = Input(<span class="number">0</span>).Pull(destination_bus, number_of_frames);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!rendered_bus) &#123;</span><br><span class="line">            destination_bus-&gt;Zero();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rendered_bus != destination_bus) &#123;</span><br><span class="line">            <span class="comment">// in-place processing was not possible - so copy</span></span><br><span class="line">            destination_bus-&gt;CopyFrom(*rendered_bus);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        destination_bus-&gt;Zero();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Process nodes which need a little extra help because they are not</span></span><br><span class="line">    <span class="comment">// connected to anything, but still need to process.</span></span><br><span class="line">    Context()-&gt;GetDeferredTaskHandler().ProcessAutomaticPullNodes(            <span class="comment">//&lt;--- Only protected if try_locker succeeded</span></span><br><span class="line">        number_of_frames);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">void</span> DeferredTaskHandler::ProcessAutomaticPullNodes(</span><br><span class="line">    <span class="keyword">uint32_t</span> frames_to_process) &#123;</span><br><span class="line">  DCHECK(IsAudioThread());</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">unsigned</span> i = <span class="number">0</span>; i &lt; rendering_automatic_pull_handlers_.size(); ++i) &#123;</span><br><span class="line">    rendering_automatic_pull_handlers_[i]-&gt;ProcessIfNecessary(</span><br><span class="line">        frames_to_process);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="触发思路"><a href="#触发思路" class="headerlink" title="触发思路"></a>触发思路</h3><p>触发的话要考虑到锁和GC，我们需要先消耗掉大量内存，再在音频线程获得锁之前调用<code>BaseAudioContext :: Uninitialize</code>，然后音频线程操作之后再<code>ClearHandlersToBeDeleted</code>删除句柄（难搞。</p>
+<h2 id="章鱼扫描器"><a href="#章鱼扫描器" class="headerlink" title="章鱼扫描器(?"></a>章鱼扫描器(?</h2><p><a href="https://securitylab.github.com/research/octopus-scanner-malware-open-source-supply-chain" target="_blank" rel="noopener">The Octopus Scanner Malware: Attacking the open source supply chain</a></p>
+<p>主要是讲开源供应链安全的。章鱼扫描器是恶意感染用到NetBeans的开源软件的。</p>
+<p>总之它就是个病毒，有混淆，伪装自己到处感染，还会区别对待Win/Linux那种…</p>
+<h2 id="热岩浆"><a href="#热岩浆" class="headerlink" title="热岩浆(?"></a>热岩浆(?</h2><p><a href="https://securitylab.github.com/research/network-integers-are-hot-lava" target="_blank" rel="noopener">Hot lava: A case study in hunting for network integer arithmetic flaws</a></p>
+<p>这个是讲整数运算检测的。整数溢出啥的。使用CodeQL做污点分析，用户输入的整数不可信那种。</p>
+<p>所以hot lava是什么意思？</p>
+<h2 id="Fuzzing-sockets"><a href="#Fuzzing-sockets" class="headerlink" title="Fuzzing sockets"></a>Fuzzing sockets</h2><p>Fuzz FTP服务器，好像在书中看到过，再就没有接触过了。</p>
+<p>原来讲的是用AFL Fuzz…注意事项有：</p>
+<ul>
+<li>修改system call，防止fuzz过程中意外删文件；</li>
+<li>修改事件处理函数，就是一定范围内随机一些取值；</li>
+<li>AFL不能处理多进程，所以要改掉fork()；</li>
+<li>要给权限；要减少程序中的随机性；</li>
+<li>修改程序自定义的处理信号；去掉<code>alarm(2)</code>；</li>
+<li>删除没有必要的时间间隔和sleep之类的；</li>
+<li>要理解程序内部去做调整；</li>
+</ul>
+<h3 id="CVE-2020-9273"><a href="#CVE-2020-9273" class="headerlink" title="CVE-2020-9273"></a>CVE-2020-9273</h3><p><code>new_block</code>并发不安全，容易堆块重叠。</p>
+<h3 id="CVE-2020-9365"><a href="#CVE-2020-9365" class="headerlink" title="CVE-2020-9365"></a>CVE-2020-9365</h3><p>是oob，计算字符串长度出问题，没有考虑字符串长度不等的情况。</p>
+<h3 id="CVE-2020-9274"><a href="#CVE-2020-9274" class="headerlink" title="CVE-2020-9274"></a>CVE-2020-9274</h3><p>未初始化的指针，没有设为NULL，导致链表遍历时信息泄露。</p>
+<h2 id="嘿，妈，我正在加密"><a href="#嘿，妈，我正在加密" class="headerlink" title="嘿，妈，我正在加密"></a>嘿，妈，我正在加密</h2><p>关于密码学的讨论。我就想知道<a href="https://blog.semmle.com/introduction-to-variant-analysis-part-2/" target="_blank" rel="noopener">LGTM</a>是什么。</p>
+<p>总体在讲，用CodeQL挖openssl中一些密码学的洞。</p>
+<h2 id="好像一个篇软文"><a href="#好像一个篇软文" class="headerlink" title="好像一个篇软文"></a>好像一个篇软文</h2><p>介绍了一个<code>CVE-2020-8597</code> – a remote vulnerability in pppd (point-to-point protocol daemon).</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Not so likely to happen. */</span></span><br><span class="line"><span class="keyword">if</span> (vallen &gt;= len + <span class="keyword">sizeof</span> (rhostname)) &#123;</span><br><span class="line">  ppp_dbglog((<span class="string">"EAP: trimming really long peer name down"</span>));</span><br><span class="line">  MEMCPY(rhostname, inp + vallen, <span class="keyword">sizeof</span> (rhostname) - <span class="number">1</span>);</span><br><span class="line">  rhostname[<span class="keyword">sizeof</span> (rhostname) - <span class="number">1</span>] = <span class="string">'\0'</span>;</span><br></pre></td></tr></table></figure>
+<p>这里是因为之前已经验证过vallen &lt; len了，所以这个分支进不来，所以rhostname没有它的终止符。</p>
+<h2 id="CVE-2020-0688-–-Exchange-RCE"><a href="#CVE-2020-0688-–-Exchange-RCE" class="headerlink" title="CVE-2020-0688 – Exchange RCE"></a>CVE-2020-0688 – Exchange RCE</h2><p><code>Exchange</code>共享同一密钥，导致<code>ViewState</code>可以反序列化。</p>
+<p>泄露Key的一些方法：</p>
+<ul>
+<li>本地文件包含或者XXE泄露web.config<ul>
+<li>例如：AfterLogic WebMail Pro ASP.NET 6.2.6 - Administrator Account Disclosure via XXE</li>
+</ul>
+</li>
+<li>填充Oracle？<ul>
+<li>MS10-070 (CVE-2010-3332)</li>
+</ul>
+</li>
+<li>.Net框架信息泄露<ul>
+<li>MS15-041（CVE-2010-1648）</li>
+</ul>
+</li>
+<li>死亡黄屏（报错信息）</li>
+<li>public repo里的web.config</li>
+</ul>
+<h2 id="CVE-2020-5398"><a href="#CVE-2020-5398" class="headerlink" title="CVE-2020-5398"></a>CVE-2020-5398</h2><p>这块都是些Web呢，最看不懂的就是Web。</p>
+<p>Spring框架<code>Reflected File Download</code>(这个怎么翻译?)，跟<code>CVE-2015-5211</code>有关系，就类似这样欺骗一下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=”https://&lt;trusted-server&gt;.com/api/users/&lt;attacker_id&gt;.cmd" download&gt;</span><br><span class="line">Click me, Im a dolphin</span><br><span class="line"><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>修复是<a href>这样</a>修复的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="keyword">this</span>.filename != <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.charset == <span class="keyword">null</span> || StandardCharsets.US_ASCII.equals(<span class="keyword">this</span>.charset)) &#123;</span><br><span class="line">        sb.append(<span class="string">"; filename=\""</span>);</span><br><span class="line">        sb.append(<span class="keyword">this</span>.filename).append(<span class="string">'\"'</span>);</span><br><span class="line">        sb.append(escapeQuotationsInFilename(<span class="keyword">this</span>.filename)).append(<span class="string">'\"'</span>); <span class="comment">// &lt;--这里</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>然而还能这样绕过：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ContentDisposition contentDisposition = ContentDisposition.builder(<span class="string">"attachment"</span>).filename(fileName + <span class="string">".txt"</span>).build();</span><br><span class="line">HttpHeaders headers = <span class="keyword">new</span> HttpHeaders();</span><br><span class="line">headers.setContentDisposition(contentDisposition);</span><br></pre></td></tr></table></figure>
+<p>filename为<code>secure_install.cmd&quot;;</code>的话，拼起来就是<code>Content-Disposition: attachment; filename=&quot;secure_install.cmd&quot;;.txt&quot;</code>。</p>
+<p>需要转义引号，使程序不能关闭filename的引号。</p>
+<h2 id="逃离fuzz"><a href="#逃离fuzz" class="headerlink" title="逃离fuzz"></a>逃离fuzz</h2><p>讲的是github上很多人用fuzz扫一些开源项目，给开发者造成负担，甚至还会打乱开发计划，所以作者给了开发人员一些建议。</p>
+<p>（此处CodeQL植入）。</p>
+<p>怎么办呢：</p>
+<ul>
+<li>我帮你们修；</li>
+<li>我修不过来了，用Rust重写吧；</li>
+<li>快速修好像问题也不大；</li>
+<li>再教一下AFL的使用吧；</li>
+</ul>
+<h2 id="CVE-2019-10779-XSS-in-GCHQ-Stroom"><a href="#CVE-2019-10779-XSS-in-GCHQ-Stroom" class="headerlink" title="CVE-2019-10779: XSS in GCHQ Stroom"></a>CVE-2019-10779: XSS in GCHQ Stroom</h2><p>来了，XSS。</p>
+<p>是因为<code>&quot;stroom.my-company.com.attacker.com&quot;.indexOf(&quot;stroom.my-company.com&quot;) == 0</code>这句话被绕过。</p>
+<h2 id="Fuzz常见的挑战和解决方案"><a href="#Fuzz常见的挑战和解决方案" class="headerlink" title="Fuzz常见的挑战和解决方案"></a>Fuzz常见的挑战和解决方案</h2><p>这是要改造fuzzer？</p>
+<ul>
+<li>fuzz命令行参数和输入文件</li>
+<li>fuzzer比较难覆盖到比如==某确定值的代码，这时候可以拆分一下，把该==条件拆分成多个条件；</li>
+<li>提供自定义词典；</li>
+<li>效验文件格式，算剪枝吧；</li>
+<li>自定义覆盖，也算剪枝的一种，就是不去覆盖那些不感兴趣的代码；</li>
+</ul>
+<h2 id="Chromium-IPC漏洞"><a href="#Chromium-IPC漏洞" class="headerlink" title="Chromium IPC漏洞"></a>Chromium IPC漏洞</h2><blockquote>
+<p>All of these issues, with the exception of 1001503 (which was found by ‘accident’ when I was experimenting with IPC calls), were found by manual code review with the help of CodeQL.</p>
+</blockquote>
+<p>虽然又闻到了广告的气息，但是CodeQL是真的香了起来。</p>
+<p>讲了Mojo以及旧IPC的一些bug：</p>
+<p>A raw pointer is a pointer whose lifetime is not controlled by an encapsulating object, such as a smart pointer.</p>
+<p>raw pointer跟unique pointer是普通指针跟智能指针；可能智能指令的使用越来越多，才一直用raw pointer这种说法吧。</p>
+<ul>
+<li>非特权指针fields管理，尤其是在UAF的情况；<ul>
+<li>Raw pointer points to owner；</li>
+<li>Destructor of raw pointer class removes its reference；</li>
+</ul>
+</li>
+<li>回调函数存储raw pointer；<ul>
+<li>回调发生在不能调用raw pointer的时候，但通常这是由caller去控制的；</li>
+</ul>
+</li>
+<li>RenderFrameHost生命周期；<ul>
+<li>通常RenderFrameHost生命周期很长，可以活的更长的线程回调去调它的时候，它就凉了；</li>
+</ul>
+</li>
+</ul>
+<h2 id="Ubuntu-Whoopsie-Vulns-系列文章"><a href="#Ubuntu-Whoopsie-Vulns-系列文章" class="headerlink" title="Ubuntu Whoopsie Vulns 系列文章"></a>Ubuntu Whoopsie Vulns 系列文章</h2><p><a href="https://securitylab.github.com/research/ubuntu-whoopsie-daisy-overview" target="_blank" rel="noopener">https://securitylab.github.com/research/ubuntu-whoopsie-daisy-overview</a></p>
+<h3 id="（一）"><a href="#（一）" class="headerlink" title="（一）"></a>（一）</h3><h3 id="（二）"><a href="#（二）" class="headerlink" title="（二）"></a>（二）</h3><h3 id="（三）"><a href="#（三）" class="headerlink" title="（三）"></a>（三）</h3><h3 id="（四）CVE-2019-11484-–-Ubuntu-whoopsie-integer-overflow"><a href="#（四）CVE-2019-11484-–-Ubuntu-whoopsie-integer-overflow" class="headerlink" title="（四）CVE-2019-11484 – Ubuntu whoopsie integer overflow"></a>（四）CVE-2019-11484 – Ubuntu whoopsie integer overflow</h3><p>whoopsie是”Ubuntu错误报告”守护程序。</p>
+<h4 id="CVE-2019-7307"><a href="#CVE-2019-7307" class="headerlink" title="CVE-2019-7307"></a>CVE-2019-7307</h4><blockquote>
+<p><a href="https://wiki.ubuntu.com/Apport" target="_blank" rel="noopener">Apport</a> before versions 2.14.1-0ubuntu3.29+esm1, 2.20.1-0ubuntu2.19, 2.20.9-0ubuntu7.7, 2.20.10-0ubuntu27.1, 2.20.11-0ubuntu5 contained a TOCTTOU vulnerability when reading the users ~/.apport-ignore.xml file, which allows a local attacker to replace this file with a symlink to any other file on the system and so cause Apport to include the contents of this other file in the resulting crash report. The crash report could then be read by that user either by causing it to be uploaded and reported to Launchpad, or by leveraging some other vulnerability to read the resulting crash report, and so allow the user to read arbitrary files on the system.</p>
+</blockquote>
+<h4 id="CVE-2019-11476"><a href="#CVE-2019-11476" class="headerlink" title="CVE-2019-11476"></a>CVE-2019-11476</h4><p>造一个字符串length长一点不太到2^31，绕过检查，然后<code>value_pos + 1 + value_length + 1</code>的时候溢出，realloc返回空，但是只能造成Dos。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* The length of this value string */</span></span><br><span class="line">value_length = token_p - p;</span><br><span class="line"><span class="keyword">if</span> (value) &#123;</span><br><span class="line">    <span class="comment">/* Space for the leading newline too. */</span></span><br><span class="line">    value_pos = value_p - value;</span><br><span class="line">    <span class="keyword">if</span> (INT_MAX - (<span class="number">1</span> + value_length + <span class="number">1</span>) &lt; value_pos) &#123;</span><br><span class="line">        g_set_error (error,</span><br><span class="line">                     g_quark_from_static_string (<span class="string">"whoopsie-quark"</span>),</span><br><span class="line">                     <span class="number">0</span>, <span class="string">"Report value too long."</span>);</span><br><span class="line">        <span class="keyword">goto</span> error;</span><br><span class="line">    &#125;</span><br><span class="line">    value = g_realloc (value, value_pos + <span class="number">1</span> + value_length + <span class="number">1</span>);</span><br><span class="line">    value_p = value + value_pos;</span><br><span class="line">    *value_p = <span class="string">'\n'</span>;</span><br><span class="line">    value_p++;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br></pre></td></tr></table></figure>
+<h4 id="另一处vuln"><a href="#另一处vuln" class="headerlink" title="另一处vuln"></a>另一处vuln</h4><p><code>pos + bytesNeeded</code>溢出，并没有继续分配内存，而且直接返回成功。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">bson_ensure_space</span><span class="params">( bson *b, <span class="keyword">const</span> <span class="keyword">int</span> bytesNeeded )</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> pos = b-&gt;cur - b-&gt;data;</span><br><span class="line">    <span class="keyword">char</span> *orig = b-&gt;data;</span><br><span class="line">    <span class="keyword">int</span> new_size;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ( pos + bytesNeeded &lt;= b-&gt;dataSize )</span><br><span class="line">        <span class="keyword">return</span> BSON_OK;</span><br></pre></td></tr></table></figure>
+<h4 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h4><h2 id="vm2沙箱逃逸"><a href="#vm2沙箱逃逸" class="headerlink" title="vm2沙箱逃逸"></a>vm2沙箱逃逸</h2><p>在些之前对vm2了解不多，但是遇到人家的沙箱逃逸也看了…</p>
+<p>基本就是在js层的博弈，“诶你忘重写那个啥了被我截胡了”这种操作。<a href="https://www.anquanke.com/post/id/207291" target="_blank" rel="noopener">https://www.anquanke.com/post/id/207291</a></p>
+<!-- flag of hidden posts -->
+                
+
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large pink">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect pink" title="Return to top"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse pink darken-1"  data-activates="main-menu" title="Menu"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer pink accent-1 darken-1">
+    
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">Social</h5>
+                
+                    <a class="social-link" href="https://github.com/cracke-s-j" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                
+
+            </div>
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">Links</h5>
+                
+                    <a class="social-link" href="https://blog.dyf.ink/" target="_blank">友情链接 dyf&#39;s blog</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright pink-link-context">
+        <div class="container">
+            © 2020 ssj, All rights reserved.
+            <p class="right" style="margin-top: 0;">Blog powered by <a href="https://hexo.io">Hexo</a> | Theme <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+        </div>
+    </div>
+</footer>
+
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+    </div>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
+<script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
+
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
+
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
+            });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('pink lighten-2');
+
+            
+            // 添加new标签
+            $('').append('<span class="new badge pink"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
+        });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async
+  src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"superSample":2,"width":250,"height":500,"position":"left","hOffset":0,"vOffset":-100},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
