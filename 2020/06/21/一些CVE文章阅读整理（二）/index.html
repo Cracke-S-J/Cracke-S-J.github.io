@@ -1,0 +1,786 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>一些CVE文章阅读整理（二） | </title><meta name="robots" content="noindex">
+    <meta name="author" content="ssj">
+    
+    <meta name="description" content="Kernel crash caused by out-of-bounds write in Apple’s ICMP packet-handling code (CVE-2018-4407)主要看这里：
+12345678icp = mtod(m, struct icmp *);MH_ALIGN(m,">
+    
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta property="og:title" content="一些CVE文章阅读整理（二）">
+    <meta property="og:site_name" content="ssj&#39;s blog">
+
+    
+    <meta property="og:image" content>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="ssj&#39;s blog" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/tranquil-heart.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+</html>
+
+<body>
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="pink accent-1">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
+        </a>
+        <div class="">
+            <a href="/" class="brand-logo hide-on-med-and-down">ssj&#39;s blog</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/" >
+                            <i class="fa fa-home "></i>
+                            
+                            Home
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives" >
+                            <i class="fa fa-archive "></i>
+                            
+                            Archives
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                            <i class="fa fa-bookmark "></i>
+                            
+                            Categories
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-reading " href="/reading" >
+                            <i class="fa fa-book "></i>
+                            
+                            Reading
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about" >
+                            <i class="fa fa-user "></i>
+                            
+                            About
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search" >
+                            <i class="fa fa-search "></i>
+                            
+                            Search
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav pink darken-1" id="main-menu">
+        
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="/favicon.png" alt="User Avatar">
+                </div>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">ssj</p>
+                        <p class="desc"></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/" >
+                    <i class="fa fa-home "></i>
+                    
+                    Home
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives" >
+                    <i class="fa fa-archive "></i>
+                    
+                    Archives
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                    <i class="fa fa-bookmark "></i>
+                    
+                    Categories
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-reading " href="/reading" >
+                    <i class="fa fa-book "></i>
+                    
+                    Reading
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about" >
+                    <i class="fa fa-user "></i>
+                    
+                    About
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search" >
+                    <i class="fa fa-search "></i>
+                    
+                    Search
+                </a>
+            </li>
+        
+    </ul>
+
+    <ul class="side-nav pink darken-1" id="category-menu">
+    
+
+            
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Android/">
+                    Android <span class="right">11</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/脱壳/">
+                    脱壳 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/马甲包/">
+                    马甲包 <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Ethereum/">
+                    Ethereum <span class="right">3</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CVE/">
+                    CVE <span class="right">8</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/二进制/">
+                    二进制 <span class="right">7</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/v8/">
+                    v8 <span class="right">4</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/Base/">
+                    Base <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/vm/">
+                    vm <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/Docs/">
+                    Docs <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CTF/">
+                    CTF <span class="right">7</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/pwn/">
+                    pwn <span class="right">6</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/Android/">
+                    Android <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/杂/">
+                    杂 <span class="right">5</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/杂/京剧/">
+                    京剧 <span class="right">3</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/杂/定场诗/">
+                    定场诗 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/杂/听戏/">
+                    听戏 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/面试体验/">
+                    面试体验 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/面试体验/Android/">
+                    Android <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/基础知识/">
+                    基础知识 <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/基础知识/Cpp/">
+                    Cpp <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/算法/">
+                    算法 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+</nav>
+
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">Search</label>
+        </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper pink">
+        <span class="breadcrumb">Current page(Categories)</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/CVE/">CVE</a>
+
+
+        
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>一些CVE文章阅读整理（二）</h1>
+    
+
+
+            </div>
+            <time class="pink-link-context" datetime="2020-06-20T16:47:48.000Z"><a href="/2020/06/21/一些CVE文章阅读整理（二）/">2020-06-21</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/CVE/" class="chip pink lighten-1">CVE</a>
+        
+    </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Kernel-crash-caused-by-out-of-bounds-write-in-Apple’s-ICMP-packet-handling-code-CVE-2018-4407"><span class="section table-of-contents-text">Kernel crash caused by out-of-bounds write in Apple’s ICMP packet-handling code (CVE-2018-4407)</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Apache-Struts-double-evaluation-RCE-lottery"><span class="section table-of-contents-text">Apache Struts double evaluation RCE lottery</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#OGNL-injection-in-Apache-Struts-Discovering-exploits-with-taint-tracking"><span class="section table-of-contents-text">OGNL injection in Apache Struts: Discovering exploits with taint tracking</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#CVE-2018-11776-How-to-find-5-RCEs-in-Apache-Struts-with-CodeQL"><span class="section table-of-contents-text">CVE-2018-11776: How to find 5 RCEs in Apache Struts with CodeQL</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Librelp-buffer-overflow-fix-cve-2018-1000140"><span class="section table-of-contents-text">Librelp buffer overflow fix (cve-2018-1000140)</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#漏洞点"><span class="section table-of-contents-text">漏洞点</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#CVE-2018-4249-amp-CVE-2017-13904-Remote-code-execution-in-Apple’s-packet-mangler"><span class="section table-of-contents-text">CVE-2018-4249 &amp; CVE-2017-13904: Remote code execution in Apple’s packet mangler</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#漏洞点-1"><span class="section table-of-contents-text">漏洞点</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#用CodeQL查找"><span class="section table-of-contents-text">用CodeQL查找</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Apple-NFS-Diskless-Boot-CVE-2018-4136-amp-CVE-2018-4160"><span class="section table-of-contents-text">Apple NFS Diskless Boot (CVE-2018-4136 &amp; CVE-2018-4160)</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#漏洞点-2"><span class="section table-of-contents-text">漏洞点</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#CodeQL查询bcopy可能带有负参数的调用"><span class="section table-of-contents-text">CodeQL查询bcopy可能带有负参数的调用</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Etherpad-reflected-file-download-CVE-2018-6835"><span class="section table-of-contents-text">Etherpad reflected file download (CVE-2018-6835)</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#Reflected-file-download-RFD"><span class="section table-of-contents-text">Reflected file download (RFD)</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Spring-Data-REST-exploit-CVE-2017-8046-Finding-a-RCE-vulnerability-with-CodeQL"><span class="section table-of-contents-text">Spring Data REST exploit (CVE-2017-8046): Finding a RCE vulnerability with CodeQL</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Android-Deserialization-Vulnerabilities-A-Brief-history"><span class="section table-of-contents-text">Android Deserialization Vulnerabilities: A Brief history</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#Android中反序列化成因"><span class="section table-of-contents-text">Android中反序列化成因</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#从Java反序列化攻击C"><span class="section table-of-contents-text">从Java反序列化攻击C++</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#CVE-2014-7911-Privilege-Escalation-using-ObjectInputStream"><span class="section table-of-contents-text">CVE-2014-7911: Privilege Escalation using ObjectInputStream</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#Finding-C-proxy-classes-with-CodeQL"><span class="section table-of-contents-text">Finding C++ proxy classes with CodeQL</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#CVE-2015-3825-One-class-to-rule-them-all"><span class="section table-of-contents-text">CVE-2015-3825: One class to rule them all</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#CVE-2017-411-and-CVE-2017-412-Ashmem-race-conditions-in-MemoryIntArray"><span class="section table-of-contents-text">CVE-2017-411 and CVE-2017-412: Ashmem race conditions in MemoryIntArray</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#What-about-Java-only-gadgets"><span class="section table-of-contents-text">What about Java-only gadgets?</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#CVE-2017-0871-Not-so-arbitrary-Java-code-execution"><span class="section table-of-contents-text">CVE-2017-0871: Not so arbitrary Java code execution</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Stack-buffer-overflow-in-Qualcomm-MSM-4-4"><span class="section table-of-contents-text">Stack buffer overflow in Qualcomm MSM 4.4</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Castor-and-Hessian-java-deserialization-vulnerabilities"><span class="section table-of-contents-text">Castor and Hessian java deserialization vulnerabilities</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#Apache-Camel-vulnerabilities-CVE-2017-12633-and-CVE-2017-12634"><span class="section table-of-contents-text">Apache Camel vulnerabilities CVE-2017-12633 and CVE-2017-12634</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#CodeQL一波搜索"><span class="section table-of-contents-text">CodeQL一波搜索</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#XXE-attack-example-using-jBoss-vulnerability-jBPM-CVE-2017-7545"><span class="section table-of-contents-text">XXE attack example using jBoss vulnerability (jBPM) CVE-2017-7545</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Restlet-XXE-vulnerability-CVE-2017-14949"><span class="section table-of-contents-text">Restlet XXE vulnerability (CVE-2017-14949)</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Swagger-YAML-Parser-Vulnerability-CVE-2017-1000207-and-CVE-2017-1000208"><span class="section table-of-contents-text">Swagger YAML Parser Vulnerability (CVE-2017-1000207 and CVE-2017-1000208)</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Restlet-XML-External-Entity-Expansion-Vulnerability-CVE-2017-14868"><span class="section table-of-contents-text">Restlet XML External Entity Expansion Vulnerability (CVE-2017-14868)</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Spring-AMQP-Exploit-CVE-2017-8045-Remote-Code-Execution-Vulnerability"><span class="section table-of-contents-text">Spring AMQP Exploit (CVE-2017-8045): Remote Code Execution Vulnerability</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Apple’s-XNU-Kernel-CVE-2017-13782"><span class="section table-of-contents-text">Apple’s XNU Kernel (CVE-2017-13782)</span></a></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <h2 id="Kernel-crash-caused-by-out-of-bounds-write-in-Apple’s-ICMP-packet-handling-code-CVE-2018-4407"><a href="#Kernel-crash-caused-by-out-of-bounds-write-in-Apple’s-ICMP-packet-handling-code-CVE-2018-4407" class="headerlink" title="Kernel crash caused by out-of-bounds write in Apple’s ICMP packet-handling code (CVE-2018-4407)"></a>Kernel crash caused by out-of-bounds write in Apple’s ICMP packet-handling code (CVE-2018-4407)</h2><p>主要看这里：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">icp = mtod(m, struct icmp *);</span><br><span class="line"></span><br><span class="line">MH_ALIGN(m, m-&gt;m_len);</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MH_ALIGN(m, len)                                  \</span></span><br><span class="line"><span class="keyword">do</span> &#123;                                                      \</span><br><span class="line">  (m)-&gt;m_data += (MHLEN - (len)) &amp;~ (<span class="keyword">sizeof</span> (<span class="keyword">long</span>) - <span class="number">1</span>);  \</span><br><span class="line">&#125; <span class="keyword">while</span> (<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p>MHLEN是88，len是icmplen + 8，如果icmplen &gt; 80的话，会产生溢出。</p>
+<h2 id="Apache-Struts-double-evaluation-RCE-lottery"><a href="#Apache-Struts-double-evaluation-RCE-lottery" class="headerlink" title="Apache Struts double evaluation RCE lottery"></a>Apache Struts double evaluation RCE lottery</h2><p>学个词叫Double evaluation；用CodeQL找Double evaluaton。</p>
+<h2 id="OGNL-injection-in-Apache-Struts-Discovering-exploits-with-taint-tracking"><a href="#OGNL-injection-in-Apache-Struts-Discovering-exploits-with-taint-tracking" class="headerlink" title="OGNL injection in Apache Struts: Discovering exploits with taint tracking"></a>OGNL injection in Apache Struts: Discovering exploits with taint tracking</h2><p><a href="https://securitylab.github.com/research/ognl-injection-apache-struts" target="_blank" rel="noopener">CodeQL软广</a></p>
+<h2 id="CVE-2018-11776-How-to-find-5-RCEs-in-Apache-Struts-with-CodeQL"><a href="#CVE-2018-11776-How-to-find-5-RCEs-in-Apache-Struts-with-CodeQL" class="headerlink" title="CVE-2018-11776: How to find 5 RCEs in Apache Struts with CodeQL"></a>CVE-2018-11776: How to find 5 RCEs in Apache Struts with CodeQL</h2><p><a href="https://securitylab.github.com/research/apache-struts-CVE-2018-11776" target="_blank" rel="noopener">CodeQL软广</a></p>
+<h2 id="Librelp-buffer-overflow-fix-cve-2018-1000140"><a href="#Librelp-buffer-overflow-fix-cve-2018-1000140" class="headerlink" title="Librelp buffer overflow fix (cve-2018-1000140)"></a>Librelp buffer overflow fix (cve-2018-1000140)</h2><p>Reliable Event Logging Protocol (RELP) library</p>
+<p>RELP provides reliable event logging over the network.</p>
+<p>RELP (and hence) librelp assures that no message is lost, not even when connections break and a peer becomes unavailable. The current version of RELP has a minimal window of opportunity for message duplication after a session has been broken due to network problems. In this case, a few messages may be duplicated (a problem that also exists with plain tcp syslog). Future versions of RELP will address this shortcoming.</p>
+<h3 id="漏洞点"><a href="#漏洞点" class="headerlink" title="漏洞点"></a>漏洞点</h3><p>感觉上面见过类似的洞，溢出之后就保护不了了，应该check一下。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* first search through the dNSName subject alt names */</span></span><br><span class="line">iAltName = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span>(!bFoundPositiveMatch) &#123; <span class="comment">/* loop broken below */</span></span><br><span class="line">  szAltNameLen = <span class="keyword">sizeof</span>(szAltName);</span><br><span class="line">  gnuRet = gnutls_x509_crt_get_subject_alt_name(cert, iAltName,</span><br><span class="line">                                                szAltName, &amp;szAltNameLen, <span class="literal">NULL</span>);</span><br><span class="line">  <span class="keyword">if</span>(gnuRet &lt; <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(gnuRet == GNUTLS_SAN_DNSNAME) &#123;</span><br><span class="line">    pThis-&gt;pEngine-&gt;dbgprint(<span class="string">"librelp: subject alt dnsName: '%s'\n"</span>, szAltName);</span><br><span class="line">    iAllNames += <span class="built_in">snprintf</span>(allNames+iAllNames, <span class="keyword">sizeof</span>(allNames)-iAllNames,</span><br><span class="line">                          <span class="string">"DNSname: %s; "</span>, szAltName);</span><br><span class="line">    relpTcpChkOnePeerName(pThis, szAltName, &amp;bFoundPositiveMatch);</span><br><span class="line">    <span class="comment">/* do NOT break, because there may be multiple dNSName's! */</span></span><br><span class="line">  &#125;</span><br><span class="line">  ++iAltName;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="CVE-2018-4249-amp-CVE-2017-13904-Remote-code-execution-in-Apple’s-packet-mangler"><a href="#CVE-2018-4249-amp-CVE-2017-13904-Remote-code-execution-in-Apple’s-packet-mangler" class="headerlink" title="CVE-2018-4249 &amp; CVE-2017-13904: Remote code execution in Apple’s packet mangler"></a>CVE-2018-4249 &amp; CVE-2017-13904: Remote code execution in Apple’s packet mangler</h2><h3 id="漏洞点-1"><a href="#漏洞点-1" class="headerlink" title="漏洞点"></a>漏洞点</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">tcp_optlen = (tcp.th_off &lt;&lt; <span class="number">2</span>)-<span class="keyword">sizeof</span>(struct tcphdr);   <span class="comment">// &lt;- tcp.th_off为0，tcp_optlen负溢出</span></span><br><span class="line">PKT_MNGLR_LOG(LOG_INFO, <span class="string">"Packet from F5 is TCP\n"</span>);</span><br><span class="line">PKT_MNGLR_LOG(LOG_INFO, <span class="string">"Optlen: %d\n"</span>, tcp_optlen);</span><br><span class="line">orig_tcp_optlen = tcp_optlen;                           <span class="comment">// &lt;- 赋值运算</span></span><br><span class="line"><span class="keyword">if</span> (orig_tcp_optlen) &#123;</span><br><span class="line">    error = mbuf_copydata(*data, offset+<span class="keyword">sizeof</span>(struct tcphdr), orig_tcp_optlen, tcp_opt_buf);   <span class="comment">// &lt;- 溢出</span></span><br><span class="line">    <span class="keyword">if</span> (error) &#123;</span><br><span class="line">        PKT_MNGLR_LOG(LOG_ERR, <span class="string">"Failed to copy tcp options"</span>);</span><br><span class="line">        <span class="keyword">goto</span> input_done;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (tcp_optlen) &#123;</span><br><span class="line">    <span class="keyword">if</span> (tcp_opt_buf[i] == <span class="number">0x1</span>) &#123;</span><br><span class="line">        PKT_MNGLR_LOG(LOG_INFO, <span class="string">"Skipping NOP\n"</span>);</span><br><span class="line">        tcp_optlen--;</span><br><span class="line">        i++;</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> ((tcp_opt_buf[i] != <span class="number">0</span>) &amp;&amp; (tcp_opt_buf[i] != TCP_OPT_MULTIPATH_TCP)) &#123;</span><br><span class="line">        PKT_MNGLR_LOG(LOG_INFO, <span class="string">"Skipping option %x\n"</span>, tcp_opt_buf[i]);</span><br><span class="line">        tcp_optlen -= tcp_opt_buf[i+<span class="number">1</span>];</span><br><span class="line">        i += tcp_opt_buf[i+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (tcp_opt_buf[i] == TCP_OPT_MULTIPATH_TCP) &#123;</span><br><span class="line">        <span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> mptcpoptlen = tcp_opt_buf[i+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">uint8_t</span> sbtver = tcp_opt_buf[i+MPTCP_SBT_VER_OFFSET];</span><br><span class="line">        <span class="keyword">uint8_t</span> subtype = sbtver &gt;&gt; <span class="number">4</span>;</span><br><span class="line"></span><br><span class="line">        PKT_MNGLR_LOG(LOG_INFO, <span class="string">"Got MPTCP option %x\n"</span>, tcp_opt_buf[i]);</span><br><span class="line">        PKT_MNGLR_LOG(LOG_INFO, <span class="string">"Got MPTCP subtype %x\n"</span>, subtype);</span><br><span class="line">        <span class="keyword">if</span> (subtype == MPTCP_SUBTYPE_DSS) &#123;</span><br><span class="line">            PKT_MNGLR_LOG(LOG_INFO, <span class="string">"Got DSS option\n"</span>);</span><br><span class="line">            PKT_MNGLR_LOG(LOG_INFO, <span class="string">"Protocol option mask: %d\n"</span>, p_pkt_mnglr-&gt;proto_action_mask);</span><br><span class="line">            <span class="keyword">if</span> (p_pkt_mnglr-&gt;proto_action_mask &amp;</span><br><span class="line">                PKT_MNGLR_TCP_ACT_DSS_DROP) &#123;</span><br><span class="line">                <span class="keyword">goto</span> drop_it;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        PKT_MNGLR_LOG(LOG_INFO, <span class="string">"Got MPTCP option %x\n"</span>, tcp_opt_buf[i]);</span><br><span class="line">        <span class="keyword">for</span> (; j &lt; mptcpoptlen; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (p_pkt_mnglr-&gt;proto_action_mask &amp;</span><br><span class="line">                PKT_MNGLR_TCP_ACT_NOP_MPTCP) &#123;</span><br><span class="line">                tcp_opt_buf[i+j] = <span class="number">0x1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        tcp_optlen -= mptcpoptlen;</span><br><span class="line">        i += mptcpoptlen;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        tcp_optlen--;</span><br><span class="line">        i++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第一处漏洞是这个while可能停不了，还有一处整数溢出造成的栈溢出。</p>
+<h3 id="用CodeQL查找"><a href="#用CodeQL查找" class="headerlink" title="用CodeQL查找"></a>用CodeQL查找</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import cpp</span><br><span class="line">import semmle.code.cpp.rangeanalysis.SimpleRangeAnalysis</span><br><span class="line"></span><br><span class="line">// Find an assignment like this:  x[i+j] = v</span><br><span class="line">from ArrayExpr ae, BinaryArithmeticOperation idx, Assignment assign</span><br><span class="line">where ae = assign.getLValue()</span><br><span class="line">  and idx = ae.getArrayOffset()</span><br><span class="line">  and convertedExprMightOverflow(idx)</span><br><span class="line"><span class="keyword">select</span> idx, <span class="string">"Array index might overflow"</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import cpp</span><br><span class="line"></span><br><span class="line">// Find loops like this:</span><br><span class="line">// while (x) &#123; ...; x -= n; &#125;</span><br><span class="line">from Loop loop, Variable v, AssignArithmeticOperation assign</span><br><span class="line">where loop.getCondition() = v.getAnAccess()</span><br><span class="line">  and assign.getLValue() = v.getAnAccess()</span><br><span class="line">  // Compound assignment is in the body of the loop:</span><br><span class="line">  and assign = loop.getStmt().getAChild*()</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">loop</span>, loop.getFile().getRelativePath()</span><br></pre></td></tr></table></figure>
+<h2 id="Apple-NFS-Diskless-Boot-CVE-2018-4136-amp-CVE-2018-4160"><a href="#Apple-NFS-Diskless-Boot-CVE-2018-4136-amp-CVE-2018-4160" class="headerlink" title="Apple NFS Diskless Boot (CVE-2018-4136 &amp; CVE-2018-4160)"></a>Apple NFS Diskless Boot (CVE-2018-4136 &amp; CVE-2018-4160)</h2><h3 id="漏洞点-2"><a href="#漏洞点-2" class="headerlink" title="漏洞点"></a>漏洞点</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">627</span>:  p = mbuf_data(m);                     <span class="comment">// &lt;- 来自用户</span></span><br><span class="line"><span class="number">628</span>:  msg_len = mbuf_len(m);</span><br><span class="line"><span class="number">629</span>:</span><br><span class="line"><span class="number">630</span>:  <span class="comment">/* server name */</span></span><br><span class="line"><span class="number">631</span>:  <span class="keyword">if</span> (msg_len &lt; (<span class="keyword">int</span>)<span class="keyword">sizeof</span>(*str))      <span class="comment">// &lt;- 没有检查为负数的情况</span></span><br><span class="line"><span class="number">632</span>:    <span class="keyword">goto</span> bad;</span><br><span class="line"><span class="number">633</span>:  str = (struct rpc_string *)p;</span><br><span class="line"><span class="number">634</span>:  sn_len = ntohl(str-&gt;len);</span><br><span class="line"><span class="number">635</span>:  <span class="keyword">if</span> (msg_len &lt; sn_len)</span><br><span class="line"><span class="number">636</span>:    <span class="keyword">goto</span> bad;</span><br><span class="line"><span class="number">637</span>:  <span class="keyword">if</span> (sn_len &gt;= MAXHOSTNAMELEN)</span><br><span class="line"><span class="number">638</span>:    <span class="keyword">goto</span> bad;</span><br><span class="line"><span class="number">639</span>:  bcopy(str-&gt;data, serv_name, sn_len);  <span class="comment">// &lt;- 崩</span></span><br></pre></td></tr></table></figure>
+<h3 id="CodeQL查询bcopy可能带有负参数的调用"><a href="#CodeQL查询bcopy可能带有负参数的调用" class="headerlink" title="CodeQL查询bcopy可能带有负参数的调用"></a>CodeQL查询bcopy可能带有负参数的调用</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import cpp</span><br><span class="line">import semmle.code.cpp.rangeanalysis.SimpleRangeAnalysis</span><br><span class="line"></span><br><span class="line">from FunctionCall <span class="keyword">call</span></span><br><span class="line"><span class="keyword">where</span></span><br><span class="line">  call.getTarget().getName() = <span class="string">"__builtin___memmove_chk"</span> <span class="keyword">and</span></span><br><span class="line">  lowerBound(call.getArgument(<span class="number">2</span>)) &lt; <span class="number">0</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">call</span></span><br></pre></td></tr></table></figure>
+<h2 id="Etherpad-reflected-file-download-CVE-2018-6835"><a href="#Etherpad-reflected-file-download-CVE-2018-6835" class="headerlink" title="Etherpad reflected file download (CVE-2018-6835)"></a>Etherpad reflected file download (CVE-2018-6835)</h2><h3 id="Reflected-file-download-RFD"><a href="#Reflected-file-download-RFD" class="headerlink" title="Reflected file download (RFD)"></a>Reflected file download (RFD)</h3><p>Reflected file download (RFD) is a relatively new attack vector discovered in 2014 by Oren Hafif. It has since affected multiple organizations and applications, including Google. This attack works very similarly to the more familiar cross site scripting (XSS), which relies on the victim clicking on a URL link that comes from a trusted domain. In the case of RFD, instead of running JavaScript in the victim’s browser, an executable file will be offered to the user as a download. As the file appears to originate from a trusted domain, the victim may then think that it is safe to run the file. The main ingredients in an RFD vulnerability are:</p>
+<ul>
+<li>User input in the URL being reflected back in the response.</li>
+<li>The vulnerable URL is permissive and allows the file name to be manipulated.</li>
+</ul>
+<h2 id="Spring-Data-REST-exploit-CVE-2017-8046-Finding-a-RCE-vulnerability-with-CodeQL"><a href="#Spring-Data-REST-exploit-CVE-2017-8046-Finding-a-RCE-vulnerability-with-CodeQL" class="headerlink" title="Spring Data REST exploit (CVE-2017-8046): Finding a RCE vulnerability with CodeQL"></a>Spring Data REST exploit (CVE-2017-8046): Finding a RCE vulnerability with CodeQL</h2><p><a href="https://securitylab.github.com/research/spring-data-rest-CVE-2017-8046-ql" target="_blank" rel="noopener">https://securitylab.github.com/research/spring-data-rest-CVE-2017-8046-ql</a></p>
+<p>Spring表达式注入。</p>
+<h2 id="Android-Deserialization-Vulnerabilities-A-Brief-history"><a href="#Android-Deserialization-Vulnerabilities-A-Brief-history" class="headerlink" title="Android Deserialization Vulnerabilities: A Brief history"></a>Android Deserialization Vulnerabilities: A Brief history</h2><h3 id="Android中反序列化成因"><a href="#Android中反序列化成因" class="headerlink" title="Android中反序列化成因"></a>Android中反序列化成因</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = getIntent();</span><br><span class="line">String expected = intent.getStringExtra(<span class="string">"EXPECTED"</span>);</span><br></pre></td></tr></table></figure>
+<p><code>getStringExtra</code>的时候，会把Bundle中所有参数都反序列化。</p>
+<h3 id="从Java反序列化攻击C"><a href="#从Java反序列化攻击C" class="headerlink" title="从Java反序列化攻击C++"></a>从Java反序列化攻击C++</h3><p>通常有的Java对象只是C++对象的wrapper，这种对象通常有long型的C++指针，调用C++分配对象，调用finalize释放对象。</p>
+<p>通常这种对象叫BinderProxy，有两个指针，mObject和mOrgue，只要劫持这两个指针，就可以造成内存问题，finalize通常长下面这样：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">finalize</span><span class="params">()</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    destroy();</span><br><span class="line">  &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    <span class="keyword">super</span>.finalize();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="CVE-2014-7911-Privilege-Escalation-using-ObjectInputStream"><a href="#CVE-2014-7911-Privilege-Escalation-using-ObjectInputStream" class="headerlink" title="CVE-2014-7911: Privilege Escalation using ObjectInputStream"></a>CVE-2014-7911: Privilege Escalation using ObjectInputStream</h3><p>ObjectInputStream没有check类是否可以序列化，直接反序列化，导致攻击者可以任意反序列化BinderProxy类，劫持其中的指针。</p>
+<h3 id="Finding-C-proxy-classes-with-CodeQL"><a href="#Finding-C-proxy-classes-with-CodeQL" class="headerlink" title="Finding C++ proxy classes with CodeQL"></a>Finding C++ proxy classes with CodeQL</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">predicate finalizeNative(FinalizeMethod finalize, Method free, RefType finalizeType) &#123;</span><br><span class="line">  free.isNative() and // The free method should be native</span><br><span class="line">  finalize.polyCalls(free) and // The finalize should <span class="keyword">call</span> free</span><br><span class="line">  finalize.getDeclaringType() = finalizeType <span class="keyword">and</span></span><br><span class="line">  (</span><br><span class="line">    // Either free <span class="keyword">is</span> declared <span class="keyword">in</span> a subclass <span class="keyword">of</span> the finalize <span class="keyword">class</span>, so that it can <span class="keyword">access</span> the pointers</span><br><span class="line">    free.getDeclaringType().getASupertype*() = finalizeType <span class="keyword">or</span></span><br><span class="line">    // <span class="keyword">Or</span> the pointers <span class="keyword">are</span> passed <span class="keyword">to</span> it <span class="keyword">as</span> arguments.</span><br><span class="line">    // The pointer <span class="keyword">fields</span> should be declared <span class="keyword">in</span> a subclass <span class="keyword">of</span> the finalize class.</span><br><span class="line">    <span class="keyword">exists</span>(MethodAccess ma, <span class="keyword">Field</span> ptr | ptr.getDeclaringType().getASupertype*() = finalizeType |</span><br><span class="line">      ma.getMethod() = free <span class="keyword">and</span></span><br><span class="line">      ptr.getAnAccess() = ma.getAnArgument() <span class="keyword">and</span></span><br><span class="line">      ptr.getType().getName() = <span class="string">"long"</span> // The pointer <span class="keyword">fields</span> should be <span class="keyword">of</span> <span class="keyword">type</span> <span class="keyword">long</span></span><br><span class="line">    )</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> FinalizeMethod finalize, Method free, RefType finalizeType</span><br><span class="line"><span class="keyword">where</span> finalizeNative(finalize, free, finalizeType)</span><br><span class="line"><span class="keyword">select</span> finalizeType.getQualifiedName()</span><br></pre></td></tr></table></figure>
+<h3 id="CVE-2015-3825-One-class-to-rule-them-all"><a href="#CVE-2015-3825-One-class-to-rule-them-all" class="headerlink" title="CVE-2015-3825: One class to rule them all"></a>CVE-2015-3825: One class to rule them all</h3><p><code>OpenSSLX509Certificate</code>中的<code>mContext</code>也有同样效果。</p>
+<h3 id="CVE-2017-411-and-CVE-2017-412-Ashmem-race-conditions-in-MemoryIntArray"><a href="#CVE-2017-411-and-CVE-2017-412-Ashmem-race-conditions-in-MemoryIntArray" class="headerlink" title="CVE-2017-411 and CVE-2017-412: Ashmem race conditions in MemoryIntArray"></a>CVE-2017-411 and CVE-2017-412: Ashmem race conditions in MemoryIntArray</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="title">MemoryIntArray</span><span class="params">(Parcel parcel)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">  mOwnerPid = parcel.readInt();</span><br><span class="line">  mClientWritable = (parcel.readInt() == <span class="number">1</span>);</span><br><span class="line">  ParcelFileDescriptor pfd = parcel.readParcelable(<span class="keyword">null</span>);</span><br><span class="line">  <span class="keyword">if</span> (pfd == <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> IOException(<span class="string">"No backing file descriptor"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  mFd = pfd.detachFd();</span><br><span class="line">  <span class="keyword">final</span> <span class="keyword">long</span> memoryAddress = parcel.readLong();</span><br><span class="line">  <span class="keyword">if</span> (isOwner()) &#123;</span><br><span class="line">    mMemoryAddr = memoryAddress;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    mMemoryAddr = nativeOpen(mFd, <span class="keyword">false</span>, mClientWritable);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isOwner</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> mOwnerPid == Process.myPid();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看出如果攻击者可以提供正在攻击这个Process的Pid的话，mMemoryAddr可以被攻击者控制。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!isClosed()) &#123;</span><br><span class="line">    nativeClose(mFd, mMemoryAddr, isOwner());</span><br><span class="line">    mFd = -<span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">android_util_MemoryIntArray_close</span><span class="params">(JNIEnv* env, jobject clazz, jint fd,</span></span></span><br><span class="line"><span class="function"><span class="params">    jlong ashmemAddr, jboolean owner)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ....</span><br><span class="line">    <span class="keyword">int</span> unmapResult = munmap(<span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">void</span> *&gt;(ashmemAddr), ashmemSize);</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到这个地址最终被munmap释放。</p>
+<h3 id="What-about-Java-only-gadgets"><a href="#What-about-Java-only-gadgets" class="headerlink" title="What about Java-only gadgets?"></a>What about Java-only gadgets?</h3><p>The code pattern I am looking for here is:</p>
+<ul>
+<li>The Class.forName method is called within a deserialization method.</li>
+<li>The argument of Class.forName can be controlled. At a minimum, this means it should not be a constant.</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">class ParcelableDeserializeMethod extends Method &#123;</span><br><span class="line">  ParcelableDeserializeMethod() &#123;</span><br><span class="line">    // Parcelable deserialize method.</span><br><span class="line">    (this.getName() = "createFromParcel" and this.getDeclaringType().getASourceSupertype*().hasName("Creator")) or</span><br><span class="line">    // Serializable readObject</span><br><span class="line">    (this.getName() = "readObject" and this.isPrivate() and</span><br><span class="line">     this.getDeclaringType().getASourceSupertype*().hasQualifiedName("java.io", "Serializable")</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">class ForName extends Method &#123;</span><br><span class="line">  ForName() &#123;</span><br><span class="line">    this.hasName("forName") and this.isStatic() and</span><br><span class="line">    this.getDeclaringType().getSourceDeclaration().hasQualifiedName("java.lang", "Class")</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">from MethodAccess ma</span><br><span class="line">// Access to Class.forName</span><br><span class="line">where ma.getMethod() instanceof ForName and</span><br><span class="line">// The class type is not a constant</span><br><span class="line">not ma.getArgument(0) instanceof CompileTimeConstantExpr and</span><br><span class="line">// Called by a deserialization method.</span><br><span class="line">exists(ParcelableDeserializeMethod m | m.polyCalls(ma.getEnclosingCallable()))</span><br><span class="line"><span class="keyword">select</span> ma, ma.getLocation()</span><br></pre></td></tr></table></figure>
+<p>搜索结果有三个，其中两个URL不便控制，最后一个是<code>ParcelableException</code>。</p>
+<h3 id="CVE-2017-0871-Not-so-arbitrary-Java-code-execution"><a href="#CVE-2017-0871-Not-so-arbitrary-Java-code-execution" class="headerlink" title="CVE-2017-0871: Not so arbitrary Java code execution"></a>CVE-2017-0871: Not so arbitrary Java code execution</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">--- a/core/java/android/os/ParcelableException.java</span><br><span class="line">+++ b/core/java/android/os/ParcelableException.java</span><br><span class="line">@@ -<span class="number">52</span>,<span class="number">10</span> +<span class="number">52</span>,<span class="number">12</span> @@</span><br><span class="line">         <span class="keyword">final</span> String msg = in.readString();</span><br><span class="line">         <span class="keyword">try</span> &#123;</span><br><span class="line">             <span class="keyword">final</span> Class&lt;?&gt; clazz = Class.forName(name, <span class="keyword">true</span>, Parcelable.class.getClassLoader());</span><br><span class="line">-            <span class="keyword">return</span> (Throwable) clazz.getConstructor(String.class).newInstance(msg);</span><br><span class="line">+            <span class="keyword">if</span> (Throwable.class.isAssignableFrom(clazz)) &#123;</span><br><span class="line">+                <span class="keyword">return</span> (Throwable) clazz.getConstructor(String.class).newInstance(msg);</span><br><span class="line">+            &#125;</span><br><span class="line">         &#125; <span class="keyword">catch</span> (ReflectiveOperationException e) &#123;</span><br><span class="line">-            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(name + <span class="string">": "</span> + msg);</span><br><span class="line">         &#125;</span><br><span class="line">+        <span class="keyword">return</span> <span class="keyword">new</span> RuntimeException(name + <span class="string">": "</span> + msg);</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Stack-buffer-overflow-in-Qualcomm-MSM-4-4"><a href="#Stack-buffer-overflow-in-Qualcomm-MSM-4-4" class="headerlink" title="Stack buffer overflow in Qualcomm MSM 4.4"></a>Stack buffer overflow in Qualcomm MSM 4.4</h2><p><code>copy_from_user</code>时缓冲区溢出。</p>
+<p>CodeQL直接找：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import cpp</span><br><span class="line">import semmle.code.cpp.dataflow.StackAddress</span><br><span class="line"></span><br><span class="line">from FunctionCall <span class="keyword">call</span>, Expr destArg, Expr sizeArg</span><br><span class="line"><span class="keyword">where</span> call.getTarget().getName() = <span class="string">"copy_from_user"</span></span><br><span class="line"><span class="keyword">and</span> destArg = call.getArgument(<span class="number">0</span>)</span><br><span class="line"><span class="keyword">and</span> sizeArg = call.getArgument(<span class="number">2</span>)</span><br><span class="line"><span class="keyword">and</span> stackPointerFlowsToUse(destArg, _, _, _)</span><br><span class="line"><span class="keyword">and</span> <span class="keyword">not</span> sizeArg.isConstant()</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">call</span></span><br></pre></td></tr></table></figure>
+<p>然后会找到类似这种：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> str[MAX_MSG_LEN];</span><br><span class="line">u32 size = <span class="keyword">sizeof</span>(str) &lt; count ? <span class="keyword">sizeof</span>(str) : count;</span><br><span class="line"><span class="built_in">memset</span>(str, <span class="number">0</span>, <span class="keyword">sizeof</span>(str));</span><br><span class="line">missing = copy_from_user(str, buf, size);</span><br></pre></td></tr></table></figure>
+<p>然后优化一下查询代码：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import cpp</span><br><span class="line">import semmle.code.cpp.dataflow.StackAddress</span><br><span class="line">import semmle.code.cpp.rangeanalysis.SimpleRangeAnalysis</span><br><span class="line"></span><br><span class="line">from FunctionCall <span class="keyword">call</span>, Expr destArg, Expr sizeArg</span><br><span class="line"><span class="keyword">where</span> call.getTarget().getName() = <span class="string">"copy_from_user"</span></span><br><span class="line"><span class="keyword">and</span> destArg = call.getArgument(<span class="number">0</span>)</span><br><span class="line"><span class="keyword">and</span> sizeArg = call.getArgument(<span class="number">2</span>)</span><br><span class="line"><span class="keyword">and</span> stackPointerFlowsToUse(destArg, _, _, _)</span><br><span class="line"><span class="keyword">and</span> <span class="keyword">not</span> sizeArg.isConstant()</span><br><span class="line"><span class="keyword">and</span> <span class="keyword">not</span> <span class="keyword">exists</span> (LocalScopeVariable v, <span class="built_in">int</span> destSize</span><br><span class="line">        | destArg = v.getAnAccess() <span class="keyword">and</span></span><br><span class="line">          destSize = v.getType().getSize() <span class="keyword">and</span></span><br><span class="line">          <span class="number">0</span> &lt;= lowerBound(sizeArg) <span class="keyword">and</span></span><br><span class="line">          upperBound(sizeArg) &lt;= destSize)</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">call</span></span><br></pre></td></tr></table></figure>
+<p>再然后找到这样一个点：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">msm_cpp_copy_from_ioctl_ptr</span><span class="params">(<span class="keyword">void</span> *dst_ptr,</span></span></span><br><span class="line"><span class="function"><span class="params">  struct <span class="keyword">msm_camera_v4l2_ioctl_t</span> *ioctl_ptr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  ret = copy_from_user(dst_ptr,</span><br><span class="line">    (<span class="keyword">void</span> __user *)ioctl_ptr-&gt;ioctl_ptr, ioctl_ptr-&gt;len);</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>回溯去看它的caller们有没有check，最后发现两个没有check的。</p>
+<h2 id="Castor-and-Hessian-java-deserialization-vulnerabilities"><a href="#Castor-and-Hessian-java-deserialization-vulnerabilities" class="headerlink" title="Castor and Hessian java deserialization vulnerabilities"></a>Castor and Hessian java deserialization vulnerabilities</h2><h3 id="Apache-Camel-vulnerabilities-CVE-2017-12633-and-CVE-2017-12634"><a href="#Apache-Camel-vulnerabilities-CVE-2017-12633-and-CVE-2017-12634" class="headerlink" title="Apache Camel vulnerabilities CVE-2017-12633 and CVE-2017-12634"></a>Apache Camel vulnerabilities CVE-2017-12633 and CVE-2017-12634</h3><h3 id="CodeQL一波搜索"><a href="#CodeQL一波搜索" class="headerlink" title="CodeQL一波搜索"></a>CodeQL一波搜索</h3><p><a href="https://securitylab.github.com/research/hessian-java-deserialization-castor-vulnerabilities" target="_blank" rel="noopener">https://securitylab.github.com/research/hessian-java-deserialization-castor-vulnerabilities</a></p>
+<h2 id="XXE-attack-example-using-jBoss-vulnerability-jBPM-CVE-2017-7545"><a href="#XXE-attack-example-using-jBoss-vulnerability-jBPM-CVE-2017-7545" class="headerlink" title="XXE attack example using jBoss vulnerability (jBPM) CVE-2017-7545"></a>XXE attack example using jBoss vulnerability (jBPM) CVE-2017-7545</h2><p><a href="https://securitylab.github.com/research/xxe-attack-jboss-vulnerability" target="_blank" rel="noopener">https://securitylab.github.com/research/xxe-attack-jboss-vulnerability</a></p>
+<h2 id="Restlet-XXE-vulnerability-CVE-2017-14949"><a href="#Restlet-XXE-vulnerability-CVE-2017-14949" class="headerlink" title="Restlet XXE vulnerability (CVE-2017-14949)"></a>Restlet XXE vulnerability (CVE-2017-14949)</h2><p><a href="https://securitylab.github.com/research/restlet_xxe_vulnerability_CVE-2017-14949" target="_blank" rel="noopener">https://securitylab.github.com/research/restlet_xxe_vulnerability_CVE-2017-14949</a></p>
+<h2 id="Swagger-YAML-Parser-Vulnerability-CVE-2017-1000207-and-CVE-2017-1000208"><a href="#Swagger-YAML-Parser-Vulnerability-CVE-2017-1000207-and-CVE-2017-1000208" class="headerlink" title="Swagger YAML Parser Vulnerability (CVE-2017-1000207 and CVE-2017-1000208)"></a>Swagger YAML Parser Vulnerability (CVE-2017-1000207 and CVE-2017-1000208)</h2><p><a href="https://securitylab.github.com/research/swagger-yaml-parser-vulnerability" target="_blank" rel="noopener">https://securitylab.github.com/research/swagger-yaml-parser-vulnerability</a></p>
+<h2 id="Restlet-XML-External-Entity-Expansion-Vulnerability-CVE-2017-14868"><a href="#Restlet-XML-External-Entity-Expansion-Vulnerability-CVE-2017-14868" class="headerlink" title="Restlet XML External Entity Expansion Vulnerability (CVE-2017-14868)"></a>Restlet XML External Entity Expansion Vulnerability (CVE-2017-14868)</h2><p><a href="https://securitylab.github.com/research/swagger-yaml-parser-vulnerability" target="_blank" rel="noopener">https://securitylab.github.com/research/swagger-yaml-parser-vulnerability</a></p>
+<h2 id="Spring-AMQP-Exploit-CVE-2017-8045-Remote-Code-Execution-Vulnerability"><a href="#Spring-AMQP-Exploit-CVE-2017-8045-Remote-Code-Execution-Vulnerability" class="headerlink" title="Spring AMQP Exploit (CVE-2017-8045): Remote Code Execution Vulnerability"></a>Spring AMQP Exploit (CVE-2017-8045): Remote Code Execution Vulnerability</h2><p><a href="https://securitylab.github.com/research/spring_amqp_exploit_CVE-2017-8045" target="_blank" rel="noopener">https://securitylab.github.com/research/spring_amqp_exploit_CVE-2017-8045</a></p>
+<h2 id="Apple’s-XNU-Kernel-CVE-2017-13782"><a href="#Apple’s-XNU-Kernel-CVE-2017-13782" class="headerlink" title="Apple’s XNU Kernel (CVE-2017-13782)"></a>Apple’s XNU Kernel (CVE-2017-13782)</h2><p>这个是寻找DTrace中的洞，内核中有一个DTrace解释器，用CodeQL查下它有没有直接或间接能被用户控制的指针寄存器啥的：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @name DTrace unsafe index</span></span><br><span class="line"><span class="comment"> * @description DTrace registers are user-controllable, so they must not be</span></span><br><span class="line"><span class="comment"> *              used to index an array without a bounds check.</span></span><br><span class="line"><span class="comment"> * @kind path-problem</span></span><br><span class="line"><span class="comment"> * @problem.severity warning</span></span><br><span class="line"><span class="comment"> * @id apple-xnu/cpp/dtrace-unsafe-index</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line">import cpp</span><br><span class="line">import semmle.code.cpp.dataflow.DataFlow</span><br><span class="line">import DataFlow::PathGraph</span><br><span class="line"></span><br><span class="line">class RegisterAccess extends ArrayExpr &#123;</span><br><span class="line">  RegisterAccess() &#123;</span><br><span class="line">    exists (LocalScopeVariable regs, Function emulate</span><br><span class="line">    | regs.getName() = "regs" and</span><br><span class="line">      emulate.getName() = "dtrace_dif_emulate" and</span><br><span class="line">      regs.getFunction() = emulate and</span><br><span class="line">      this.getArrayBase() = regs.getAnAccess())</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class PointerUse extends Expr &#123;</span><br><span class="line">  PointerUse() &#123;</span><br><span class="line">    exists (ArrayExpr ae | this = ae.getArrayOffset()) or</span><br><span class="line">    exists (PointerDereferenceExpr deref | this = deref.getOperand()) or</span><br><span class="line">    exists (PointerAddExpr add | this = add.getAnOperand())</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class DTraceUnsafeIndexConfig extends DataFlow::Configuration &#123;</span><br><span class="line">  DTraceUnsafeIndexConfig() &#123;</span><br><span class="line">    this = "DTraceUnsafeIndexConfig"</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  override predicate isSource(DataFlow::Node node) &#123;</span><br><span class="line">    node.asExpr() instanceof RegisterAccess</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  override predicate isSink(DataFlow::Node node) &#123;</span><br><span class="line">    node.asExpr() instanceof PointerUse</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">from DTraceUnsafeIndexConfig config, DataFlow::PathNode source, DataFlow::PathNode sink</span><br><span class="line">where config.hasFlowPath(source, sink)</span><br><span class="line"><span class="keyword">select</span> sink, <span class="keyword">source</span>, sink, <span class="string">"DTrace unsafe index"</span></span><br></pre></td></tr></table></figure>
+<p>结果中15个都是误报，有一个是正确的<code>dtrace_dif_emulate → dtrace_dif_variable → dtrace_getarg</code>；执行<code>dtrace_getarg</code>的时候参数攻击者完成可控，可以任意指针解引用。</p>
+<!-- flag of hidden posts -->
+                
+
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large pink">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect pink" title="Return to top"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse pink darken-1"  data-activates="main-menu" title="Menu"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer pink accent-1 darken-1">
+    
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">Social</h5>
+                
+                    <a class="social-link" href="https://github.com/cracke-s-j" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                
+
+            </div>
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">Links</h5>
+                
+                    <a class="social-link" href="https://blog.dyf.ink/" target="_blank">友情链接 dyf&#39;s blog</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright pink-link-context">
+        <div class="container">
+            © 2020 ssj, All rights reserved.
+            <p class="right" style="margin-top: 0;">Blog powered by <a href="https://hexo.io">Hexo</a> | Theme <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+        </div>
+    </div>
+</footer>
+
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+    </div>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
+<script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
+
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
+
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
+            });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('pink lighten-2');
+
+            
+            // 添加new标签
+            $('').append('<span class="new badge pink"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
+        });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async
+  src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"superSample":2,"width":250,"height":500,"position":"left","hOffset":0,"vOffset":-100},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

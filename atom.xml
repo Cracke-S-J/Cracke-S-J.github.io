@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://github.com/Cracke-S-J/"/>
-  <updated>2020-06-10T13:44:26.516Z</updated>
+  <updated>2020-06-21T14:07:28.519Z</updated>
   <id>https://github.com/Cracke-S-J/</id>
   
   <author>
@@ -15,6 +15,21 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>qemu系列漏洞分析</title>
+    <link href="https://github.com/Cracke-S-J/2020/06/21/qemu%E7%B3%BB%E5%88%97%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
+    <id>https://github.com/Cracke-S-J/2020/06/21/qemu%E7%B3%BB%E5%88%97%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</id>
+    <published>2020-06-21T14:07:28.000Z</published>
+    <updated>2020-06-21T14:07:28.519Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>通过hello-world.cc学习v8源码</title>
@@ -565,30 +580,6 @@
     
     
       <category term="Android" scheme="https://github.com/Cracke-S-J/tags/Android/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>浅谈 Shadowsocks 协议漏洞</title>
-    <link href="https://github.com/Cracke-S-J/2020/03/25/%E6%B5%85%E8%B0%88ss%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/"/>
-    <id>https://github.com/Cracke-S-J/2020/03/25/%E6%B5%85%E8%B0%88ss%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/</id>
-    <published>2020-03-25T05:29:08.000Z</published>
-    <updated>2020-03-25T06:18:09.093Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h2><h3 id="CFB-加密模式"><a href="#CFB-加密模式" class="headerlink" title="CFB 加密模式"></a>CFB 加密模式</h3><p>在此复习一下我们小学二年级学过的密码学知识。（在此安利一下 B 站 <a href="https://space.bilibili.com/456606920" target="_blank" rel="noopener">小学生Vita君</a>，没有恰饭，很可爱的小孩）</p><p>比如 AES-256-CFB，它是一种流式加密而不是分组加密，不会直接将明文进行 AES 操作，而是 xor(明文, AES(密文))。</p><p>由此可以得出以下三个结论：</p><ol><li>CFB 的加密和解密函数是一样的，因为最后一步是 xor，连续加密两遍就是本身。</li><li>密文的某个 byte 被篡改后，解密出来的该 byte 是错的，第 N+1 个block也是错的，其他数据都是正确的。</li><li>在给定的 key 和 iv 下，cfb 的每个 block 退化为普通的 xor，已知某段明文和和对应的密文时，可以算出使用的 xor_key，从而可以对该段明文密文进行伪造。这个很重要，因为这样就可以 qiang 你了（滑稽</li></ol><h3 id="ss-整体工作流程"><a href="#ss-整体工作流程" class="headerlink" title="ss 整体工作流程"></a>ss 整体工作流程</h3><p>浏览器用 socks5 代理，将数据包发给 sslocal，sslocal 加密，发给 ssserver，ssserver 解密数据，访问指定资源，返回加密的数据，sslocal 再解密，将数据返回给浏览器。</p><p>加密和解密主要是下面那样：</p><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 加密</span></span><br><span class="line">data = sock5Header + httpRequest</span><br><span class="line">rand_iv + AES-cfb(key, rand_iv, data)</span><br><span class="line"><span class="comment"># 解密</span></span><br><span class="line">httpResponse = AES-cfb(key, rand_iv2, recv_data)</span><br></pre></td></tr></table></figure><p>看起来攻击者知道 rand_iv1 和 rand_iv2，但是不知道 key，不能整体解密。</p><h2 id="Case1-解密-http-返回包"><a href="#Case1-解密-http-返回包" class="headerlink" title="Case1 解密 http 返回包"></a>Case1 解密 http 返回包</h2><p>从 ssserver 来的返回包，加密包的第一个 block 是可以猜到的，是 HTTP/1.1，所以 key[:8] 可以算出来了，然后我们就拥有了伪造前 8 个字节的能力。可能给它发送到指定端口来监听。</p><h2 id="Case2-解密指定-domain-的-httpRequest包"><a href="#Case2-解密指定-domain-的-httpRequest包" class="headerlink" title="Case2 解密指定 domain 的 httpRequest包"></a>Case2 解密指定 domain 的 httpRequest包</h2><p>由于 requests 包的前几个字节是<code>0x1 ip port</code>，猜起来比较困难，所以我们只能在它 domain 表式的情况下<code>0x03 + domain_len + domain + port</code>，猜个这个，然后也可以改掉。</p><h2 id="Case3-确认-https-流量是否属于某个域名"><a href="#Case3-确认-https-流量是否属于某个域名" class="headerlink" title="Case3 确认 https 流量是否属于某个域名"></a>Case3 确认 https 流量是否属于某个域名</h2><p>在 https 的情况下，我们什么都看不到了，只知道它是个包，但是无所谓，用 Case2 的方法猜到域名就 ok，然后直接封掉你（误。</p><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/LeadroyaL/ss-redirect-vuln-exp">https://github.com/LeadroyaL/ss-redirect-vuln-exp</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;背景知识&quot;&gt;&lt;a href=&quot;#背景知识&quot; class=&quot;headerlink&quot; title=&quot;背景知识&quot;&gt;&lt;/a&gt;背景知识&lt;/h2&gt;&lt;h3 id=&quot;CFB-加密模式&quot;&gt;&lt;a href=&quot;#CFB-加密模式&quot; class=&quot;headerlink&quot; title=&quot;C
-      
-    
-    </summary>
-    
-    
-      <category term="CVE" scheme="https://github.com/Cracke-S-J/categories/CVE/"/>
-    
     
   </entry>
   
