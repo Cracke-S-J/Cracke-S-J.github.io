@@ -298,6 +298,14 @@ add_key/sen">
         
 
             <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/杂/京剧/">
+                    京剧 <span class="right">3</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
                 <a class="no-padding" href="/categories/杂/听戏/">
                     听戏 <span class="right">1</span></a>
                 </a>
@@ -308,14 +316,6 @@ add_key/sen">
             <li class="collapse-level-1" collapse-level="1">
                 <a class="no-padding" href="/categories/杂/定场诗/">
                     定场诗 <span class="right">1</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/杂/京剧/">
-                    京剧 <span class="right">3</span></a>
                 </a>
             </li>
 
@@ -571,7 +571,7 @@ add_key/sen">
 <h4 id="再看一个栗子"><a href="#再看一个栗子" class="headerlink" title="再看一个栗子"></a>再看一个栗子</h4><p>A进程想要发送hild_string给B进程，该结构包含一个属于进程A的指针；为了使该结构在接收方进程内存中有效，Binder驱动程序需要通过一个属于该内存空间的指针来对其进行更改；parent和parent_off来完成BINDER_TYPE_PTR的。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// structure of BINDER_TYPE_PTR</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">binder_object_header</span> &#123;</span></span><br><span class="line">    __u32        type;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">binder_buffer_object</span> &#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">binder_object_header</span> <span class="title">hdr</span>;</span></span><br><span class="line">    __u32 flags;</span><br><span class="line">    <span class="keyword">binder_uintptr_t</span> buffer;</span><br><span class="line">    <span class="keyword">binder_size_t</span> length;</span><br><span class="line">    <span class="keyword">binder_size_t</span> parent; <span class="comment">// Index to parent object (in offsets buffer)</span></span><br><span class="line">    <span class="keyword">binder_size_t</span> parent_offset; <span class="comment">// Offset to patch in the parent buffer</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>这张图有助理解一下：</p>
-<p><img src="/.com//带有hidl_string的Binder-parent示例.png" alt="带有hidl_string的Binder parent示例"></p>
+<p><img src="带有hidl_string的Binder-parent示例.png" alt="带有hidl_string的Binder parent示例"></p>
 <h4 id="PARENTS-FIXUP规则"><a href="#PARENTS-FIXUP规则" class="headerlink" title="PARENTS FIXUP规则"></a>PARENTS FIXUP规则</h4><p>在调用此检查之前，绑定程序内核已经检查了指向缓冲区及其大小的指针是否有效（指向调用者内存的指针），然后内核应用有如下检测规则：</p>
 <ul>
 <li>父索引必须小于或等于num_valid，之前的所有对象num_valid已由内核验证。</li>
