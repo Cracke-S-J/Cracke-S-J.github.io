@@ -208,7 +208,7 @@
 
             <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/二进制/">
-                    二进制 <span class="right">8</span></a>
+                    二进制 <span class="right">10</span></a>
                 </a>
             </li>
 
@@ -216,7 +216,7 @@
 
             <li class="collapse-level-1" collapse-level="1">
                 <a class="no-padding" href="/categories/二进制/v8/">
-                    v8 <span class="right">4</span></a>
+                    v8 <span class="right">5</span></a>
                 </a>
             </li>
 
@@ -225,6 +225,14 @@
             <li class="collapse-level-1" collapse-level="1">
                 <a class="no-padding" href="/categories/二进制/Base/">
                     Base <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/Kernel/">
+                    Kernel <span class="right">1</span></a>
                 </a>
             </li>
 
@@ -287,14 +295,6 @@
         
 
             <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/杂/京剧/">
-                    京剧 <span class="right">3</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-1" collapse-level="1">
                 <a class="no-padding" href="/categories/杂/听戏/">
                     听戏 <span class="right">1</span></a>
                 </a>
@@ -305,6 +305,14 @@
             <li class="collapse-level-1" collapse-level="1">
                 <a class="no-padding" href="/categories/杂/定场诗/">
                     定场诗 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/杂/京剧/">
+                    京剧 <span class="right">3</span></a>
                 </a>
             </li>
 
@@ -506,7 +514,7 @@
 <h3 id="CVE-2020-9273"><a href="#CVE-2020-9273" class="headerlink" title="CVE-2020-9273"></a>CVE-2020-9273</h3><p><code>new_block</code>并发不安全，容易堆块重叠。</p>
 <h3 id="CVE-2020-9365"><a href="#CVE-2020-9365" class="headerlink" title="CVE-2020-9365"></a>CVE-2020-9365</h3><p>是oob，计算字符串长度出问题，没有考虑字符串长度不等的情况。</p>
 <h3 id="CVE-2020-9274"><a href="#CVE-2020-9274" class="headerlink" title="CVE-2020-9274"></a>CVE-2020-9274</h3><p>未初始化的指针，没有设为NULL，导致链表遍历时信息泄露。</p>
-<h2 id="嘿，妈，我正在加密"><a href="#嘿，妈，我正在加密" class="headerlink" title="嘿，妈，我正在加密"></a>嘿，妈，我正在加密</h2><p>关于密码学的讨论。我就想知道<a href="https://blog.semmle.com/introduction-to-variant-analysis-part-2/" target="_blank" rel="noopener">LGTM</a>是什么。</p>
+<h2 id="嘿，妈，我正在加密"><a href="#嘿，妈，我正在加密" class="headerlink" title="嘿，妈，我正在加密"></a>嘿，妈，我正在加密</h2><p>关于密码学的讨论。我就想知道<a href="https://blog.semmle.com/introduction-to-variant-analysis-part-2/" target="_blank" rel="noopener">LGTM</a>是什么。（原来是CodeQL配套的平台）</p>
 <p>总体在讲，用CodeQL挖openssl中一些密码学的洞。</p>
 <h2 id="好像一个篇软文"><a href="#好像一个篇软文" class="headerlink" title="好像一个篇软文"></a>好像一个篇软文</h2><p>介绍了一个<code>CVE-2020-8597</code> – a remote vulnerability in pppd (point-to-point protocol daemon).</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Not so likely to happen. */</span></span><br><span class="line"><span class="keyword">if</span> (vallen &gt;= len + <span class="keyword">sizeof</span> (rhostname)) &#123;</span><br><span class="line">  ppp_dbglog((<span class="string">"EAP: trimming really long peer name down"</span>));</span><br><span class="line">  MEMCPY(rhostname, inp + vallen, <span class="keyword">sizeof</span> (rhostname) - <span class="number">1</span>);</span><br><span class="line">  rhostname[<span class="keyword">sizeof</span> (rhostname) - <span class="number">1</span>] = <span class="string">'\0'</span>;</span><br></pre></td></tr></table></figure>
@@ -755,8 +763,8 @@
 
 
 <p class="pink-link-context">
-    <a href="/2020/06/07/学习v8源码/" rel="next" title="通过hello-world.cc学习v8源码">
-    Next: 通过hello-world.cc学习v8源码
+    <a href="/2020/06/15/Kernel相关漏洞文章阅读/" rel="next" title="Kernel相关漏洞文章阅读">
+    Next: Kernel相关漏洞文章阅读
   </a>
 </p>
 

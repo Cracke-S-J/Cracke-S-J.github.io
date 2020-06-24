@@ -7,17 +7,17 @@
 
     
 
-    <title>Kernel相关漏洞文章阅读 | </title><meta name="robots" content="noindex">
+    <title>Kernel相关漏洞文章阅读 | </title>
     <meta name="author" content="ssj">
     
-    <meta name="description" content="想开始搞搞Kernel，先读一些文章找找感觉。
-堆喷套路size是否可控制？content是否可控？
+    <meta name="description" content="堆喷套路size是否可控制？content是否可控？
 可能存在阻塞的系统调用里面找找？文件系统、驱动这些去找找？
 
 32位机器上，用ipv6喷射很稳定
 64位部分机型ip_mc_socklist比0x30要大
 可以setxattr喷射，稳定性不好
-se">
+sendmmsg有最小值限制
+add_key/sen">
     
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -211,7 +211,7 @@ se">
 
             <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/二进制/">
-                    二进制 <span class="right">8</span></a>
+                    二进制 <span class="right">10</span></a>
                 </a>
             </li>
 
@@ -219,7 +219,7 @@ se">
 
             <li class="collapse-level-1" collapse-level="1">
                 <a class="no-padding" href="/categories/二进制/v8/">
-                    v8 <span class="right">4</span></a>
+                    v8 <span class="right">5</span></a>
                 </a>
             </li>
 
@@ -228,6 +228,14 @@ se">
             <li class="collapse-level-1" collapse-level="1">
                 <a class="no-padding" href="/categories/二进制/Base/">
                     Base <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/Kernel/">
+                    Kernel <span class="right">1</span></a>
                 </a>
             </li>
 
@@ -290,14 +298,6 @@ se">
         
 
             <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/杂/京剧/">
-                    京剧 <span class="right">3</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-1" collapse-level="1">
                 <a class="no-padding" href="/categories/杂/听戏/">
                     听戏 <span class="right">1</span></a>
                 </a>
@@ -308,6 +308,14 @@ se">
             <li class="collapse-level-1" collapse-level="1">
                 <a class="no-padding" href="/categories/杂/定场诗/">
                     定场诗 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/杂/京剧/">
+                    京剧 <span class="right">3</span></a>
                 </a>
             </li>
 
@@ -428,8 +436,7 @@ se">
 
 
             <div class="entry pink-link-context">
-                <p>想开始搞搞Kernel，先读一些文章找找感觉。</p>
-<h2 id="堆喷套路"><a href="#堆喷套路" class="headerlink" title="堆喷套路"></a>堆喷套路</h2><p>size是否可控制？content是否可控？</p>
+                <h2 id="堆喷套路"><a href="#堆喷套路" class="headerlink" title="堆喷套路"></a>堆喷套路</h2><p>size是否可控制？content是否可控？</p>
 <p>可能存在阻塞的系统调用里面找找？文件系统、驱动这些去找找？</p>
 <ul>
 <li>32位机器上，用ipv6喷射很稳定</li>
@@ -487,7 +494,7 @@ se">
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sum &lt;= SIZE_MAX</span><br><span class="line">subsampleSizes == totalSize</span><br><span class="line">totalSize &lt;= source.mSharedMemory-&gt;size()</span><br><span class="line">Offset &lt;= source.mSharedMemory-&gt;size() - totalSize</span><br><span class="line"></span><br><span class="line"><span class="comment">// 源缓冲区不溢出</span></span><br><span class="line">source.offset + offset + source.size &gt; sourceBase-&gt;getSize();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 目标缓冲区在堆内</span></span><br><span class="line">destBuffer.offset + destBuffer.size &gt; destBase-&gt;getSize()</span><br></pre></td></tr></table></figure>
 <h3 id="漏洞修复"><a href="#漏洞修复" class="headerlink" title="漏洞修复"></a>漏洞修复</h3><p>看下<a href="https://android.googlesource.com/platform/frameworks/av/+/871412cfa05770cfd8be0a130b68386775445057%5E%21/#F0" target="_blank" rel="noopener">补丁</a>。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+                sp&lt;IMemory&gt; dest = destination.mSharedMemory;</span><br><span class="line">+                <span class="keyword">if</span> (totalSize &gt; dest-&gt;size() ||</span><br><span class="line">+                        (<span class="keyword">size_t</span>)dest-&gt;offset() &gt; dest-&gt;size() - totalSize) &#123;</span><br><span class="line">+                    reply-&gt;writeInt32(BAD_VALUE);</span><br><span class="line">+                    android_errorWriteLog(<span class="number">0x534e4554</span>, <span class="string">"71389378"</span>);</span><br><span class="line">+                    <span class="keyword">return</span> OK;</span><br><span class="line">+                &#125;</span><br></pre></td></tr></table></figure>
-<p>从pathc也可以看出漏洞成因了。</p>
+<p>从patch也可以看出漏洞成因了。</p>
 <h3 id="利用思路-1"><a href="#利用思路-1" class="headerlink" title="利用思路"></a>利用思路</h3><p>据说是不能利用，poc运行结果如下：</p>
 <ul>
 <li>如果在2018年3月之后的Android版本 decrypt 会返回bad_value（-22）。</li>
@@ -552,8 +559,7 @@ se">
 <p>好像也没写什么，就是Android Kernel搭环境+最基本的ROP，欺负我看不懂嘤文。</p>
 <h2 id="CVE-2020-1206-CVE-2020-0796"><a href="#CVE-2020-1206-CVE-2020-0796" class="headerlink" title="CVE-2020-1206/CVE-2020-0796"></a>CVE-2020-1206/CVE-2020-0796</h2><p>SMBleed是内核内存泄露，因为压缩包校验长度时，写长一点没有校验出来，造成未初始化内存读取。</p>
 <p>SMBGhost长度整数溢出导致堆溢出，RCE。</p>
-<h2 id="CVE-2020-0041"><a href="#CVE-2020-0041" class="headerlink" title="CVE-2020-0041"></a>CVE-2020-0041</h2><p>初读的时候失败了，没看懂。</p>
-<h3 id="漏洞点"><a href="#漏洞点" class="headerlink" title="漏洞点"></a>漏洞点</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">diff --git a/drivers/android/binder.c b/drivers/android/binder.c</span><br><span class="line">index e9bc9fc..b2dad43 <span class="number">100644</span></span><br><span class="line">--- a/drivers/android/binder.c</span><br><span class="line">+++ b/drivers/android/binder.c</span><br><span class="line">@@ <span class="number">-3310</span>,<span class="number">7</span> +<span class="number">3310</span>,<span class="number">7</span> @@</span><br><span class="line">            <span class="keyword">binder_size_t</span> parent_offset;</span><br><span class="line">            <span class="class"><span class="keyword">struct</span> <span class="title">binder_fd_array_object</span> *<span class="title">fda</span> =</span></span><br><span class="line"><span class="class">                <span class="title">to_binder_fd_array_object</span>(<span class="title">hdr</span>);</span></span><br><span class="line">-           <span class="keyword">size_t</span> num_valid = (buffer_offset - off_start_offset) *</span><br><span class="line">+           <span class="keyword">size_t</span> num_valid = (buffer_offset - off_start_offset) /</span><br><span class="line">                        <span class="keyword">sizeof</span>(<span class="keyword">binder_size_t</span>);</span><br><span class="line">            <span class="class"><span class="keyword">struct</span> <span class="title">binder_buffer_object</span> *<span class="title">parent</span> =</span></span><br><span class="line"><span class="class">                <span class="title">binder_validate_ptr</span>(<span class="title">target_proc</span>, <span class="title">t</span>-&gt;<span class="title">buffer</span>,</span></span><br><span class="line"><span class="class">@@ -3384,7 +3384,7 @@</span></span><br><span class="line"><span class="class">                <span class="title">t</span>-&gt;<span class="title">buffer</span>-&gt;<span class="title">user_data</span> + <span class="title">sg_buf_offset</span>;</span></span><br><span class="line">            sg_buf_offset += ALIGN(bp-&gt;length, <span class="keyword">sizeof</span>(u64));</span><br><span class="line"></span><br><span class="line">-           num_valid = (buffer_offset - off_start_offset) *</span><br><span class="line">+           num_valid = (buffer_offset - off_start_offset) /</span><br><span class="line">                    <span class="keyword">sizeof</span>(<span class="keyword">binder_size_t</span>);</span><br><span class="line">            ret = binder_fixup_parent(t, thread, bp,</span><br><span class="line">                          off_start_offset,</span><br></pre></td></tr></table></figure>
+<h2 id="CVE-2020-0041"><a href="#CVE-2020-0041" class="headerlink" title="CVE-2020-0041"></a>CVE-2020-0041</h2><h3 id="漏洞点"><a href="#漏洞点" class="headerlink" title="漏洞点"></a>漏洞点</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">diff --git a/drivers/android/binder.c b/drivers/android/binder.c</span><br><span class="line">index e9bc9fc..b2dad43 <span class="number">100644</span></span><br><span class="line">--- a/drivers/android/binder.c</span><br><span class="line">+++ b/drivers/android/binder.c</span><br><span class="line">@@ <span class="number">-3310</span>,<span class="number">7</span> +<span class="number">3310</span>,<span class="number">7</span> @@</span><br><span class="line">            <span class="keyword">binder_size_t</span> parent_offset;</span><br><span class="line">            <span class="class"><span class="keyword">struct</span> <span class="title">binder_fd_array_object</span> *<span class="title">fda</span> =</span></span><br><span class="line"><span class="class">                <span class="title">to_binder_fd_array_object</span>(<span class="title">hdr</span>);</span></span><br><span class="line">-           <span class="keyword">size_t</span> num_valid = (buffer_offset - off_start_offset) *</span><br><span class="line">+           <span class="keyword">size_t</span> num_valid = (buffer_offset - off_start_offset) /</span><br><span class="line">                        <span class="keyword">sizeof</span>(<span class="keyword">binder_size_t</span>);</span><br><span class="line">            <span class="class"><span class="keyword">struct</span> <span class="title">binder_buffer_object</span> *<span class="title">parent</span> =</span></span><br><span class="line"><span class="class">                <span class="title">binder_validate_ptr</span>(<span class="title">target_proc</span>, <span class="title">t</span>-&gt;<span class="title">buffer</span>,</span></span><br><span class="line"><span class="class">@@ -3384,7 +3384,7 @@</span></span><br><span class="line"><span class="class">                <span class="title">t</span>-&gt;<span class="title">buffer</span>-&gt;<span class="title">user_data</span> + <span class="title">sg_buf_offset</span>;</span></span><br><span class="line">            sg_buf_offset += ALIGN(bp-&gt;length, <span class="keyword">sizeof</span>(u64));</span><br><span class="line"></span><br><span class="line">-           num_valid = (buffer_offset - off_start_offset) *</span><br><span class="line">+           num_valid = (buffer_offset - off_start_offset) /</span><br><span class="line">                    <span class="keyword">sizeof</span>(<span class="keyword">binder_size_t</span>);</span><br><span class="line">            ret = binder_fixup_parent(t, thread, bp,</span><br><span class="line">                          off_start_offset,</span><br></pre></td></tr></table></figure>
 <p>从看patch来看，是重构代码引进的，本来应该是/的地方写成了*，导致index越界，这个index是num_valid，用来做check的；它算错了的话自然相关check也可以绕过。</p>
 <h3 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h3><h4 id="先看下两段代码"><a href="#先看下两段代码" class="headerlink" title="先看下两段代码"></a>先看下两段代码</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> BINDER_TYPE_FDA: &#123;</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">binder_object</span> <span class="title">ptr_object</span>;</span></span><br><span class="line">  <span class="keyword">binder_size_t</span> parent_offset;</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">binder_fd_array_object</span> *<span class="title">fda</span> =</span></span><br><span class="line"><span class="class">    <span class="title">to_binder_fd_array_object</span>(<span class="title">hdr</span>);</span></span><br><span class="line">  <span class="keyword">size_t</span> num_valid = (buffer_offset - off_start_offset) *</span><br><span class="line">        <span class="keyword">sizeof</span>(<span class="keyword">binder_size_t</span>);</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">binder_buffer_object</span> *<span class="title">parent</span> =</span></span><br><span class="line"><span class="class">    <span class="title">binder_validate_ptr</span>(<span class="title">target_proc</span>, <span class="title">t</span>-&gt;<span class="title">buffer</span>,</span></span><br><span class="line"><span class="class">            &amp;<span class="title">ptr_object</span>, <span class="title">fda</span>-&gt;<span class="title">parent</span>,</span></span><br><span class="line"><span class="class">            <span class="title">off_start_offset</span>,</span></span><br><span class="line"><span class="class">            &amp;<span class="title">parent_offset</span>,</span></span><br><span class="line"><span class="class">            <span class="title">num_valid</span>);</span></span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">break</span>;</span><br><span class="line"><span class="keyword">case</span> BINDER_TYPE_PTR: &#123;</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">binder_buffer_object</span> *<span class="title">bp</span> =</span></span><br><span class="line"><span class="class">    <span class="title">to_binder_buffer_object</span>(<span class="title">hdr</span>);</span></span><br><span class="line">  <span class="keyword">size_t</span> buf_left = sg_buf_end_offset - sg_buf_offset;</span><br><span class="line">  <span class="keyword">size_t</span> num_valid;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* ... */</span></span><br><span class="line">  <span class="keyword">if</span> (binder_alloc_copy_user_to_buffer(</span><br><span class="line">        &amp;target_proc-&gt;alloc,</span><br><span class="line">        t-&gt;buffer,</span><br><span class="line">        sg_buf_offset,</span><br><span class="line">        (<span class="keyword">const</span> <span class="keyword">void</span> __user *)</span><br><span class="line">          (<span class="keyword">uintptr_t</span>)bp-&gt;buffer,</span><br><span class="line">        bp-&gt;length)) &#123;</span><br><span class="line">    binder_user_error(<span class="string">"%d:%d got transaction with invalid offsets ptrn"</span>,</span><br><span class="line">          proc-&gt;pid, thread-&gt;pid);</span><br><span class="line">    return_error_param = -EFAULT;</span><br><span class="line">    return_error = BR_FAILED_REPLY;</span><br><span class="line">    return_error_line = __LINE__;</span><br><span class="line">    <span class="keyword">goto</span> err_copy_data_failed;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Fixup buffer pointer to target proc address space */</span></span><br><span class="line">  bp-&gt;buffer = (<span class="keyword">uintptr_t</span>)</span><br><span class="line">    t-&gt;buffer-&gt;user_data + sg_buf_offset;</span><br><span class="line">  sg_buf_offset += ALIGN(bp-&gt;length, <span class="keyword">sizeof</span>(u64));</span><br><span class="line"></span><br><span class="line">  num_valid = (buffer_offset - off_start_offset) *</span><br><span class="line">      <span class="keyword">sizeof</span>(<span class="keyword">binder_size_t</span>);</span><br><span class="line"></span><br><span class="line">  ret = binder_fixup_parent(t, thread, bp,</span><br><span class="line">          off_start_offset,</span><br><span class="line">          num_valid,</span><br><span class="line">          last_fixup_obj_off,</span><br><span class="line">          last_fixup_min_off);</span><br></pre></td></tr></table></figure>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//drivers/android/binder.c</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">binder_fixup_parent</span><span class="params">(struct binder_transaction *t,</span></span></span><br><span class="line"><span class="function"><span class="params">                  struct binder_thread *thread,</span></span></span><br><span class="line"><span class="function"><span class="params">                  struct binder_buffer_object *bp,</span></span></span><br><span class="line"><span class="function"><span class="params">                  <span class="keyword">binder_size_t</span> off_start_offset,</span></span></span><br><span class="line"><span class="function"><span class="params">                  <span class="keyword">binder_size_t</span> num_valid,</span></span></span><br><span class="line"><span class="function"><span class="params">                  <span class="keyword">binder_size_t</span> last_fixup_obj_off,</span></span></span><br><span class="line"><span class="function"><span class="params">                  <span class="keyword">binder_size_t</span> last_fixup_min_off)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// [...]</span></span><br><span class="line">    <span class="keyword">if</span> (!(bp-&gt;flags &amp; BINDER_BUFFER_FLAG_HAS_PARENT))</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    parent = binder_validate_ptr(target_proc, b, &amp;object, bp-&gt;parent,</span><br><span class="line">                    off_start_offset, &amp;parent_offset,</span><br><span class="line">                    num_valid);</span><br><span class="line"><span class="comment">//drivers/android/binder.c</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> struct binder_buffer_object *<span class="title">binder_validate_ptr</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">                        struct binder_proc *proc,</span></span></span><br><span class="line"><span class="function"><span class="params">                        struct binder_buffer *b,</span></span></span><br><span class="line"><span class="function"><span class="params">                        struct binder_object *object,</span></span></span><br><span class="line"><span class="function"><span class="params">                        <span class="keyword">binder_size_t</span> index,</span></span></span><br><span class="line"><span class="function"><span class="params">                        <span class="keyword">binder_size_t</span> start_offset,</span></span></span><br><span class="line"><span class="function"><span class="params">                        <span class="keyword">binder_size_t</span> *object_offsetp,</span></span></span><br><span class="line"><span class="function"><span class="params">                        <span class="keyword">binder_size_t</span> num_valid)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// [...]</span></span><br><span class="line">    <span class="keyword">if</span> (index &gt;= num_valid)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">    buffer_offset = start_offset + <span class="keyword">sizeof</span>(<span class="keyword">binder_size_t</span>) * index;</span><br><span class="line">    binder_alloc_copy_from_buffer(&amp;proc-&gt;alloc, &amp;object_offset,</span><br><span class="line">                      b, buffer_offset, <span class="keyword">sizeof</span>(object_offset));</span><br><span class="line">    object_size = binder_get_object(proc, b, object_offset, object);</span><br><span class="line">    <span class="keyword">if</span> (!object_size || object-&gt;hdr.type != BINDER_TYPE_PTR)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    <span class="comment">// [...]</span></span><br></pre></td></tr></table></figure>
@@ -620,9 +626,21 @@ se">
 </ul>
 <h3 id="exploit"><a href="#exploit" class="headerlink" title="exploit"></a>exploit</h3><p><a href="https://github.com/bluefrostsecurity/CVE-2020-0041">https://github.com/bluefrostsecurity/CVE-2020-0041</a></p>
 <h2 id="Windows内核初探"><a href="#Windows内核初探" class="headerlink" title="Windows内核初探"></a>Windows内核初探</h2><p>不探了，看了两篇水文，大致了解了一下。</p>
-<!-- flag of hidden posts -->
-                
 
+                
+<p class="pink-link-context">
+    <a href="/2020/06/17/一些CVE文章阅读整理/" rel="next" title="一些CVE和其它安全相关文章阅读整理（一）">
+    Prev: 一些CVE和其它安全相关文章阅读整理（一）
+  </a>
+</p>
+
+
+
+<p class="pink-link-context">
+    <a href="/2020/06/13/记录我分析过的v8漏洞相关思路/" rel="next" title="记录我分析过的v8漏洞相关思路">
+    Next: 记录我分析过的v8漏洞相关思路
+  </a>
+</p>
 
 
             </div>
