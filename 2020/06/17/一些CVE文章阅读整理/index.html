@@ -7,7 +7,7 @@
 
     
 
-    <title>一些CVE和其它安全相关文章阅读整理（一） | </title><meta name="robots" content="noindex">
+    <title>一些CVE和其它安全相关文章阅读整理（一） | </title>
     <meta name="author" content="ssj">
     
     <meta name="description" content="IE沙箱逃逸：CVE-2019-0880漏洞成因当程序访问系统安装打印机时会运行这个程序splwow64.exe，这个进程是IE提升策略白名单进程之一。
@@ -248,7 +248,7 @@
 
             <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/CVE/">
-                    CVE <span class="right">8</span></a>
+                    CVE <span class="right">10</span></a>
                 </a>
             </li>
 
@@ -744,9 +744,21 @@
 <h2 id="CVE-2018-18820-Snprintf-Vulnerability-in-Icecast"><a href="#CVE-2018-18820-Snprintf-Vulnerability-in-Icecast" class="headerlink" title="CVE-2018-18820: Snprintf Vulnerability in Icecast"></a>CVE-2018-18820: Snprintf Vulnerability in Icecast</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">post_offset += <span class="built_in">snprintf</span>(post + post_offset,</span><br><span class="line">                        <span class="keyword">sizeof</span>(post) - post_offset,</span><br><span class="line">                        <span class="string">"&amp;%s%s=%s"</span>,</span><br><span class="line">                        url-&gt;prefix_headers ? url-&gt;prefix_headers : <span class="string">""</span>,</span><br><span class="line">                        cur_header, header_valesc);</span><br></pre></td></tr></table></figure>
 <p>使<code>sizeof(post) - post_offset</code>下溢，变的很大，这样snprintf就保护不了缓冲区了。</p>
 <p>修复方法：检查返回值是否超出缓冲区。</p>
-<!-- flag of hidden posts -->
-                
 
+                
+<p class="pink-link-context">
+    <a href="/2020/06/21/一些CVE文章阅读整理（二）/" rel="next" title="一些CVE和其它安全相关文章阅读整理（二）">
+    Prev: 一些CVE和其它安全相关文章阅读整理（二）
+  </a>
+</p>
+
+
+
+<p class="pink-link-context">
+    <a href="/2020/06/07/学习v8源码/" rel="next" title="通过hello-world.cc学习v8源码">
+    Next: 通过hello-world.cc学习v8源码
+  </a>
+</p>
 
 
             </div>
