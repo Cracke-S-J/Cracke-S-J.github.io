@@ -7,16 +7,16 @@
 
     
 
-    <title>珠帘寨 | </title>
+    <title>做安服时了解到的Android攻击面 | </title>
     <meta name="author" content="ssj">
     
-    <meta name="description" content="这部戏只看过准叔版的，当笑话看了哈哈哈哈哈哈哈哈。
-李克用真是个人才，对唐王怀恨在心不发兵，怕老婆，家法严发兵了，遇到周德威出来打架，完虐周德威，射箭老眼昏花看不清，求了一遍神灵，然后射中了。">
+    <meta name="description" content="deeplink知识点是关于Android导出组件，有&amp;lt;intent-filter&amp;gt;的组件隐式导出，有action、category、data什么的是有deeplink。
+比如&amp;lt;data android:scheme=&amp;quot;example&amp;quot; android:host">
     
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <meta property="og:title" content="珠帘寨">
+    <meta property="og:title" content="做安服时了解到的Android攻击面">
     <meta property="og:site_name" content="ssj&#39;s blog">
 
     
@@ -385,7 +385,7 @@
             
     
     
-    <a class="breadcrumb" href="/categories/杂/">杂</a><a class="breadcrumb" href="/categories/杂/京剧/">京剧</a>
+    <a class="breadcrumb" href="/categories/Android/">Android</a>
 
 
         
@@ -402,12 +402,12 @@
             <div class="article-title">
                 
     
-        <h1>珠帘寨</h1>
+        <h1>做安服时了解到的Android攻击面</h1>
     
 
 
             </div>
-            <time class="pink-link-context" datetime="2019-07-25T13:25:21.000Z"><a href="/2019/07/25/珠帘寨/">2019-07-25</a></time>
+            <time class="pink-link-context" datetime="2020-06-26T08:16:10.000Z"><a href="/2020/06/26/做安服时了解到的Android攻击面/">2020-06-26</a></time>
 
             <span id="busuanzi_container_page_pv" class="read-times-container">
     <i class="fa fa-eye"></i>
@@ -417,34 +417,56 @@
             
     <div class="tags-row">
         
-            <a href="/tags/杂/" class="chip pink lighten-1">杂</a>
-        
-            <a href="/tags/京剧/" class="chip pink lighten-1">京剧</a>
+            <a href="/tags/Android/" class="chip pink lighten-1">Android</a>
         
     </div>
 
 
             <div class="toc pink-link-context hide-on-med-and-down">
-    
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#deeplink"><span class="section table-of-contents-text">deeplink</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Strandhogg漏洞"><span class="section table-of-contents-text">Strandhogg漏洞</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Toast漏洞Tapjacking-–-CVE-2020-0014"><span class="section table-of-contents-text">Toast漏洞Tapjacking – CVE-2020-0014</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#虫洞"><span class="section table-of-contents-text">虫洞</span></a></li></ol>
 </div>
 
 
             <div class="entry pink-link-context">
-                <p>这部戏只看过准叔版的，当笑话看了哈哈哈哈哈哈哈哈。</p>
-<p>李克用真是个人才，对唐王怀恨在心不发兵，怕老婆，家法严发兵了，遇到周德威出来打架，完虐周德威，射箭老眼昏花看不清，求了一遍神灵，然后射中了。</p>
+                <h2 id="deeplink"><a href="#deeplink" class="headerlink" title="deeplink"></a>deeplink</h2><p>知识点是关于Android导出组件，有<code>&lt;intent-filter&gt;</code>的组件隐式导出，有action、category、data什么的是有deeplink。</p>
+<p>比如<code>&lt;data android:scheme=&quot;example&quot; android:host=&quot;gizmos&quot; &gt;&lt;/data&gt;</code>这种配置，<code>example://gizmos</code>和<code>http://www.example.com/gizmos</code>这两个deeplink都可以被用来启动Activity。</p>
+<p>防护措施是<code>&lt;permission&gt;</code>，不过很多App并没有加。</p>
+<p>利用的话要进一步逆向分析，比如可以：</p>
+<ul>
+<li>操纵WebView；</li>
+<li>构造CSRF；</li>
+<li>绕过应用锁；</li>
+<li>打开App保护组件；</li>
+</ul>
+<h2 id="Strandhogg漏洞"><a href="#Strandhogg漏洞" class="headerlink" title="Strandhogg漏洞"></a>Strandhogg漏洞</h2><p>涉及到任务栈的问题。</p>
+<p>首先理解两个属性<code>allowTaskReparenting</code>和<code>taskAffinity</code>：</p>
+<ul>
+<li><code>allowTaskReparenting</code> – Activity是否能从该任务转移至与其有相似性的任务；</li>
+<li>什么是相似性？任务相关性？</li>
+<li><code>taskAffinity</code> – 跟你设成同一个包名就跟你有相关性了；</li>
+</ul>
+<p>这样利用思路就来了：</p>
+<ul>
+<li>恶意应用造两个界面，一个是钓鱼等恶意界面，一个是正常无害界面；</li>
+<li>先启动恶意界面紧接着启动无害界面，用户只会看到无害界面（当然有写轮眼的用户可能看到它闪了一下）；</li>
+<li>然后打开被攻击的应用时，由于恶意界面“恶意模仿”了正常应用，强行被转移到前台，造成劫持；</li>
+</ul>
+<p>目前来看缓解措施是singleTask、singleInstence。</p>
+<h2 id="Toast漏洞Tapjacking-–-CVE-2020-0014"><a href="#Toast漏洞Tapjacking-–-CVE-2020-0014" class="headerlink" title="Toast漏洞Tapjacking – CVE-2020-0014"></a>Toast漏洞Tapjacking – CVE-2020-0014</h2><p><a href="https://www.anquanke.com/post/id/201052" target="_blank" rel="noopener">https://www.anquanke.com/post/id/201052</a></p>
+<p>主要是可以通过反射的方式来修改Toast对象的TN对象的mParams属性，清除FLAG_NOT_TOUCHABLE选项，并且将Toast布满屏幕，且设为全透明。可以起一个service来周期性弹Toast以窃取用户信息。</p>
+<p>看patch可以看到：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">diff --git a/services/core/java/com/android/server/wm/DisplayPolicy.java b/services/core/java/com/android/server/wm/DisplayPolicy.java</span><br><span class="line">index <span class="number">99</span>a9db3..d4a4628 <span class="number">100644</span></span><br><span class="line">--- a/services/core/java/com/android/server/wm/DisplayPolicy.java</span><br><span class="line">+++ b/services/core/java/com/android/server/wm/DisplayPolicy.java</span><br><span class="line">@@ -<span class="number">865</span>,<span class="number">6</span> +<span class="number">865</span>,<span class="number">8</span> @@</span><br><span class="line">        <span class="keyword">if</span> (canToastShowWhenLocked(callingPid)) &#123;</span><br><span class="line">                     attrs.flags |= WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;</span><br><span class="line">                 &#125;</span><br><span class="line">+                <span class="comment">// Toasts can't be clickable</span></span><br><span class="line">+                attrs.flags |= WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE;</span><br><span class="line">                 <span class="keyword">break</span>;</span><br><span class="line">         &#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到在攻击者修改flag之后又强行改回去了。</p>
+<h2 id="虫洞"><a href="#虫洞" class="headerlink" title="虫洞"></a>虫洞</h2><p>安装百度系app后，通过adb shell连接手机，随后使用netstat会发现手机打开了40310/6259端口，并且任何IP都可以进行连接。</p>
+<p>就尴尬的很，稍作伪造remote-addr以后连上http server，就可以通过url下达指令了。</p>
+<p>有个downloadfile功能，可以下载恶意dex/so覆盖原有文件，就可以执行任意代码了。</p>
 
                 
-<p class="pink-link-context">
-    <a href="/2019/10/21/ELF文件格式分析/" rel="next" title="ELF 文件格式分析">
-    Prev: ELF 文件格式分析
-  </a>
-</p>
-
 
 
 <p class="pink-link-context">
-    <a href="/2019/07/21/pwn 入门/" rel="next" title="pwn 入门">
-    Next: pwn 入门
+    <a href="/2020/06/24/qemu漏洞入门学习/" rel="next" title="qemu漏洞入门学习">
+    Next: qemu漏洞入门学习
   </a>
 </p>
 
