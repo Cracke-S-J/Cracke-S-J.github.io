@@ -174,30 +174,6 @@
             
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/CTF/">
-                    CTF <span class="right">7</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/CTF/pwn/">
-                    pwn <span class="right">6</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/CTF/Android/">
-                    Android <span class="right">1</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/Android/">
                     Android <span class="right">12</span></a>
                 </a>
@@ -224,14 +200,6 @@
             <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/Ethereum/">
                     Ethereum <span class="right">3</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/CVE/">
-                    CVE <span class="right">10</span></a>
                 </a>
             </li>
 
@@ -280,6 +248,38 @@
             <li class="collapse-level-1" collapse-level="1">
                 <a class="no-padding" href="/categories/二进制/Docs/">
                     Docs <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CVE/">
+                    CVE <span class="right">10</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CTF/">
+                    CTF <span class="right">7</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/pwn/">
+                    pwn <span class="right">6</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/Android/">
+                    Android <span class="right">1</span></a>
                 </a>
             </li>
 
@@ -444,7 +444,7 @@
 <p>如果前端分配器不能满足分配的请求，则请求会被发送到后端分配器。</p>
 <p>后端分配器实际上是默认选择，并且至少需要18次分配才能启用LFH。而且，这些分配不必是连续的，它们只需要具有相同的大小。</p>
 <p>看一段demo验证：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CHUNK_SIZE 0x300</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> args, <span class="keyword">char</span>** argv)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    LPVOID chunk;</span><br><span class="line">    LPVOID last_chunk;</span><br><span class="line">    HANDLE defaultHeap = GetProcessHeap();</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">25</span>; i++) &#123;</span><br><span class="line">        chunk = HeapAlloc(defaultHeap, <span class="number">0</span>, CHUNK_SIZE);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"[%2d] Chunk is at 0x%08x.  "</span>, i, chunk);</span><br><span class="line">        <span class="keyword">if</span> (i) &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%-6d from the previous address\n"</span>, </span><br><span class="line">                (<span class="keyword">long</span> <span class="keyword">long</span>)chunk - (<span class="keyword">long</span> <span class="keyword">long</span>)last_chunk);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        last_chunk = chunk;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CHUNK_SIZE 0x300</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> args, <span class="keyword">char</span>** argv)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    LPVOID chunk;</span><br><span class="line">    LPVOID last_chunk;</span><br><span class="line">    HANDLE defaultHeap = GetProcessHeap();</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">25</span>; i++) &#123;</span><br><span class="line">        chunk = HeapAlloc(defaultHeap, <span class="number">0</span>, CHUNK_SIZE);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"[%2d] Chunk is at 0x%08x.  "</span>, i, chunk);</span><br><span class="line">        <span class="keyword">if</span> (i) &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%-6d from the previous address\n"</span>,</span><br><span class="line">                (<span class="keyword">long</span> <span class="keyword">long</span>)chunk - (<span class="keyword">long</span> <span class="keyword">long</span>)last_chunk);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        last_chunk = chunk;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">[ 0] Chunk is at 0x00765cb0.</span><br><span class="line">[ 1] Chunk is at 0x00768860.  11184  from the previous address</span><br><span class="line">[ 2] Chunk is at 0x00768b70.  784    from the previous address</span><br><span class="line">[ 3] Chunk is at 0x00765fc0.  -11184 from the previous address</span><br><span class="line">[ 4] Chunk is at 0x007662d0.  784    from the previous address</span><br><span class="line">[ 5] Chunk is at 0x007665e0.  784    from the previous address</span><br><span class="line">[ 6] Chunk is at 0x007668f0.  784    from the previous address</span><br><span class="line">[ 7] Chunk is at 0x00766c00.  784    from the previous address</span><br><span class="line">[ 8] Chunk is at 0x0076ae30.  16944  from the previous address</span><br><span class="line">[ 9] Chunk is at 0x0076b140.  784    from the previous address</span><br><span class="line">[10] Chunk is at 0x0076b450.  784    from the previous address</span><br><span class="line">[11] Chunk is at 0x0076b760.  784    from the previous address</span><br><span class="line">[12] Chunk is at 0x0076ba70.  784    from the previous address</span><br><span class="line">[13] Chunk is at 0x0076bd80.  784    from the previous address</span><br><span class="line">[14] Chunk is at 0x0076c090.  784    from the previous address</span><br><span class="line">[15] Chunk is at 0x0076c3a0.  784    from the previous address</span><br><span class="line">[16] Chunk is at 0x0076c6b0.  784    from the previous address</span><br><span class="line">[17] Chunk is at 0x0076d650.  4000   from the previous address</span><br><span class="line">[18] Chunk is at 0x0076ca10.  -3136  from the previous address</span><br><span class="line">[19] Chunk is at 0x0076e5a0.  7056   from the previous address</span><br><span class="line">[20] Chunk is at 0x0076d340.  -4704  from the previous address</span><br><span class="line">[21] Chunk is at 0x0076cd20.  -1568  from the previous address</span><br><span class="line">[22] Chunk is at 0x0076d960.  3136   from the previous address</span><br><span class="line">[23] Chunk is at 0x0076d030.  -2352  from the previous address</span><br><span class="line">[24] Chunk is at 0x0076dc70.  3136   from the previous address</span><br></pre></td></tr></table></figure>
 <p>从执行结果可以看到，前18块内存基本是连续的，后7块就乱了起来，证明后7块启用了LFH，我们要想稳定利用的话，就要尽量用后端分配器分配，避免用到LFH，因为用到LFH显然，free的块很难紧接着被再分配到了。</p>
 <h3 id="那我应该怎么稳定利用"><a href="#那我应该怎么稳定利用" class="headerlink" title="那我应该怎么稳定利用"></a>那我应该怎么稳定利用</h3><p>写个demo试一下，直接分配能分配到吗：</p>
