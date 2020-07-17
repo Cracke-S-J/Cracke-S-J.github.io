@@ -7,15 +7,13 @@
 
     
 
-    <title>关于 Oracle 的一条攻击链 | </title>
+    <title>Archives: 2020/7 | </title>
     <meta name="author" content="ssj">
-    
-    <meta name="description" content="背景这是 CVE-2019-2444。背景是有一个程序叫 jssu，是为 Oracle Scheduler 提供服务的组件，它的一些权限配置有问题，导致可以符号链接攻击造成提权。但是前提要有 oracle 账号，但是这可以配合 CVE-2018-3004 这个 Java 反序列化漏洞绕过 Oracl">
     
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <meta property="og:title" content="关于 Oracle 的一条攻击链">
+    
     <meta property="og:site_name" content="ssj&#39;s blog">
 
     
@@ -377,97 +375,40 @@
 
     <main>
         <div class="container main-container">
-    <nav class="page-nav hide-on-small-only">
+    
+
+<nav class="page-nav hide-on-small-only">
     <div class="nav-wrapper pink">
-        <span class="breadcrumb">Current page(Categories)</span>
-        
-            
-    
-    
-    <a class="breadcrumb" href="/categories/CVE/">CVE</a>
-
-
+        <span class="breadcrumb">Current page(Tags)</span>
         
 
         
     </div>
 </nav>
 
-<article>
-    <div class="card">
-        <div class="card-content">
-            
-
-            <div class="article-title">
-                
-    
-        <h1>关于 Oracle 的一条攻击链</h1>
-    
 
 
-            </div>
-            <time class="pink-link-context" datetime="2020-04-01T07:08:14.000Z"><a href="/2020/04/01/关于Oracle的一条攻击链/">2020-04-01</a></time>
-
-            <span id="busuanzi_container_page_pv" class="read-times-container">
-    <i class="fa fa-eye"></i>
-    <span id="busuanzi_value_page_pv"></span>
-</span>
-
-            
-    <div class="tags-row">
+    <ul class="collapsible mt-0" data-collapsible="accordion">
         
-            <a href="/tags/CVE/" class="chip pink lighten-1">CVE</a>
         
-    </div>
-
-
-            <div class="toc pink-link-context hide-on-med-and-down">
-    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#背景"><span class="section table-of-contents-text">背景</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#CVE-2018-3004"><span class="section table-of-contents-text">CVE-2018-3004</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#漏洞点"><span class="section table-of-contents-text">漏洞点</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#攻击思路"><span class="section table-of-contents-text">攻击思路</span></a></li></ol>
-</div>
-
-
-            <div class="entry pink-link-context">
-                <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>这是 CVE-2019-2444。背景是有一个程序叫 jssu，是为 Oracle Scheduler 提供服务的组件，它的一些权限配置有问题，导致可以符号链接攻击造成提权。但是前提要有 oracle 账号，但是这可以配合 CVE-2018-3004 这个 Java 反序列化漏洞绕过 Oracle JVM 的一些安全机制，拿到 oracel 用户权限。</p>
-<h2 id="CVE-2018-3004"><a href="#CVE-2018-3004" class="headerlink" title="CVE-2018-3004"></a>CVE-2018-3004</h2><p>CVE-2018-3004 简单介绍两句，XMLDecoder 反序列化，组装的时候，调用的方法是不被 Jvm 限制的，所以可以构造一个 FileWriter，实现 oracle 用户权限的任意写入。然后用本文主要介绍的这个 CVE 对它进行提权。</p>
-<p>（这个漏洞没有搜到公开的资料，暂不做分析了（是我懒得去diff它，太难了））</p>
-<h2 id="漏洞点"><a href="#漏洞点" class="headerlink" title="漏洞点"></a>漏洞点</h2><p>主要有几下几个条件组合，成就了这个攻击：</p>
-<ol>
-<li>jssu 程序所在组是 oinstall，跟 oracle 同组，所有者是 root，设置了 suid，权限是 4750。</li>
-<li>jssu 运行会生成一个日志文件，名字可以通过进程名得到，用户组跟 jssu 同组，权限是当前用户的 umask。</li>
-</ol>
-<p>所以就有了符号链接攻击思路，用 oracle 把那个日志文件挂上软链接，程序启动这样我们就有向任意文件写的能力，而且些文件读写权限 oracle 可控。如果软链接到 /etc/ld.so.preload，用可以来提权了。</p>
-<h2 id="攻击思路"><a href="#攻击思路" class="headerlink" title="攻击思路"></a>攻击思路</h2><ol>
-<li>准备一个 /bin/bash；准备一个 so，插桩 hook geteuid 函数，来修改之前准备那个 /bin/bash 的权限为 04777，修改用户和用户组为 root。</li>
-<li>构建一个可执行程序，先设置 umask 为 0000(为什么不是0666?)；然后 fork 子进程启动 jssu；父进程预判，给 jssu 的日志创建符号链接，等一段时间子进程输出内容以后把子进程 kill 掉。此时 /etc/ld.so.preload 已经被创建，所属用户 root，所属用户组 oinstall，权限 0666，内容为 jssu 的日志。</li>
-<li>用 oracle 用户修改 /etc/ld.so.preload，把之前准备的 so 写入里面。</li>
-<li>等待一个root权限进程调用 geteuid 函数，触发插桩的代码。这一步可以直接在命令行运行<code>sudo 2&gt;/dev/null &gt;/dev/null</code>，此时，之前准备的那个 shell 就被完成了权限修改，任意用户都可以通过在命令行运行这个 shell 获得一个 root 权限的 shell。</li>
-</ol>
-
-                
-<p class="pink-link-context">
-    <a href="/2020/04/01/Android相关CVE/" rel="next" title="Android 内核相关 CVE">
-    Prev: Android 内核相关 CVE
-  </a>
-</p>
-
-
-
-<p class="pink-link-context">
-    <a href="/2020/03/31/android逆向知识整理/" rel="next" title="Android 逆向知识整理">
-    Next: Android 逆向知识整理
-  </a>
-</p>
-
-
-            </div>
-			
-        </div>
-    </div>
-</article>
-
-
-
-
+            <li>
+                <div class="collapsible-header active">
+                    <i class="fa fa-archive"></i>2020
+                </div>
+                <div class="collapsible-body">
+                    <div class="collection">
+                        
+                            <a href="/2020/07/18/Structured-fuzzing-Android-s-NFC/" class="collection-item grey-text text-darken-1">
+                                <time datetime="2020-07-17T16:05:27.000Z">2020-07-18</time>
+                                <span>&nbsp;&nbsp;&nbsp;</span>
+                                【翻译】Structured fuzzing Android's NFC
+                            </a>
+                        
+                    </div>
+                </div>
+            </li>
+        
+    </ul>
 
 
 </div>
