@@ -7,13 +7,16 @@
 
     
 
-    <title>算法 | </title>
+    <title>记录一些pwn题思路 | </title>
     <meta name="author" content="ssj">
+    
+    <meta name="description" content="传统pwn什么的我学的真是太差了，做题太少，近两周（也可能是一周）决定刷一波pwn。
+CISCN – nofree12345Arch:     amd64-64-littleRELRO:    Partial RELROStack:    Canary foundNX:       NX enabl">
     
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    
+    <meta property="og:title" content="记录一些pwn题思路">
     <meta property="og:site_name" content="ssj&#39;s blog">
 
     
@@ -383,30 +386,96 @@
 
     <main>
         <div class="container main-container">
-    
-
-<nav class="page-nav hide-on-small-only">
+    <nav class="page-nav hide-on-small-only">
     <div class="nav-wrapper pink">
-        <span class="breadcrumb">Current page(Tags)</span>
+        <span class="breadcrumb">Current page(Categories)</span>
         
+            
+    
+    
+    <a class="breadcrumb" href="/categories/CTF/">CTF</a><a class="breadcrumb" href="/categories/CTF/pwn/">pwn</a>
+
 
         
-            <a class="breadcrumb" href="/tags/算法/">算法</a>
+
         
     </div>
 </nav>
 
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>记录一些pwn题思路</h1>
+    
 
 
-    <div class="collection mt-0">
+            </div>
+            <time class="pink-link-context" datetime="2020-08-30T04:09:01.000Z"><a href="/2020/08/30/记录一些pwn题思路/">2020-08-30</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
         
-            <a href="/2020/02/14/每天几道 算法/" class="collection-item grey-text text-darken-1">
-                <time datetime="2020-02-13T17:07:29.000Z">2020-02-14</time>
-                <span>&nbsp;&nbsp;&nbsp;</span>
-                每天几道 算法
-            </a>
+            <a href="/tags/CTF/" class="chip pink lighten-1">CTF</a>
+        
+            <a href="/tags/pwn/" class="chip pink lighten-1">pwn</a>
         
     </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#CISCN-–-nofree"><span class="section table-of-contents-text">CISCN – nofree</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#漏洞点"><span class="section table-of-contents-text">漏洞点</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#利用思路"><span class="section table-of-contents-text">利用思路</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#CISCN-–-maj"><span class="section table-of-contents-text">CISCN – maj</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#CISCN-–-easybox"><span class="section table-of-contents-text">CISCN – easybox</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#CISCN-–-wow"><span class="section table-of-contents-text">CISCN – wow</span></a></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <p>传统pwn什么的我学的真是太差了，做题太少，近两周（也可能是一周）决定刷一波pwn。</p>
+<h2 id="CISCN-–-nofree"><a href="#CISCN-–-nofree" class="headerlink" title="CISCN – nofree"></a>CISCN – nofree</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Arch:     amd64-64-little</span><br><span class="line">RELRO:    Partial RELRO</span><br><span class="line">Stack:    Canary found</span><br><span class="line">NX:       NX enabled</span><br><span class="line">PIE:      No PIE (0x400000)</span><br></pre></td></tr></table></figure>
+<h3 id="漏洞点"><a href="#漏洞点" class="headerlink" title="漏洞点"></a>漏洞点</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> *__<span class="function">fastcall <span class="title">my_malloc</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> a1)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(chunk_array, <span class="number">0</span>, <span class="number">0x100</span>uLL);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"content: "</span>);</span><br><span class="line">    read_str(chunk_array, a1);</span><br><span class="line">    <span class="keyword">return</span> strdup(chunk_array);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>漏洞点是他实现的malloc。strdup的实现是strlen + malloc + strcpy，也就是返回字符串的长度是小于等于a1的。在edit处用a1做len来修改，有较长的oob。</p>
+<h3 id="利用思路"><a href="#利用思路" class="headerlink" title="利用思路"></a>利用思路</h3><p>本题没有free，所以house of orange；没有show，所以要改个put出来；没有libc，</p>
+<ol>
+<li>把topchuck扔到0x70的fastbin里，再改fd迁移到bss上；</li>
+<li>有了任意地址写，把atoi_got改到printf_plt，把exit_got改成ret；</li>
+<li>利用格式化字符串泄露libc_read + 0xe的地方，这地方是一个syscall的gadget；rdi，rsi，rdx可以通过通用gadget控制，最关键的是rax，这里采用调用read的方法，因为函数的返回值等于读入的字符串的长度，所以只要控制读入0x3b长度字符串，就控制rax = 0x3b了。</li>
+<li>最后就直接构造rop，利用任意地址写覆盖edit的返回地址即可。</li>
+</ol>
+<h2 id="CISCN-–-maj"><a href="#CISCN-–-maj" class="headerlink" title="CISCN – maj"></a>CISCN – maj</h2><ol>
+<li>是个单单纯纯的UAF，先改fastbin的fd使之可以控制size，再chunk overlap，使一个堆块同时存在于fastbin和unsortbin中。用fastbin-&gt;fd把main_arena + 0x58泄露出来。</li>
+<li>由于没有show，要fastbin attack暴力4bit分配到stdout上面，来leak缓冲区的内存。</li>
+<li>由于有了libc，接下来的思路基本是改__malloc_hook为one_gadget。</li>
+</ol>
+<h2 id="CISCN-–-easybox"><a href="#CISCN-–-easybox" class="headerlink" title="CISCN – easybox"></a>CISCN – easybox</h2><p>思路跟上题一样，uaf换成了off by one；</p>
+<h2 id="CISCN-–-wow"><a href="#CISCN-–-wow" class="headerlink" title="CISCN – wow"></a>CISCN – wow</h2><p>找不到binary了，看wp是一个逆向 + pwn。TODO：找到binary再看。</p>
+
+                
+
+
+<p class="pink-link-context">
+    <a href="/2020/08/04/FANS-Fuzzing-Android-Native-System-Services-via-Automated-Interface-Analysis/" rel="next" title="FANS: Fuzzing Android Native System Services via Automated Interface Analysis">
+    Next: FANS: Fuzzing Android Native System Services via Automated Interface Analysis
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
 
 
 </div>
