@@ -178,6 +178,22 @@ add_key/sen">
             
 
             <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/面试体验/">
+                    面试体验 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/面试体验/Android/">
+                    Android <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/Android/">
                     Android <span class="right">14</span></a>
                 </a>
@@ -324,22 +340,6 @@ add_key/sen">
             <li class="collapse-level-1" collapse-level="1">
                 <a class="no-padding" href="/categories/杂/京剧/">
                     京剧 <span class="right">3</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/面试体验/">
-                    面试体验 <span class="right">1</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/面试体验/Android/">
-                    Android <span class="right">1</span></a>
                 </a>
             </li>
 
@@ -544,7 +544,7 @@ add_key/sen">
 </ul>
 </li>
 </ul>
-<h2 id="CVE-2020-11477"><a href="#CVE-2020-11477" class="headerlink" title="CVE-2020-11477"></a>CVE-2020-11477</h2><h3 id="漏洞原理-2"><a href="#漏洞原理-2" class="headerlink" title="漏洞原理"></a>漏洞原理</h3><p>原理是整数溢出造成的Dos；很难触发，威胁不大。</p>
+<h2 id="CVE-2020-11477"><a href="#CVE-2020-11477" class="headerlink" title="CVE-2020-11477"></a>CVE-2020-11477</h2><h3 id="漏洞原理-2"><a href="#漏洞原理-2" class="headerlink" title="漏洞原理"></a>漏洞原理</h3><p>原理是整数溢出造成的DoS；很难触发，威胁不大。</p>
 <p><code>tcp_gso_segs</code>代表小报文个数，是uint_16，而<code>skb_buff</code>结构体最多可以由17 <em> 32 </em> 1024 / 8 = 69632个报文碎片积累而成，所以可以考虑在极限情况下触发这个case。</p>
 <h3 id="利用思路-3"><a href="#利用思路-3" class="headerlink" title="利用思路"></a>利用思路</h3><p>触发起来条件其实是很苛刻的。</p>
 <ul>
