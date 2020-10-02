@@ -7,13 +7,17 @@
 
     
 
-    <title>Archives: 2020/2 | </title>
+    <title>2020-TCTF-emoji系列wp | </title><meta name="robots" content="noindex">
     <meta name="author" content="ssj">
+    
+    <meta name="description" content="2020 TCTF quals eeemoji这题是一道misc，不是pwn。
+可以看到这里：
+12345678910111213141516171819202122232425__int64 sub_B91()&amp;#123;  char *v0; // rax  wchar_t *v1; // rd">
     
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    
+    <meta property="og:title" content="2020-TCTF-emoji系列wp">
     <meta property="og:site_name" content="ssj&#39;s blog">
 
     
@@ -383,46 +387,91 @@
 
     <main>
         <div class="container main-container">
-    
-
-<nav class="page-nav hide-on-small-only">
+    <nav class="page-nav hide-on-small-only">
     <div class="nav-wrapper pink">
-        <span class="breadcrumb">Current page(Archives)</span>
+        <span class="breadcrumb">Current page(Categories)</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/CTF/">CTF</a>
+
+
         
 
         
     </div>
 </nav>
 
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>2020-TCTF-emoji系列wp</h1>
+    
 
 
-    <ul class="collapsible mt-0" data-collapsible="accordion">
+            </div>
+            <time class="pink-link-context" datetime="2020-10-01T08:43:55.000Z"><a href="/2020/10/01/2020-TCTF-emoji系列wp/">2020-10-01</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
         
+            <a href="/tags/CTF/" class="chip pink lighten-1">CTF</a>
         
-            <li>
-                <div class="collapsible-header active">
-                    <i class="fa fa-archive"></i>2020
-                </div>
-                <div class="collapsible-body">
-                    <div class="collection">
-                        
-                            <a href="/2020/02/14/每天几道 算法/" class="collection-item grey-text text-darken-1">
-                                <time datetime="2020-02-13T17:07:29.000Z">2020-02-14</time>
-                                <span>&nbsp;&nbsp;&nbsp;</span>
-                                每天几道 算法
-                            </a>
-                        
-                            <a href="/2020/02/05/字节跳动面试实况转播/" class="collection-item grey-text text-darken-1">
-                                <time datetime="2020-02-05T08:06:01.000Z">2020-02-05</time>
-                                <span>&nbsp;&nbsp;&nbsp;</span>
-                                字节跳动面试实况转播
-                            </a>
-                        
-                    </div>
-                </div>
-            </li>
-        
-    </ul>
+    </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2020-TCTF-quals-eeemoji"><span class="section table-of-contents-text">2020 TCTF quals eeemoji</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2020-TCTF-quals-eeeeeemoji"><span class="section table-of-contents-text">2020 TCTF quals eeeeeemoji</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2020-TCTF-final-Emoji-Revenge"><span class="section table-of-contents-text">2020 TCTF final Emoji Revenge</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#参考链接"><span class="section table-of-contents-text">参考链接</span></a></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <h2 id="2020-TCTF-quals-eeemoji"><a href="#2020-TCTF-quals-eeemoji" class="headerlink" title="2020 TCTF quals eeemoji"></a>2020 TCTF quals eeemoji</h2><p>这题是一道misc，不是pwn。</p>
+<p>可以看到这里：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">int64 <span class="title">sub_B91</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> *v0; <span class="comment">// rax</span></span><br><span class="line">  <span class="keyword">wchar_t</span> *v1; <span class="comment">// rdi</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> ( !byte_202030 )</span><br><span class="line">  &#123;</span><br><span class="line">    fputws(&amp;dword_11AC, <span class="built_in">stdout</span>);</span><br><span class="line">    <span class="built_in">abort</span>();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">memset</span>(dest, <span class="number">0x41</span>, <span class="number">0x1000</span>uLL);</span><br><span class="line">  fgetws(dest, <span class="number">0x82</span>, <span class="built_in">stdin</span>);</span><br><span class="line">  v0 = (<span class="keyword">char</span> *)dest + <span class="number">0x202</span>;</span><br><span class="line">  *(_QWORD *)v0 = <span class="number">0x9090909090909090</span>LL;</span><br><span class="line">  *((_QWORD *)v0 + <span class="number">1</span>) = <span class="number">0x9090909090909090</span>LL;</span><br><span class="line">  *((_QWORD *)v0 + <span class="number">2</span>) = <span class="number">0x48FFFFFE00B28D48</span>LL;</span><br><span class="line">  *((_QWORD *)v0 + <span class="number">3</span>) = <span class="number">0xC74800000001C7C7</span>LL;</span><br><span class="line">  *((_QWORD *)v0 + <span class="number">4</span>) = <span class="number">0xC0C74800000026C2</span>LL;</span><br><span class="line">  *((_DWORD *)v0 + <span class="number">10</span>) = <span class="number">1</span>;</span><br><span class="line">  *((_WORD *)v0 + <span class="number">22</span>) = <span class="number">1295</span>;</span><br><span class="line">  v0[<span class="number">46</span>] = <span class="number">-61</span>;</span><br><span class="line">  v1 = dest + <span class="number">0x40</span>;</span><br><span class="line">  <span class="built_in">memset</span>(dest + <span class="number">0x40</span>, <span class="number">0x41</span>, <span class="number">0x100</span>uLL);</span><br><span class="line">  <span class="keyword">return</span> ((__int64 (__fastcall *)(<span class="keyword">wchar_t</span> *, <span class="keyword">signed</span> __int64))(dest + <span class="number">0x80</span>))(v1, <span class="number">0x41</span>LL);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面代码最后一行可能是我的IDA太辣鸡了，看汇编应该是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.text:0000000000000C6F                 mov     rax, cs:dest</span><br><span class="line">.text:0000000000000C76                 add     rax, 200h</span><br><span class="line">.text:0000000000000C7C                 mov     rdx, rax</span><br><span class="line">.text:0000000000000C7F                 mov     eax, 0</span><br><span class="line">.text:0000000000000C84                 call    rdx</span><br><span class="line">.text:0000000000000C86                 nop</span><br><span class="line">.text:0000000000000C87                 pop     rbp</span><br><span class="line">.text:0000000000000C88                 retn</span><br></pre></td></tr></table></figure>
+<p>它的shellcode是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">call    dest+0x200</span><br><span class="line">lea     rsi, [rdx-200h]</span><br><span class="line">mov     rdi, 1</span><br><span class="line">mov     rdx, 26h ; &apos;&amp;&apos;</span><br><span class="line">mov     rax, 1</span><br><span class="line">syscall</span><br><span class="line">retn</span><br></pre></td></tr></table></figure>
+<p>我们可以输入一些字节的shellcode，执行完它的shellcode后执行我们输入的shellcode的后两个字节；这时候观察一下，可以看到r11正好指向dest+4，我们可以<code>push r11</code>然后跳到前面我们前面布置的shellcode处。</p>
+<p><a href="https://balsn.tw/ctf_writeup/20200627-0ctf_tctf2020quals/#eeemoji" target="_blank" rel="noopener">exp</a>。</p>
+<h2 id="2020-TCTF-quals-eeeeeemoji"><a href="#2020-TCTF-quals-eeeeeemoji" class="headerlink" title="2020 TCTF quals eeeeeemoji"></a>2020 TCTF quals eeeeeemoji</h2><p>这题就是pwn了，看起来跟上题长的差不多，但是这时候我们再下断看寄存器可以发现很多寄存器都被设成0xdeafbeefdeadbeef了，现在只剩rdx、rdp、rip，rip不好动，我们可以<code>and esp, edx</code>，这时候会得到一个较小的值，这个值可能指向我们可控的地址。我们可以先mmap大量内存，布置好栈和shellcode，等到<code>and esp, edx</code>后，程序会执行<code>add rsp, 0x8000</code>，此时有概率会跳到我们布置好的地址上，这时候我们就可以控制栈去执行shellcode了。</p>
+<h3 id="2020-TCTF-final-Emoji-Revenge"><a href="#2020-TCTF-final-Emoji-Revenge" class="headerlink" title="2020 TCTF final Emoji Revenge"></a>2020 TCTF final Emoji Revenge</h3><p>这题看起来还是跟初赛那两道题差不多：</p>
+<ul>
+<li>🍺 maps and prints an address of a random RWX page in 0x0 - 0x3e8000 range. Nothing stops us from calling it multiple times.</li>
+<li>🐮 puts the following code into 🍺-allocated page and jumps to it.</li>
+<li>🐴 is like 🐮, but lets us input 0x208 bytes of data. The bytes [0x100:0x200] are then overwritten by ‘a’s. The bytes [0x202:0x208] are overwritten by nops. So we control [0x0:0x100] and [0x200:0x202].</li>
+</ul>
+<p>不过这题的2字节不是要跳到shellcode，而是要死循环，触发超时，让pc跳到0，然后mmap到0地址处。具体没看，要看那个洞。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ol>
+<li><a href="https://balsn.tw/ctf_writeup/20200627-0ctf_tctf2020quals/" target="_blank" rel="noopener">https://balsn.tw/ctf_writeup/20200627-0ctf_tctf2020quals/</a></li>
+<li><a href="https://github.com/mephi42/ctf/tree/master/2020.09.26-0CTF_TCTF_2020_Finals/Emoji%20Revenge">https://github.com/mephi42/ctf/tree/master/2020.09.26-0CTF_TCTF_2020_Finals/Emoji%20Revenge</a></li>
+</ol>
+<!-- flag of hidden posts -->
+                
+
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
 
 
 </div>

@@ -175,6 +175,30 @@
             
 
             <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CTF/">
+                    CTF <span class="right">8</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/pwn/">
+                    pwn <span class="right">7</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/Android/">
+                    Android <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/Android/">
                     Android <span class="right">14</span></a>
                 </a>
@@ -231,6 +255,14 @@
         
 
             <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CVE/">
+                    CVE <span class="right">11</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/二进制/">
                     二进制 <span class="right">11</span></a>
                 </a>
@@ -273,38 +305,6 @@
             <li class="collapse-level-1" collapse-level="1">
                 <a class="no-padding" href="/categories/二进制/Docs/">
                     Docs <span class="right">1</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/CVE/">
-                    CVE <span class="right">11</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/CTF/">
-                    CTF <span class="right">8</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/CTF/pwn/">
-                    pwn <span class="right">7</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/CTF/Android/">
-                    Android <span class="right">1</span></a>
                 </a>
             </li>
 
@@ -551,7 +551,7 @@
 </ul>
 <h2 id="CVE-2020-5398"><a href="#CVE-2020-5398" class="headerlink" title="CVE-2020-5398"></a>CVE-2020-5398</h2><p>这块都是些Web呢，最看不懂的就是Web。</p>
 <p>Spring框架<code>Reflected File Download</code>(这个怎么翻译?)，跟<code>CVE-2015-5211</code>有关系，就类似这样欺骗一下：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=”https://&lt;trusted-server&gt;.com/api/users/&lt;attacker_id&gt;.cmd" download&gt;</span><br><span class="line">Click me, Im a dolphin</span><br><span class="line"><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"https://&lt;trusted-server&gt;.com/api/users/&lt;attacker_id&gt;.cmd"</span> <span class="attr">download</span>&gt;</span></span><br><span class="line">Click me, Im a dolphin</span><br><span class="line"><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>修复是<a href>这样</a>修复的：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="keyword">this</span>.filename != <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.charset == <span class="keyword">null</span> || StandardCharsets.US_ASCII.equals(<span class="keyword">this</span>.charset)) &#123;</span><br><span class="line">        sb.append(<span class="string">"; filename=\""</span>);</span><br><span class="line">        sb.append(<span class="keyword">this</span>.filename).append(<span class="string">'\"'</span>);</span><br><span class="line">        sb.append(escapeQuotationsInFilename(<span class="keyword">this</span>.filename)).append(<span class="string">'\"'</span>); <span class="comment">// &lt;--这里</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <p>然而还能这样绕过：</p>
