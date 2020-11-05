@@ -11,7 +11,8 @@
     <meta name="author" content="ssj">
     
     <meta name="description" content="https://bugs.chromium.org/p/project-zero/issues/detail?id=1948
-尴尬的是，这个poc它在我的7.0.5微信上不崩；是这个版本吗，虽然看了看崩溃信息仿佛对的上。">
+尴尬的是，这个poc它在我的7.0.5微信上不崩；是这个版本吗，虽然看了看崩溃信息仿佛对的上。
+IntroThere is a memory corruption vulne">
     
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -252,14 +253,6 @@
         
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/CVE/">
-                    CVE <span class="right">11</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/二进制/">
                     二进制 <span class="right">11</span></a>
                 </a>
@@ -308,6 +301,14 @@
         
 
             <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CVE/">
+                    CVE <span class="right">11</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/杂/">
                     杂 <span class="right">5</span></a>
                 </a>
@@ -316,16 +317,16 @@
         
 
             <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/杂/定场诗/">
-                    定场诗 <span class="right">1</span></a>
+                <a class="no-padding" href="/categories/杂/听戏/">
+                    听戏 <span class="right">1</span></a>
                 </a>
             </li>
 
         
 
             <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/杂/听戏/">
-                    听戏 <span class="right">1</span></a>
+                <a class="no-padding" href="/categories/杂/定场诗/">
+                    定场诗 <span class="right">1</span></a>
                 </a>
             </li>
 
@@ -421,13 +422,22 @@
             
 
             <div class="toc pink-link-context hide-on-med-and-down">
-    
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Intro"><span class="section table-of-contents-text">Intro</span></a></li></ol>
 </div>
 
 
             <div class="entry pink-link-context">
                 <p><a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=1948" target="_blank" rel="noopener">https://bugs.chromium.org/p/project-zero/issues/detail?id=1948</a></p>
 <p>尴尬的是，这个poc它在我的7.0.5微信上不崩；是这个版本吗，虽然看了看崩溃信息仿佛对的上。</p>
+<h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>There is a memory corruption vulnerability in audio processing during a voice call in WeChat. When an RTP packet is processed, there is a call to UnpacketRTP. This function decrements the length of the packet by 12 without checking that the packet has at least 12 bytes in it. This leads to a negative packet length. Then, CAudioJBM::InputAudioFrameToJBM will check that the packet size is smaller than the size of a buffer before calling memcpy, but this check (n &lt; 300) does not consider that the packet length could be negative due to the previous error. This leads to an out-of-bounds copy.</p>
+<p>To reproduce the bug:</p>
+<ol>
+<li>install and run frida on the caller Android device and a desktop host. (<a href="https://www.frida.re" target="_blank" rel="noopener">https://www.frida.re</a>)</li>
+<li>copy the filed in the attached directory to /data/local/tmp/packs/, so that /data/local/tmp/packs/opack0 exists.</li>
+<li>run “setenforce 0” on the caller device.</li>
+<li>extract replay.py and replay.js into the same directory on a desktop host and run:<code>python3 replay.py DEVICENAME</code>, Wait for the word “READY” to display.</li>
+<li>start a voice call and answer it on the target device. A crash will occur in about 10 seconds.</li>
+</ol>
 <!-- flag of hidden posts -->
                 
 
