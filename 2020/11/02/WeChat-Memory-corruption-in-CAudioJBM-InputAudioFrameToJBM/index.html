@@ -11,8 +11,7 @@
     <meta name="author" content="ssj">
     
     <meta name="description" content="https://bugs.chromium.org/p/project-zero/issues/detail?id=1948
-尴尬的是，这个poc它在我的7.0.5微信上不崩；是这个版本吗，虽然看了看崩溃信息仿佛对的上。
-IntroThere is a memory corruption vulne">
+IntroThere is a memory corruption vulnerability in audio processing during a voice call">
     
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -237,16 +236,16 @@ IntroThere is a memory corruption vulne">
         
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/Ethereum/">
-                    Ethereum <span class="right">3</span></a>
+                <a class="no-padding" href="/categories/Fuzz/">
+                    Fuzz <span class="right">1</span></a>
                 </a>
             </li>
 
         
 
             <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/Fuzz/">
-                    Fuzz <span class="right">1</span></a>
+                <a class="no-padding" href="/categories/Ethereum/">
+                    Ethereum <span class="right">3</span></a>
                 </a>
             </li>
 
@@ -317,16 +316,16 @@ IntroThere is a memory corruption vulne">
         
 
             <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/杂/听戏/">
-                    听戏 <span class="right">1</span></a>
+                <a class="no-padding" href="/categories/杂/定场诗/">
+                    定场诗 <span class="right">1</span></a>
                 </a>
             </li>
 
         
 
             <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/杂/定场诗/">
-                    定场诗 <span class="right">1</span></a>
+                <a class="no-padding" href="/categories/杂/听戏/">
+                    听戏 <span class="right">1</span></a>
                 </a>
             </li>
 
@@ -422,13 +421,12 @@ IntroThere is a memory corruption vulne">
             
 
             <div class="toc pink-link-context hide-on-med-and-down">
-    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Intro"><span class="section table-of-contents-text">Intro</span></a></li></ol>
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Intro"><span class="section table-of-contents-text">Intro</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Trace"><span class="section table-of-contents-text">Trace</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#POC"><span class="section table-of-contents-text">POC</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Exploit"><span class="section table-of-contents-text">Exploit</span></a></li></ol>
 </div>
 
 
             <div class="entry pink-link-context">
                 <p><a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=1948" target="_blank" rel="noopener">https://bugs.chromium.org/p/project-zero/issues/detail?id=1948</a></p>
-<p>尴尬的是，这个poc它在我的7.0.5微信上不崩；是这个版本吗，虽然看了看崩溃信息仿佛对的上。</p>
 <h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>There is a memory corruption vulnerability in audio processing during a voice call in WeChat. When an RTP packet is processed, there is a call to UnpacketRTP. This function decrements the length of the packet by 12 without checking that the packet has at least 12 bytes in it. This leads to a negative packet length. Then, CAudioJBM::InputAudioFrameToJBM will check that the packet size is smaller than the size of a buffer before calling memcpy, but this check (n &lt; 300) does not consider that the packet length could be negative due to the previous error. This leads to an out-of-bounds copy.</p>
 <p>To reproduce the bug:</p>
 <ol>
@@ -438,6 +436,25 @@ IntroThere is a memory corruption vulne">
 <li>extract replay.py and replay.js into the same directory on a desktop host and run:<code>python3 replay.py DEVICENAME</code>, Wait for the word “READY” to display.</li>
 <li>start a voice call and answer it on the target device. A crash will occur in about 10 seconds.</li>
 </ol>
+<h2 id="Trace"><a href="#Trace" class="headerlink" title="Trace"></a>Trace</h2><p><code>signed int __fastcall CAudioJBM::InputAudioFrameToJBM(CAudioJBM *this, unsigned __int8 *a2, int iFrmLen, unsigned int a4, unsigned __int16 a5, int a6, int a7, int a8)</code></p>
+<p><code>iFrmLen</code>是传进来的参数，int型；在下面只判断了<code>iFrmLen &lt;= 300</code>，没有考虑<code>iFrmLen</code>是负数的情况：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( *((<span class="keyword">unsigned</span> __int8 *)v9 + <span class="number">6972</span>) &lt;= (<span class="keyword">unsigned</span> <span class="keyword">int</span>)(iFrmLen &gt; <span class="number">300</span>) )</span><br><span class="line">  &#123;</span><br><span class="line">    WriteTrace(<span class="number">4</span>, <span class="string">"\n-----------,iPtLen = %d, iFrmCnt = %d, big than threshold\n"</span>, iFrmLen);</span><br><span class="line">    MMTinyLib::MMTWriteLog(</span><br><span class="line">      (MMTinyLib *)&amp;byte_4,</span><br><span class="line">      (<span class="keyword">int</span>)<span class="string">"/data/android/hudson/workspace/WeChat_Components_Build/voip/Android/base/jni/../../../source/Engine/MVQQEngine/src/jbm.cpp"</span>,</span><br><span class="line">      (<span class="keyword">const</span> <span class="keyword">char</span> *)&amp;stru_D94.st_value + <span class="number">3</span>,</span><br><span class="line">      (<span class="keyword">int</span>)<span class="string">"InputAudioFrameToJBM"</span>,</span><br><span class="line">      <span class="string">"amyfwang,erro,iFrmLen:%d,m_bInitFlag:%d"</span>,</span><br><span class="line">      (<span class="keyword">const</span> <span class="keyword">char</span> *)iFrmLen,</span><br><span class="line">      *((<span class="keyword">unsigned</span> __int8 *)v9 + <span class="number">6972</span>));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>在下面的memcpy处可以溢出，<code>src</code>是<code>a2</code>参数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( *(_DWORD *)(v62 + <span class="number">236</span>) )</span><br><span class="line">      &#123;</span><br><span class="line">        v64 = v62 + <span class="number">240</span>;</span><br><span class="line">        <span class="keyword">if</span> ( !*(_DWORD *)(v62 + <span class="number">244</span>) )</span><br><span class="line">        &#123;</span><br><span class="line">          v78 = (<span class="keyword">char</span> *)v9 + <span class="number">20</span> * (_DWORD)v61;</span><br><span class="line">          v92 = v61;</span><br><span class="line">          *(_DWORD *)(v62 + <span class="number">244</span>) = iFrmLen;</span><br><span class="line">          <span class="built_in">memcpy</span>(*(<span class="keyword">void</span> **)(v62 + <span class="number">236</span>), src, iFrmLen);</span><br></pre></td></tr></table></figure>
+<p><code>signed int __fastcall XVEChannel::RecvRtpPacketCng(XVEChannel *this, unsigned __int8 *a2, int a3, int a4)</code></p>
+<p>可以看到<code>src</code>来自a2，<code>iFrmLen</code>来自a3，而后值都直接跟<code>UnpacketRTP</code>有关：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> ( v209 ) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">128</span>:</span><br><span class="line">        WriteTrace(<span class="number">1</span>, <span class="string">"*************  XVEChannel:: pkType == 0x80 \r\n\r\n"</span>);</span><br><span class="line">        v7 = UnpacketRTP(&amp;src, (<span class="keyword">char</span> *)&amp;v214 + <span class="number">3</span>, v215, &amp;v215[<span class="number">1</span>], &amp;v217, &amp;v216);</span><br><span class="line">        <span class="keyword">if</span> ( v7 == <span class="number">-1</span> ) &#123;</span><br><span class="line">            WriteTrace(<span class="number">1</span>, <span class="string">"\r\nXVEChannel::RecvRtpPacket, UnpacketRTP ERROR,! \r\n"</span>, <span class="number">0</span>);</span><br><span class="line">            LODWORD(v130) = GetTime();</span><br><span class="line">            WriteTrace(<span class="number">128</span>, <span class="string">"leave RecvRtpPacketCng 3,time in %llu\n"</span>, v130 - v208);</span><br><span class="line">            <span class="keyword">return</span> v7;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> ( !XVEChannel::CheckRtpPacketIsRepeat(v4, (<span class="keyword">unsigned</span> __int16)v215[<span class="number">1</span>]) ) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// [...]</span></span><br><span class="line"></span><br><span class="line">            iFrmLen = v216;</span><br><span class="line">            <span class="keyword">if</span> ( !v216 )</span><br><span class="line">            &#123;</span><br><span class="line">                v7 = <span class="number">-1</span>;</span><br><span class="line">                WriteTrace(<span class="number">1</span>, <span class="string">"\r\nXVEChannel::RecvRtpPacket, datalen = %d \r\n"</span>, <span class="number">0</span>);</span><br><span class="line">                LODWORD(v88) = GetTime();</span><br><span class="line">                WriteTrace(<span class="number">128</span>, <span class="string">"leave RecvRtpPacketCng 4,time in %llu\n"</span>, v88 - v208);</span><br><span class="line">                <span class="keyword">return</span> v7;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// [...]</span></span><br><span class="line"></span><br><span class="line">            WriteTrace(<span class="number">4</span>, <span class="string">"JBM_WFL: udwTimeStamp = %u,redundantlen = %d\n"</span>, v215[<span class="number">0</span>], v217);</span><br><span class="line">            CAudioJBM::InputAudioFrameToJBM(</span><br><span class="line">                *((CAudioJBM **)v4 + <span class="number">6</span>),</span><br><span class="line">                src,</span><br><span class="line">                iFrmLen,</span><br><span class="line">                (<span class="keyword">unsigned</span> <span class="keyword">int</span>)v215[<span class="number">0</span>],</span><br><span class="line">                (<span class="keyword">unsigned</span> __int16)v215[<span class="number">1</span>],</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                (<span class="keyword">int</span>)v199</span><br><span class="line">            );</span><br></pre></td></tr></table></figure>
+<p>在<code>signed int __fastcall UnpacketRTP(_DWORD *a1, signed int *a2, _DWORD *a3, _DWORD *a4, _DWORD *a5, unsigned int *len)</code>里：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">v11 = PayloadToCodec(*(_BYTE *)(v7 + <span class="number">1</span>) &amp; <span class="number">0x7F</span>);</span><br><span class="line">v12 = v11;</span><br><span class="line"><span class="keyword">if</span> ( v11 == <span class="number">-1</span> )</span><br><span class="line">&#123;</span><br><span class="line">    WriteTrace(<span class="number">1</span>, <span class="string">"UnpacketRTP error,codec is not valid(%d) \r\n"</span>, *(_BYTE *)(v7 + <span class="number">1</span>) &amp; <span class="number">0x7F</span>, <span class="number">0</span>);</span><br><span class="line">    result = v12;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">    *v8 = xve_ntohs( *(_WORD *)(v7 + <span class="number">2</span>));</span><br><span class="line">    v13 = xve_ntohl( *(_DWORD *)(v7 + <span class="number">4</span>));</span><br><span class="line">    v14 = v12 == <span class="number">6</span>;</span><br><span class="line">    *v10 = v13;</span><br><span class="line">    *v9 = v12;</span><br><span class="line">    *a5 = <span class="number">0</span>;</span><br><span class="line">    v15 = *len - <span class="number">12</span>;</span><br><span class="line">    *len = v15;</span><br><span class="line">    <span class="keyword">if</span> ( v15 &lt;= <span class="number">0x27</span> )</span><br><span class="line">        v14 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> ( v14 )</span><br><span class="line">        *a5 = <span class="number">1</span>;</span><br><span class="line">    *src += <span class="number">12</span>;</span><br><span class="line">    WriteTrace(<span class="number">255</span>, <span class="string">"UnpacketRTP:: fec(%d),len(%d),codec(%d) \r\n"</span>, *a5, *len, v12);</span><br><span class="line">    result = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到<code>*len = *len - 12</code>，<code>*len</code>是int型可能为负。</p>
+<p>沿着trace向上看过去好像也没有什么了。</p>
+<h2 id="POC"><a href="#POC" class="headerlink" title="POC"></a>POC</h2><p>见<code>replay.js</code>中caller方hook了<code>_ZN19MultiMediaComponent17CTransportChannel8SendDataEPviihb</code>，向callee发送构造的包。</p>
+<h2 id="Exploit"><a href="#Exploit" class="headerlink" title="Exploit"></a>Exploit</h2><p>在<code>memcpy(*(void **)(v62 + 236), src, iFrmLen);</code>这，看起来是把<code>src</code>cpy到了某个结构体中。</p>
+<ul>
+<li>我们需要逆出结构体的结构，然后再考虑覆盖些什么。</li>
+<li>src我们可控？与它相邻的内存我们可控多少？用什么占位？</li>
+<li>我没有两台好用的手机…需要回学校把乐视揣过来…现在触发都触发不了…</li>
+</ul>
 <!-- flag of hidden posts -->
                 
 
