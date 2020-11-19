@@ -1,0 +1,783 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>记录几个iOS相关的洞 | </title><meta name="robots" content="noindex">
+    <meta name="author" content="ssj">
+    
+    <meta name="description" content="iOS入门级玩家。也不知道理解的对不对。
+H11ANEInOops, I missed it again!https://googleprojectzero.blogspot.com/
+这是XNU一个比较有意思的洞。有两个大致相同但是权限不同的类：H11ANEInDirectPathClient和H">
+    
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta property="og:title" content="记录几个iOS相关的洞">
+    <meta property="og:site_name" content="ssj&#39;s blog">
+
+    
+    <meta property="og:image" content>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="ssj&#39;s blog" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/tranquil-heart.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+</html>
+
+<body>
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="pink accent-1">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
+        </a>
+        <div class="">
+            <a href="/" class="brand-logo hide-on-med-and-down">ssj&#39;s blog</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/" >
+                            <i class="fa fa-home "></i>
+                            
+                            Home
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives" >
+                            <i class="fa fa-archive "></i>
+                            
+                            Archives
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                            <i class="fa fa-bookmark "></i>
+                            
+                            Categories
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-reading " href="/reading" >
+                            <i class="fa fa-book "></i>
+                            
+                            Reading
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about" >
+                            <i class="fa fa-user "></i>
+                            
+                            About
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search" >
+                            <i class="fa fa-search "></i>
+                            
+                            Search
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav pink darken-1" id="main-menu">
+        
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="/pingtou.jpg" alt="User Avatar">
+                </div>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">ssj</p>
+                        <p class="desc"></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/" >
+                    <i class="fa fa-home "></i>
+                    
+                    Home
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives" >
+                    <i class="fa fa-archive "></i>
+                    
+                    Archives
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                    <i class="fa fa-bookmark "></i>
+                    
+                    Categories
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-reading " href="/reading" >
+                    <i class="fa fa-book "></i>
+                    
+                    Reading
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about" >
+                    <i class="fa fa-user "></i>
+                    
+                    About
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search" >
+                    <i class="fa fa-search "></i>
+                    
+                    Search
+                </a>
+            </li>
+        
+    </ul>
+
+    <ul class="side-nav pink darken-1" id="category-menu">
+    
+
+            
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CTF/">
+                    CTF <span class="right">8</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/pwn/">
+                    pwn <span class="right">7</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/Android/">
+                    Android <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Android/">
+                    Android <span class="right">14</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/脱壳/">
+                    脱壳 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/马甲包/">
+                    马甲包 <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/面试体验/">
+                    面试体验 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/面试体验/Android/">
+                    Android <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Ethereum/">
+                    Ethereum <span class="right">3</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Fuzz/">
+                    Fuzz <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/二进制/">
+                    二进制 <span class="right">11</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/v8/">
+                    v8 <span class="right">6</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/Base/">
+                    Base <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/Kernel/">
+                    Kernel <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/vm/">
+                    vm <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/Docs/">
+                    Docs <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CVE/">
+                    CVE <span class="right">11</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/杂/">
+                    杂 <span class="right">5</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/杂/定场诗/">
+                    定场诗 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/杂/听戏/">
+                    听戏 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/杂/京剧/">
+                    京剧 <span class="right">3</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/基础知识/">
+                    基础知识 <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/基础知识/Cpp/">
+                    Cpp <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/算法/">
+                    算法 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+</nav>
+
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">Search</label>
+        </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper pink">
+        <span class="breadcrumb">Current page(Categories)</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/iOS/">iOS</a>
+
+
+        
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>记录几个iOS相关的洞</h1>
+    
+
+
+            </div>
+            <time class="pink-link-context" datetime="2020-11-16T12:28:24.000Z"><a href="/2020/11/16/记录几个iOS相关的洞/">2020-11-16</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/iOS/" class="chip pink lighten-1">iOS</a>
+        
+    </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#H11ANEIn"><span class="section table-of-contents-text">H11ANEIn</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#Oops-I-missed-it-again"><span class="section table-of-contents-text">Oops, I missed it again!</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#Don’t-place-a-port-in-shared-memory"><span class="section table-of-contents-text">Don’t place a port in shared memory</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Writing-an-iOS-Kernel-Exploit-from-Scratch"><span class="section table-of-contents-text">Writing an iOS Kernel Exploit from Scratch</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#漏洞点"><span class="section table-of-contents-text">漏洞点</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#如何触发漏洞"><span class="section table-of-contents-text">如何触发漏洞</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#利用思路"><span class="section table-of-contents-text">利用思路</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-4"><a class="section table-of-contents-link" href="#泄露地址"><span class="section table-of-contents-text">泄露地址</span></a></li><li class="section table-of-contents-item section table-of-contents-level-4"><a class="section table-of-contents-link" href="#泄露port信息"><span class="section table-of-contents-text">泄露port信息</span></a></li><li class="section table-of-contents-item section table-of-contents-level-4"><a class="section table-of-contents-link" href="#fake-port"><span class="section table-of-contents-text">fake port</span></a></li><li class="section table-of-contents-item section table-of-contents-level-4"><a class="section table-of-contents-link" href="#提权"><span class="section table-of-contents-text">提权</span></a></li></ol></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#iMessage-–-Remote-iPhone-Exploitation-Poking-Memory-via-iMessage-and-CVE-2019-8641"><span class="section table-of-contents-text">iMessage – Remote iPhone Exploitation: Poking Memory via iMessage and CVE-2019-8641</span></a></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <p>iOS入门级玩家。也不知道理解的对不对。</p>
+<h2 id="H11ANEIn"><a href="#H11ANEIn" class="headerlink" title="H11ANEIn"></a>H11ANEIn</h2><h3 id="Oops-I-missed-it-again"><a href="#Oops-I-missed-it-again" class="headerlink" title="Oops, I missed it again!"></a>Oops, I missed it again!</h3><p><a href="https://googleprojectzero.blogspot.com/" target="_blank" rel="noopener">https://googleprojectzero.blogspot.com/</a></p>
+<p>这是XNU一个比较有意思的洞。有两个大致相同但是权限不同的类：<code>H11ANEInDirectPathClient</code>和<code>H11ANEInUserClient</code>，它们都拥有一个method table，是这么取用的：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> H11ANEInDirectPathClient::externalMethod(H11ANEInDirectPathClient *<span class="keyword">this</span>, u32 selector, IOExternalMethodArguments *args, IOExternalMethodDispatch *method, <span class="keyword">void</span> *target)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> ( !target )</span><br><span class="line">        target = <span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">if</span> ( selector &lt;= <span class="number">33</span> )</span><br><span class="line">        method = &amp;H11ANEInDirectPathClient_ExternalMethods_34[selector];</span><br><span class="line">    <span class="keyword">return</span> IOUserClient::externalMethod(<span class="keyword">this</span>, selector, args, method, target);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> H11ANEInUserClient::externalMethod(H11ANEInUserClient *<span class="keyword">this</span>, u32 selector, IOExternalMethodArguments *args, IOExternalMethodDispatch *method, <span class="keyword">void</span> *target)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> ( !target )</span><br><span class="line">        target = <span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">if</span> ( selector &lt;= <span class="number">33</span> )</span><br><span class="line">        method = &amp;H11ANEInUserClient_ExternalMethods_34[selector];</span><br><span class="line">    <span class="keyword">return</span> IOUserClient::externalMethod(<span class="keyword">this</span>, selector, args, method, target);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一开始作者认为这两个类共用一张表，每个类有34个方法，其中31个共用，表长度为37，0-2为<code>H11ANEInDirectPathClient</code>特有的方法，34-36为<code>H11ANEInUserClient</code>特有的方法。</p>
+<p>其中<code>selector</code>为<code>args-&gt;totInputBuffers</code>，<code>args</code>是可以任意控制的，当<code>H11ANEInUserClient::externalMethod</code>方法中<code>34 &lt;= selector &lt;=36</code>时，method取不到，可以造成null pointer dereference。</p>
+<p>但是当作者看到苹果的符号表时，发现这两个类并不是共用一个method table，而是<code>H11ANEInDirectPathClient</code>类有3个方法，<code>H11ANEInUserClient</code>类有34个方法，bug是由下面copy-paste造成的：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">IOReturn H11ANEInUserClient::externalMethod(</span><br><span class="line">    u32 selector, IOExternalMethodArguments *args,</span><br><span class="line">    IOExternalMethodDispatch *method, <span class="keyword">void</span> *target)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> ( !target )</span><br><span class="line">        target = <span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">if</span> ( selector &lt; H11ANEInUserClient::sMethodCount )</span><br><span class="line">        method = &amp;H11ANEInUserClient::sMethods[selector];</span><br><span class="line">    <span class="keyword">return</span> super::externalMethod(<span class="keyword">this</span>, selector, args, method, target);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">IOReturn H11ANEInDirectPathClient::externalMethod(</span><br><span class="line">    u32 selector, IOExternalMethodArguments *args,</span><br><span class="line">    IOExternalMethodDispatch *method, <span class="keyword">void</span> *target)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> ( !target )</span><br><span class="line">        target = <span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">if</span> ( selector &lt; H11ANEInUserClient::sMethodCount )          <span class="comment">// &lt;- copy-paste</span></span><br><span class="line">        method = &amp;H11ANEInDirectPathClient::sMethods[selector];</span><br><span class="line">    <span class="keyword">return</span> super::externalMethod(<span class="keyword">this</span>, selector, args, method, target);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样漏洞就不是作者原先认为的null pointer dereference了，而是type confusion。</p>
+<h3 id="Don’t-place-a-port-in-shared-memory"><a href="#Don’t-place-a-port-in-shared-memory" class="headerlink" title="Don’t place a port in shared memory"></a>Don’t place a port in shared memory</h3><p><a href="https://blog.pangu.io/?p=221" target="_blank" rel="noopener">https://blog.pangu.io/?p=221</a></p>
+<p>还是关于<code>H11ANEIn</code>的，<code>H11ANEInDirectPathClient</code>的<code>_ANE_ProgramSendRequest</code>方法，把<code>wake port</code>指针存在了与用户共享的内存中，这样可以泄露地址，甚至可以伪造<code>port</code>来jailbreak。</p>
+<p>作者还提到了触发漏洞可能比较困难，因为要去学习一波机器学习。</p>
+<h2 id="Writing-an-iOS-Kernel-Exploit-from-Scratch"><a href="#Writing-an-iOS-Kernel-Exploit-from-Scratch" class="headerlink" title="Writing an iOS Kernel Exploit from Scratch"></a>Writing an iOS Kernel Exploit from Scratch</h2><ol>
+<li><a href="https://secfault-security.com/blog/chain3.html" target="_blank" rel="noopener">https://secfault-security.com/blog/chain3.html</a></li>
+<li><a href="https://github.com/raymontag/chain3">https://github.com/raymontag/chain3</a></li>
+</ol>
+<h3 id="漏洞点"><a href="#漏洞点" class="headerlink" title="漏洞点"></a>漏洞点</h3><p><code>AppleVXD393</code>有一对方法<code>CreateDecoder</code>和<code>DestroyDecoder</code>，其中<code>DestroyDecoder</code>方法会调用<code>DeallocateMemory</code>，释放<code>tmp_buf_+_0x20</code>后没有把指针设为null，导致<code>tmp_buf_+_0x20-&gt;next != (_kern_mem_info *)0x0</code>永远为真，可以造成double free。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* AppleVXD393UserClient::DeallocateMemory(_AppleVXD393DeallocateMemoryInStruct*,</span></span><br><span class="line"><span class="comment">   _AppleVXD393DeallocateMemoryOutStruct*) */</span></span><br><span class="line"><span class="function">longlong <span class="title">DeallocateMemory</span><span class="params">(AppleVXD393UserClient *<span class="keyword">this</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                         <span class="keyword">uint8_t</span> *tmp_buf)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  longlong ret_value;</span><br><span class="line">  _kern_mem_info *prev;</span><br><span class="line">  _kern_mem_info *tmp_buf_+_0x20;</span><br><span class="line">  _kern_mem_info **nexts_prev;</span><br><span class="line">  </span><br><span class="line">  tmp_buf_+_0x20 = *(_kern_mem_info **)(tmp_buf + <span class="number">0x20</span>);</span><br><span class="line">  <span class="keyword">if</span> (tmp_buf_+_0x20 == (_kern_mem_info *)<span class="number">0x0</span>) &#123;</span><br><span class="line">    ret_value = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> &#123;</span><br><span class="line">    ret_value = deallocateKernelMemory(<span class="keyword">this</span>-&gt;apple_vxd393,tmp_buf_+_0x20);</span><br><span class="line">    prev = tmp_buf_+_0x20-&gt;prev;</span><br><span class="line">    <span class="keyword">if</span> (prev != (_kern_mem_info *)<span class="number">0x0</span>) &#123;</span><br><span class="line">      prev-&gt;next = tmp_buf_+_0x20-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">                    <span class="comment">/* head-&gt;last OR</span></span><br><span class="line"><span class="comment">                       &amp;next-&gt;prev IF next != NULL */</span></span><br><span class="line">    nexts_prev = &amp;<span class="keyword">this</span>-&gt;list_head_prev;</span><br><span class="line">    <span class="keyword">if</span> (tmp_buf_+_0x20-&gt;next != (_kern_mem_info *)<span class="number">0x0</span>) &#123;</span><br><span class="line">      nexts_prev = &amp;tmp_buf_+_0x20-&gt;next-&gt;prev;</span><br><span class="line">    &#125;</span><br><span class="line">    *nexts_prev = prev;</span><br><span class="line">    _IOFree(tmp_buf_+_0x20,<span class="number">0x38</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> ret_value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="如何触发漏洞"><a href="#如何触发漏洞" class="headerlink" title="如何触发漏洞"></a>如何触发漏洞</h3><p>通过<code>IOConnectCallStructMethod</code>去调用<code>CreateDecoder</code>和<code>DestroyDecoder</code>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">kern_return_t</span> IOConnectCallStructMethod(<span class="keyword">mach_port_t</span> connection,</span><br><span class="line">                                        <span class="keyword">uint32_t</span> selector,</span><br><span class="line">                                        <span class="keyword">const</span> <span class="keyword">void</span> *inputStruct,</span><br><span class="line">                                        <span class="keyword">size_t</span> inputStructCnt,</span><br><span class="line">                                        <span class="keyword">void</span> *outputStruct,</span><br><span class="line">                                        <span class="keyword">size_t</span> *outputStructCnt);</span><br></pre></td></tr></table></figure>
+<p>第一个参数为<code>connection</code>，第二个参数<code>selector</code>为method table的index，后面的参数没有什么用。</p>
+<h3 id="利用思路"><a href="#利用思路" class="headerlink" title="利用思路"></a>利用思路</h3><h4 id="泄露地址"><a href="#泄露地址" class="headerlink" title="泄露地址"></a>泄露地址</h4><p>先堆喷占位，如下所示：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> 0-31  IOSurface ID</span><br><span class="line">31-63  0..0</span><br><span class="line">64-..  <span class="tag">&lt;<span class="name">array</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">array</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">data</span>&gt;</span>(56 0s base64-encoded)<span class="tag">&lt;/<span class="name">data</span>&gt;</span> -+</span><br><span class="line">        ...                                  |-&gt; 1024 times</span><br><span class="line">       <span class="tag">&lt;<span class="name">data</span>&gt;</span>(56 0s base64-encoded)<span class="tag">&lt;/<span class="name">data</span>&gt;</span> -+</span><br><span class="line">       <span class="tag">&lt;/<span class="name">array</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">string</span>&gt;</span></span><br><span class="line">       KEY</span><br><span class="line">       <span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">array</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>占位成功之后我们有两个指针指向同一位置，一个是decoder里的<code>tmp_buf_+_0x20</code>，一个是我们堆喷得到的。</p>
+<p>调用<code>DestroyDecoder</code>释放decode里的<code>tmp_buf_+_0x20</code>，此时我们堆喷得到的指针指向一个freed chunk。</p>
+<p>再次堆喷占位，发送多个<code>MACH_MSG_OOL_PORTS_DESCRIPTOR</code>类型的mach message，mach message中包含的每个mach name都将转换为指向该port的<code>struct ipc_port</code>指针，这样就可以用<code>IOSurface</code>的<code>s_get_value</code>读出来。这时我们就得到了一个<code>ipc_port</code>指针。</p>
+<h4 id="泄露port信息"><a href="#泄露port信息" class="headerlink" title="泄露port信息"></a>泄露port信息</h4><p>得到<code>ipc_port</code>指针后，我们需要控制<code>ipc_port</code>指针指向的内存；再次（最后一次）调用<code>DestroyDecoder</code>释放我们控制的内存，因为在这一步中需要有unlink操作，所以之前我们需要用<code>MACH_PORT_NULL</code>，使prev和next为null，防止unlink出错。</p>
+<p>此时<code>ipc_port</code>处于free状态，但是内核中的内存管理，本页内存的kalloc.x，x基本不会变，只有内存under pressure的时候才会触发GC，该页内存才会重新得到一个“x”：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">boolean_t</span></span><br><span class="line">is_zone_map_nearing_exhaustion(<span class="keyword">void</span>)</span><br><span class="line">&#123;</span><br><span class="line">        <span class="keyword">uint64_t</span> size = zone_map-&gt;size;</span><br><span class="line">        <span class="keyword">uint64_t</span> capacity = vm_map_max(zone_map) - vm_map_min(zone_map);</span><br><span class="line">        <span class="keyword">if</span> (size &gt; ((capacity * zone_map_jetsam_limit) / <span class="number">100</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> TRUE;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> FALSE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们通过大量消耗内存来触发GC，最终使我们的<code>target_port</code>(上文的ipc_port)落在zone kalloc.4096。</p>
+<p>继续堆喷；为了找到我们堆喷过程中哪一块内存占了<code>target_port</code>，需要给堆喷的对象一个标记，在<code>ipc_port</code>结构体的0x90位置有一个<code>ip_context</code>字段，我们通过设置它来区分port；<code>ip_context</code>这么算：<code>&lt;port offset in page&gt; + &lt;ip_context offset&gt; - &lt;vm_map_copy header&gt;</code>。</p>
+<p>现在大量发送<code>MACH_MSG_OOL_DESCRIPTOR</code>消息，用<code>mach_port_get_context()</code>查看<code>ip_context</code>，判断是哪一块内存占位成功了，这样我们就有了一个完全可控<code>target_port</code>。</p>
+<h4 id="fake-port"><a href="#fake-port" class="headerlink" title="fake port"></a>fake port</h4><p>利用<code>pid_for_task</code>实现读原语，代码如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">kern_return_t</span></span><br><span class="line">pid_for_task(</span><br><span class="line">        struct pid_for_task_args *args)</span><br><span class="line">&#123;</span><br><span class="line">        <span class="keyword">mach_port_name_t</span>        t = args-&gt;t;</span><br><span class="line">        <span class="keyword">user_addr_t</span>             pid_addr  = args-&gt;pid;</span><br><span class="line">        <span class="keyword">proc_t</span> p;</span><br><span class="line">        <span class="keyword">task_t</span> t1;</span><br><span class="line">...</span><br><span class="line">        t1 = port_name_to_task_inspect(t);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (t1 == TASK_NULL) &#123;</span><br><span class="line">                err = KERN_FAILURE;</span><br><span class="line">                <span class="keyword">goto</span> pftout;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                p = get_bsdtask_info(t1);</span><br><span class="line">                <span class="keyword">if</span> (p) &#123;</span><br><span class="line">                        pid  = proc_pid(p);</span><br><span class="line">                        err = KERN_SUCCESS;</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (is_corpsetask(t1)) &#123;</span><br><span class="line">                        pid = task_pid(t1);</span><br><span class="line">                        err = KERN_SUCCESS;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        err = KERN_FAILURE;</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">...</span><br><span class="line">        (<span class="keyword">void</span>) copyout((<span class="keyword">char</span> *) &amp;pid, pid_addr, <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br></pre></td></tr></table></figure>
+<p><code>t</code>是<code>target_port</code>，是完全可控的；然后看下面的名字可以看出有一波读，直到最后一行会读到用户空间；这也是非常常用的一种从内核读32bit数据的方式。</p>
+<p>需要泄露的信息有<code>ip_receiver</code>、<code>vm_map</code>、<code>kobject-&gt;bsd_info</code>等。</p>
+<p>利用<code>create_kernel_task_port</code>和上文泄露出的信息来伪造port，此时我们拥有可以任意读写内存的<code>kernel_read()</code>和<code>kernel_write()</code>。</p>
+<h4 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h4><p><code>ucred</code>是指向<code>struct cred</code>的指针，该对象保存进程的信息，例如运行该进程的用户的UID以及MAC label，其中MAC label定义了进程的权限。</p>
+<p>用<code>patch_credentials</code>遍历进程列表，读取<code>launchd</code>(pid = 1)进程的<code>ucred</code>信息，修改exploit进程的<code>ucred</code>，修改成功后调用<code>setuid(0)</code>提权。</p>
+<h2 id="iMessage-–-Remote-iPhone-Exploitation-Poking-Memory-via-iMessage-and-CVE-2019-8641"><a href="#iMessage-–-Remote-iPhone-Exploitation-Poking-Memory-via-iMessage-and-CVE-2019-8641" class="headerlink" title="iMessage – Remote iPhone Exploitation: Poking Memory via iMessage and CVE-2019-8641"></a>iMessage – Remote iPhone Exploitation: Poking Memory via iMessage and CVE-2019-8641</h2><ol>
+<li><a href="https://googleprojectzero.blogspot.com/2020/01/remote-iphone-exploitation-part-1.html" target="_blank" rel="noopener">https://googleprojectzero.blogspot.com/2020/01/remote-iphone-exploitation-part-1.html</a></li>
+<li><a href="https://googleprojectzero.blogspot.com/2020/01/remote-iphone-exploitation-part-2.html" target="_blank" rel="noopener">https://googleprojectzero.blogspot.com/2020/01/remote-iphone-exploitation-part-2.html</a></li>
+<li><a href="https://googleprojectzero.blogspot.com/2020/01/remote-iphone-exploitation-part-3.html" target="_blank" rel="noopener">https://googleprojectzero.blogspot.com/2020/01/remote-iphone-exploitation-part-3.html</a></li>
+</ol>
+<!-- flag of hidden posts -->
+                
+
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large pink">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect pink" title="Return to top"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse pink darken-1"  data-activates="main-menu" title="Menu"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer pink accent-1 darken-1">
+    
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">Social</h5>
+                
+                    <a class="social-link" href="https://github.com/cracke-s-j" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                
+
+            </div>
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">Links</h5>
+                
+                    <a class="social-link" href="https://blog.dyf.ink/" target="_blank">友情链接 dyf&#39;s blog</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright pink-link-context">
+        <div class="container">
+            © 2020 ssj, All rights reserved.
+            <p class="right" style="margin-top: 0;">Blog powered by <a href="https://hexo.io">Hexo</a> | Theme <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+        </div>
+    </div>
+</footer>
+
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+    </div>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
+<script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
+
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
+
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
+            });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('pink lighten-2');
+
+            
+            // 添加new标签
+            $('').append('<span class="new badge pink"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
+        });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async
+  src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"superSample":2,"width":250,"height":500,"position":"left","hOffset":0,"vOffset":-100},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
