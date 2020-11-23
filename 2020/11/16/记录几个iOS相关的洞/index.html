@@ -197,6 +197,22 @@ H11ANEInOops, I missed it again!https://googleprojectzero.blogspot.com/
         
 
             <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/面试体验/">
+                    面试体验 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/面试体验/Android/">
+                    Android <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/Android/">
                     Android <span class="right">14</span></a>
                 </a>
@@ -215,22 +231,6 @@ H11ANEInOops, I missed it again!https://googleprojectzero.blogspot.com/
             <li class="collapse-level-1" collapse-level="1">
                 <a class="no-padding" href="/categories/Android/马甲包/">
                     马甲包 <span class="right">2</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/面试体验/">
-                    面试体验 <span class="right">1</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/面试体验/Android/">
-                    Android <span class="right">1</span></a>
                 </a>
             </li>
 
@@ -325,16 +325,16 @@ H11ANEInOops, I missed it again!https://googleprojectzero.blogspot.com/
         
 
             <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/杂/定场诗/">
-                    定场诗 <span class="right">1</span></a>
+                <a class="no-padding" href="/categories/杂/听戏/">
+                    听戏 <span class="right">1</span></a>
                 </a>
             </li>
 
         
 
             <li class="collapse-level-1" collapse-level="1">
-                <a class="no-padding" href="/categories/杂/听戏/">
-                    听戏 <span class="right">1</span></a>
+                <a class="no-padding" href="/categories/杂/定场诗/">
+                    定场诗 <span class="right">1</span></a>
                 </a>
             </li>
 
@@ -538,7 +538,7 @@ H11ANEInOops, I missed it again!https://googleprojectzero.blogspot.com/
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-[<span class="built_in">MPMediaPickerController</span> dealloc](<span class="built_in">MPMediaPickerController</span> *<span class="keyword">self</span>, SEL)</span><br><span class="line">&#123;</span><br><span class="line">  v3 = objc_msgSend(<span class="keyword">self</span>-&gt;someField, <span class="string">"invoke"</span>);</span><br><span class="line">  objc_unsafeClaimAutoreleasedReturnValue(v3);</span><br><span class="line">  objc_msgSend(<span class="keyword">self</span>-&gt;someOtherField, <span class="string">"setMediaPickerController:"</span>, <span class="number">0</span>);</span><br><span class="line">  objc_msgSendSuper2(<span class="keyword">self</span>, <span class="string">"dealloc"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>可以看到这个函数也可以控制ip，所以我们要再堆喷出一个对象，在<code>0x140003ff8</code>地址。</p>
 <h4 id="SeLector-Oriented-Programming-SLOP"><a href="#SeLector-Oriented-Programming-SLOP" class="headerlink" title="SeLector Oriented Programming (SLOP)"></a>SeLector Oriented Programming (SLOP)</h4><p>为了跟内核漏洞联动起来，我们还要有任意call多个函数的能力，这需要SLOP chain，大致如下：</p>
-<p><img src="/Users/ssj/Library/Application Support/typora-user-images/image-20201121163430771.png" alt="image-20201121163430771"></p>
+<p><img src="slop.png" alt="SLOP"></p>
 <p>可以实现的效果是<code>id result = [target1 doX]; [target2 doY:result];</code>，通过下面的<code>[NSInvocation getArgument:atIndex]</code>，可以内存实现任意读写：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> -[<span class="built_in">NSInvocation</span> getArgument:(<span class="keyword">void</span>*)addr atIndex:(uint)idx] &#123;</span><br><span class="line">  <span class="keyword">if</span> (idx &gt;= [<span class="keyword">self</span>-&gt;_signature numberOfArguments]) &#123;</span><br><span class="line">    ...;   <span class="comment">// abort with exception</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  memcpy(addr, &amp;<span class="keyword">self</span>-&gt;_frame[idx], <span class="number">8</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这样就可以获得用户数据了。</p>
