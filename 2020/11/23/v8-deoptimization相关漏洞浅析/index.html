@@ -1,0 +1,839 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>v8 deoptimization相关漏洞浅析 | </title><meta name="robots" content="noindex">
+    <meta name="author" content="ssj">
+    
+    <meta name="description" content="Modern attacks on the Chrome browser : optimizations and deoptimizations
+Infopatch如下：
+1234567891011121314151617181920212223242526272829303132333435363">
+    
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta property="og:title" content="v8 deoptimization相关漏洞浅析">
+    <meta property="og:site_name" content="ssj&#39;s blog">
+
+    
+    <meta property="og:image" content>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="ssj&#39;s blog" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/tranquil-heart.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+</html>
+
+<body>
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="pink accent-1">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
+        </a>
+        <div class="">
+            <a href="/" class="brand-logo hide-on-med-and-down">ssj&#39;s blog</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/" >
+                            <i class="fa fa-home "></i>
+                            
+                            Home
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives" >
+                            <i class="fa fa-archive "></i>
+                            
+                            Archives
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                            <i class="fa fa-bookmark "></i>
+                            
+                            Categories
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-reading " href="/reading" >
+                            <i class="fa fa-book "></i>
+                            
+                            Reading
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about" >
+                            <i class="fa fa-user "></i>
+                            
+                            About
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search" >
+                            <i class="fa fa-search "></i>
+                            
+                            Search
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav pink darken-1" id="main-menu">
+        
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="/pingtou.jpg" alt="User Avatar">
+                </div>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">ssj</p>
+                        <p class="desc"></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/" >
+                    <i class="fa fa-home "></i>
+                    
+                    Home
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives" >
+                    <i class="fa fa-archive "></i>
+                    
+                    Archives
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                    <i class="fa fa-bookmark "></i>
+                    
+                    Categories
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-reading " href="/reading" >
+                    <i class="fa fa-book "></i>
+                    
+                    Reading
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about" >
+                    <i class="fa fa-user "></i>
+                    
+                    About
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search" >
+                    <i class="fa fa-search "></i>
+                    
+                    Search
+                </a>
+            </li>
+        
+    </ul>
+
+    <ul class="side-nav pink darken-1" id="category-menu">
+    
+
+            
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CTF/">
+                    CTF <span class="right">8</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/pwn/">
+                    pwn <span class="right">7</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/Android/">
+                    Android <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Android/">
+                    Android <span class="right">14</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/脱壳/">
+                    脱壳 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/马甲包/">
+                    马甲包 <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/面试体验/">
+                    面试体验 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/面试体验/Android/">
+                    Android <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Ethereum/">
+                    Ethereum <span class="right">3</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Fuzz/">
+                    Fuzz <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/二进制/">
+                    二进制 <span class="right">12</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/v8/">
+                    v8 <span class="right">6</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/Base/">
+                    Base <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/Kernel/">
+                    Kernel <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/vm/">
+                    vm <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/iOS/">
+                    iOS <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/Docs/">
+                    Docs <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CVE/">
+                    CVE <span class="right">11</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/杂/">
+                    杂 <span class="right">5</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/杂/定场诗/">
+                    定场诗 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/杂/听戏/">
+                    听戏 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/杂/京剧/">
+                    京剧 <span class="right">3</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/基础知识/">
+                    基础知识 <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/基础知识/Cpp/">
+                    Cpp <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/算法/">
+                    算法 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+</nav>
+
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">Search</label>
+        </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper pink">
+        <span class="breadcrumb">Current page(Categories)</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/二进制/">二进制</a><a class="breadcrumb" href="/categories/二进制/v8/">v8</a>
+
+
+        
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>v8 deoptimization相关漏洞浅析</h1>
+    
+
+
+            </div>
+            <time class="pink-link-context" datetime="2020-11-23T12:38:07.000Z"><a href="/2020/11/23/v8-deoptimization相关漏洞浅析/">2020-11-23</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/二进制/" class="chip pink lighten-1">二进制</a>
+        
+            <a href="/tags/v8/" class="chip pink lighten-1">v8</a>
+        
+    </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Info"><span class="section table-of-contents-text">Info</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Simplified-lowering"><span class="section table-of-contents-text">Simplified lowering</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#截断传播"><span class="section table-of-contents-text">截断传播</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#Retyping"><span class="section table-of-contents-text">Retyping</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#Lowering-and-inserting-conversions"><span class="section table-of-contents-text">Lowering and inserting conversions</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#A-high-level-overview-of-deoptimization"><span class="section table-of-contents-text">A high level overview of deoptimization</span></a></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <p><a href="https://doar-e.github.io/blog/2020/11/17/modern-attacks-on-the-chrome-browser-optimizations-and-deoptimizations/" target="_blank" rel="noopener">Modern attacks on the Chrome browser : optimizations and deoptimizations</a></p>
+<h2 id="Info"><a href="#Info" class="headerlink" title="Info"></a>Info</h2><p>patch如下：</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">diff --git a/src/compiler/simplified-lowering.cc b/src/compiler/simplified-lowering.cc</span><br><span class="line">index 2e8f40f..abbdae3 100644</span><br><span class="line"><span class="comment">--- a/src/compiler/simplified-lowering.cc</span></span><br><span class="line"><span class="comment">+++ b/src/compiler/simplified-lowering.cc</span></span><br><span class="line"><span class="meta">@@ -1197,7 +1197,7 @@</span></span><br><span class="line">         // TODO(nicohartmann): Remove, once the deoptimizer can rematerialize</span><br><span class="line">         // truncated BigInts.</span><br><span class="line">         if (TypeOf(input).Is(Type::BigInt())) &#123;</span><br><span class="line"><span class="deletion">-          ProcessInput(node, i, UseInfo::AnyTagged());</span></span><br><span class="line"><span class="addition">+          ConvertInput(node, i, UseInfo::AnyTagged());</span></span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">         (*types)[i] =</span><br><span class="line"><span class="meta">@@ -1220,11 +1220,22 @@</span></span><br><span class="line">     // Accumulator is a special flower - we need to remember its type in</span><br><span class="line">     // a singleton typed-state-values node (as if it was a singleton</span><br><span class="line">     // state-values node).</span><br><span class="line"><span class="addition">+    Node* accumulator = node-&gt;InputAt(2);</span></span><br><span class="line">     if (propagate()) &#123;</span><br><span class="line"><span class="deletion">-      EnqueueInput(node, 2, UseInfo::Any());</span></span><br><span class="line"><span class="addition">+      // TODO(nicohartmann): Remove, once the deoptimizer can rematerialize</span></span><br><span class="line"><span class="addition">+      // truncated BigInts.</span></span><br><span class="line"><span class="addition">+      if (TypeOf(accumulator).Is(Type::BigInt())) &#123;</span></span><br><span class="line"><span class="addition">+        EnqueueInput(node, 2, UseInfo::AnyTagged());</span></span><br><span class="line"><span class="addition">+      &#125; else &#123;</span></span><br><span class="line"><span class="addition">+        EnqueueInput(node, 2, UseInfo::Any());</span></span><br><span class="line"><span class="addition">+      &#125;</span></span><br><span class="line">     &#125; else if (lower()) &#123;</span><br><span class="line"><span class="addition">+      // TODO(nicohartmann): Remove, once the deoptimizer can rematerialize</span></span><br><span class="line"><span class="addition">+      // truncated BigInts.</span></span><br><span class="line"><span class="addition">+      if (TypeOf(accumulator).Is(Type::BigInt())) &#123;</span></span><br><span class="line"><span class="addition">+        ConvertInput(node, 2, UseInfo::AnyTagged());</span></span><br><span class="line"><span class="addition">+      &#125;</span></span><br><span class="line">       Zone* zone = jsgraph_-&gt;zone();</span><br><span class="line"><span class="deletion">-      Node* accumulator = node-&gt;InputAt(2);</span></span><br><span class="line">       if (accumulator == jsgraph_-&gt;OptimizedOutConstant()) &#123;</span><br><span class="line">         node-&gt;ReplaceInput(2, jsgraph_-&gt;SingleDeadTypedStateValues());</span><br><span class="line">       &#125; else &#123;</span><br><span class="line"><span class="meta">@@ -1237,7 +1248,7 @@</span></span><br><span class="line">         node-&gt;ReplaceInput(</span><br><span class="line">             2, jsgraph_-&gt;graph()-&gt;NewNode(jsgraph_-&gt;common()-&gt;TypedStateValues(</span><br><span class="line">                                               types, SparseInputMask::Dense()),</span><br><span class="line"><span class="deletion">-                                          accumulator));</span></span><br><span class="line"><span class="addition">+                                          node-&gt;InputAt(2)));</span></span><br><span class="line">       &#125;</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+<p>POC如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Copyright 2019 the V8 project authors. All rights reserved.</span></span><br><span class="line"><span class="comment">// Use of this source code is governed by a BSD-style license that can be</span></span><br><span class="line"><span class="comment">// found in the LICENSE file.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Flags: --allow-natives-syntax --opt --no-always-opt</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> g = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> y = BigInt.asUintN(<span class="number">64</span>, <span class="number">15</span>n);</span><br><span class="line">  <span class="comment">// Introduce a side effect to force the construction of a FrameState that</span></span><br><span class="line">  <span class="comment">// captures the value of y.</span></span><br><span class="line">  g = <span class="number">42</span>;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">  &#125; <span class="keyword">catch</span>(_) &#123;</span><br><span class="line">    <span class="keyword">return</span> y;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">%PrepareFunctionForOptimization(f);</span><br><span class="line">assertEquals(<span class="number">16</span>n, f(<span class="number">1</span>n));</span><br><span class="line">assertEquals(<span class="number">17</span>n, f(<span class="number">2</span>n));</span><br><span class="line">%OptimizeFunctionOnNextCall(f);</span><br><span class="line">assertEquals(<span class="number">16</span>n, f(<span class="number">1</span>n));</span><br><span class="line">assertOptimized(f);</span><br><span class="line">assertEquals(<span class="number">15</span>n, f(<span class="number">0</span>));</span><br><span class="line">assertUnoptimized(f);</span><br></pre></td></tr></table></figure>
+<p>TurboFan处理<code>FrameState</code>和<code>StateValues</code>结点时关于去优化的漏洞。</p>
+<h2 id="Simplified-lowering"><a href="#Simplified-lowering" class="headerlink" title="Simplified lowering"></a>Simplified lowering</h2><p>Simplified lowering is actually divided into three main phases :</p>
+<ol>
+<li>The truncation propagation phase (RunTruncationPropagationPhase)<ul>
+<li>backward propagation of truncations</li>
+</ul>
+</li>
+<li>The type propagation phase (RunTypePropagationPhase)<ul>
+<li>forward propagation of types from type feedback</li>
+</ul>
+</li>
+<li>The lowering phase (Run, after calling the previous phases)<ul>
+<li>may lower nodes</li>
+<li>may insert conversion nodes</li>
+</ul>
+</li>
+</ol>
+<p>结合如下代码来看：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (a) &#123;</span><br><span class="line">    <span class="keyword">var</span> x = <span class="number">2</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> x = <span class="number">5</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0x42</span> % x;</span><br><span class="line">&#125;</span><br><span class="line">%PrepareFunctionForOptimization(f);</span><br><span class="line">f(<span class="literal">true</span>);</span><br><span class="line">f(<span class="literal">false</span>);</span><br><span class="line">%OptimizeFunctionOnNextCall(f);</span><br><span class="line">f(<span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="截断传播"><a href="#截断传播" class="headerlink" title="截断传播"></a>截断传播</h3><p>感性理解，比如在<code>(x + y) ｜ 0</code>运算时，我们只关心低32位的结果。即使x、y都是int52，我们也只关心x和y的低32位；表达式+a[i]不区分a[i] = undefined和a[i] = NaN。在稀疏数组中，我们会读取到NaN，而不是undefined；表达式c ? x : y也不需要区分c = 1和c = true。</p>
+<p>截断还可以用于其他优化：</p>
+<ul>
+<li>从double到integer转换时的负零检查；</li>
+<li>乘法运算的负零检查；</li>
+<li>读取数组元素时的undefined检查；</li>
+</ul>
+<p>目前，引擎首先进行截断分析，而类型反馈不影响截断。</p>
+<p>例如，<code>(x + y ｜ 0)</code>中x和y将会被作为整型。理想情况下，使用x和y的类型反馈，然后进行int32加法。然而，很多情况下，最明智的选择往往是“更差”的表示法。比如a + b + 0.5应该是float64，即使a, b被反馈为整型。</p>
+<p>本Demo过程：</p>
+<p>第一阶段从<code>End</code>结点开始，把遍历到的node入队，然后call每个node对应的vistor，比如这里只有一个<code>Return</code>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">VisitReturn</span><span class="params">(Node* node)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> tagged_limit = node-&gt;op()-&gt;ValueInputCount() +</span><br><span class="line">                        OperatorProperties::GetContextInputCount(node-&gt;op()) +</span><br><span class="line">                        OperatorProperties::GetFrameStateInputCount(node-&gt;op());</span><br><span class="line">    <span class="comment">// Visit integer slot count to pop</span></span><br><span class="line">    ProcessInput(node, <span class="number">0</span>, UseInfo::TruncatingWord32());</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Visit value, context and frame state inputs as tagged.</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; tagged_limit; i++) &#123;</span><br><span class="line">        ProcessInput(node, i, UseInfo::AnyTagged());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Only enqueue other inputs (effects, control).</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = tagged_limit; i &lt; node-&gt;InputCount(); i++) &#123;</span><br><span class="line">        EnqueueInput(node, i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>input是反向遍历到的要入队的结点，Tagged、kTagged什么意思（？）</p>
+<p>第一个input被截断为Word32，其它不变，然后<code>Return</code>连接的点入队。</p>
+<p>下一个结点是<code>NumberConstant[0]</code>、<code>SpeculativeNumberModulus</code>，</p>
+<p>Indeed, if we look at the code of the visitor, if both inputs are typed as Type::Unsigned32OrMinusZeroOrNaN(), which is the case since they are typed as Range(66,66) and Range(2,5) , and the node truncation is a word32 truncation (not the case here since there is no truncation) or the node is typed as Type::Unsigned32() (true because the node is typed as Range(0,4)) then, a call to VisitWord32TruncatingBinop is made.</p>
+<p>这一句话是真的长。</p>
+<p>下面略了。</p>
+<h3 id="Retyping"><a href="#Retyping" class="headerlink" title="Retyping"></a>Retyping</h3><p>从<code>End</code>入栈，正向遍历，<code>UpdateFeedbackType</code>。</p>
+<h3 id="Lowering-and-inserting-conversions"><a href="#Lowering-and-inserting-conversions" class="headerlink" title="Lowering and inserting conversions"></a>Lowering and inserting conversions</h3><ul>
+<li>lowering the node itself to a more specific one (via a <code>DeferReplacement</code> for instance)；</li>
+<li>converting nodes when the output representation of an input doesn’t match with the expected use information for this input (could be done with <code>ConvertInput</code>)</li>
+</ul>
+<h2 id="A-high-level-overview-of-deoptimization"><a href="#A-high-level-overview-of-deoptimization" class="headerlink" title="A high level overview of deoptimization"></a>A high level overview of deoptimization</h2><ul>
+<li>instruction selection<ul>
+<li>when descriptors for FrameState and StateValues nodes are built</li>
+</ul>
+</li>
+<li>code generation<ul>
+<li>when deoptimization input data are built (that includes a Translation)</li>
+</ul>
+</li>
+<li>the deoptimizer<ul>
+<li>at runtime, this is where execution is redirected to when “bailing out to deoptimization”</li>
+<li>uses the <code>Translation</code></li>
+<li>translates from the current input frame (optimized native code) to the output interpreted frame (interpreted ignition bytecode)</li>
+</ul>
+</li>
+</ul>
+<p>deopt种类如下：</p>
+<ul>
+<li>eager, when you deoptimize the current function on the spot<ul>
+<li>you just triggered a type guard (ex: wrong map, thanks to a CheckMaps node)</li>
+</ul>
+</li>
+<li>lazy, you deoptimize later<ul>
+<li>another function just violated a code dependency (ex: a function call just made a map unstable, violating a stable map dependency)</li>
+</ul>
+</li>
+<li>soft<ul>
+<li>a function got optimized too early, more feedback is needed</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add_prop</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line"><span class="keyword">let</span> obj = &#123;&#125;;</span><br><span class="line">obj[x] = <span class="number">42</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add_prop(<span class="string">"x"</span>);</span><br><span class="line">%PrepareFunctionForOptimization(add_prop);</span><br><span class="line">add_prop(<span class="string">"x"</span>);</span><br><span class="line">add_prop(<span class="string">"x"</span>);</span><br><span class="line">add_prop(<span class="string">"x"</span>);</span><br><span class="line">%OptimizeFunctionOnNextCall(add_prop);</span><br><span class="line">add_prop(<span class="string">"x"</span>);</span><br><span class="line">add_prop(<span class="string">"different"</span>);</span><br></pre></td></tr></table></figure>
+<p>可以看到deopt的原因是wrong name，input frame如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">reading input frame add_prop =&gt; bytecode_offset=6, args=2, height=1, retval=0(#0); inputs:</span><br><span class="line">    0: 0x0a6842edfa99 ;  [fp -  16]  0x0a6842edfa99 &lt;JSFunction add_prop (sfi = 0xa6842edf881)&gt;</span><br><span class="line">    1: 0x0a6876381579 ;  [fp +  24]  0x0a6876381579 &lt;JSGlobal Object&gt;</span><br><span class="line">    2: 0x0a6842edf7a9 ; rdx 0x0a6842edf7a9 &lt;String[#9]: different&gt;</span><br><span class="line">    3: 0x0a6842ec1831 ;  [fp -  24]  0x0a6842ec1831 &lt;NativeContext[244]&gt;</span><br><span class="line">    4: captured object #0 (length = 7)</span><br><span class="line">         0x0a68d4640439 ; (literal  3) 0x0a68d4640439 &lt;Map(HOLEY_ELEMENTS)&gt;</span><br><span class="line">         0x0a6893080c01 ; (literal  4) 0x0a6893080c01 &lt;FixedArray[0]&gt;</span><br><span class="line">         0x0a6893080c01 ; (literal  4) 0x0a6893080c01 &lt;FixedArray[0]&gt;</span><br><span class="line">         0x0a68930804b1 ; (literal  5) 0x0a68930804b1 &lt;undefined&gt;</span><br><span class="line">         0x0a68930804b1 ; (literal  5) 0x0a68930804b1 &lt;undefined&gt;</span><br><span class="line">         0x0a68930804b1 ; (literal  5) 0x0a68930804b1 &lt;undefined&gt;</span><br><span class="line">         0x0a68930804b1 ; (literal  5) 0x0a68930804b1 &lt;undefined&gt;</span><br><span class="line">    5: 0x002a00000000 ; (literal  6) 42</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">translating interpreted frame add_prop =&gt; bytecode_offset=6, variable_frame_size=16, frame_size=80</span><br><span class="line">  0x7ffeeb82e3a8: [top +  72] &lt;- 0x0a6876381579 &lt;JSGlobal Object&gt; ;  stack parameter (input #1)</span><br><span class="line">  0x7ffeeb82e3a0: [top +  64] &lt;- 0x0a6842edf7a9 &lt;String[#9]: different&gt; ;  stack parameter (input #2)</span><br><span class="line">  -------------------------</span><br><span class="line">  0x7ffeeb82e398: [top +  56] &lt;- 0x000105d9e4d2 ;  caller&apos;s pc</span><br><span class="line">  0x7ffeeb82e390: [top +  48] &lt;- 0x7ffeeb82e3f0 ;  caller&apos;s fp</span><br><span class="line">  0x7ffeeb82e388: [top +  40] &lt;- 0x0a6842ec1831 &lt;NativeContext[244]&gt; ;  context (input #3)</span><br><span class="line">  0x7ffeeb82e380: [top +  32] &lt;- 0x0a6842edfa99 &lt;JSFunction add_prop (sfi = 0xa6842edf881)&gt; ;  function (input #0)</span><br><span class="line">  0x7ffeeb82e378: [top +  24] &lt;- 0x0a6842edfbd1 &lt;BytecodeArray[12]&gt; ;  bytecode array</span><br><span class="line">  0x7ffeeb82e370: [top +  16] &lt;- 0x003b00000000 &lt;Smi 59&gt; ;  bytecode offset</span><br><span class="line">  -------------------------</span><br><span class="line">  0x7ffeeb82e368: [top +   8] &lt;- 0x0a6893080c11 &lt;Odd Oddball: arguments_marker&gt; ;  stack parameter (input #4)</span><br><span class="line">  0x7ffeeb82e360: [top +   0] &lt;- 0x002a00000000 &lt;Smi 42&gt; ;  accumulator (input #5)</span><br></pre></td></tr></table></figure>
+<p>没太看懂。</p>
+<p><code>FrameState</code>这个结点的vistor：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">VisitFrameState</span><span class="params">(Node* node)</span> </span>&#123;</span><br><span class="line">  DCHECK_EQ(<span class="number">5</span>, node-&gt;op()-&gt;ValueInputCount());</span><br><span class="line">  DCHECK_EQ(<span class="number">1</span>, OperatorProperties::GetFrameStateInputCount(node-&gt;op()));</span><br><span class="line"></span><br><span class="line">  ProcessInput(node, <span class="number">0</span>, UseInfo::AnyTagged());  <span class="comment">// Parameters.</span></span><br><span class="line">  ProcessInput(node, <span class="number">1</span>, UseInfo::AnyTagged());  <span class="comment">// Registers.</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// Accumulator is a special flower - we need to remember its type in</span></span><br><span class="line">  <span class="comment">// a singleton typed-state-values node (as if it was a singleton</span></span><br><span class="line">  <span class="comment">// state-values node).</span></span><br><span class="line">  <span class="keyword">if</span> (propagate()) &#123;</span><br><span class="line">    EnqueueInput(node, <span class="number">2</span>, UseInfo::Any());</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (lower()) &#123;</span><br><span class="line">    Zone* zone = jsgraph_-&gt;zone();</span><br><span class="line">    Node* accumulator = node-&gt;InputAt(<span class="number">2</span>);</span><br><span class="line">    <span class="keyword">if</span> (accumulator == jsgraph_-&gt;OptimizedOutConstant()) &#123;</span><br><span class="line">      node-&gt;ReplaceInput(<span class="number">2</span>, jsgraph_-&gt;SingleDeadTypedStateValues());</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      ZoneVector&lt;MachineType&gt;* types =</span><br><span class="line">          <span class="keyword">new</span> (zone-&gt;New(<span class="keyword">sizeof</span>(ZoneVector&lt;MachineType&gt;)))</span><br><span class="line">              ZoneVector&lt;MachineType&gt;(<span class="number">1</span>, zone);</span><br><span class="line">      (*types)[<span class="number">0</span>] = DeoptMachineTypeOf(GetInfo(accumulator)-&gt;representation(),</span><br><span class="line">                                       TypeOf(accumulator));</span><br><span class="line"></span><br><span class="line">      node-&gt;ReplaceInput(</span><br><span class="line">          <span class="number">2</span>, jsgraph_-&gt;graph()-&gt;NewNode(jsgraph_-&gt;common()-&gt;TypedStateValues(</span><br><span class="line">                                            types, SparseInputMask::Dense()),</span><br><span class="line">                                        accumulator));</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  ProcessInput(node, <span class="number">3</span>, UseInfo::AnyTagged());  <span class="comment">// Context.</span></span><br><span class="line">  ProcessInput(node, <span class="number">4</span>, UseInfo::AnyTagged());  <span class="comment">// Closure.</span></span><br><span class="line">  ProcessInput(node, <span class="number">5</span>, UseInfo::AnyTagged());  <span class="comment">// Outer frame state.</span></span><br><span class="line">  <span class="keyword">return</span> SetOutput(node, MachineRepresentation::kTagged);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Using those structures, the <code>code generator</code> will then build the necessary <code>DeoptimizationExit</code>s to which a <code>Translation</code> will be associated with. The function <code>BuildTranslation</code> will handle the the <code>InstructionOperand</code>s in <code>CodeGenerator::AddTranslationForOperand</code>. And this is where the (AnyTagged) <code>MachineType</code> corresponding to the <code>BigIntAsUintN</code> node is used! When building the translation, we are using the BigInt value as if it was a pointer (second branch) and not a double value (first branch)!</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> CodeGenerator::AddTranslationForOperand(Translation* translation,</span><br><span class="line">                                             Instruction* instr,</span><br><span class="line">                                             InstructionOperand* op,</span><br><span class="line">                                             MachineType type) &#123;</span><br><span class="line">  <span class="keyword">case</span> Constant::kInt64:</span><br><span class="line">        DCHECK_EQ(<span class="number">8</span>, kSystemPointerSize);</span><br><span class="line">        <span class="keyword">if</span> (type.representation() == MachineRepresentation::kWord64) &#123;</span><br><span class="line">          literal =</span><br><span class="line">              DeoptimizationLiteral(<span class="keyword">static_cast</span>&lt;<span class="keyword">double</span>&gt;(constant.ToInt64()));</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="comment">// When pointers are 8 bytes, we can use int64 constants to represent</span></span><br><span class="line">          <span class="comment">// Smis.</span></span><br><span class="line">          DCHECK_EQ(MachineRepresentation::kTagged, type.representation());</span><br><span class="line">          <span class="function">Smi <span class="title">smi</span><span class="params">(<span class="keyword">static_cast</span>&lt;Address&gt;(constant.ToInt64()))</span></span>;</span><br><span class="line">          DCHECK(smi.IsSmi());</span><br><span class="line">          literal = DeoptimizationLiteral(smi.value());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
+<p>利用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> addr = BigInt(<span class="number">0x11111111</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setAddress</span>(<span class="params">val</span>) </span>&#123;</span><br><span class="line">  addr = BigInt(val);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> y = BigInt.asUintN(<span class="number">49</span>, addr);</span><br><span class="line">  <span class="keyword">let</span> a = <span class="number">111</span>;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> obj = &#123;&#125;;</span><br><span class="line">    obj[x] = y;</span><br><span class="line">    <span class="keyword">return</span> obj;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">catch</span>(_)&#123; <span class="keyword">return</span> y&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compileOnce</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  f(<span class="string">"foo"</span>);</span><br><span class="line">  %PrepareFunctionForOptimization(f);</span><br><span class="line">  f(<span class="string">"foo"</span>);</span><br><span class="line">  f(<span class="string">"foo"</span>);</span><br><span class="line">  f(<span class="string">"foo"</span>);</span><br><span class="line">  f(<span class="string">"foo"</span>);</span><br><span class="line">  %OptimizeFunctionOnNextCall(f);</span><br><span class="line">  f(<span class="string">"foo"</span>);</span><br><span class="line">  <span class="keyword">return</span> f(<span class="string">"boom"</span>); <span class="comment">// deopt reason : wrong name</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">d8&gt; var a = new ArrayBuffer(8); %DebugPrint(a);</span><br><span class="line">0x003d5ef8ab79 &lt;ArrayBuffer map = 00000354B09C2191&gt;</span><br><span class="line">[object ArrayBuffer]</span><br><span class="line">d8&gt; setAddress(0x003d5ef8ab79)</span><br><span class="line">undefined</span><br><span class="line">d8&gt; var badobj = compileOnce()</span><br><span class="line">undefined</span><br><span class="line">d8&gt; %DebugPrint(badobj)</span><br><span class="line">0x003d5ef8d159 &lt;Object map = 00000354B09C9F81&gt;</span><br><span class="line">&#123;boom: [object ArrayBuffer]&#125;</span><br><span class="line">d8&gt; badobj.boom</span><br><span class="line">[object ArrayBuffer]</span><br></pre></td></tr></table></figure>
+<!-- flag of hidden posts -->
+                
+
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large pink">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect pink" title="Return to top"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse pink darken-1"  data-activates="main-menu" title="Menu"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer pink accent-1 darken-1">
+    
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">Social</h5>
+                
+                    <a class="social-link" href="https://github.com/cracke-s-j" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                
+
+            </div>
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">Links</h5>
+                
+                    <a class="social-link" href="https://blog.dyf.ink/" target="_blank">友情链接 dyf&#39;s blog</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright pink-link-context">
+        <div class="container">
+            © 2020 ssj, All rights reserved.
+            <p class="right" style="margin-top: 0;">Blog powered by <a href="https://hexo.io">Hexo</a> | Theme <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+        </div>
+    </div>
+</footer>
+
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+    </div>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
+<script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
+
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
+
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
+            });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('pink lighten-2');
+
+            
+            // 添加new标签
+            $('').append('<span class="new badge pink"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
+        });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async
+  src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"superSample":2,"width":250,"height":500,"position":"left","hOffset":0,"vOffset":-100},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
